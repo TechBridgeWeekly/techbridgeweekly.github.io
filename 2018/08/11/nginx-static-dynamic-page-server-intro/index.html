@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Nginx + Flask 動態與靜態頁面分離入門教學 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-08-11T09:54:49.000Z" itemprop="datePublished">
+          2018-08-11
+      </time>
+    
+    
+    | 
+    <a href='/tags/Python/'>Python</a>,
+    
+    <a href='/tags/Flask/'>Flask</a>,
+    
+    <a href='/tags/Nginx/'>Nginx</a>
+    
+    
+</span>
+
+<meta name="generator" content="Nginx + Flask 動態與靜態頁面分離入門教學">
+<meta name="og:title" content="Nginx + Flask 動態與靜態頁面分離入門教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Nginx + Flask 動態與靜態頁面分離入門教學</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/nginx/nginx-logo.png" alt=" Nginx + Flask 動態與靜態頁面分離入門教學"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Nginx（發音：engine x）是一個非同步的 Web 伺服器，也可以用作反向代理，負載平衡器和 HTTP 快取等功能。Flask 則是一個使用 Python 編寫的輕量級 Web 應用框架。 </p>
+<p>有些讀者可能是學生或是事業剛起步的 startup，往往為了省錢或是開發方便會需要將 web 前後端都放在同一台機器上，本文希望透過簡單範例來建立一個前後端放在同一台 server 的入門教學，其中靜態檔案由 nginx 來負責 serve，而動態檔案則由 flask app + 開發用伺服器來提供 api endpoint（這邊因為教學方便，一般 production 上建議使用 uwsgi 或是 gunicorn，不要使用開發用伺服器）</p>
+<h1 id="環境建置"><a href="#環境建置" class="headerlink" title="環境建置"></a>環境建置</h1><p>工欲善其事，必先利其器。在開發應用程式之前往往需要設定好環境，這邊我們使用一台 Ubuntu 18.04 LTS server，安裝 python 和虛擬開發環境以及 nginx 等相關套件等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools</span><br><span class="line">$ sudo apt install nginx</span><br><span class="line">$ sudo apt install python3-venv</span><br></pre></td></tr></table></figure>
+<h1 id="設定-nginx-config"><a href="#設定-nginx-config" class="headerlink" title="設定 nginx config"></a>設定 nginx config</h1><p>這邊為了方便我們直接更改 site-available/default config 如一下檔案設定（site-available 下可存多個設定，真正使用是在 site-enabled 資料夾下，通常會用 link 連結過去）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        root /var/www; # serve 靜態檔案位置</span><br><span class="line">        index index.html;</span><br><span class="line">        location ^~ /api/v1 &#123; # 當 api prefix request 過來會 proxy 給 5000 port 的 local api service</span><br><span class="line">                proxy_pass http://127.0.0.1:5000;</span><br><span class="line">                proxy_set_header Host $host; # 在 proxy request 時保留 client 的 header</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>重新讀取 config 檔案<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nginx -s reload</span><br></pre></td></tr></table></figure></p>
+<p>若不是使用 default config 檔案，也可以自己開一個新的檔案設定 config 檔案，最後要把設定好的 demo.conf link 到真正在使用的 sites-enabled config 資料夾<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ln -s /etc/nginx/sites-available/demo.conf /etc/nginx/sites-enabled/</span><br></pre></td></tr></table></figure></p>
+<h1 id="撰寫測試用靜態網頁"><a href="#撰寫測試用靜態網頁" class="headerlink" title="撰寫測試用靜態網頁"></a>撰寫測試用靜態網頁</h1><p>撰寫一個測試靜態頁面，正式情況可能會是一個 build 好的 html 檔案，裡面有含 HTML/CSS/JS 等前端靜態檔案（可能有使用前端框架）</p>
+<figure class="highlight html"><figcaption><span>/var/www/index.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello Nginx based static Page!!!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>這時候在瀏覽器觀看你的 server ip 應該會看到下列靜態檔案畫面：<br><img src="/img/kdchang/nginx/frontend.png" alt=" Nginx + Flask 動態與靜態頁面分離入門教學"></p>
+<h1 id="撰寫-Flask-動態網站"><a href="#撰寫-Flask-動態網站" class="headerlink" title="撰寫 Flask 動態網站"></a>撰寫 Flask 動態網站</h1><p>接著我們來撰寫後端 api service，首先先建立虛擬開發環境和安裝套件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo python3.6 -m venv venv</span><br><span class="line">$ source venv/bin/activate</span><br><span class="line">$ sudo pip3 install flask</span><br></pre></td></tr></table></figure></p>
+<p>index.py 內容，設計一個測試用 api endpoint，提供 GET movies list<br><figure class="highlight py"><figcaption><span>/var/www/index.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, jsonify</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route("/api/v1/movies")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_api</span><span class="params">()</span>:</span></span><br><span class="line">    movies = [&#123;<span class="string">'name'</span>: <span class="string">'刺激1995'</span>&#125;, &#123;<span class="string">'name'</span>: <span class="string">'教父'</span>&#125;]</span><br><span class="line">    <span class="keyword">return</span> jsonify(movies)</span><br></pre></td></tr></table></figure></p>
+<h1 id="成果展現"><a href="#成果展現" class="headerlink" title="成果展現"></a>成果展現</h1><p>這時候在虛擬環境下執行資料夾的 index.py 檔案：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ FLASK_APP=index.py flask run</span><br></pre></td></tr></table></figure></p>
+<p>這時候在瀏覽器觀看你的 SERVER_ID/api/v1/movies，應該會看到 fake api 回傳的 json 電影資料：<br><img src="/img/kdchang/nginx/backend.png" alt=" Nginx + Flask 動態與靜態頁面分離入門教學"></p>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上我們討論了簡單的 nginx + flask 動/靜態檔案分離的 server 建置入門教學，若是更複雜的架構也可以把系統進行真正的前後端分離甚至是資料庫的讀寫分離等。但礙於篇幅我們今天就介紹到這邊，關於更多系統設計和架構設計的討論我們下次見囉～</p>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><ol>
+<li><a href="http://flask.pocoo.org/" target="_blank" rel="noopener">Flask 官網</a></li>
+<li><a href="https://www.nginx.com/" target="_blank" rel="noopener">Nginx 官網</a></li>
+</ol>
+<p>（image via <a href="https://matplotlib.org/_static/logo2.svg" target="_blank" rel="noopener">matplotlib</a></p>
+<p>關於作者：<br><a href="http://blog.kdchang.cc" target="_blank" rel="noopener">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino/Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/08/11/nginx-static-dynamic-page-server-intro/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/08/11/nginx-static-dynamic-page-server-intro/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/08/11/nginx-static-dynamic-page-server-intro/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/08/11/nginx-static-dynamic-page-server-intro/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/08/18/cors-issue/">
+        ← 原來 CORS 沒有我想像中的簡單
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/08/04/resrc-for-cognitive-robotics/">
+        認知機器人研究資源整理 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

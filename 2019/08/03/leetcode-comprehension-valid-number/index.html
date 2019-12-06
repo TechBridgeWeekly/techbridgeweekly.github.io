@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>記一次 Leetcode 刷題體悟 - Valid Number | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-08-03T16:51:34.000Z" itemprop="datePublished">
+          2019-08-03
+      </time>
+    
+    
+    | 
+    <a href='/tags/Algorithm/'>Algorithm</a>,
+    
+    <a href='/tags/Leetcode/'>Leetcode</a>,
+    
+    <a href='/tags/Software-Engineer/'>Software Engineer</a>,
+    
+    <a href='/tags/軟體工程師面試/'>軟體工程師面試</a>
+    
+    
+</span>
+
+<meta name="generator" content="記一次 Leetcode 刷題體悟 - Valid Number">
+<meta name="og:title" content="記一次 Leetcode 刷題體悟 - Valid Number">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">記一次 Leetcode 刷題體悟 - Valid Number</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>身在大 CS 時代，可能很多人有刷題的經驗，也可能像筆者一樣正經歷刷 Hard 題的各種撞牆。但在這種撞牆的時刻，我們反而可以來觀察自己的思考方式是不是有問題，才會導致撞牆。</p>
+<p>今天，就讓我們一起來看一題令許多人抓狂的 valid number。</p>
+<h2 id="題目介紹-Valid-Number"><a href="#題目介紹-Valid-Number" class="headerlink" title="題目介紹 - Valid Number"></a>題目介紹 - <a href="https://leetcode.com/problems/valid-number/" target="_blank" rel="noopener">Valid Number</a></h2><p>題目敘述如下：</p>
+<p><img src="https://i.imgur.com/l7UEQW5.png" alt="img"></p>
+<p>基本上就是要判斷一個字串是不是可以被當作一個數字。如果你試著去解解看這題，你可能會發現一件事，就是你很容易不斷漏考慮一些 case。但你不孤單，只要看看這題精美的通過率和 dislike 數就可見一班XD</p>
+<p><img src="https://i.imgur.com/RhzYnE7.png" alt="img"></p>
+<p><img src="https://i.imgur.com/wSYdZNU.png" alt="img"></p>
+<p>但如果我們也像大家一樣覺得這題出得很爛就不想學，那就非常可惜了。因為如果你堅持下去，會看到很不一樣的風景。接下來，就讓我們一起看下去。</p>
+<h2 id="解法一-將各階段分類好漸進處理"><a href="#解法一-將各階段分類好漸進處理" class="headerlink" title="解法一 - 將各階段分類好漸進處理"></a>解法一 - 將各階段分類好漸進處理</h2><p>這種題目最麻煩的地方就在於，如果沒有把規則想好，就會涵蓋不到一些 edge cases，進而為了處理這些奇怪 case 使得邏輯變得很混亂，甚至會發生修了 A bug 結果又產生 b 跟 c bug 的慘況。</p>
+<p>所以在有模糊的概念就開始寫 code 之前，我們可以先想想合理的 case 應該要長什麼樣子，先寫出第一版的 valid pattern（[] 裡面表示是 optional，類似 <a href="https://stackoverflow.com/a/21503966" target="_blank" rel="noopener">linux command line tool 的說明</a>）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[+/-] 數字(可以是小數) [e數字(不能是小數)]</span><br></pre></td></tr></table></figure>
+<p>而不屬於這個 valid pattern 的其他字串都視為 invalid。</p>
+<p>接下來我們可以用題目中提供的 test cases 檢視一下我們的 pattern 是否已經足夠，會發現有幾個例子沒有被涵蓋到：</p>
+<ul>
+<li>“ 0.1 “ =&gt; true (最前面跟最後面都可以有 space)</li>
+<li>“ 6e-1” =&gt; true (e 後面的數字可以有 +/-)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[spaces][+/-]數字(可以是小數)[e[+/-]數字(不能是小數)][spaces]</span><br></pre></td></tr></table></figure>
+<p>所以我們的邏輯應該要依序處理：</p>
+<ol>
+<li>Skip spaces</li>
+<li>Check ‘+’/‘-‘</li>
+<li>Check digital(can contain “.”)</li>
+<li>Check exponent<br>a. Check ‘+’/‘-‘<br>b. Check digital(cannot contain “.”)</li>
+<li>Check space</li>
+</ol>
+<p>這時再開始寫程式，就覺得邏輯清晰，輕舟已過萬蟲山：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">isNumber</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Skip the spaces</span></span><br><span class="line">    <span class="keyword">for</span>(; s[i] == <span class="string">' '</span>; i++) &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Check for '+'/'-'</span></span><br><span class="line">    <span class="keyword">if</span>(s[i] == <span class="string">'+'</span> || s[i] == <span class="string">'-'</span>) i++;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Check digital</span></span><br><span class="line">    <span class="keyword">int</span> num, pt;</span><br><span class="line">    <span class="keyword">for</span>(num=<span class="number">0</span>, pt=<span class="number">0</span>; (s[i]&lt;=<span class="string">'9'</span> &amp;&amp; s[i]&gt;=<span class="string">'0'</span>) || s[i]==<span class="string">'.'</span>; i++)</span><br><span class="line">      s[i] == <span class="string">'.'</span> ? pt++ : num++;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(pt&gt;<span class="number">1</span> || num&lt;<span class="number">1</span>) <span class="comment">// no more than one point, at least one digit</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Check exponent</span></span><br><span class="line">    <span class="keyword">if</span>(s[i] == <span class="string">'e'</span>) &#123;</span><br><span class="line">      i++;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Check '+'/'-'</span></span><br><span class="line">      <span class="keyword">if</span>(s[i] == <span class="string">'+'</span> || s[i] == <span class="string">'-'</span>) i++;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// Check digital(cannot contain ".")</span></span><br><span class="line">      <span class="keyword">for</span>(num=<span class="number">0</span>; (s[i]&lt;=<span class="string">'9'</span> &amp;&amp; s[i]&gt;=<span class="string">'0'</span>); i++, num++) &#123;&#125;</span><br><span class="line">      <span class="keyword">if</span>(num&lt;<span class="number">1</span>) <span class="comment">// at least one digit</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Skip spaces</span></span><br><span class="line">    <span class="keyword">for</span>(; s[i] == <span class="string">' '</span>; i++) &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// must reach the end of string</span></span><br><span class="line">    <span class="keyword">return</span> s[i]==<span class="string">'\0'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>但到這邊還沒完，我們還可以對這題挖得更加深入。</p>
+<h2 id="解法二-Regular-Expression"><a href="#解法二-Regular-Expression" class="headerlink" title="解法二 - Regular Expression"></a>解法二 - Regular Expression</h2><p>在解法一寫出合理 pattern 的時候，我就想到了 regular expression。</p>
+<p>雖然 regular expression 的寫法我已經忘了，但從這個影片 <a href="https://www.youtube.com/watch?v=sa-TUpSx1JA" target="_blank" rel="noopener">Regular Expressions (Regex) Tutorial: How to Match Any Pattern of Text</a> 重新學習，再參考一下相關的 <a href="https://leetcode.com/problems/valid-number/discuss/23821/Regex-with-detailed-explanation.-How-can-we-write-the-regular-expression" target="_blank" rel="noopener">討論串</a> ，就可以寫出一個神簡潔的程式碼 ：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">isNumber</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//[spaces][+/-]數字(可以是小數)[e[+/-]數字(不能是小數)][spaces]</span></span><br><span class="line">    <span class="comment">//regex pattern("\\s*[+-]?(([0-9]*\.?[0-9]+)|([0-9]+\.?[0-9]*))([e][+-]?[0-9]+)?\\s*");</span></span><br><span class="line">    <span class="function">regex <span class="title">pattern</span><span class="params">(<span class="string">"\s*[+-]?(([0-9]*\.?[0-9]+)|([0-9]+\.?[0-9]*))([e][+-]?[0-9]+)?\s*"</span>)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> regex_match(s, pattern);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>這個版本無法通過 leetcode 上的 test cases，不過我用 Sublime Text 測試時結果正確。</p>
+<p>雖不確定是什麼問題，但現在的目的不是逼自己要把所有東西都寫對，我只是想欣賞欣賞簡潔解的美好，所以 bug 先擱著。看看這程式碼真的覺得神清氣爽。</p>
+<h2 id="解法三-Deterministic-Finite-Automaton"><a href="#解法三-Deterministic-Finite-Automaton" class="headerlink" title="解法三 - Deterministic Finite Automaton"></a>解法三 - Deterministic Finite Automaton</h2><p>基於好奇的心理，我又去翻了一下討論區，結果看到一個超猛的東西 - DFA (Deterministic Finite Automaton)。這傢伙基本上就是一個狀態機，根據你的輸入會在不同狀態間跳來跳去，所以你最後只要看有沒有跳到 valid state 就好，超酷。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">isNumber</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> state = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; transTable = &#123;</span><br><span class="line">      &#123;<span class="number">2</span>, <span class="number">1</span>, <span class="number">-1</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">-1</span>&#125;, <span class="comment">// Q0</span></span><br><span class="line">      &#123;<span class="number">2</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">3</span>, <span class="number">-1</span>, <span class="number">-1</span>&#125;, <span class="comment">// Q1</span></span><br><span class="line">      &#123;<span class="number">2</span>, <span class="number">-1</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">8</span>, <span class="number">-1</span>&#125;, <span class="comment">// Q2</span></span><br><span class="line">      &#123;<span class="number">4</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>&#125;, <span class="comment">// Q3</span></span><br><span class="line">      &#123;<span class="number">4</span>, <span class="number">-1</span>, <span class="number">5</span>, <span class="number">-1</span>, <span class="number">8</span>, <span class="number">-1</span>&#125;, <span class="comment">// Q4</span></span><br><span class="line">      &#123;<span class="number">7</span>, <span class="number">6</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>&#125;, <span class="comment">// Q5</span></span><br><span class="line">      &#123;<span class="number">7</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>&#125;, <span class="comment">// Q6</span></span><br><span class="line">      &#123;<span class="number">7</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">8</span>, <span class="number">-1</span>&#125;, <span class="comment">// Q7</span></span><br><span class="line">      &#123;<span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>, <span class="number">8</span>, <span class="number">-1</span>&#125; <span class="comment">// Q8</span></span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">bitset</span>&lt;9&gt; validStates(<span class="string">"110010100"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">char</span> c: s) &#123;</span><br><span class="line">      <span class="keyword">int</span> type = inputType(c);</span><br><span class="line">      state = transTable[state][type];</span><br><span class="line">      <span class="keyword">if</span>(state == <span class="number">-1</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> validStates[state];</span><br><span class="line">  &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  <span class="function"><span class="keyword">int</span> <span class="title">inputType</span><span class="params">(<span class="keyword">char</span> c)</span> </span>&#123; <span class="comment">// use type ID as index to get next state in the transition table.</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">isdigit</span>(c)) <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">// T0</span></span><br><span class="line">    <span class="keyword">if</span>(c == <span class="string">'+'</span> || c == <span class="string">'-'</span>) <span class="keyword">return</span> <span class="number">1</span>; <span class="comment">// T1</span></span><br><span class="line">    <span class="keyword">if</span>(c == <span class="string">'e'</span>) <span class="keyword">return</span> <span class="number">2</span>; <span class="comment">// T2</span></span><br><span class="line">    <span class="keyword">if</span>(c == <span class="string">'.'</span>) <span class="keyword">return</span> <span class="number">3</span>; <span class="comment">// T3</span></span><br><span class="line">    <span class="keyword">if</span>(c == <span class="string">' '</span>) <span class="keyword">return</span> <span class="number">4</span>; <span class="comment">// T4</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="number">5</span>; <span class="comment">// T5</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>這種解法真的有夠帥，假設你今天沒有要找工作或得把這東西學會的壓力，是不是肯定會感受到一股開心的感覺，因為被開眼界了！而不是一堆自己得學會，矮唷我怎麼想不出來等等的各種延伸情緒。</p>
+<p>因為我之前也沒有真正學過 DFA 的理論，就不多說了，有興趣的讀者可以參考一下這兩個討論串，應該就能清楚：</p>
+<ol>
+<li><a href="https://leetcode.com/problems/valid-number/discuss/23725/C%2B%2B-My-thought-with-DFA" target="_blank" rel="noopener">[C++] My thought with DFA</a></li>
+<li><a href="https://leetcode.com/problems/valid-number/discuss/23798/Cleanest-C%2B%2B-Solution-using-DFA-(impress-your-interviewer-with-elegant-code!!)" target="_blank" rel="noopener">https://leetcode.com/problems/valid-number/discuss/23798/Cleanest-C%2B%2B-Solution-using-DFA-(impress-your-interviewer-with-elegant-code!!)</a></li>
+</ol>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>今天跟大家分享了一次刷 Hard 題的心路歷程，主要也是希望大家更把心情放輕鬆，享受刷題過程，畢竟人生苦短，既然有緣來刷題，不如就開開心心地學習，越寫越開心才會越寫越厲害，希望這篇文章對於正在題海中奮鬥的工程師們有些幫助。</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a href="https://www.1point3acres.com/bbs/thread-537289-1-1.html" target="_blank" rel="noopener">刷题需要hard一起刷嗎</a></li>
+<li><a href="https://www.1point3acres.com/bbs/thread-521357-1-1.html" target="_blank" rel="noopener">讓刷題幸福感提高的一百個心得</a></li>
+</ol>
+<p>關於作者：<br><a href="https://pojenlai.wordpress.com/" target="_blank" rel="noopener">@pojenlai</a> 演算法工程師，對機器人、電腦視覺和人工智慧有少許研究，正在學習<a href="https://buzzorange.com/techorange/2017/07/10/elon-musk-first-principle/" target="_blank" rel="noopener">用心體會事物的本質</a>跟<a href="https://www.ted.com/talks/eduardo_briceno_how_to_get_better_at_the_things_you_care_about" target="_blank" rel="noopener">不斷進入學生心態改進</a>。</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/08/03/leetcode-comprehension-valid-number/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/08/03/leetcode-comprehension-valid-number/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/08/03/leetcode-comprehension-valid-number/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/08/03/leetcode-comprehension-valid-number/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/08/10/session-and-cookie-rfc/">
+        ← 淺談 Session 與 Cookie：一起來讀 RFC
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/07/26/how-to-use-taiwan-salary-data-to-do-python-data-analytics-and-data-visualization/">
+        使用 Python 資料分析和視覺化上市櫃公司薪資公開資料 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

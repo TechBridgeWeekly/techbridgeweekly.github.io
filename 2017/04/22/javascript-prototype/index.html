@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>該來理解 JavaScript 的原型鍊了 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-04-22T11:53:31.000Z" itemprop="datePublished">
+          2017-04-22
+      </time>
+    
+    
+    | 
+    <a href='/tags/JavaScript/'>JavaScript</a>,
+    
+    <a href='/tags/prototype/'>prototype</a>
+    
+    
+</span>
+
+<meta name="generator" content="該來理解 JavaScript 的原型鍊了">
+<meta name="og:title" content="該來理解 JavaScript 的原型鍊了">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">該來理解 JavaScript 的原型鍊了</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>老實說 JavaScript 的原型鍊一直是我很懼怕的一個主題，理由很簡單，因為真的不太好理解。光是一堆名詞跟錯綜複雜的關係就可以把你搞瘋，例如說<code>prototype</code>, <code>__proto__</code>, <code>constructor</code>, <code>Object.prototype</code>, <code>Function.prototype</code>, <code>new</code>等等。</p>
+<p>可是呢，這又確實是 JavaScript 很重要的一部分，而且是面試的必考題，就算現在不懂，以後遲早有一天要把它弄懂，不然的話永遠都沒辦法把自己的技術能力往上提高一個檔次。</p>
+<p>有關原型鍊的文章你可以在網路上搜到一大堆，每一篇的理解方式都不太一樣，有些直接搬出一大堆專有名詞，嚇都把你嚇死了。而我也是一直到最近，看了幾篇我覺得切入角度比較不錯的文章，才真正對原型鍊有比較深刻的理解。</p>
+<p>就趁著現在這個機會，讓我們多瞭解一點 JavaScript 的原型鍊吧！這篇適合對 JavaScript 有一點概念但又不是很清楚的人觀看，如果文章中有講錯的地方，也麻煩不吝在評論中指出，感謝。</p>
+<h2 id="JavaScript-中的-class"><a href="#JavaScript-中的-class" class="headerlink" title="JavaScript 中的 class"></a>JavaScript 中的 class</h2><p>要理解原型鍊，可以先從這兩篇我覺得很棒的切入角度開始：</p>
+<ol>
+<li><a href="http://www.ruanyifeng.com/blog/2011/06/designing_ideas_of_inheritance_mechanism_in_javascript.html" target="_blank" rel="noopener">Javascript继承机制的设计思想</a></li>
+<li><a href="http://www.jasonsi.com/2017/03/15/36/" target="_blank" rel="noopener">从设计初衷解释 JavaScript 原型链</a></li>
+</ol>
+<p>這兩篇講到為什麼當初 JavaScript 的機制是這樣設計的，我認為從這個角度開始理解，會是一個比較好的開始。（強烈建議先看過這兩篇之後再往下看，會幫助你更瞭解原型鍊到底是什麼東西）</p>
+<p>首先呢，JavaScript 不像 Java 或是其他物件導向的程式語言，它是沒有 class 的（ES6 的 class 也只是語法糖而已）。可是儘管沒有 class，卻還是可以設計出一個類似的機制來達成差不多的功能。</p>
+<p>在 Java 裡面，如果你要從 class 生出一個 instance 的話，你可以這樣寫：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Point p = <span class="keyword">new</span> Point();</span><br></pre></td></tr></table></figure>
+<p>於是 JavaScript 就把這個語法拿來用，有了<code>new</code>這個關鍵字。可是 JavaScript 又沒有 class，<code>new</code>後面要接什麼呢？</p>
+<p>這時候他就想到，每一個 class 在初始化的時候，不是都會呼叫 constructor 嗎？也就是構造函數，那在 JavaScript 裡面，後面就接構造函數吧！</p>
+<p>於是，下面的程式碼就很好理解了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// constructor</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">var</span> nick = <span class="keyword">new</span> Person(<span class="string">'nick'</span>, <span class="number">18</span>);</span><br><span class="line"><span class="keyword">var</span> peter = <span class="keyword">new</span> Person(<span class="string">'peter'</span>, <span class="number">18</span>);</span><br></pre></td></tr></table></figure>
+<p>就如同上面講到的一樣，<code>Person</code>就是一個構造函數，可以用<code>new</code>這個關鍵字 new 出一個 instance 來。</p>
+<p>如果你只看下面宣告 nick 那一行（<code>var nick = new Person(&#39;nick&#39;, 18);</code>），語法是不是跟你在寫 Java 的時候有 87 分像？除此之外，你也可以幫<code>Person</code>加入一些方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">  <span class="keyword">this</span>.log = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">', age:'</span> + <span class="keyword">this</span>.age);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">var</span> nick = <span class="keyword">new</span> Person(<span class="string">'nick'</span>, <span class="number">18</span>);</span><br><span class="line">nick.log(); <span class="comment">// nick, age:18</span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">var</span> peter = <span class="keyword">new</span> Person(<span class="string">'peter'</span>, <span class="number">20</span>);</span><br><span class="line">peter.log(); <span class="comment">// peter, age:20</span></span><br></pre></td></tr></table></figure>
+<p>可是這樣其實還有一個小問題， name 跟 age 這兩個屬性，很明顯是每一個 instance 都會不一樣的。可是 log 這個 method，其實是每一個 instance 彼此之間可以共享的，因為都在做同一件事情。</p>
+<p>在現在這種情況下，雖然 nick 的 log 這個 function 跟 peter 的 log 這個 function 是在做同一件事，但其實還是佔用了兩份空間，意思就是他們其實是兩個不同的 function。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">  <span class="keyword">this</span>.log = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">', age:'</span> + <span class="keyword">this</span>.age);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">var</span> nick = <span class="keyword">new</span> Person(<span class="string">'nick'</span>, <span class="number">18</span>);</span><br><span class="line"><span class="keyword">var</span> peter = <span class="keyword">new</span> Person(<span class="string">'peter'</span>, <span class="number">20</span>);</span><br><span class="line">  </span><br><span class="line"><span class="built_in">console</span>.log(nick.log === peter.log) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>那怎麼辦呢？我們可以把這個 function 抽出來，變成所有 Person 都可以共享的方法。講到這邊，你應該有聽過一個東西叫做<code>prototype</code>。只要把 log 這個 function 指定在 <code>Person.prototype</code> 上面，所有 <code>Person</code> 的 instance 都可以共享這個方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">Person.prototype.log = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">', age:'</span> + <span class="keyword">this</span>.age);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">var</span> nick = <span class="keyword">new</span> Person(<span class="string">'nick'</span>, <span class="number">18</span>);</span><br><span class="line"><span class="keyword">var</span> peter = <span class="keyword">new</span> Person(<span class="string">'peter'</span>, <span class="number">20</span>);</span><br><span class="line">  </span><br><span class="line"><span class="built_in">console</span>.log(nick.log === peter.log) <span class="comment">// true</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// 功能依舊跟之前一樣</span></span><br><span class="line">nick.log(); <span class="comment">// nick, age:18</span></span><br><span class="line">peter.log(); <span class="comment">// peter, age:20</span></span><br></pre></td></tr></table></figure>
+<p>有些人會直接在 <code>Array.prototype</code> 上面加一些函式，讓自己可以更方便地做一些操作，原理也是這樣。可是一般來說，不推薦直接去修改不屬於你的 Object。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.last = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>[<span class="keyword">this</span>.length - <span class="number">1</span>];</span><br><span class="line">&#125;;</span><br><span class="line">  </span><br><span class="line"><span class="built_in">console</span>.log([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].last()) <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+<p>最後幫大家總結一下，上面這一段其實主要是幫大家複習一下 JavaScript 的一些基礎。</p>
+<p>你有一個叫做<code>Person</code>的函數，就可以把<code>Person</code>當作 constructor，利用<code>var obj = new Person()</code>來 new 出一個<code>Person</code>的 instance，並且可以在<code>Person.prototype</code>上面加上你想讓所有 instance 共享的屬性或是方法。</p>
+<h2 id="探究原理"><a href="#探究原理" class="headerlink" title="探究原理"></a>探究原理</h2><p>不知道你會不會好奇一件事，以上面<code>var nick = new Person(&#39;nick&#39;, 18);</code>的例子來說，當我在呼叫<code>nick.log()</code>的時候，JavaScript 是怎麼找到這個 function 的？</p>
+<p>因為 nick 這個 instance 本身並沒有 log 這個 function。但根據 JavaScript 的機制，nick 是 Person 的 instance，所以如果在 nick 本身找不到，它會試著從<code>Person.prototype</code>去找。</p>
+<p>可是，JavaScript 怎麼知道要到這邊去找？所以一定是 nick 跟<code>Person.prototype</code>會透過某種方式連接起來，才知道說要往哪邊去找 log 這個 function。</p>
+<p>而這個連接的方式，就是<code>__proto__</code>。<br>（附註：其實比較好的方式是用<code>Object.getPrototypeOf()</code>，但這邊為了方便起見，還是使用比較常見的<code>__proto__</code>，更詳細的說明可參考：<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/proto" target="_blank" rel="noopener">MDN: Object.prototype.<strong>proto</strong></a>）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">Person.prototype.log = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">', age:'</span> + <span class="keyword">this</span>.age);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">var</span> nick = <span class="keyword">new</span> Person(<span class="string">'nick'</span>, <span class="number">18</span>);</span><br><span class="line">  </span><br><span class="line"><span class="built_in">console</span>.log(nick.__proto__ === Person.prototype) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>nick 的<code>__proto__</code>會指向<code>Person.prototype</code>，所以在發現 nick 沒有 log 這個 method 的時候，JavaScript 就會試著透過<code>__proto__</code>找到<code>Person.prototype</code>，去看<code>Person.prototype</code>裡面有沒有 log 這個 method。</p>
+<p>那假如<code>Person.prototype</code>還是沒有呢？那就繼續依照這個規則，去看<code>Person.prototype.__proto__</code>裡面有沒有 log 這個 method，就這樣一直不斷找下去。找到時候時候為止？找到某個東西的<code>__proto__</code>是 null 為止。意思就是這邊是最上層了。</p>
+<p>而上面這一條透過<code>__proto__</code>不斷串起來的鍊，就叫做原型鍊。透過這一條原型鍊，就可以達成類似繼承的功能，可以呼叫自己 parent 的 method。</p>
+<p>看下面這段程式碼你大概會有一些感覺：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">Person.prototype.log = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">', age:'</span> + <span class="keyword">this</span>.age);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">var</span> nick = <span class="keyword">new</span> Person(<span class="string">'nick'</span>, <span class="number">18</span>);</span><br><span class="line">  </span><br><span class="line"><span class="comment">// 這個剛講過了，nick.__proto__ 會指向 Person.prototype</span></span><br><span class="line"><span class="built_in">console</span>.log(nick.__proto__ === Person.prototype) <span class="comment">// true</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// 那 Person.prototype.__proto__ 會指向誰呢？會指向 Object.prototype</span></span><br><span class="line"><span class="built_in">console</span>.log(Person.prototype.__proto__ === <span class="built_in">Object</span>.prototype) <span class="comment">// true</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// 那 Object.prototype.__proto__ 又會指向誰呢？會指向 null，這就是原型鍊的頂端了</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.__proto__) <span class="comment">// null</span></span><br></pre></td></tr></table></figure>
+<p>如果想知道一個屬性是存在 instance 身上，還是存在於它屬於的原型鍊當中，可以用<code>hasOwnProperty</code>這個方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">Person.prototype.log = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">', age:'</span> + <span class="keyword">this</span>.age);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">var</span> nick = <span class="keyword">new</span> Person(<span class="string">'nick'</span>, <span class="number">18</span>);</span><br><span class="line"><span class="built_in">console</span>.log(nick.hasOwnProperty(<span class="string">'log'</span>)); <span class="comment">// false</span></span><br><span class="line"><span class="built_in">console</span>.log(nick.__proto__.hasOwnProperty(<span class="string">'log'</span>)); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>有了<code>hasOwnProperty</code>之後，我們就可以自己來模擬這段往上找的過程：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">Person.prototype.log = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">', age:'</span> + <span class="keyword">this</span>.age);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">var</span> nick = <span class="keyword">new</span> Person(<span class="string">'nick'</span>, <span class="number">18</span>);</span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">call</span>(<span class="params">obj, methodName</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> realMethodOwner = obj;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 不斷往上找，直到 null 或者是找到真的擁有這個 method 的人為止</span></span><br><span class="line">  <span class="keyword">while</span>(realMethodOwner &amp;&amp; !realMethodOwner.hasOwnProperty(methodName)) &#123;</span><br><span class="line">    realMethodOwner = realMethodOwner.__proto__;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 找不到就丟一個 error，否則執行這個 method</span></span><br><span class="line">  <span class="keyword">if</span> (!realMethodOwner) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="string">'method not found.'</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    realMethodOwner[methodName].apply(obj);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">call(nick, <span class="string">'log'</span>); <span class="comment">// nick, age:18</span></span><br><span class="line">call(nick, <span class="string">'not_exist'</span>); <span class="comment">// Uncaught method not found.</span></span><br></pre></td></tr></table></figure>
+<p>做到這邊，其實你已經對原型鍊有了比較深刻的了解了。</p>
+<p>來考你一題，<code>Person.__proto__</code>會是什麼？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">Person.prototype.log = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">', age:'</span> + <span class="keyword">this</span>.age);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">var</span> nick = <span class="keyword">new</span> Person(<span class="string">'nick'</span>, <span class="number">18</span>);</span><br><span class="line">  </span><br><span class="line"><span class="built_in">console</span>.log(Person.__proto__ === <span class="built_in">Function</span>.prototype); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Function</span>.prototype.__proto__ === <span class="built_in">Object</span>.prototype) <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.__proto__); <span class="comment">//null</span></span><br></pre></td></tr></table></figure>
+<p>因為<code>Person</code>其實就是個 Function 的 instance，所以<code>Person.__proto__</code>當然就是<code>Function.prototype</code>囉！</p>
+<h2 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h2><p>顧名思義，<code>A instanceof B</code> 就是拿來判斷 A 是不是 B 的 instance，舉例來說：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">Person.prototype.log = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">', age:'</span> + <span class="keyword">this</span>.age);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">var</span> nick = <span class="keyword">new</span> Person(<span class="string">'nick'</span>, <span class="number">18</span>);</span><br><span class="line">  </span><br><span class="line"><span class="built_in">console</span>.log(nick <span class="keyword">instanceof</span> Person); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(nick <span class="keyword">instanceof</span> <span class="built_in">Object</span>); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(nick <span class="keyword">instanceof</span> <span class="built_in">Array</span>); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>從範例中可以看出，只要能在 A 的原型鍊裡面找到 B 的 prototype，就會回傳 true。知道原理之後，我們也可以來簡單模擬一下 instnaceof 在做的事：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">Person.prototype.log = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">', age:'</span> + <span class="keyword">this</span>.age);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">var</span> nick = <span class="keyword">new</span> Person(<span class="string">'nick'</span>, <span class="number">18</span>);</span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">instanceOf</span>(<span class="params">A, B</span>) </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 已經找完了</span></span><br><span class="line">  <span class="keyword">if</span> (!A) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 沒找到的話，繼續往上找</span></span><br><span class="line">  <span class="keyword">return</span> A.__proto__ === B.prototype ? <span class="literal">true</span> : instanceOf(A.__proto__, B);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="built_in">console</span>.log(instanceOf(nick, Person)); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(instanceOf(nick, <span class="built_in">Object</span>)); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(instanceOf(nick, <span class="built_in">Array</span>)); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>而 instanceof 有一個很有趣的現象，那就是：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 這兩個互為彼此的 instance</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Function</span> <span class="keyword">instanceof</span> <span class="built_in">Object</span>); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span> <span class="keyword">instanceof</span> <span class="built_in">Function</span>); <span class="comment">// true</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// Function 的 __proto__ 會指向 Function.prototype</span></span><br><span class="line"><span class="comment">// 而 Function.prototype 的 __proto__ 會指向 Object.prototype</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Function</span>.__proto__ === <span class="built_in">Function</span>.prototype); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Function</span>.__proto__.__proto__ === <span class="built_in">Object</span>.prototype); <span class="comment">//true</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// Object 的 __proto__ 會指向 Function.prototype</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.__proto__ === <span class="built_in">Function</span>.prototype); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>這個東西又會把問題搞得更複雜，在這邊就先不提了。如果想知道的話，可以參考下面這兩篇文章：</p>
+<ol>
+<li><a href="https://github.com/creeperyang/blog/issues/9" target="_blank" rel="noopener">从<strong>proto</strong>和prototype来深入理解JS对象和原型链</a></li>
+<li><a href="https://blog.oyanglul.us/javascript/understand-prototype.html" target="_blank" rel="noopener">理解JavaScript的原型链和继承</a></li>
+</ol>
+<h2 id="constructor-NaN"><a href="#constructor-NaN" class="headerlink" title="constructor"></a>constructor</h2><p>順帶一提，每一個 prototype 都會有一個叫做<code>constructor</code>的屬性，例如說<code>Person.prototype.constructor</code>，而這個屬性就會指向構造函數。<code>Person.prototype</code>的構造函數是什麼？當然就是<code>Person</code>囉。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">Person.prototype.log = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">', age:'</span> + <span class="keyword">this</span>.age);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">var</span> nick = <span class="keyword">new</span> Person(<span class="string">'nick'</span>, <span class="number">18</span>);</span><br><span class="line">  </span><br><span class="line"><span class="comment">// 這段是要讓大家知道，這邊其實是往原型鍊的上面去找</span></span><br><span class="line"><span class="built_in">console</span>.log(nick.constructor === Person); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(nick.hasOwnProperty(<span class="string">'constructor'</span>)); <span class="comment">// false</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">// Person 的 constructor 就是 Person</span></span><br><span class="line"><span class="built_in">console</span>.log(Person.prototype.constructor === Person); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(Person.prototype.hasOwnProperty(<span class="string">'constructor'</span>)); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>所以其實<code>constructor</code>也沒什麼好講的，<code>A.prototype.constructor === A</code>，你把 A 用 <code>Function</code>, <code>Person</code>, <code>Object</code> 之類的值帶進去都成立。</p>
+<p>有一個比較有趣的地方是，你可以透過這樣的方式來執行一段程式碼：<code>[].slice.constructor(&#39;alert(1)&#39;)()</code>。原理其實就是把<code>Function(&#39;alert(1)&#39;)()</code>的<code>Function</code>用<code>[].slice.constructor</code>來取代掉。</p>
+<h2 id="new"><a href="#new" class="headerlink" title="new"></a>new</h2><p>有了原型鍊的概念之後，就不難理解<code>new</code>這個關鍵字背後會做的事情是什麼。</p>
+<p>假設現在有一行程式碼是：<code>var nick = new Person(&#39;nick&#39;);</code>，那它有以下幾件事情要做：</p>
+<ol>
+<li>創出一個新的 object，我們叫它 O</li>
+<li>把 O 的 <code>__proto__</code> 指向 Person 的 prototype，才能繼承原型鍊</li>
+<li>拿 O 當作 context，呼叫 Person 這個建構函式</li>
+<li>回傳 O</li>
+</ol>
+<p>我們可以寫一段程式碼來模擬這個情形：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">Person.prototype.log = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name + <span class="string">', age:'</span> + <span class="keyword">this</span>.age);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">newObj</span>(<span class="params">Constructor, arguments</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> o = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 讓 o 繼承原型鍊</span></span><br><span class="line">  o.__proto__ = Constructor.prototype;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 執行建構函式</span></span><br><span class="line">  Constructor.apply(o, <span class="built_in">arguments</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 回傳建立好的物件</span></span><br><span class="line">  <span class="keyword">return</span> o;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">var</span> nick = newObj(Person, [<span class="string">'nick'</span>, <span class="number">18</span>]);</span><br><span class="line">nick.log(); <span class="comment">// nick, age:18</span></span><br></pre></td></tr></table></figure>
+<p>延伸閱讀：<a href="http://www.cnblogs.com/aaronjs/archive/2012/07/04/2575570.html" target="_blank" rel="noopener">JS 对象机制深剖——new 运算符</a></p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>今天不但更理解了原型鍊到底是什麼東西，也寫了一些簡單的小程式來模擬 JavaScript 在查找原型鍊的過程。藉由自己實作這些機制之後，應該會對原型鍊有更多的一些理解。</p>
+<p>在 JavaScript 這個程式語言當中，就是透過原型鍊這樣子的機制，把上下關係給串起來，當你在 A 找不到某個東西的時候，就可以到 A 的 parent（也就是 <code>A.__proto__</code>）去找，還是找不到的話就再往上。而原型鍊的盡頭就是<code>Object.prototype</code>，再往上找就是<code>null</code>了。</p>
+<p>在寫這篇文章的時候參考了許多資料，我都附在下面了。有些文章會附上精美圖片，但我覺得從圖片開始反而會有點霧煞煞，因為不知道彼此之間的關聯是怎麼來的。</p>
+<p>建議大家看完這篇之後可以看一下底下那些參考資料，也順便複習一下自己的觀念是否正確。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ol>
+<li><a href="https://github.com/mqyqingfeng/Blog/blob/master/JavaScript%E6%B7%B1%E5%85%A5%E4%B9%8B%E4%BB%8E%E5%8E%9F%E5%9E%8B%E5%88%B0%E5%8E%9F%E5%9E%8B%E9%93%BE.md" target="_blank" rel="noopener">JavaScript深入之从原型到原型链</a></li>
+<li><a href="https://www.talkingcoder.com/article/6360227501704156372" target="_blank" rel="noopener">JS原型链图解教程</a></li>
+<li><a href="https://blog.oyanglul.us/javascript/understand-prototype.html" target="_blank" rel="noopener">理解JavaScript的原型链和继承</a></li>
+<li><a href="https://github.com/creeperyang/blog/issues/9" target="_blank" rel="noopener">从<strong>proto</strong>和prototype来深入理解JS对象和原型链</a></li>
+<li><a href="http://zencode.in/2.Javascript%E5%8E%9F%E5%9E%8B%E9%93%BE.html" target="_blank" rel="noopener">Javascript 原型链</a></li>
+<li><a href="http://www.imooc.com/article/2088" target="_blank" rel="noopener">彻底理解JavaScript原型</a></li>
+</ol>
+<p>關於作者：<br><a href="http://huli.logdown.com/" target="_blank" rel="noopener">@huli</a> 野生工程師，相信分享與交流能讓世界變得更美好</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/04/22/javascript-prototype/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/04/22/javascript-prototype/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/04/22/javascript-prototype/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/04/22/javascript-prototype/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/04/29/css-methodology-atomiccss/">
+        ← 淺談 CSS 方法論與 Atomic CSS
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/04/16/simple-cryptography/">
+        網路安全(1) - 基礎密碼學 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

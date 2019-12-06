@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>如何使用 Python 和 Locust 進行 Load testing 入門教學 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-05-29T20:23:23.000Z" itemprop="datePublished">
+          2019-05-29
+      </time>
+    
+    
+    | 
+    <a href='/tags/Python/'>Python</a>,
+    
+    <a href='/tags/Testing/'>Testing</a>,
+    
+    <a href='/tags/Load-testing/'>Load testing</a>,
+    
+    <a href='/tags/Locust/'>Locust</a>,
+    
+    <a href='/tags/QPS/'>QPS</a>,
+    
+    <a href='/tags/RPS/'>RPS</a>,
+    
+    <a href='/tags/Throughput/'>Throughput</a>,
+    
+    <a href='/tags/Response-time/'>Response time</a>
+    
+    
+</span>
+
+<meta name="generator" content="如何使用 Python 和 Locust 進行 Load testing 入門教學">
+<meta name="og:title" content="如何使用 Python 和 Locust 進行 Load testing 入門教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">如何使用 Python 和 Locust 進行 Load testing 入門教學</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/python-load-testing/locust.png" alt="如何使用 Python 和 Locust 進行 Load testing"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>身為一個開發者在開發完 Web 應用程式時往往會需要透過 Load testing 和 Profiling 評估目前系統的性能和是否需要繼續優化和估算所需的運營的成本並了解系統的性能邊界，以建立高可用、高穩定性的網路服務。目前市面上有許多可以用來進行 Load testing 的工具，例如老牌的 <a href="https://jmeter.apache.org/" target="_blank" rel="noopener">Jemeter</a>、<a href="https://www.microfocus.com/zh-tw/products/loadrunner-load-testing/overview" target="_blank" rel="noopener">LoadRunner</a>、<a href="https://httpd.apache.org/docs/2.4/programs/ab.html" target="_blank" rel="noopener">Apache Bench（ab）</a>、<a href="https://github.com/wg/wrk" target="_blank" rel="noopener">wrk</a> 等。若是你想找一個可以不用操作複雜的 UI/XML 和可以使用 Python 語法撰寫操作 script 的話，<a href="https://locust.io/" target="_blank" rel="noopener">Locust</a> 是一個不錯的選擇。接下來將簡單介紹一下 Locust 的使用方式。</p>
+<h1 id="Locust-簡介"><a href="#Locust-簡介" class="headerlink" title="Locust 簡介"></a>Locust 簡介</h1><p>Locust 本意是蝗蟲的意思，其實仔細想想，當大量的使用者進到你的網路服務時真的就像是蝗蟲入侵一樣，確實是一個貼切的工具名稱。</p>
+<p>Locust 的主要特色在於使用上方便簡單：</p>
+<ol>
+<li>透過 Plain Python Code 定義使用者操作行為，不用使用 XML 或複雜的 UI 進行操作</li>
+<li>支援分散式模式，模擬百萬使用者操作</li>
+<li>許多知名服務已有相關使用經驗：<a href="https://www.ea.com/zh-tw/games/battlefield" target="_blank" rel="noopener">Battlefield（戰地風雲）</a></li>
+</ol>
+<p>一般我們在進行 Load testing 時會比較注意的是 <code>Response Time</code> 和 <code>Throughput</code> 的表現。在 Locust 中會提供 RPS（Request Per Second，一般等同於 QPS，RPS = Request count / Response Time）和 Response time（clent 發出請求到 server 返回時間）和 Error rate 等統計數據和圖表可以參考，雖然簡單但也算蠻夠使用。</p>
+<h1 id="環境建置"><a href="#環境建置" class="headerlink" title="環境建置"></a>環境建置</h1><p>安裝 Locust 最簡單的方式是使用 pip 安裝，先確認本身已有 Python 和 pip 環境（建議可以使用 Python3.4 以上），然後在 terminal 執行以下指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install locustio</span><br></pre></td></tr></table></figure>
+<p>由於 Locust 不是使用 process 和 thread 而是 gevent 提供的 coroutine 和 non-block IO 來實現網路 concurrent request（併發請求）。因此使用單台機器理論上也可以產生數千的 concurrent request，若是搭配分散式模式則可以支援更高的併發請求。</p>
+<p>若是 mac 使用者可能會需要安裝 libev 來支援 gevent 使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install libev</span><br></pre></td></tr></table></figure>
+<p>更多安裝和環境建制可以參考<a href="https://docs.locust.io/en/stable/installation.html" target="_blank" rel="noopener">官方網站</a></p>
+<h1 id="撰寫第一個-Locustfile"><a href="#撰寫第一個-Locustfile" class="headerlink" title="撰寫第一個 Locustfile"></a>撰寫第一個 Locustfile</h1><p>完成了環境設定後，接下來我們就可以來撰寫 Locustfile 來定義我們要模擬的使用者行為。以下是一個簡單範例（locustfile.py）：</p>
+<p>一般來說 Locustfile 會有兩個主要的 Class 組成（<code>WebsiteTasks</code>、<code>WebsiteUser</code>），其中 WebsiteTasks 繼承 <code>TaskSet</code> 而 WebsiteUser 繼承 <code>HttpLocust</code>（<code>HttpLocust</code> 繼承 <code>Locust</code>）。所以可以看成 Locustfile 主要為 <code>Locust</code> 和 <code>TaskSet</code> 兩大 Class 所描述。由 TaskSet 定義 Locust 這群產生出來的蝗蟲要怎麼行動。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> locust <span class="keyword">import</span> HttpLocust, TaskSet, task</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WebsiteTasks</span><span class="params">(TaskSet)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_start</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">""" on_start is called when a Locust start before any task is scheduled """</span></span><br><span class="line">        self.login()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_stop</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">""" on_stop is called when the TaskSet is stopping """</span></span><br><span class="line">        self.logout()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.client.post(<span class="string">"/login"</span>, &#123;<span class="string">"username"</span>:<span class="string">"ellen_key"</span>, <span class="string">"password"</span>:<span class="string">"education"</span>&#125;)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">logout</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.client.post(<span class="string">"/logout"</span>, &#123;<span class="string">"username"</span>:<span class="string">"ellen_key"</span>, <span class="string">"password"</span>:<span class="string">"education"</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @task(1)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.client.get(<span class="string">"/"</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @task(2)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">about</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.client.get(<span class="string">"/about"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WebsiteUser</span><span class="params">(HttpLocust)</span>:</span></span><br><span class="line">    task_set = WebsiteTasks</span><br><span class="line">    min_wait = <span class="number">5000</span></span><br><span class="line">    max_wait = <span class="number">15000</span></span><br></pre></td></tr></table></figure>
+<p>我們在上面的檔案可以看到 WebsiteTasks 裡面定義了 <code>on_start</code> 為每次 WebsiteUser 開始任務需要執行的步驟（<code>on_stop</code> 為結束），上面是先進行 post 請求登入，接著我們可以看到 <code>@task</code> 這個 decorator 的使用，亦即在過程中要執行的指令，後面的數字是執行比例（這裡是 index 和 about 任務是 <code>1:2</code> 比例執行，GET /about 比例會是 /index 兩倍），若都沒有寫，則預設為 <code>1:1</code>。</p>
+<p>然後是 WebsiteUser 我們定義了 <code>task_set</code> 讓 Locust 知道當產生 User 實例時要執行的任務。min_wait 則定義 max_wait 測試過程中兩次任務的間隔為 <code>5-15</code> 秒的隨機數。</p>
+<p>若是熟悉 Python 讀者可以發現事實上，locust 是使用 <a href="https://2.python-requests.org/en/master/" target="_blank" rel="noopener">Python requests</a> 套件來處理網路請求，所以若是 requests 支援的方法幾乎都可以使用。</p>
+<h1 id="使用-GUI-操作"><a href="#使用-GUI-操作" class="headerlink" title="使用 GUI 操作"></a>使用 GUI 操作</h1><p>撰寫完 Locustfile 後終於可以正式開始使用 Locust 啦！-H 為要測試的 service host name<br>使用上也很簡單，只要輸入以下指令，就可以在瀏覽器打開：<a href="http://127.0.0.1:8089" target="_blank" rel="noopener">http://127.0.0.1:8089</a> 進行操作！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locust -f locustfile.py -H https://www.example.com</span><br></pre></td></tr></table></figure>
+<p><img src="/img/kdchang/python-load-testing/locust_gui_1.png" alt="如何使用 Python 和 Locust 進行 Load testing"></p>
+<p>可以輸入希望模擬的使用者數量和多少秒達到預期使用者數量（hatch rate），若是設定 100 個 user，hatch rate 為 10，就代表有 10 秒時間可以 warm up 到 100 使用者。</p>
+<p><img src="/img/kdchang/python-load-testing/locust_gui_2.png" alt="如何使用 Python 和 Locust 進行 Load testing"></p>
+<p>開始執行後可以看到相關的即時數據！</p>
+<p><img src="/img/kdchang/python-load-testing/locust_gui_3.png" alt="如何使用 Python 和 Locust 進行 Load testing"></p>
+<p>顯示 RPS 和 Response Time 的數據圖表。</p>
+<p><img src="/img/kdchang/python-load-testing/locust_gui_4.png" alt="如何使用 Python 和 Locust 進行 Load testing"></p>
+<p>若是有 Failure 產生就會顯示在這頁。 </p>
+<p><img src="/img/kdchang/python-load-testing/locust_gui_5.png" alt="如何使用 Python 和 Locust 進行 Load testing"></p>
+<p>若是希望結束測試可以點選右上角的 stop 還可以到 download data 頁面下載測試的統計資料 csv 檔案。</p>
+<p><img src="/img/kdchang/python-load-testing/locust_gui_6.png" alt="如何使用 Python 和 Locust 進行 Load testing"></p>
+<h1 id="使用-Terminal-進行操作"><a href="#使用-Terminal-進行操作" class="headerlink" title="使用 Terminal 進行操作"></a>使用 Terminal 進行操作</h1><p>若你不想使用圖形化介面你可以直接在指令中加上 –no-web，並設定模擬 user 數量（-c）和 hatch rate（-r）以及執行時間（-t），以下為 100 user，hatch rate：10，執行 10 分鐘的測試：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locust -f locustfile.py -H https://www.example.com --no-web -c 100 -r 10 -t 600s</span><br></pre></td></tr></table></figure>
+<p>達到設定執行時間後就會自己結束測試，顯示相關數據於 terminal 中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> Name                                                          # reqs      # fails     Avg     Min     Max  |  Median   req/s</span><br><span class="line">--------------------------------------------------------------------------------------------------------------------------------------------</span><br><span class="line">--------------------------------------------------------------------------------------------------------------------------------------------</span><br><span class="line"> Total                                                              0     0(0.00%)                                       0.00</span><br><span class="line"></span><br><span class="line">Percentage of the requests completed within given times</span><br><span class="line"> Name                                                           # reqs    50%    66%    75%    80%    90%    95%    98%    99%   100%</span><br><span class="line">--------------------------------------------------------------------------------------------------------------------------------------------</span><br><span class="line">--------------------------------------------------------------------------------------------------------------------------------------------</span><br></pre></td></tr></table></figure>
+<h1 id="使用分散式模式（Distributed）"><a href="#使用分散式模式（Distributed）" class="headerlink" title="使用分散式模式（Distributed）"></a>使用分散式模式（Distributed）</h1><p>有時候我們本機的資源不夠會導致在進行 load testing 時希望支援的使用者和 RPS 的數量會不如預期，此時就可以嘗試使用分散式 mode，可以先在一個 termianl 去定義 master 的設定並啟動，然後在 terminal 新開 tab 去把 slave 加入，當 master 監聽 slave 數量達到宣告（–expect-slaves）的時候就會開始執行任務（若沒有則會一直等待）。</p>
+<p>宣告 master 指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locust -H https://www.example.com -f locustfile.py --master --expect-slaves=3</span><br></pre></td></tr></table></figure>
+<p>開啟另外 termianl tab 執行 slave 指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locust -H https://www.example.com -f locustfile.py --slave</span><br></pre></td></tr></table></figure>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上簡單介紹如何使用 Python 和 Locust 進行 Load testing。Locust 好處在於簡單容易使用，並可以使用 Python 撰寫相關測試，而不用操作複雜的 UI 或是 XML 檔案。而在 Locust 中會提供 RPS 和 Response time 和 Error rate 等統計數據和圖表可以參考，雖然簡單但也算蠻夠使用。若是有更高的效能需求可以參考用 golang 寫的兄弟專案 <a href="https://github.com/myzhan/boomer" target="_blank" rel="noopener">boomer</a>。關於 Python Locust 這個方便的 Load testing 工具就介紹到這裡，我們下回見囉！</p>
+<h1 id="參考文件"><a href="#參考文件" class="headerlink" title="參考文件"></a>參考文件</h1><ol>
+<li><a href="https://www.guru99.com/jmeter-performance-testing.html" target="_blank" rel="noopener">How to Use JMeter for Performance &amp; Load Testing</a></li>
+<li><a href="https://docs.locust.io/en/stable/running-locust-distributed.html" target="_blank" rel="noopener">Running Locust distributed</a></li>
+<li><a href="https://blog.wiloon.com/?p=11375" target="_blank" rel="noopener">TPS、QPS、RPS</a></li>
+<li><a href="https://debugtalk.com/post/head-first-locust-user-guide/" target="_blank" rel="noopener">深入浅出开源性能测试工具 Locust（使用篇）</a></li>
+</ol>
+<p>（image via <a href="https://www.locust.io" target="_blank" rel="noopener">locust</a>）</p>
+<p>關於作者：<br><a href="http://blog.kdchang.cc" target="_blank" rel="noopener">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino/Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/05/29/how-to-use-python-locust-to-do-load-testing/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/05/29/how-to-use-python-locust-to-do-load-testing/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/05/29/how-to-use-python-locust-to-do-load-testing/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/05/29/how-to-use-python-locust-to-do-load-testing/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/06/08/silicon-valley-robotics-company/">
+        ← 矽谷機器人公司一覽 & 相關資源
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/05/25/pure-css-tic-tac-toe-analyze/">
+        解析：純 CSS 的圈圈叉叉 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>JavaScript 101 快速入門教學 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-01-14T22:00:00.000Z" itemprop="datePublished">
+          2017-01-14
+      </time>
+    
+    
+    | 
+    <a href='/tags/JavaScript/'>JavaScript</a>,
+    
+    <a href='/tags/ECMAScript2015/'>ECMAScript2015</a>,
+    
+    <a href='/tags/ES6/'>ES6</a>,
+    
+    <a href='/tags/Front-End/'>Front End</a>,
+    
+    <a href='/tags/Front-End-Development-Environment/'>Front End Development Environment</a>
+    
+    
+</span>
+
+<meta name="generator" content="JavaScript 101 快速入門教學">
+<meta name="og:title" content="JavaScript 101 快速入門教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">JavaScript 101 快速入門教學</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/javascript.png" alt="JavaScript 101 快速入門教學"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Java 和 JavaScript 雖然名稱相似，但卻是熱狗和狗的差別。JavaScript 是由 Netscape 工程師 Brendan Eich 於 1995 年僅花 10 天所設計的程式語言，也因為一些歷史因素，JavaScript 成為被誤解最深的程式語言。JavaScript 是一種直譯式、基於原型（prototype based）的物件導向程式語言，但又具有函數式程式設計（Functional programming）的特性。其具備簡單好上手、應用範圍廣泛，容易有成就感，但精通不易等特性。過去一段時間 JavaScript 一直被認為是玩具語言，難登大雅之堂。但隨著版本的演進，再加上 NodeJS 的出現，讓 JavaScript 由黑翻紅成為程式語言的當紅巨星，目前雄據在程式語言排行榜前幾名，除了網頁開發外，在許多的領域都可以看到 JavaScript 的身影。本文將快速帶領大家掌握 JavaScript 重要且核心的觀念。</p>
+<h1 id="環境建置"><a href="#環境建置" class="headerlink" title="環境建置"></a>環境建置</h1><p>JavaScript 的檔案只要使用一般的文字編輯器即可編輯（存成 .js 檔案），也可以使用 <a href="https://www.sublimetext.com/" target="_blank" rel="noopener">Sublime Text</a> 等編輯器進行開發，<a href="https://jsbin.com/" target="_blank" rel="noopener">JSBin</a> 這個線上工具進行測試（當然你也可以使用 Chrome、Firefox 等瀏覽器的開發者工具）。除了編輯器外，實際開發上我們也會需要用到 <a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js 開發環境</a> 和 NPM 套件管理系統（按照 Node.js 官方指示即可安裝）。Node.js 是一個開放原始碼、跨平台的、可用於伺服器端和網路應用的執行環境。</p>
+<h1 id="JavaScript-程式使用方式（HTML-中引入）"><a href="#JavaScript-程式使用方式（HTML-中引入）" class="headerlink" title="JavaScript 程式使用方式（HTML 中引入）"></a>JavaScript 程式使用方式（HTML 中引入）</h1><ol>
+<li><p>內嵌於 <code>&lt;head&gt;&lt;/head&gt;</code> (因 JS 為直譯式程式語言，讀到即會執行)</p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span> </span><br><span class="line">true<span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line">truetruealert(Hello JavaScript);</span><br><span class="line">true<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>內嵌於 <code>&lt;body&gt;&lt;/body&gt;</code> 之中 (可以讓 HTML 優先載入)</p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line">truealert(Hello JavaScript);</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>外部引入檔案置於 <code>&lt;head&gt;</code> 或 <code>&lt;body&gt;</code> 內 (推薦使用)</p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/main.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>注意外部引入的 <code>&lt;script&gt;&lt;/script&gt;</code> 中不可再寫 JS。</p>
+<h1 id="變數"><a href="#變數" class="headerlink" title="變數"></a>變數</h1><p>在程式語言中變數是一個暫時儲存資料的地方，賦值給變數的值都會有對應的資料型態，然而 JavaScript 是弱型別（Weak type）所以會有自動轉型的情形。</p>
+<p>在 JavaScript 中，全域變數將使用 <code>var</code>，而在 ES6 中為了解決變數污染或誤用情形將 <code>block-scope</code> 的變數使用 <code>let</code>，若你需要固定不變的常數則是使用 <code>const</code>。 其中變數型別又分為：Primitive Data Type：String、Number、Boolean（ true 或 false）、undefinded、null，Reference Data Types：Object 兩種，差別在於將物件變數賦值給另外一個變數時是把引用賦值給新變數，所以當新變數更改屬性時會影響到原來物件。</p>
+<p>Primitive Data Type：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num = <span class="number">12</span>;</span><br><span class="line"><span class="keyword">const</span> str = <span class="string">'Mark'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkLike</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">true<span class="keyword">let</span> isActived = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// console.log 可以讓開發者透過瀏覽器開發者工具看到訊息，方便除錯</span></span><br><span class="line"><span class="built_in">console</span>.log(num);</span><br><span class="line"><span class="built_in">console</span>.log(str);</span><br><span class="line"><span class="comment">// 因為 let 是 function block scope，故會產生 "ReferenceError: isActived is not defined 錯誤</span></span><br><span class="line"><span class="built_in">console</span>.log(isActived);</span><br></pre></td></tr></table></figure>
+<p>Reference Data Types：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 將物件變數賦值給另外一個變數時是把引用賦值給新變數，所以當新變數更改屬性時會影響到原來物件</span></span><br><span class="line"><span class="keyword">let</span> a = &#123; <span class="attr">name</span>: <span class="string">'Zuck'</span> &#125;;</span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br><span class="line"><span class="keyword">let</span> b = a;</span><br><span class="line">b.name = <span class="string">'Jack'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br></pre></td></tr></table></figure>
+<h1 id="運算子-運算元"><a href="#運算子-運算元" class="headerlink" title="運算子/運算元"></a>運算子/運算元</h1><p>在程式語言中都需要運算子，在 JavaScript 中有賦值運算子、算數運算子、比較運算子、邏輯運算子等不同運算子。</p>
+<ol>
+<li><p>賦值運算子：使用 <code>=</code> 給定值給變數</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Mark</span></span><br><span class="line"><span class="keyword">const</span> name = <span class="string">'Mark'</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>算數運算子：四則運算</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 4</span></span><br><span class="line"><span class="keyword">const</span> sum = <span class="number">1</span> + <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>比較運算子：數值比較</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> age = <span class="number">23</span>;</span><br><span class="line"><span class="comment">// true</span></span><br><span class="line"><span class="keyword">const</span> canVote = age &gt;= <span class="number">20</span>;</span><br><span class="line"><span class="comment">// false</span></span><br><span class="line"><span class="keyword">const</span> canVote = age &lt; <span class="number">20</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>邏輯運算子：邏輯判斷</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">const</span> b = <span class="literal">true</span>;</span><br><span class="line"><span class="comment">// 且，要兩個都 true</span></span><br><span class="line"><span class="keyword">const</span> result1 = a &amp;&amp; b;</span><br><span class="line"><span class="comment">// 或，只要有一個 true，即為 true</span></span><br><span class="line"><span class="keyword">const</span> result2 = a || b;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="流程控制（flow-control）"><a href="#流程控制（flow-control）" class="headerlink" title="流程控制（flow control）"></a>流程控制（flow control）</h1><p>在 JavaScript 中和許多程式語言一樣有 <code>if...else</code>、<code>switch</code> 條件判斷以及在處理陣列上很常使用的迴圈（當有明確次數時使用 <code>for</code>，當沒有明確數字時使用 <code>while</code>）</p>
+<p>另外要注意的是在 JavaScript 中的 falsey 值：<code>undefined</code>、<code>null</code>、<code>NaN</code>、<code>0</code>、<code>&quot;&quot;</code>（空字串）和 <code>false</code>，以上幾種情況在邏輯判斷時會轉換成 false</p>
+<ol>
+<li><p>if…else</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 可以投票</span></span><br><span class="line"><span class="keyword">if</span>(age &gt; <span class="number">20</span>) &#123;</span><br><span class="line">true<span class="built_in">console</span>.log(<span class="string">'可以投票！'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>switch：當條件很多時可以善用 switch 判斷，記得要在每個 case 後寫 break，不然會全部都執行    </p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> country = <span class="string">'Taiwan'</span>;</span><br><span class="line"><span class="keyword">switch</span>(grade) &#123;</span><br><span class="line">true<span class="keyword">case</span> <span class="string">'Taiwan'</span>:</span><br><span class="line">truetrue<span class="built_in">console</span>.log(<span class="string">'hello'</span> + country);</span><br><span class="line">truetrue<span class="keyword">break</span>;</span><br><span class="line">true<span class="keyword">case</span> <span class="string">'Japan'</span>:</span><br><span class="line">truetrue<span class="built_in">console</span>.log(<span class="string">'hello'</span> + country);</span><br><span class="line">truetrue<span class="keyword">break</span>;</span><br><span class="line">true<span class="keyword">case</span> <span class="string">'Korea'</span>:</span><br><span class="line">truetrue<span class="built_in">console</span>.log(<span class="string">'hello'</span> + country);</span><br><span class="line">truetrue<span class="keyword">break</span>;</span><br><span class="line">true<span class="keyword">default</span>:</span><br><span class="line">truetrue<span class="built_in">console</span>.log(<span class="string">'hello'</span> + country);		</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>for：當你知道程式需要重複執行幾次時可以使用 for 迴圈</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr = [<span class="string">'Mark'</span>, <span class="string">'Zuck'</span>, <span class="string">'Jack'</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.length; arrr++) &#123;</span><br><span class="line">true<span class="built_in">console</span>.log(arr[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>while：當你程式不知道需要重複執行幾次時可以使用 while 迴圈</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 從 1 累加到 10</span></span><br><span class="line"><span class="keyword">const</span> num = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span>(num &lt;= <span class="number">10</span>) &#123;</span><br><span class="line">true<span class="keyword">let</span> sum += num; <span class="comment">// sum = sum + num</span></span><br><span class="line">truenum += <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>do…while：當迴圈次數不明確時，可以使用 while，而 do while 會至少執行一次</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> x = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(x &lt; <span class="number">10</span>) &#123;</span><br><span class="line">true<span class="built_in">console</span>.log(x);</span><br><span class="line">truex++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> y = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">true<span class="built_in">console</span>.log(y);</span><br><span class="line">truey++;	</span><br><span class="line">&#125; <span class="keyword">while</span>(i &lt; <span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="函式-函數（function）"><a href="#函式-函數（function）" class="headerlink" title="函式/函數（function）"></a>函式/函數（function）</h1><p>函數是一種可以讓一段程式區塊重複使用的程式撰寫方式，在 JavaScript 中函數屬於一級物件（first class object），可以將函數當參數或變數傳遞，其扮演非常重要的角色，也讓 JavaScript 在函數式程式設計（functional programming）上更容易發揮。<br>函數可以傳入參數（如下的 x, y），也有可能沒有。函數使用 return 回傳值，若沒寫則回傳 undefined</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">true<span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sum(<span class="number">12</span>, <span class="number">20</span>);</span><br></pre></td></tr></table></figure>
+<p>在 ES6 簡化了函數的使用出現了箭頭函數（arrow function）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sum = <span class="function">(<span class="params">x, y</span>) =&gt;</span> &#123;</span><br><span class="line">true<span class="keyword">return</span> x + y;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">sum(<span class="number">1</span>, <span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="物件（object）"><a href="#物件（object）" class="headerlink" title="物件（object）"></a>物件（object）</h1><p>物件是一種儲存資料的資料結構，可以對應成真實世界的物件（有屬性值和方法），一般而言主要有三種建立方式：</p>
+<ol>
+<li><p>使用 <code>new Object</code></p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用 <code>{}</code></p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">truename: <span class="string">'Mark'</span>,</span><br><span class="line">trueage: <span class="number">23</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用建構函數</p>
+<p> 雖然 JavaScript 並非是 class-based 的物件導向程式語言，而是 prototype-based 的物件導向程式語言，但在 JavaScript 可以透過 function 建立類別的宣告函數（在 ES6 中已有 class 可以使用，但只是個語法糖）：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 實務上建構函數命名採單字首字大寫。狗狗物件有 name, age 屬性，方法是 wow </span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Dog</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">true<span class="comment">// 屬性值</span></span><br><span class="line">true<span class="keyword">this</span>.name = name;</span><br><span class="line">true<span class="keyword">this</span>.age = age;</span><br><span class="line">true<span class="comment">// 每個實例都會有一份方法副本</span></span><br><span class="line">true<span class="keyword">this</span>.wow = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">truetrue<span class="built_in">console</span>.log(<span class="string">'wow!wow'</span>);</span><br><span class="line">true&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 多個實例共用，可以減少記憶體等資源運用</span></span><br><span class="line">Dog.prototype.cry = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">true<span class="built_in">console</span>.log(<span class="string">'QQQ'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> dog = <span class="keyword">new</span> Dog(<span class="string">'lucky'</span>, <span class="number">2</span>);</span><br><span class="line"><span class="comment">// wow!wow!</span></span><br><span class="line">dog.wow();</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="DOM-amp-BOM"><a href="#DOM-amp-BOM" class="headerlink" title="DOM &amp; BOM"></a>DOM &amp; BOM</h1><p>事實上 HTML 可以轉換成一棵物件樹，也稱為 Document Object Model（DOM）。在撰寫網頁應用程式時往往需要操作到瀏覽器元素，我們通常是透過選取我們想要改變的元素（選擇器），然後修改我們的物件屬性</p>
+<ol>
+<li><p>物件模型</p>
+<p> 所謂的物件模型（Object Model）對於HTML 網頁來說，是一種規範如何存取HTML 元素、CSS 樣式和 JavaScript 程式碼的一種機制，可以將HTML元素、CSS樣式和 JavaScript 程式碼視為物件</p>
+</li>
+<li><p>BOM</p>
+<p> <img src="/img/kdchang/bom.jpg" alt="js101"></p>
+<p> BOM 就是 Browser Object Model  中文叫做瀏覽器物件模型，window 物件是瀏覽器最頂層物件，其下有 document（DOM）、history、location、navigator、screen 子物件。<code>window</code> 物件不須經過宣告，可直接使用，代表目前瀏覽器視窗。事實上，所有的全域變數、函式、物件，其實都是屬於 window 物件，而 BOM 物件的使用可讓我們操作包含開啟/關閉視窗，改變視窗大小，計時器與取得網址、存取瀏覽器屬性等</p>
+</li>
+<li><p>DOM</p>
+<p> 文件物件模型（Document Object Model，DOM）是給 HTML 與 XML 文件使用的一組 API。簡單的說就是將文件（文件可以想成單一網頁）物件化，以便提供一套通用存取的方式來處理文件內容。DOM 提供  HTML 網頁一種存取的方式，可以將 HTML 元素轉換成一棵節點樹，每一個標籤和文字內容是為一個節點，讓我們可以走訪節點 (Nodes) 來存取 HTML 元素 </p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!doctype html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>My title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">true<span class="tag">&lt;<span class="name">h1</span>&gt;</span>My header<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">true<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span>&gt;</span>My link<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p> <img src="/img/kdchang/DOM.gif" alt="js101"></p>
+<p> 要操作 DOM 元素前要選取要操作哪個</p>
+<ul>
+<li><p>根據ID名稱選取<br><code>document.getElementById(elementId)</code></p>
+</li>
+<li><p>根據元素名稱選取<br><code>document.getElementsByTagName(tagName)</code></p>
+</li>
+<li><p>根據名稱選取<br><code>document.getElementsByName(name)</code></p>
+</li>
+<li><p>根據 Class 名稱選取<br><code>document.getElementsByClassName(classname)</code> </p>
+<p>有很多元素符合，回傳的是 <code>NodeList</code> 物件集合，使用 item() 存取 (注意 Element’s’)，迭代使用 forEach 不然就要轉陣列</p>
+<p>document 物件有提供使用 CSS 選擇器來選取元素，效能較好</p>
+</li>
+<li><p><code>document.querySelectorAll()</code> 方法<br>document 物件的 <code>querySelectorAll()</code> 方法可以取得 HTML 的節點陣列或清單，為一個 <code>NodeList</code> 物件（若要使用 map 方法需要轉陣列，不然只能用 forEach ）</p>
+</li>
+<li><p><code>document.querySelector()</code> 方法<br>只會回傳一個符合的元素，沒有就回傳 null</p>
+<p>範例：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"info"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"info"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"danger"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="javascript">	<span class="built_in">document</span>.querySelector(<span class="string">'#danger'</span>).innerHTML = <span class="string">'&lt;h1&gt;嘿嘿，是我&lt;/h1&gt;'</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">	<span class="built_in">document</span>.querySelectorAll(<span class="string">'.info'</span>).forEach(<span class="function">(<span class="params">value, index</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="xml">	  value.innerHTML = '<span class="tag">&lt;<span class="name">h1</span>&gt;</span>坐著打，普天之下排名第二<span class="tag">&lt;/<span class="name">h1</span>&gt;</span>';</span></span><br><span class="line">true&#125;);</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="事件處理（event-handler）"><a href="#事件處理（event-handler）" class="headerlink" title="事件處理（event handler）"></a>事件處理（event handler）</h1><p>事件處理（Event Handlers）是 JavaScript 非常重要的功能，事件是用來處理 JavaScript 與 HTML 之間的互動、建立動畫效果並和使用者互動</p>
+<ul>
+<li><p>事件處理簡單說就是當一個事件發生時（網頁載入、按下右鍵等），程式會相對應做出怎樣的處理</p>
+</li>
+<li><p>例如：當使用者按下按鈕時會觸發 click 的事件（事件發生）並讓按鈕變成紅色（處理事件），這就是一種事件處理機制</p>
+</li>
+</ul>
+<h2 id="事件處理機制"><a href="#事件處理機制" class="headerlink" title="事件處理機制"></a>事件處理機制</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">事件處理 = 事件種類 + 事件處理方法</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>事件種類（Event Type）<br>又稱事件名稱 (Event Name)，為一個字串，說明發生了什麼事件，例如：click (點擊)、mousemove (滑鼠滑過)</p>
+</li>
+<li><p>事件處理（Event Handlers）<br>係指處理事件的函數名稱，當事件發生時要呼叫哪個函數進行處理</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 當發生 click 事件，會發出 alert </span></span><br><span class="line">btn.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">true  alert(<span class="string">'被點了!'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>完整範例：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>JS Bin<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"btn"</span>&gt;</span>點我點我<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="javascript">	<span class="keyword">const</span> btn = <span class="built_in">document</span>.querySelector(<span class="string">'#btn'</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">	btn.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">	  alert(<span class="string">'被點了!'</span>);</span></span><br><span class="line">true&#125;);  	</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="非同步處理（Ajax）"><a href="#非同步處理（Ajax）" class="headerlink" title="非同步處理（Ajax）"></a>非同步處理（Ajax）</h1><p>傳統上我們會使用 <code>&lt;form&gt;</code> 表單和後端程式作互動，然而每次提交表單送出請求給伺服器，伺服器接收並處理傳來的表單，然後送回一個新的網頁。使用 Ajax 應用可以僅向伺服器發送並取回必須的數據，並在客戶端採用JavaScript 處理來自伺服器的回應，不僅減少伺服器負擔也加快反應速度</p>
+<h2 id="同步-vs-非同步"><a href="#同步-vs-非同步" class="headerlink" title="同步 vs. 非同步"></a>同步 vs. 非同步</h2><p><img src="/img/kdchang/sync.png" alt="JavaScript 101 快速入門教學"></p>
+<p>依序執行，等到上一個函數任務執行完才能執行下一個</p>
+<p><img src="/img/kdchang/async-1.png" alt="JavaScript 101 快速入門教學"></p>
+<p>不會因為上一個函數尚未執行完（例如：回傳結果）就卡住，會往下執行下一個任務</p>
+<h2 id="什麼是同步-非同步？"><a href="#什麼是同步-非同步？" class="headerlink" title="什麼是同步/非同步？"></a>什麼是同步/非同步？</h2><ul>
+<li><p>非同步係指程式不會因為上一個函數尚未執行完（例如：回傳結果）就卡住，會往下執行下一個任務</p>
+</li>
+<li><p>同步就是要等到上一個函數任務執行完才能執行下一個，是依序執行</p>
+</li>
+</ul>
+<p>由於 <code>DOM 事件處理</code> 和 <code>Ajax 呼叫</code>是非同步處理，所以大部分人會為 JavaScript 貼上非同步程式設計的標籤</p>
+<h2 id="什麼是-Ajax？"><a href="#什麼是-Ajax？" class="headerlink" title="什麼是 Ajax？"></a>什麼是 Ajax？</h2><ul>
+<li><p>Ajax 全名：<code>Asynchronous Javascript And XML</code>，指的是一套綜合了多項技術的瀏覽器端網頁開發技術</p>
+</li>
+<li><p>雖然 Ajax 中使用 XML 為名，不過 Ajax 不是指一種單一的技術。現在許多應用都使用更輕量的 JSON 進行資料傳輸</p>
+</li>
+<li><p>可以完成不刷頁局部更新應用，使用者體驗較好。不過要小心回調地獄（callback hell）</p>
+</li>
+</ul>
+<h2 id="簡易-Ajax-實作"><a href="#簡易-Ajax-實作" class="headerlink" title="簡易 Ajax 實作"></a>簡易 Ajax 實作</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 若需要支援跨瀏覽器，還需要額外檢驗</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> XMLHttpRequest != <span class="string">'undefined'</span>) &#123;</span><br><span class="line">    <span class="comment">// 一般使用 XMLHttpRequest 物件</span></span><br><span class="line">    <span class="keyword">const</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">    <span class="keyword">const</span> REQUEST_URL = <span class="string">'http://163.29.157.32:8080/dataset/6a3e862a-e1cb-4e44-b989-d35609559463/resource/f4a75ba9-7721-4363-884d-c3820b0b917c/download/393625397fc043188a3f8237c1da1c6f.json'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 監聽是否完成</span></span><br><span class="line">    xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (xhr.readyState === XMLHttpRequest.DONE) &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(xhr.responseText);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    xhr.open(<span class="string">'GET'</span>, REQUEST_URL);</span><br><span class="line">    xhr.send();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="JSON-基礎概念"><a href="#JSON-基礎概念" class="headerlink" title="JSON 基礎概念"></a>JSON 基礎概念</h2><ul>
+<li><p>JSON（JavaScript Object Notation）是一種由Douglas Crockford 構想設計、輕量級的資料交換語言，以文字為基礎，且易於讓人閱讀</p>
+</li>
+<li><p>JSON 雖然起於 JavaScript，但資料格式與語言無關，目前很多程式語言都支援 JSON 格式資料的生成和解析</p>
+</li>
+<li><p>JSON 的官方 MIME 類型是 <code>application/json</code>，其副檔名是 <code>.json</code></p>
+</li>
+<li>基本格式 <code>{ &quot;key&quot;: &quot;value&quot; }</code>、<code>{ &quot;key&quot;: [&quot;value1&quot;, &quot;value2&quot;] }</code>  </li>
+</ul>
+<hr>
+<h2 id="JSON-長這樣"><a href="#JSON-長這樣" class="headerlink" title="JSON 長這樣"></a>JSON 長這樣</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">     <span class="attr">"name"</span>: <span class="string">"John Smith"</span>,</span><br><span class="line">     <span class="attr">"address"</span>: </span><br><span class="line">     &#123;</span><br><span class="line">         <span class="attr">"streetAddress"</span>: <span class="string">"21 2nd Street"</span>,</span><br><span class="line">         <span class="attr">"city"</span>: <span class="string">"New York"</span>,</span><br><span class="line">         <span class="attr">"state"</span>: <span class="string">"NY"</span>,</span><br><span class="line">         <span class="attr">"postalCode"</span>: <span class="string">"10021"</span></span><br><span class="line">     &#125;,</span><br><span class="line">     <span class="attr">"phoneNumber"</span>: </span><br><span class="line">     [</span><br><span class="line">         &#123;</span><br><span class="line">           <span class="attr">"type"</span>: <span class="string">"home"</span>,</span><br><span class="line">           <span class="attr">"number"</span>: <span class="string">"212 555-1234"</span></span><br><span class="line">         &#125;,</span><br><span class="line">         &#123;</span><br><span class="line">           <span class="attr">"type"</span>: <span class="string">"fax"</span>,</span><br><span class="line">           <span class="attr">"number"</span>: <span class="string">"646 555-4567"</span></span><br><span class="line">         &#125;</span><br><span class="line">     ]</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上介紹了新手上路 JavaScript 入門核心基礎概念，大家可以善用 <a href="http://jsbin.com/" target="_blank" rel="noopener">JSBin</a> 實際動手操作，並參考 <a href="https://developer.mozilla.org/zh-TW/" target="_blank" rel="noopener">MDN</a> 或 <a href="http://www.w3schools.com/" target="_blank" rel="noopener">W3CSchool</a> 的案例會更清楚整體觀念喔！</p>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><ol>
+<li><a href="http://www.slideshare.net/ccckmit/javascript-c" target="_blank" rel="noopener">用十分鐘瞭解 陳鍾誠的程式設計課 (採用JavaScript + C的原因)</a></li>
+<li><a href="https://github.com/getify/You-Dont-Know-JS" target="_blank" rel="noopener">You-Dont-Know-JS</a></li>
+<li><a href="https://tw.twincl.com/javascript/*6731" target="_blank" rel="noopener">JavaScript與前端程式設計入門自學參考</a></li>
+<li><a href="http://bonsaiden.github.io/JavaScript-Garden/zhtw/" target="_blank" rel="noopener">JavaScript Garden  </a></li>
+<li><a href="http://weizhifeng.net/javascript-the-core.html" target="_blank" rel="noopener">JavaScript核心</a></li>
+<li><a href="https://segmentfault.com/a/1190000004253577" target="_blank" rel="noopener">[稀土掘金日报] JavaScript 开发者必备的资源合集</a></li>
+<li><a href="https://www.gitbook.com/book/ccckmit/javascript/details" target="_blank" rel="noopener">專為中學生寫的 JavaScript 程式書</a> </li>
+<li><a href="https://github.com/nzakas/computer-science-in-javascript" target="_blank" rel="noopener">nzakas/computer-science-in-javascript</a></li>
+<li><a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/A_re-introduction_to_JavaScript" target="_blank" rel="noopener">重新介紹 JavaScript</a></li>
+</ol>
+<p>（image via <a href="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAY4AAAAJDNmOTRkMTk2LTljNDEtNDAwOS05YTJlLTFmMTg2M2YzYzBiMQ.png" target="_blank" rel="noopener">mpr</a>、<a href="http://www.blog.mahmoudzalt.com/wp-content/uploads/2014/07/tools.png" target="_blank" rel="noopener">mahmoudzalt</a>）</p>
+<p>關於作者：<br><a href="http://blog.kdchang.cc" target="_blank" rel="noopener">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino/Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/01/14/javascript101-tutorial/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/01/14/javascript101-tutorial/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/01/14/javascript101-tutorial/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/01/14/javascript101-tutorial/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/01/21/simple-hash-table-intro/">
+        ← 白話的 Hash Table 簡介
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/01/06/web-components/">
+        2017，讓我們再來看看 Web Components 吧！ →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

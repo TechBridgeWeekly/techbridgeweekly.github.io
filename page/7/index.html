@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="home-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+<main class="content" role="main">
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2018-11-01T12:00:00.000Z" itemprop="datePublished">
+          2018-11-01
+      </time>
+    
+    
+    | 
+    <a href='/tags/Python-Keras/'>Python, Keras</a>
+    
+    
+</span>
+
+<meta name="generator" content="Python Flask + Keras 建置圖片分類 API">
+<meta name="og:title" content="Python Flask + Keras 建置圖片分類 API">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2018/11/01/python-flask-keras-image-predict-api/">Python Flask + Keras 建置圖片分類 API</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        
+前言深度學習是近年來電腦科學界火熱的話題，如何將深度學習模型整合到生活應用更是許多開發者想要嘗試的事情，本文透過 Python Flask 搭配 Keras 這個深度學習函式庫（backend 搭配 tensorflow），建立一個簡易版的預測圖片分類的 web api。那就讓我們開始吧。
+專案初始化首先我們先打開終端機，初始化我們的專案：
+12345$ mkdir python-keras-image-predict-api$ cd
+      
+      </p>
+      
+      <p>
+          <a href="/2018/11/01/python-flask-keras-image-predict-api/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2018-10-27T22:37:56.000Z" itemprop="datePublished">
+          2018-10-27
+      </time>
+    
+    
+    | 
+    <a href='/tags/Markov-Decision-Process/'>Markov Decision Process</a>,
+    
+    <a href='/tags/Reinforcement-Learning/'>Reinforcement Learning</a>
+    
+    
+</span>
+
+<meta name="generator" content="簡介 Markov Decision Process 與其應用">
+<meta name="og:title" content="簡介 Markov Decision Process 與其應用">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2018/10/27/intro-to-mdp-and-app/">簡介 Markov Decision Process 與其應用</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言今天想跟大家介紹一個在 Reinforcement Learning 中相當重要的基礎 - Markov Decision Process（MDP）。比起一般的 search，MDP 能夠 model 更複雜的問題，今天就讓我們來介紹 MDP 的基礎觀念，還有他的應用跟限制。
+MDP 想要 model 什麼問題？MDP 想要處理的問題是：當你採取的 action 不會完全如你所想的達到你想要的 state，你該如何採取 action
+      
+      </p>
+      
+      <p>
+          <a href="/2018/10/27/intro-to-mdp-and-app/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2018-10-20T17:46:57.000Z" itemprop="datePublished">
+          2018-10-20
+      </time>
+    
+    
+    | 
+    <a href='/tags/javascript/'>javascript</a>,
+    
+    <a href='/tags/animation/'>animation</a>,
+    
+    <a href='/tags/css/'>css</a>,
+    
+    <a href='/tags/flip/'>flip</a>
+    
+    
+</span>
+
+<meta name="generator" content="FLIP 技巧總複習">
+<meta name="og:title" content="FLIP 技巧總複習">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2018/10/20/flip-your-animation/">FLIP 技巧總複習</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言在前端的世界中，如何優化 performance 一直都是很重要的議題，也常常被拿來當作評斷前端工程師能力的一個依據。效能調教有許多方面可以探討，但最主要的重點就是希望使用者在操作網站時，不會感受到頁面跳動，尤其是當網站有動畫效果時，些微的跳動就會引起使用者注意。
+大概在去年的時候，同事為了解決 CSS Animation 在頁面上的不順暢，研究了不少 hack 技巧，其中一個讓我覺得很特別的就是今天的主角：FLIP。
+FLIP 技
+      
+      </p>
+      
+      <p>
+          <a href="/2018/10/20/flip-your-animation/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2018-10-13T09:14:47.000Z" itemprop="datePublished">
+          2018-10-13
+      </time>
+    
+    
+    | 
+    <a href='/tags/pwa/'>pwa</a>
+    
+    
+</span>
+
+<meta name="generator" content="PWA 實戰經驗分享">
+<meta name="og:title" content="PWA 實戰經驗分享">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2018/10/13/pwa-in-action/">PWA 實戰經驗分享</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言前些日子在忙公司的產品改版，從原本的 PHP 換成後端 Go + 前端 React SPA，分成桌面版跟手機版兩個不同的 Project，而既然都改版了，自然要把最新最潮的 PWA 也放在目標裡面，之前耳聞 PWA 很久但卻沒有實作過的我也有了機會來嘗試這個東西。
+如今產品已經改版完畢且上線了兩三個月，慢慢穩定下來，在優化 PWA 的過程中也讓我有了一些心得可以讓大家分享。
+在舉一些實際案例之前，先讓我們來談談到底怎樣才算是 PWA
+      
+      </p>
+      
+      <p>
+          <a href="/2018/10/13/pwa-in-action/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2018-10-12T14:23:21.000Z" itemprop="datePublished">
+          2018-10-12
+      </time>
+    
+    
+    | 
+    <a href='/tags/google-cloud/'>google cloud</a>
+    
+    
+</span>
+
+<meta name="generator" content="Google Cloud Source Repositories 使用紀錄">
+<meta name="og:title" content="Google Cloud Source Repositories 使用紀錄">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2018/10/12/google-cloud-source-repositories-record/">Google Cloud Source Repositories 使用紀錄</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言GCSR(Google Cloud Source Repositories) 是 Google 推出以 git 為基礎的程式碼代管服務。
+原先我的 Side Project 也是自己建 git server 來放，後來因為硬體故障等等，自己維護需要花費不少時間和成本(懶!)，加上本身也是 Google 的愛好者，最後選擇 GCSR 來試試。
+首先談談 GCSR 的缺點，基本上第 1 個缺點為 GCSR 必須依附於 Google Cl
+      
+      </p>
+      
+      <p>
+          <a href="/2018/10/12/google-cloud-source-repositories-record/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2018-10-05T20:23:23.000Z" itemprop="datePublished">
+          2018-10-05
+      </time>
+    
+    
+    | 
+    <a href='/tags/Python/'>Python</a>,
+    
+    <a href='/tags/tutorial/'>tutorial</a>,
+    
+    <a href='/tags/excel/'>excel</a>,
+    
+    <a href='/tags/試算表/'>試算表</a>,
+    
+    <a href='/tags/how-to/'>how-to</a>,
+    
+    <a href='/tags/spreadsheet/'>spreadsheet</a>
+    
+    
+</span>
+
+<meta name="generator" content="如何使用 Python 程式操作 Excel 試算表">
+<meta name="og:title" content="如何使用 Python 程式操作 Excel 試算表">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2018/10/05/how-to-use-python-manipulate-excel-spreadsheet/">如何使用 Python 程式操作 Excel 試算表</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        
+前言Excel 幾乎是所有職場工作者最常使用的 Office 軟體工具，小至同事間訂便當、飲料，大到進出貨訂單管理，應收應付賬款的財務報表等都有它的身影。在一般工作上，你可能常常需要在不同表單中複製貼上許多的欄位，或是從幾百個列表中挑選幾列依照某些條件來更新試算表內容等。事實上，這些工作很花時間，但實際上卻沒什麼技術含量。你是否曾想過但使用程式語言來加快你的工作效率，減輕瑣碎的重複性無聊工作但又不知道如何開始？
+別擔心，這邊我們就要使
+      
+      </p>
+      
+      <p>
+          <a href="/2018/10/05/how-to-use-python-manipulate-excel-spreadsheet/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2018-09-29T23:38:19.000Z" itemprop="datePublished">
+          2018-09-29
+      </time>
+    
+    
+    | 
+    <a href='/tags/artificial-intelligence/'>artificial intelligence</a>,
+    
+    <a href='/tags/cognitive-science/'>cognitive science</a>
+    
+    
+</span>
+
+<meta name="generator" content="一起來看 Joshua B. Tenenbaum 教授有趣的認知科學研究 - Building Machines that Learn and Think Like People">
+<meta name="og:title" content="一起來看 Joshua B. Tenenbaum 教授有趣的認知科學研究 - Building Machines that Learn and Think Like People">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2018/09/29/intro-to-josh-tenenbaum-research/">一起來看 Joshua B. Tenenbaum 教授有趣的認知科學研究 - Building Machines that Learn and Think Like People</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言Joshua B. Tenenbaum 教授的研究很有趣，他從小嬰兒的行為出發，研究人們是如何透過無數次跟世界的互動，建立起簡單的物理概念（e.g. 物質不滅、物質不會浮在半空中、物體會撞到彼此等等）、還有簡單的心理學（e.g. 看到別人去抓門把，就可以猜到那個人想要開門）。
+今天就想要來介紹一下他的研究和未來的藍圖，讓有興趣鑽研人工智慧的讀者一起看看認知科學跟人工智慧的最前端研究。
+我們是從什麼基礎開始建構起一切的能力?這個問題，
+      
+      </p>
+      
+      <p>
+          <a href="/2018/09/29/intro-to-josh-tenenbaum-research/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2018-09-22T16:22:47.000Z" itemprop="datePublished">
+          2018-09-22
+      </time>
+    
+    
+    | 
+    <a href='/tags/es6/'>es6</a>,
+    
+    <a href='/tags/javascript/'>javascript</a>,
+    
+    <a href='/tags/pattern/'>pattern</a>,
+    
+    <a href='/tags/babel/'>babel</a>,
+    
+    <a href='/tags/ast/'>ast</a>
+    
+    
+</span>
+
+<meta name="generator" content="透過製作 Babel-plugin 初訪 AST">
+<meta name="og:title" content="透過製作 Babel-plugin 初訪 AST">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2018/09/22/visit-ast-with-babel-plugin/">透過製作 Babel-plugin 初訪 AST</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言最近公司同事組了 Design pattern 的讀書會，剛好這週研讀到 Visitor Pattern 時，同事介紹說我們每天在用的工具 Babel 就是採用 Vistor Pattern，透過 visitor 拜訪 AST (Abstract Syntax Tree)，進而將程式碼進行對應轉換。
+這除了勾起我前陣子想要了解 AST 的想法外，也再度提醒我對於 Babel Plugin 背後的實作方式不太了解，只知道像是 ESLi
+      
+      </p>
+      
+      <p>
+          <a href="/2018/09/22/visit-ast-with-babel-plugin/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2018-09-14T20:10:30.000Z" itemprop="datePublished">
+          2018-09-14
+      </time>
+    
+    
+    | 
+    <a href='/tags/lambda/'>lambda</a>,
+    
+    <a href='/tags/aws/'>aws</a>
+    
+    
+</span>
+
+<meta name="generator" content="AWS Lambda + GitHub API + Google Sheet = 自動化簽到系統">
+<meta name="og:title" content="AWS Lambda + GitHub API + Google Sheet = 自動化簽到系統">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2018/09/14/lambda-and-github-api/">AWS Lambda + GitHub API + Google Sheet = 自動化簽到系統</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言這一年間我利用閒暇之餘嘗試進行了幾場教學實驗，希望能透過持續的教學改進自己的教材，從學生的反饋當中得到一些心得。
+而在進行這些教學實驗的時候，我常常在想可以透過哪些現成的服務減少我的負擔，畢竟身為工程師嘛，很想把一些瑣碎的事務自動化，長期下來可以節省的時間是很可觀的。
+半年前有了第一次嘗試，也在這邊分享了心得：利用 Github Classroom 加 Travis CI 打造改作業系統，有了自動改作業系統以後，確實省下不少麻煩。
+
+      
+      </p>
+      
+      <p>
+          <a href="/2018/09/14/lambda-and-github-api/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2018-09-07T12:23:23.000Z" itemprop="datePublished">
+          2018-09-07
+      </time>
+    
+    
+    | 
+    <a href='/tags/docker/'>docker</a>,
+    
+    <a href='/tags/容器/'>容器</a>,
+    
+    <a href='/tags/docker-machine/'>docker machine</a>,
+    
+    <a href='/tags/docker-compose/'>docker compose</a>,
+    
+    <a href='/tags/docker-swarm/'>docker swarm</a>,
+    
+    <a href='/tags/vm/'>vm</a>
+    
+    
+</span>
+
+<meta name="generator" content="Docker Compose 建置 Web service 起步走入門教學">
+<meta name="og:title" content="Docker Compose 建置 Web service 起步走入門教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2018/09/07/docker-compose-tutorial-intro/">Docker Compose 建置 Web service 起步走入門教學</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        
+前言身為一個開發者最惱人的莫過於環境建置和部屬應用程式。隨著 Docker 容器和虛擬化技術進步以及 DevOps、Infrastructure as Code 文化的推廣，讓我們可以更容易在不同環境開發部屬並調度（Orchestration）我們的專案應用程式。在 Docker 中，除了 Docker 指令和 Docker Engine 背後的技術外，最重要的莫過於 Docker Machine、Docker Compose 和 D
+      
+      </p>
+      
+      <p>
+          <a href="/2018/09/07/docker-compose-tutorial-intro/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <nav class="pagination" role="pagination">
+    <a class="newer-posts" href="/page/6/">← Newer Posts</a>
+    <span class="page-number">Page 7 of 22</span>
+    <a class="older-posts" href="/page/8/">Older Posts →</a>
+  </nav>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

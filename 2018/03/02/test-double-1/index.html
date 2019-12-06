@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>測試替身(上篇) | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-03-02T07:12:25.000Z" itemprop="datePublished">
+          2018-03-02
+      </time>
+    
+    
+    | 
+    <a href='/tags/unitTest-testDouble/'>unitTest testDouble</a>
+    
+    
+</span>
+
+<meta name="generator" content="測試替身(上篇)">
+<meta name="og:title" content="測試替身(上篇)">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">測試替身(上篇)</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p>如果你在工作時寫過一些測試程式，也許你聽過什麼是 Mock，但其實 Mock 只是測試替身的其中一種，測試替身包含了 Dummy、Mock、Fake、Stub、Spy。而不同語言或不同 framework 有時候會把類似的概念合在一起。</p>
+<p>本系列的目的是讓你寫單元測試的時候，對應不同情況，知道應該用哪一種替身。像筆者常用的 Mockito 基本上把大部份的測試替身都用 Mock 取代，雖然用起來容易，但我以前從來不知道自己用的是哪一種測試替身 。</p>
+<p>希望看完本系列的文章後，讀者能夠在寫完一段程式碼之後，就立即能分析出自己這段程式碼需要用的是什麼替身來進行測試。</p>
+<p><img src="/img/jyt0532/the_prestige.jpg" alt="Alt text"></p>
+<h2 id="名詞解釋"><a href="#名詞解釋" class="headerlink" title="名詞解釋"></a>名詞解釋</h2><p>SUT: System Under Test。就是需要被測試的東西。</p>
+<p>DOC: Depended On Component。就是SUT需要依賴的東西。</p>
+<p>DOC 非常常見，幾乎無可避免。</p>
+<p>比如說 SUT 是 web server。那 DOC 就是 database。</p>
+<p>比如說 SUT 是 web fronted。那 DOC 就是 web server。</p>
+<p>你不太可能每個函數都自己玩自己的，你通常都會需要呼叫別人的函式，但這其實對測試帶來了負擔。比如說你每次想測試你的 webserver 可不可以新增使用者的時候，你都需要真的去 database 叫他加一個給你。</p>
+<p>這實在開銷太大，也非常不實際。</p>
+<h2 id="測試替身的目的"><a href="#測試替身的目的" class="headerlink" title="測試替身的目的"></a>測試替身的目的</h2><p>1.第一個也是最重要的一個，是隔離你的 SUT，不被任何 DOC 干擾。</p>
+<p>我不想要我測試新增使用者的時候，還要保證 database 是正常的。我任何時候都想跑測試，不依賴任何人。</p>
+<p>2.加速執行時間，避免不必要開銷。</p>
+<p>不依靠他人之後，所有你需要的 DOC 的回傳值都先定義好，當然加快了執行速度。</p>
+<p>3.讓你的測試 Deterministic。</p>
+<p>我不想要在不同時間或不同空間裡，會得到不一樣的測試結果。<br>比如說，尖峰時刻 database load 太大，回傳了不預期的 Http status 429。<br>這是我不想在我預期要是 happy case 的情況時看到的結果。</p>
+<p>4.模擬特殊狀況(special case)</p>
+<p>比無法測試 happy case 的情況還要慘的事情，是無法測試 bad case。</p>
+<p>這點也很重要，如果真的遇到了不預期的狀況(比如剛剛說的 429)，最慘就是等一陣子，database 正常後，就可以過了。</p>
+<p>但有時候我們就是想要知道，當真的回傳 429 的時候，我們處理的方法是不是正確。如果沒有 test doubles，根本無法保證這種狀況一定發生。也不可能去 DDOS 自己的 database 製造這種情況。</p>
+<p>5.可以讓你測試到你不想公開的資訊</p>
+<p>這點就厲害了。來個例子:</p>
+<p>SUT 是 WebServer。 DOC 是 database</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebServer</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Database database;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">create</span><span class="params">()</span></span>&#123;</span><br><span class="line">    database.insert()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>比如說這樣，我想知道我 <code>webser.create</code> 的時候，<code>database.insert</code>的確被呼叫，要怎麼測試？<br>我不想要開放一個 <code>public function getDatabase</code> 供大家存取 database 的<strong>狀態</strong>，僅僅只是為了測試用途。</p>
+<p>該怎麼辦呢？這時候來一個漂亮的替身。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebServerTest</span></span>&#123;</span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">databaseInsertedWhenServerCreate</span><span class="params">()</span></span>&#123;</span><br><span class="line">    TestDatabase testDatabase = <span class="keyword">new</span> TestDatabase();</span><br><span class="line">    WebServer webserver = WebServer(testDatabase);</span><br><span class="line">    webserver.create();</span><br><span class="line">    assertTrue(testDatabase.isInserted)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDatabase</span> <span class="keyword">extends</span> <span class="title">Database</span></span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">boolean</span> isInserted</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">()</span></span>&#123;</span><br><span class="line">    isInserted = <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">isInsert</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> isInserted;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意:</p>
+<ol>
+<li><p>TestDatabase 需要 extends Database，不然丟不進 Webserver 的 constructor。</p>
+</li>
+<li><p>原本的 Database 這個 Class 沒有 <code>isInsert</code> 這個函式，是我自己加的。</p>
+</li>
+</ol>
+<p>搞定。prod 上的 Database 完全不用動，我就可以知道當 <code>webserver.create</code> 被呼叫的時候，我的的確確呼叫了 <code>database.insert</code>。</p>
+<p>看完了為什麼需要測試替身之後，之後會一一介紹每個測試替身的使用時機跟用法。</p>
+<h2 id="Dummy"><a href="#Dummy" class="headerlink" title="Dummy"></a>Dummy</h2><p>首先登場的，就是最簡單的替身，也就是 Dummy。</p>
+<p>當我們需要傳一個變數給某個 method 的時候，需要一個跟 signature 一樣型態的變數，<strong>可是這個變數以後又不會用到</strong>。為了加速跟省記憶體空間，我們可以丟一個 Dummy 替身給這個 method。</p>
+<p>比如說，我們想要測試 People 的 <code>getNumberOfPerson</code> 這個函式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">People</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> List&lt;Person&gt; persons;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addPerson</span><span class="params">(Person p)</span></span>&#123;</span><br><span class="line">    persons.add(p);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getNumberOfPerson</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> persons.size();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那你的測試可能原本長成這樣:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PeopleTest</span></span>&#123;</span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testGetNumberOfPerson</span><span class="params">()</span></span>&#123;</span><br><span class="line">    People people = <span class="keyword">new</span> People();</span><br><span class="line">    Person person1 = <span class="keyword">new</span> Person(<span class="string">"John Doe"</span>, <span class="number">25</span>, address1, phoneNumber1);</span><br><span class="line">    Person person2 = <span class="keyword">new</span> Person(<span class="string">"Jane Doe"</span>, <span class="number">23</span>, address2, phoneNumber2);</span><br><span class="line">    people.addPerson(person1);</span><br><span class="line">    people.addPerson(person2);</span><br><span class="line">    assertEquals(<span class="number">2</span>, people.getNumberOfPerson())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>建一個 Person 可能開銷過大，而且很麻煩。況且 Person 並不是這個 test 的重點。</p>
+<p>這時候就要來個簡單的 Dummy。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DummyPerson</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">DummyPerson</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>這個 class 的目的就是要通過 <code>addPerson</code> 的型別限制，所以只要 extends Person 就可以。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PeopleTestWithDummy</span></span>&#123;</span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testGetNumberOfPerson</span><span class="params">()</span></span>&#123;</span><br><span class="line">    People people = <span class="keyword">new</span> People();</span><br><span class="line">    people.addPerson(<span class="keyword">new</span> DummyPerson());</span><br><span class="line">    people.addPerson(<span class="keyword">new</span> DummyPerson());</span><br><span class="line">    assertEquals(<span class="number">2</span>, people.getNumberOfPerson())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>就是這麼簡單，Person 的其他 method 我們都全部不管，那如果 getNumberOfPerson 呼叫了 Person 的其他 method 我們無法知道，但這也不是這個 unit test 在乎的重點。</p>
+<p>但如果你真的想確保其他 method 不會被 call，那就在 DummyPerson 裡面覆寫 Person 的其他 method。然後都 throw Exception 就可以。</p>
+<p>其實很多人在測試的時候，直接傳 null 進去，如果你要傳進去的 function 沒有 nullCheck，這也是個可行的方式。但如果有 nullCheck 那還是只能用 Dummy。</p>
+<h3 id="Mockito-Dummy"><a href="#Mockito-Dummy" class="headerlink" title="Mockito - Dummy"></a>Mockito - Dummy</h3><p>如果你寫的是 java，你會很常看到 Mickito。<br>在 Mockito 裡面，如何生一個 Dummy object 呢?<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PeopleTestWithDummy</span></span>&#123;</span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testGetNumberOfPerson</span><span class="params">()</span></span>&#123;</span><br><span class="line">    People people = <span class="keyword">new</span> People();</span><br><span class="line">    people.addPerson(mock(Person<span class="class">.<span class="keyword">class</span>))</span>;</span><br><span class="line">    people.addPerson(mock(Person<span class="class">.<span class="keyword">class</span>))</span>;</span><br><span class="line">    assertEquals(<span class="number">2</span>, people.getNumberOfPerson())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>小心不要被這裡的 mock 搞混，他只是 syntax 是 mock，但在 mockito 裡面，如果你只 mock 一個 class 但沒有給他任何預期的行為，他就是個dummy。</p>
+<p><strong>我們是以用法來區分 TestDoubles，不是 syntax</strong>，因為很多 framework 不會為每一個 TestDoubles 都給一個專屬 syntax。</p>
+<h2 id="Stub"><a href="#Stub" class="headerlink" title="Stub"></a>Stub</h2><p>Stub 是我們介紹的替身中第一個可以讓我們獨立測試 SUT 的測試替身。</p>
+<h3 id="Stub-使用時機"><a href="#Stub-使用時機" class="headerlink" title="Stub 使用時機"></a>Stub 使用時機</h3><p>當我們需要測試一個 SUT，但我們卻不想要依賴真實的 DOC，我們可以用 Stub 去取代我們的 DOC。</p>
+<p>Stub 並不需要真的表現的跟 DOC 一樣。他只要 api 長得一樣(也就是輸入輸出長得一樣)，讓 SUT 以為是真正的 DOC 就可以。</p>
+<p>來個例子，今天我們想測試 <code>getSecretNumber</code> 是不是能正確回傳。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebServer</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Database database;</span><br><span class="line">  <span class="keyword">int</span> secretNumber;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">WebServer</span><span class="params">(Database database)</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.database = database;</span><br><span class="line">    secretNumber = <span class="number">42</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSecretNumber</span><span class="params">(String username,String password)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> database.authorize(username, password) ?</span><br><span class="line">        secretNumber : -<span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Database</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Database</span><span class="params">()</span></span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">authorize</span><span class="params">(String username, String password)</span></span>&#123;</span><br><span class="line">    <span class="comment">//Connect to database</span></span><br><span class="line">    <span class="comment">//Query database</span></span><br><span class="line">    <span class="comment">//etc</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>程式碼裡面，我們需要去 authorize，這一步會花費很多時間，這也不是現在這個測試的重點。這時候就來個 Stub。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DatabaseStub</span> <span class="keyword">extends</span> <span class="title">Database</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">authorize</span><span class="params">(String username, String password)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestWithStub</span></span>&#123;</span><br><span class="line">  <span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testGetSecretNumber</span><span class="params">()</span></span>&#123;</span><br><span class="line">    WebServer webserver = <span class="keyword">new</span> WebServer(<span class="keyword">new</span> DatabaseStub());</span><br><span class="line">    assertEquals(<span class="number">42</span>, webserver.getSecretNumber(<span class="string">"BoYu"</span>, <span class="string">"jyt"</span>));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>搞定，這樣就不用真的去 query database。</p>
+<h3 id="Mockito-Stub"><a href="#Mockito-Stub" class="headerlink" title="Mockito - Stub"></a>Mockito - Stub</h3><p>有 Mockito 的話，並不需要真的寫一個新的 DatabaseStub。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Database databaseStub = mock(Database<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">when(databaseStub.authorize(anyString(), anyString()))</span><br><span class="line">    .thenReturn(<span class="keyword">true</span>);</span><br><span class="line">WebServer webserver = <span class="keyword">new</span> WebServer(databaseStub);</span><br><span class="line">assertEquals(<span class="number">42</span>, webserver.getSecretNumber(<span class="string">"BoYu"</span>, <span class="string">"jyt"</span>));</span><br></pre></td></tr></table></figure></p>
+<p>你把一個 class Mock 了之後，他的每一個 function 都只會回傳 null。<br><strong>你需要去指定你會用到的 method 的行為</strong> 輸入值是什麼回傳什麼。</p>
+<h3 id="測試特殊情況"><a href="#測試特殊情況" class="headerlink" title="測試特殊情況"></a>測試特殊情況</h3><p>如介紹時所說，stub 還能模擬測試的特殊狀況。</p>
+<p>在這個例子裡，你想知道如果 authorize 不過，是不是回傳 -1。就把剛剛 stub 的回傳值改成 false 就可以。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Database databaseStub = mock(Database<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">when(databaseStub.authorize(anyString(), anyString()))</span><br><span class="line">    .thenReturn(<span class="keyword">false</span>);</span><br><span class="line">WebServer webserver = <span class="keyword">new</span> WebServer(databaseStub);</span><br><span class="line">assertEquals(-<span class="number">1</span>, webserver.getSecretNumber(<span class="string">"BoYu"</span>, <span class="string">"jyt"</span>));</span><br></pre></td></tr></table></figure>
+<p>還可以讓你的 Stub throw exception。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">when(databaseStub.authorize(anyString(), anyString()))</span><br><span class="line">  .thenThrow(<span class="keyword">new</span> NullPointerException());</span><br></pre></td></tr></table></figure>
+<p>完全不用依賴真正的 DOC，隨便你愛怎麼玩就怎麼玩。</p>
+<p>當你的 SUT 有一些 indirect input(並不是在你測試的程式提供的 input，而是 DOC 提供的 input)，需要事先定義好 DOC 的回傳值，就是用 Stub。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>本文介紹了何謂測試替身以及測試替身的目的，還介紹了 Dummy 和 Stub 兩種替身，下一篇會介紹另外三種測試替身，儘請期待。</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a href="https://www.jyt0532.com/2018/01/24/jinyong-test-double/" target="_blank" rel="noopener">我聊的不是金庸 是測試替身</a></li>
+</ol>
+<p>關於作者：<br><a href="https://www.jyt0532.com/" target="_blank" rel="noopener">@jyt0532</a> 後端工程師，喜歡學習新知挑戰新事物，最近在寫一本關於<a href="https://www.jyt0532.com/toc/jvm/" target="_blank" rel="noopener">JVM的教學書</a>。</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/03/02/test-double-1/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/03/02/test-double-1/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/03/02/test-double-1/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/03/02/test-double-1/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/03/02/css-key-logger/">
+        ← CSS keylogger：攻擊與防禦
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/02/24/osrf-tensorflow-object-detector/">
+        一起來玩 OSRF 的 TensorFlow Object Detector →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

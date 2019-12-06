@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>利用 Elm 製作 Chrome Extension | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-04-22T22:47:05.000Z" itemprop="datePublished">
+          2019-04-22
+      </time>
+    
+    
+    | 
+    <a href='/tags/Elm/'>Elm</a>,
+    
+    <a href='/tags/Chrome-extension/'>Chrome extension</a>
+    
+    
+</span>
+
+<meta name="generator" content="利用 Elm 製作 Chrome Extension">
+<meta name="og:title" content="利用 Elm 製作 Chrome Extension">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">利用 Elm 製作 Chrome Extension</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>直接先來個成果圖：</p>
+<p><img src="/img/arvinh/elm-extension.gif" alt="result"></p>
+<p>今年二月移轉陣地到日本來工作，搬到一個人生地不熟的地方，初始開銷少不了，除了交通、伙食、房租外，還需要添購許多傢俱。而當然，所有東西都是以日幣標價，就算 Amazon JP 已經非常方便的有簡體版的語系可以切換，價格上還是得以日幣顯示。</p>
+<p>對我來說，還沒有辦法習慣以日幣來衡量物品的價值，像是我能很快知道一千日幣大約三百台幣，但看到一個東西標價兩萬九日幣，我沒辦法很快速的理解這東西是多貴或多便宜，腦袋還是會想把它轉成台幣來衡量。</p>
+<p>所以就造成我在 Amazon JP 或是 Nitori 的網站挑選商品時，常常要複製價格，然後開啟另一個 tab 來搜尋日幣轉換台幣的網站，再填入轉換。</p>
+<p>一次兩次還好，第三次就無法忍受了，引用 “Refactoring — Improving the Design of Existing Code” 這本書中的一句話：<em>“Three strikes, then you refactor.”</em></p>
+<p>稍微找了一下 Chrome web store，並沒有看到適合的 extension，所以決定自己打造一個。</p>
+<p>而剛好在前幾週參加了同事主辦的 Meetup，其中有個 Topic 是介紹 Elm 這個語言，以前雖然也聽過介紹，但這次聽到實際用在 Production 的案例後，提高我不少興趣，加上適逢公司的 hackday，索性就利用這機會來練習一下，用 Elm 來製作我想要的 Chrome Extension！</p>
+<p>今天就用這篇文章記錄一下使用 Elm 製作 Chrome Extension 的方法與心得，不過畢竟是 hackday 作品，功能尚需完善就是。</p>
+<h2 id="什麼是-Elm？"><a href="#什麼是-Elm？" class="headerlink" title="什麼是 Elm？"></a>什麼是 Elm？</h2><p><img src="/img/arvinh/elm-official-site.png" alt="Elm Website"></p>
+<p>不知道有沒有人跟我一樣，之所以知道 Elm，是因為 Redux 的作者說他受其啟發？</p>
+<p>跟 Redux 作者一樣，Elm 的作者 - Evan Czaplicki 也是個年輕奇才，Elm 是他在哈佛的論文，推薦大家看一下他 <a href="https://www.infoq.com/presentations/Elm" target="_blank" rel="noopener">2012 年的演講影片</a>，可以了解他為何創造這門語言，聽聽作者本人親口介紹。</p>
+<p>Elm 是一個強型態的函數式語言，透過編譯，將最終程式碼轉化為 JavaScript，因此執行在任何 Web 平台。主要有以下特點：</p>
+<ul>
+<li><p>No Runtime Exceptions</p>
+<ul>
+<li>在編譯期間，Elm 會利用 Type inference 偵測各種狀態，有任何型別上的錯誤都會被抓出來，更棒的是，Elm 提供的 hint 很人性化，例如：<br><img src="/img/arvinh/elm-error-hint.png" alt="error hint"></li>
+</ul>
+</li>
+<li><p>Great Performance</p>
+<ul>
+<li>如同 React 一般，Elm 也有自己的 Virtual DOM 實作，根據官網所說，由於 Elm 的所有值都是 immutable，有助於他們能編譯出最佳化的 JavaScript，讓 runtime 變快。<br><img src="/img/arvinh/elm-benchmark.png" alt="benchmark"> <em>source: <a href="https://elm-lang.org/" target="_blank" rel="noopener">elm-lang.org</a></em></li>
+</ul>
+</li>
+<li><p>Enforced Semantic Versioning</p>
+<ul>
+<li>Elm 強大的 type system 讓他能自動偵測是否有 API 的更動，並根據你 release 時與上一版本的差異，進行 Semantic Versioning，讓你不會不小心因為錯誤的 PATCH release 造成別人的困擾！</li>
+</ul>
+</li>
+<li><p>Small Assets</p>
+<ul>
+<li>Elm 宣稱其 Optimize 的編譯，能產生比 React 16.4 更小的 Assets。<em>source: <a href="https://elm-lang.org/" target="_blank" rel="noopener">elm-lang.org</a></em></li>
+</ul>
+</li>
+<li><p>JavaScript Interop</p>
+<ul>
+<li>如同 React 一樣，你也可以只在一個小小的 div 上掛載 Elm application，藉此來測試 project 中的某一個小部分，採用上可以循序漸進，不會有太大風險，並且由於編譯成 JavaScript，Elm 能方便的與一般的 JavaScript 溝通。（基本上我也是看到這點才有信心 Elm 能拿來製作 Chrome extension 的）</li>
+</ul>
+</li>
+</ul>
+<h2 id="先偷看一下-Elm-的程式碼到底長怎樣"><a href="#先偷看一下-Elm-的程式碼到底長怎樣" class="headerlink" title="先偷看一下 Elm 的程式碼到底長怎樣"></a>先偷看一下 Elm 的程式碼到底長怎樣</h2><figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">view</span> : <span class="type">Model</span> -&gt; <span class="type">Html</span> <span class="type">Msg</span></span><br><span class="line"><span class="title">view</span> model =</span><br><span class="line">    <span class="type">Html</span>.div</span><br><span class="line">        [ <span class="type">Html</span>.<span class="type">Attributes</span>.class <span class="string">"Content"</span></span><br><span class="line">        ]</span><br><span class="line">        [</span><br><span class="line">          <span class="type">Html</span>.text (<span class="string">"Hello Elm!"</span>)</span><br><span class="line">        ]</span><br></pre></td></tr></table></figure>
+<p>這是一個簡單的 Elm view，第一行是描述這個 View 所接收的參數型別，以及回傳的參數型別，第二行後才是實際的程式碼。</p>
+<p>看起來非常畸形。</p>
+<p>一開始很難理解，沒關係，我寫完這個 extension 以後也還是覺得很難理解。</p>
+<p>畢竟會需要花不少時間習慣連 HTML 都是函數的概念，裡面的 <code>HTML.div</code> 就是一個函數，他接受兩個陣列，一個用來定義 div 的 attribute，一個用來描述其 child。在後面的實作範例內，我們會看到更多類似的語法。</p>
+<h2 id="Elm-基本安裝使用"><a href="#Elm-基本安裝使用" class="headerlink" title="Elm 基本安裝使用"></a>Elm 基本安裝使用</h2><p>Elm 的安裝很簡單，官網提供各平台的 <a href="https://guide.elm-lang.org/install.html" target="_blank" rel="noopener">installer</a>，安裝完後就能在你的 Terminal 中使用以下幾個指令：</p>
+<p><strong><code>elm repl</code></strong> - 顧名思義， Elm 的 repl：</p>
+<p><img src="/img/arvinh/elm-repl.png" alt="elm-repl"></p>
+<p><strong><code>elm reactor</code></strong> - 類似 react 的 create-react-app，會快速幫你建立一個基礎的 Elm Architecture。</p>
+<p><strong><code>elm make</code></strong> - elm 的 compile 指令，將你的 Elm code 編譯成 HTML 或是 JavaScript：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elm make Main.elm --output=main.js</span><br></pre></td></tr></table></figure>
+<p><strong><code>elm install</code></strong> - 類似 <code>npm install</code>，幫你下載所需的套件。所有的 Elm packages 都在 <a href="https://package.elm-lang.org/" target="_blank" rel="noopener">package.elm-lang.org</a> 中。而你專案中 packages 的 dependencies 會在自動紀錄在 <code>elm.json</code> 中。</p>
+<h2 id="Elm-Architecture"><a href="#Elm-Architecture" class="headerlink" title="Elm Architecture"></a>Elm Architecture</h2><p>現在的前端開發者對於 Elm 的架構應該都會覺得不陌生，因為就很清楚的分為 Model、View、Update：</p>
+<ul>
+<li><strong>Model</strong> - 你的 application 的 state</li>
+<li><strong>Update</strong> - 更新 state 邏輯的部分</li>
+<li><strong>View</strong> - 綁定 State 更新 HTML</li>
+</ul>
+<p>一個基本的 Elm 程式大概就是包含這三大區塊：</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Html <span class="keyword">exposing</span> (..)</span><br><span class="line"><span class="comment">-- MODEL</span></span><br><span class="line"><span class="keyword">type</span> <span class="keyword">alias</span> <span class="type">Model</span> = &#123; ... &#125;</span><br><span class="line"><span class="comment">-- UPDATE</span></span><br><span class="line"><span class="keyword">type</span> <span class="type">Msg</span> = <span class="type">Reset</span> | ...</span><br><span class="line"><span class="title">update</span> : <span class="type">Msg</span> -&gt; <span class="type">Model</span> -&gt; <span class="type">Model</span></span><br><span class="line"><span class="title">update</span> msg model =</span><br><span class="line">  <span class="keyword">case</span> msg <span class="keyword">of</span></span><br><span class="line">    <span class="type">Reset</span> -&gt; ...</span><br><span class="line">    ...</span><br><span class="line"><span class="comment">-- VIEW</span></span><br><span class="line"><span class="title">view</span> : <span class="type">Model</span> -&gt; <span class="type">Html</span> <span class="type">Msg</span></span><br><span class="line"><span class="title">view</span> model =</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+<p>在接下來的範例內，也是遵循這樣的方式撰寫。</p>
+<h2 id="學習資源"><a href="#學習資源" class="headerlink" title="學習資源"></a>學習資源</h2><p>既然語法這麼困難，要學習的話，勢必要有完善的 Docs 或是範例參考，但可惜的是，雖然 Elm 從 2012 出來到現在也將近七年了，使用人數還是小眾，要找尋範例或是教學都蠻困難的，推薦的方式是先去<a href="https://guide.elm-lang.org" target="_blank" rel="noopener">官網閱讀 guide line</a>，理解基本概念與最新版本的 API，並大致瀏覽一下語法，接著到 <a href="https://elmprogramming.com/" target="_blank" rel="noopener">Beginning Elm</a> 釐清一下不懂的部分，因為這網站將蠻多觀念以圖像化的方式說明，我覺得會比官方網站的 guide 好懂。</p>
+<p>不過要注意的一點是，<a href="https://elmprogramming.com/" target="_blank" rel="noopener">Beginning Elm</a> 的內容基本上是 Elm 0.18 的版本，並非現在最新的 0.19，所以在語法與一些 core lib 的用法上會不一樣，但觀念的理解還是共通的，所以能交互參照。</p>
+<p>這也是我在實作 Elm 遇到的一個阻礙，網路上大多的教學集中在 2017，當時還是 0.18 版本，因此許多範例現在都沒辦法正常運作，除非你降版。</p>
+<h2 id="開始實作！"><a href="#開始實作！" class="headerlink" title="開始實作！"></a>開始實作！</h2><p>無論如何，頭洗下去了還是得繼續實作。</p>
+<p>有實作過 Chrome extension 的人應該都知道，基本的三大元素就是：<code>background.js</code>、<code>content.js</code> 與 <code>popup.html</code>，其彼此之間環境互相獨立，透過 <code>postMessage</code> 來溝通。</p>
+<p>而既然 Elm 能編譯成 JavaScript，我就想我應該可以分別撰寫 Elm application 然後 compile 成 <code>background.js</code>，<code>content.js</code>，這做法可能會有點奇怪，既然要用 Elm，你又寫 JavaScript？</p>
+<p>但我覺得這樣反而比較能在漸進式的學習 Elm，一些較困難理解的部分就還是交由 JavaScript 處理。</p>
+<p>有了想法後開始搜尋範例，雖然新版的範例不多，但好在還是能從舊版中找到符合我心中所想的範例，只是得花點時間 upgrade 成新版。</p>
+<p><a href="https://github.com/danneu/elm-chrome-extension" target="_blank" rel="noopener">elm-chrome-extension</a> 是我找到最符合我預期的範例。</p>
+<p>而這是我翻新成 0.19 後的版本 <a href="https://github.com/ArvinH/elm-chrome-extension" target="_blank" rel="noopener">elm-chrome-extension 0.19 版</a>。</p>
+<h3 id="基本架構"><a href="#基本架構" class="headerlink" title="基本架構"></a>基本架構</h3><p><img src="/img/arvinh/elm-ext-structure.png" alt="structure"></p>
+<p>我們這邊將 <code>background.js</code> 與 <code>content.js</code> 當作不同的 Elm application 來撰寫，彼此之間再透過 Elm 特殊的 JavaScript Interop 來溝通（後面會講到）。</p>
+<p>由於個別當作一個 application，就用各自的 webpack 來幫忙 compile 跟打包。</p>
+<p><code>Model.elm</code> 則是單純用來定義我們整個 Extension 的 <strong>State</strong>。</p>
+<p>最後三個 Elm application 編億完的結果都會放入 <code>dist</code> 中，也就是我們最後的成品。</p>
+<p>另外前面沒有提到的一個資料夾 <code>elm-stuff</code>，其功用就像 <code>node_modules</code> 一樣，當你 <code>elm install</code> 完後，Elm 會將 packages 放入其中。</p>
+<p>而 <code>elm.json</code> 則是類似 <code>package.json</code> 加上 <code>package-lock.json</code> 的存在：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"application"</span>,</span><br><span class="line">    <span class="attr">"source-directories"</span>: [</span><br><span class="line">        <span class="string">"./background"</span>,</span><br><span class="line">        <span class="string">"./content"</span>,</span><br><span class="line">        <span class="string">"./common"</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"elm-version"</span>: <span class="string">"0.19.0"</span>,</span><br><span class="line">    <span class="attr">"dependencies"</span>: &#123;</span><br><span class="line">        <span class="attr">"direct"</span>: &#123;</span><br><span class="line">            <span class="attr">"elm/browser"</span>: <span class="string">"1.0.1"</span>,</span><br><span class="line">            <span class="attr">"elm/core"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">            <span class="attr">"elm/html"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">            <span class="attr">"elm/json"</span>: <span class="string">"1.1.3"</span>,</span><br><span class="line">            <span class="attr">"myrho/elm-round"</span>: <span class="string">"1.0.4"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"indirect"</span>: &#123;</span><br><span class="line">            <span class="attr">"elm/time"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">            <span class="attr">"elm/url"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">            <span class="attr">"elm/virtual-dom"</span>: <span class="string">"1.0.2"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"test-dependencies"</span>: &#123;</span><br><span class="line">        <span class="attr">"direct"</span>: &#123;&#125;,</span><br><span class="line">        <span class="attr">"indirect"</span>: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到 Elm 是用 exact versions，可以保證 reliable builds。而 dependencies 中的 direct 就是所有你能直接在 Elm code 中 import 的 package，而那些 package 所各自引用的其他 lib 則會自動被載入到 indirect 中。</p>
+<p>值得注意的是，雖然我們整個 project 用了三個 Elm application，但我們是共用同一個 elm.json 來管理 packages，因此在 <code>source-directories</code> 的地方我們羅列三個 source 來源。</p>
+<h3 id="專案實作方式概略"><a href="#專案實作方式概略" class="headerlink" title="專案實作方式概略"></a>專案實作方式概略</h3><p>這個 Extension 的功能很單純，流程如下：</p>
+<p>使用者 Select 了某段數字後，就會由 <code>Content.js</code> 將選取的數字傳遞給 <code>Background.js</code> 去處理，而 <code>Background.js</code> 就會負責拉取匯率 API，並將使用者選取的數字進行換算，接著將結果更新到 <code>Model</code> 上，再經由 <code>Model</code> 的變動去觸發 <code>Content.js</code> 進行 <code>View</code> 的更新。</p>
+<p>我們一步一步來看，主要會 Focus 在如何更新 Model，以及如何讓 Elm(計算邏輯) 與 JavaScript(頁面 Dom 與 Chrome API) 互相溝通。</p>
+<h4 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h4><p>首先，我們先從最簡單的 Model 看起：</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> Model <span class="keyword">exposing</span> (<span class="type">Model</span>)</span><br><span class="line"><span class="comment">-- This is the model in common among all of our apps</span></span><br><span class="line"><span class="keyword">type</span> <span class="keyword">alias</span> <span class="type">Model</span> =</span><br><span class="line">    &#123; result: <span class="type">Float</span>, selectedContent: <span class="type">Int</span>, exrateTWD: <span class="type">Float</span>, exrateJPY: <span class="type">Float</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>line 1 就是 Elm 中載入 package 的方式，而在我們的 application 中，Model 內容很單純，主要是記錄型別為 Float 的結果（result)、Int 的 selectContent、Float 的 exrateTWD 與 exrateJPY。</p>
+<p>然後透過 webpack loader 來幫忙編譯：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;...&#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.elm$/</span>,</span><br><span class="line">        exclude: [<span class="regexp">/elm-stuff/</span>, /node_modules/],</span><br><span class="line">        use: [<span class="string">'elm-hot-webpack-loader'</span>, <span class="string">'elm-webpack-loader?verbose=true'</span>],</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Main-elm-in-Background-js"><a href="#Main-elm-in-Background-js" class="headerlink" title="Main.elm in Background.js"></a>Main.elm in Background.js</h3><p>在 Background 資料夾中，我們有一個 <code>index.js</code> 與 <code>Main.elm</code>，<code>index.js</code> 負責與 <code>content.js</code> 溝通和處理 chrome api 相關的 JavaScript；<code>Main.elm</code> 則是負責計算匯率以及更新 Model。</p>
+<p>index.js 會與 Main.elm 互相溝通，Webpack 會將兩者打包成 <code>background.js</code>。</p>
+<p>但 JavaScript 怎麼與 Elm 溝通呢？容許我從 <a href="https://elmprogramming.com/sending-data-to-javascript.html" target="_blank" rel="noopener">Beginning Elm</a> 中借張圖：</p>
+<p><img src="/img/arvinh/elm-js-interpo.png" alt="How JS interact with Elm"></p>
+<p>從這張圖可以很清楚看到 Elm runtime 是怎麼跟外部溝通，又是怎麼與我們程式邏輯互動。</p>
+<p>透過 <code>Command</code> 我們可以對 Elm runtime 下達指令去執行 side effect，像是 HTTP request 等等；Elm runtime 則藉由 <code>Subscription</code> 與 <code>Message</code> 將 side effect 結果傳遞回 application 本身。</p>
+<p>透過 <code>Message</code>，Elm runtime 與我們的 application 可以知道要執行甚麼動作，包含 Update State（Model）或是更新 View。</p>
+<p>而若是需要與外部 JavaScript 溝通，則有 <code>Ports</code> 提供橋樑，在 JavaScript 中，能使用類似 <code>postMessage</code> 的方式傳遞資料。</p>
+<p>來看看 background 中的 Main.elm：</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- ... 省略 import packages</span></span><br><span class="line"><span class="comment">-- PORTS FROM JAVASCRIPT</span></span><br><span class="line"><span class="keyword">port</span> selected : (<span class="type">Model</span> -&gt; msg) -&gt; Sub msg</span><br><span class="line"><span class="comment">-- PORTS TO JAVASCRIPT</span></span><br><span class="line"><span class="keyword">port</span> broadcast : Model -&gt; Cmd msg</span><br><span class="line"><span class="comment">-- MODEL</span></span><br><span class="line">init : Flags -&gt; ( <span class="type">Model</span>, <span class="type">Cmd</span> <span class="type">Msg</span> )</span><br><span class="line">init flags =</span><br><span class="line">    ( &#123;</span><br><span class="line">        selectedContent = flags.selectedContent,</span><br><span class="line">        exrateTWD = flags.exrateTWD,</span><br><span class="line">        exrateJPY = flags.exrateJPY,</span><br><span class="line">        result = flags.result</span><br><span class="line">     &#125;</span><br><span class="line">    , <span class="type">Cmd</span>.none</span><br><span class="line">    )</span><br><span class="line">type Msg</span><br><span class="line">    = NoOp</span><br><span class="line">    | Select Model</span><br><span class="line">update : Msg -&gt; Model -&gt; ( <span class="type">Model</span>, <span class="type">Cmd</span> <span class="type">Msg</span> )</span><br><span class="line">update msg model =</span><br><span class="line">    case msg of</span><br><span class="line">        NoOp -&gt;</span><br><span class="line">            ( model, <span class="type">Cmd</span>.none )</span><br><span class="line">        Select data -&gt;</span><br><span class="line">            let</span><br><span class="line">                nextModel =</span><br><span class="line">                    &#123; model | result = (toFloat data.selectedContent) * (data.exrateTWD / data.exrateJPY) &#125;</span><br><span class="line">            in</span><br><span class="line">            ( nextModel, broadcast nextModel )</span><br><span class="line">subscriptions : Model -&gt; Sub Msg</span><br><span class="line">subscriptions model =</span><br><span class="line">    selected (\newModels -&gt; <span class="type">Select</span> newModels)</span><br><span class="line">type alias Flags =</span><br><span class="line">    &#123;</span><br><span class="line">      selectedContent: Int,</span><br><span class="line">      exrateTWD: Float,</span><br><span class="line">      exrateJPY: Float,</span><br><span class="line">      result: Float</span><br><span class="line">    &#125;</span><br><span class="line">main : Program Flags Model Msg</span><br><span class="line">main =</span><br><span class="line">    Platform.worker</span><br><span class="line">        &#123; init = init</span><br><span class="line">        , update = update</span><br><span class="line">        , subscriptions = subscriptions</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>background 的 Main.elm 中，主要有幾個區塊：</p>
+<ul>
+<li><p><code>port</code> keyword：定義用來給外部 JavaScript 呼叫的函數，以及 Elm 要傳遞資料給 JavaScript 時呼叫的函數</p>
+</li>
+<li><p><code>init</code> 函數：我們定義 init 函數，初始化 application 的 Model (State），<code>Flags</code> 是 Elm 中特殊的型別，外部 JavaScript 可以透過 Flags 在 Elm 的 init 階段傳遞初始 State 資料。如同上面範例中，init 函數接收一個 <code>Flags</code> 參數，並將其 assign 到新的物件當中，並且回傳，而這物件就是（也必須是）Model。</p>
+</li>
+<li><p><code>subscriptions</code>：當外部 JavaScript 呼叫我們在 port 中定義的函數時，Elm 會透過 subscriptions 來處理回應，基本上都會是呼叫一個函數，而該函數會 Trigger <code>update</code>，丟入 一個 Message 去更新 Model，以上面例子來說，JavaScript 會傳進新的 Model，而 Elm subscriptions 將新的 Model 以及我們指定的 Message 傳遞給 <code>update</code> 去真正的將 Model 更新。</p>
+</li>
+<li><p><code>update</code>：update 相對單純一點，接收 Message 與 Model 型別的物件，根據 Message 的內容去判斷要進行什麼更新。在上面例子中，我們接收到 <code>Select</code> 這個 message，代表收到 JavaScript 傳來的新 Model（也就是使用者選取的數字），而 Model 中有要轉換的金額，以及台日幣的匯率差，我們在這邊進行主要的邏輯運算，將結果產生成新的 Model，透過呼叫 <code>broadcast</code> 這個 定義在 port 中的 Command，將其回傳回 JavaScript。</p>
+</li>
+<li><p><code>main</code>：是 Main.elm 這個程式的主要進入點，這隻 Elm 程式並沒有參與到 View 的部分，因此我們使用 <code>Platform.worker</code> 函數實作，將定義好的 <code>init</code>, <code>update</code> 與 <code>subscriptions</code> 傳入。</p>
+</li>
+</ul>
+<p>篇幅有限實在無法將每個 API 都詳細介紹，建議參照<a href="https://guide.elm-lang.org/" target="_blank" rel="noopener">官網 Guide</a> 了解其詳細內容。</p>
+<h3 id="index-js-in-Background-js"><a href="#index-js-in-Background-js" class="headerlink" title="index.js in Background.js"></a>index.js in Background.js</h3><p>JavaScript 的部分就簡單一些，重點在於初始化 State：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Elm &#125; <span class="keyword">from</span> <span class="string">'./Main.elm'</span>;</span><br><span class="line"><span class="keyword">let</span> currState = &#123;</span><br><span class="line">  selectedContent: <span class="number">0</span>,</span><br><span class="line">  exrateTWD: <span class="number">0.0</span>,</span><br><span class="line">  exrateJPY: <span class="number">0.0</span>,</span><br><span class="line">  result: <span class="number">0.0</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> app = Elm.Main.init(&#123;</span><br><span class="line">  flags: currState</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在 <code>index.js</code> 我們載入 <code>Main.elm</code>，並呼叫其 <code>Main.init</code> 函數，傳入 flags 物件來初始化 state。</p>
+<p>接著，subscribe Elm 的 ports <code>broadcast</code>，當 Elm 傳遞訊息過來時，我們透過 chrome 的 <code>postMessage</code> 傳遞給 <code>content.js</code>。（這邊的 port 是 <code>chrome.runtime.onConnect</code> 的 port，細節請看 <a href="https://github.com/ArvinH/Elm-ChromeExt/blob/master/background/src/index.js#L15-L41" target="_blank" rel="noopener">source code</a> ）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">broadcast</span>(<span class="params">state</span>) </span>&#123;</span><br><span class="line">  currState = state</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> port <span class="keyword">of</span> listeners) &#123;</span><br><span class="line">    port.postMessage(state)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">app.ports.broadcast.subscribe(<span class="function"><span class="params">state</span> =&gt;</span> &#123;</span><br><span class="line">  broadcast(state)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>最後這邊我有點偷吃步，由於透過 Elm 發送 HTTP request 後的結果與我目前的 model 之間要如何整合，我在一天的 hackday 中實在沒有研究出來，所以省去那段，讓 fetch 匯率資料的部分由 JS 完成，最後再透過 <code>port</code> 的 <code>selected</code> 將 API result <code>send</code> 給 Elm：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">chrome.runtime.onMessage.addListener(<span class="function">(<span class="params">request, sender</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (request.kind === <span class="string">'selected'</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> selectNum = request.selectedContent.replace(<span class="string">','</span>, <span class="string">''</span>);</span><br><span class="line">    fetch(<span class="string">'https://tw.rter.info/capi.php'</span>)</span><br><span class="line">      .then(<span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> response.json()</span><br><span class="line">      &#125;)</span><br><span class="line">      .then(<span class="function"><span class="keyword">function</span>(<span class="params">myJson</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;</span><br><span class="line">          USDJPY: &#123; <span class="attr">Exrate</span>: ExrateJPY &#125;,</span><br><span class="line">          USDTWD: &#123; <span class="attr">Exrate</span>: ExrateTWD &#125;</span><br><span class="line">        &#125; = myJson</span><br><span class="line">        app.ports.selected.send(&#123; <span class="attr">result</span>: <span class="number">0.0</span>, <span class="attr">exrateTWD</span>: ExrateTWD, <span class="attr">exrateJPY</span>: ExrateJPY, <span class="attr">selectedContent</span>: +selectNum&#125;)</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="Main-elm-in-Content-js"><a href="#Main-elm-in-Content-js" class="headerlink" title="Main.elm in Content.js"></a>Main.elm in Content.js</h3><p>處理好 Background.js，接著就是 Content.js。</p>
+<p>Content 中的 <code>Main.elm</code> 主要負責接收到更新的 Model，然後將其更新到 DOM 上：</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 省略 import packages</span></span><br><span class="line"><span class="comment">-- PORTS FROM JAVASCRIPT</span></span><br><span class="line"><span class="keyword">port</span> onState : (<span class="type">Model</span> -&gt; msg) -&gt; Sub msg</span><br><span class="line">init : Model -&gt; ( <span class="type">Model</span>, <span class="type">Cmd</span> <span class="type">Msg</span> )</span><br><span class="line">init model =</span><br><span class="line">    ( model</span><br><span class="line">    , <span class="type">Cmd</span>.none</span><br><span class="line">    )</span><br><span class="line">type Msg</span><br><span class="line">    = NoOp</span><br><span class="line">    | NewState Model</span><br><span class="line">update : Msg -&gt; Model -&gt; ( <span class="type">Model</span>, <span class="type">Cmd</span> <span class="type">Msg</span> )</span><br><span class="line">update msg model =</span><br><span class="line">    case msg of</span><br><span class="line">        NoOp -&gt;</span><br><span class="line">            ( model, <span class="type">Cmd</span>.none )</span><br><span class="line"></span><br><span class="line">        NewState newModel -&gt;</span><br><span class="line">            ( newModel, <span class="type">Cmd</span>.none )</span><br><span class="line">view : Model -&gt; Html Msg</span><br><span class="line">view model =</span><br><span class="line">    Html.div</span><br><span class="line">        [ Html.Attributes.class "Content"</span><br><span class="line">        ]</span><br><span class="line">        [</span><br><span class="line">          Html.text ("It's "),</span><br><span class="line">          <span class="type">Html</span>.div</span><br><span class="line">            [ <span class="type">Html</span>.<span class="type">Attributes</span>.class <span class="string">"InnerContent"</span></span><br><span class="line">            ]</span><br><span class="line">            [</span><br><span class="line">                <span class="type">Html</span>.div [][</span><br><span class="line">                    <span class="type">Html</span>.text (round <span class="number">2</span> model.result)</span><br><span class="line">                ],</span><br><span class="line">                <span class="type">Html</span>.div</span><br><span class="line">                    [ <span class="type">Html</span>.<span class="type">Attributes</span>.class <span class="string">"units"</span></span><br><span class="line">                    ]</span><br><span class="line">                    [</span><br><span class="line">                        <span class="type">Html</span>.text (<span class="string">" TWD"</span>)</span><br><span class="line">                    ]</span><br><span class="line">            ]</span><br><span class="line">        ]</span><br><span class="line"><span class="title">subscriptions</span> : <span class="type">Model</span> -&gt; <span class="type">Sub</span> <span class="type">Msg</span></span><br><span class="line"><span class="title">subscriptions</span> model =</span><br><span class="line">    onState <span class="type">NewState</span></span><br><span class="line"><span class="title">main</span> : <span class="type">Program</span> <span class="type">Model</span> <span class="type">Model</span> <span class="type">Msg</span></span><br><span class="line"><span class="title">main</span> =</span><br><span class="line">    <span class="type">Browser</span>.element</span><br><span class="line">        &#123; init = init</span><br><span class="line">        , update = update</span><br><span class="line">        , view = view</span><br><span class="line">        , subscriptions = subscriptions</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>聰明的讀者看到這段 code 應該會發現，這邊的 <code>port</code>, <code>init</code> 與 <code>subscriptions</code> 基本上形式與 Background 的一樣，只是更簡單一點，當 subscription 收到 JavaScript 呼叫的 <code>onState</code> 函數時，我們傳遞 <code>NewState</code> Message 給 <code>update</code>，而 <code>update</code> 就只是單純的回傳新的 Model。</p>
+<p>唯一差別在於 <code>view</code> 與 <code>main</code>。</p>
+<p>在 Elm 中，view 會接受 Model 為參數，並回傳 HTML DOM，在範例中，我們產生了三層的 div，第三層有兩個 div 並行，分別呈現轉換後的匯率數字，以及單位，這邊我還用了一個 elm 的 package 來 <code>round</code> 數字到小數點後兩位。</p>
+<p>而由於 Content 的 <code>Main.elm</code> 有跟 Browser 互動（產生 HTML），所以需要的不是 <code>Platform.worker</code> 而是 <code>Browser.element</code>，他會將 View 也綁定進去。（一樣，詳情請參照<a href="https://guide.elm-lang.org/" target="_blank" rel="noopener">官網 Guide</a> ）</p>
+<h3 id="index-js-in-Content-js"><a href="#index-js-in-Content-js" class="headerlink" title="index.js in Content.js"></a>index.js in Content.js</h3><p>Content 中的 JavaScript 就更單純了，基本上就是 <code>createElement</code> 出一個 div，並且設定 <code>mouseup</code> listener，讓使用者選取文字後，能夠 <code>sendMessage</code> 給 background.js，並且設定好 Elm DOM 要掛載的 Real Dom 位置與 style (index.css)：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">'./index.css'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mountNode = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line"><span class="built_in">document</span>.body.append(mountNode);</span><br><span class="line"><span class="keyword">import</span> &#123; Elm &#125; <span class="keyword">from</span> <span class="string">'./Main.elm'</span>;</span><br><span class="line"><span class="keyword">let</span> app;</span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="comment">// 利用 window.getSelection() 抓取使用者選取的數字</span></span><br><span class="line">  <span class="keyword">const</span> selectedObj = <span class="built_in">window</span>.getSelection();</span><br><span class="line">  <span class="keyword">const</span> selectedContent = selectedObj.toString();</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="comment">// 這邊忽略的 code 主要在是：</span></span><br><span class="line">  <span class="comment">// 計算 Elm 產生的 DOM 該插入到頁面中的哪個位置</span></span><br><span class="line">  <span class="comment">// 判斷何時該讓 DOM 消失</span></span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="keyword">if</span> (selectedContent &amp;&amp; selectedContent!== <span class="string">''</span>) &#123;</span><br><span class="line">    chrome.runtime.sendMessage(&#123; <span class="attr">kind</span>: <span class="string">'selected'</span>, selectedContent &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">const</span> port = chrome.runtime.connect(&#123; <span class="attr">name</span>: <span class="string">'broadcast'</span> &#125;);</span><br><span class="line">port.onMessage.addListener(<span class="function"><span class="params">state</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (!app) &#123;</span><br><span class="line">    app = Elm.Main.init(&#123;</span><br><span class="line">      node: mountNode,</span><br><span class="line">      flags: state</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  app.ports.onState.send(state);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>在 <code>port.onMessage</code> 的 listener 中，我們會監聽到由 Background.js 傳遞來的初始 State，然後才 init Content 這邊的 Elm application，並將 Background.js 傳來的 state 一起傳入，若後續有更新 state，則透過 <code>port</code> 的 <code>onState</code> 來更新。</p>
+<p>基本上這樣一來，整個 Extension 的工作就完成了，但省略了不少細節，完整程式碼與其他細節只好請大家直接看原始碼會更清楚一點： <a href="https://github.com/ArvinH/Elm-ChromeExt" target="_blank" rel="noopener">source code</a></p>
+<h3 id="如何-Debug"><a href="#如何-Debug" class="headerlink" title="如何 Debug"></a>如何 Debug</h3><p>在用 Elm 製作 Chrome extension 的過程中，Debug 的方式其實跟一般用 JS 開發一樣，都是透過 inspect 從 browser 中到 <code>background.js</code> 與 <code>content.js</code> 下中斷點，但是麻煩的是，在這邊的 <code>background.js</code> 與 <code>content.js</code> 都有一大部分是 Elm compile 出來的 JS，是沒有類似 source map 的東西能讓你直接在 Elm code 內 Debug 的，所以除錯起來真的不是很方便，之後若有研究到方法再來更新。也歡迎大家給予指導！</p>
+<h2 id="結論與心得"><a href="#結論與心得" class="headerlink" title="結論與心得"></a>結論與心得</h2><p>Elm 的確是蠻優雅的語言，但不是能在短時間內完美駕馭的…尤其是 Debug 的難度以及文件範例的相對稀少，都讓人容易退卻，但我還是蠻開心能利用這次機會親手玩玩 Elm，並且製作了一個我用得上的工具，當然還有一些需要改善的部分，但已經堪用了。希望之後還能有時間繼續研究！有興趣的讀者或許能一起加入他們的 <a href="https://elm-lang.org/community" target="_blank" rel="noopener">Community</a> 討論！</p>
+<h2 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h2><ol>
+<li><a href="https://elm-lang.org" target="_blank" rel="noopener">elm-lang</a></li>
+<li><a href="https://elmprogramming.com" target="_blank" rel="noopener">Beginning Elm</a></li>
+<li><a href="https://github.com/elm" target="_blank" rel="noopener">elm github</a></li>
+<li><a href="https://www.infoq.com/presentations/Elm" target="_blank" rel="noopener">Elm 作者 ｀2012 年的演講影片</a></li>
+<li><a href="https://shenlvmeng.github.io/blog/2017/06/19/elm-introduction/" target="_blank" rel="noopener">Elm——函数式前端框架介绍</a></li>
+</ol>
+<p>關於作者：<br><a href="http://blog.arvinh.info/about/" target="_blank" rel="noopener">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/04/22/elm-chrome-extension/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/04/22/elm-chrome-extension/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/04/22/elm-chrome-extension/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/04/22/elm-chrome-extension/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/05/03/react-form/">
+        ← React Form: Redux Form vs React Final Form vs Formik and Yup
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/04/20/spectrum-pull-request/">
+        記一次幫開源專案 spectrum 修 bug 的經歷 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

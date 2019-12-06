@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Git 與 Github 版本控制基本指令與操作入門教學 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-01-17T10:23:23.000Z" itemprop="datePublished">
+          2018-01-17
+      </time>
+    
+    
+    | 
+    <a href='/tags/github/'>github</a>,
+    
+    <a href='/tags/軟體工程師/'>軟體工程師</a>,
+    
+    <a href='/tags/軟體工程/'>軟體工程</a>,
+    
+    <a href='/tags/software-engineering/'>software engineering</a>,
+    
+    <a href='/tags/bash/'>bash</a>,
+    
+    <a href='/tags/shell/'>shell</a>,
+    
+    <a href='/tags/svn/'>svn</a>,
+    
+    <a href='/tags/version-control/'>version control</a>,
+    
+    <a href='/tags/VCS/'>VCS</a>,
+    
+    <a href='/tags/git/'>git</a>,
+    
+    <a href='/tags/cvs/'>cvs</a>,
+    
+    <a href='/tags/自學程式心得/'>自學程式心得</a>
+    
+    
+</span>
+
+<meta name="generator" content="Git 與 Github 版本控制基本指令與操作入門教學">
+<meta name="og:title" content="Git 與 Github 版本控制基本指令與操作入門教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Git 與 Github 版本控制基本指令與操作入門教學</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/cs101/git.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>要成為一個真正的軟體工程師（Software Engineer）除了掌握基礎開發能力外，更重要的是和其他工程師和開發者團隊合作和溝通的能力，所以若你能培養出掌握 Git 等版本控制操作和 Git server 架設的能力，你會更容易參與開放原始碼（open source）的社群和提昇自己在職場上的價值。好，那我們就準備開始吧！</p>
+<h1 id="什麼是版本控制系統（Version-Control-System）？"><a href="#什麼是版本控制系統（Version-Control-System）？" class="headerlink" title="什麼是版本控制系統（Version Control System）？"></a>什麼是版本控制系統（Version Control System）？</h1><p><img src="/img/kdchang/cs101/files.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<p>版本控制系統是一種軟體工程的開發技巧，可以透過這個系統讓每位成員的軟體版本可以方便同步和維護管理（不然要用 email 或是其他工具傳送和管理十分麻煩，尤其程式又常常會有不同版本修改的問題！）。在沒有版本控制系統時，我們常會在編輯檔案前複製一個備份，或是在更新檔案後產生許多重複檔案，非常不便且難以維護。因此，使用版本控制系統的需求就應運而生啦！</p>
+<p><img src="/img/kdchang/cs101/hero-mac-screenshot.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<p>一般在軟體開發中又分為中央式系統（例如：<a href="https://zh.wikipedia.org/wiki/Subversion" target="_blank" rel="noopener">Subversion</a>、<a href="https://zh.wikipedia.org/wiki/%E5%8D%94%E4%BD%9C%E7%89%88%E6%9C%AC%E7%B3%BB%E7%B5%B1" target="_blank" rel="noopener">CVS</a> 等）與分散式系統（例如：<a href="https://git-scm.com/" target="_blank" rel="noopener">Git</a>、<a href="BitKeeper">BitKeeper</a>、<a href="https://zh.wikipedia.org/zh-tw/Mercurial" target="_blank" rel="noopener">mercurial</a> 等），中央式版本控制系統的工作主要在一個伺服器進行，由中央管理存取權限「鎖上」檔案庫中的檔案，一次只能讓一個開發者進行工作。而分散式系統讓不同開發者直接在各自的本地檔案庫工作，並容許多個開發者同時更動同一個檔案，而每個檔案庫有另外一個合併各個改變的功能。分散式系統讓開發者能在沒有網路的情況下也能繼續工作，也讓開發者有充分的版本控制能力，而不需經中央管理者的許可，但分散式系統仍然可以有檔案上鎖功能。</p>
+<p><img src="/img/kdchang/cs101/github.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<h1 id="什麼是-Git？什麼是-Github？"><a href="#什麼是-Git？什麼是-Github？" class="headerlink" title="什麼是 Git？什麼是 Github？"></a>什麼是 Git？什麼是 Github？</h1><p><a href="https://zh.wikipedia.org/wiki/Git" target="_blank" rel="noopener">Git</a> 是一個分散式版本控制軟體，最初由 Linus Torvalds 創作（也是作業系統 <a href="https://zh.wikipedia.org/zh-tw/Linux" target="_blank" rel="noopener">Linux</a> 系統的開發者），其最初目的是為更好地管理 Linux kernel 開發而設計，其具備優秀的 merge tracing 合併程式碼的能力（使用程式碼 snapshot 來比較歷史版本差異）。</p>
+<p><a href="https://github.com" target="_blank" rel="noopener">Github</a> 則是一個支援 git 程式碼存取和遠端托管的平台服務，有許多的開放原始碼的專案都是使用 Github 進行程式碼的管理。若是讀者未來有志於從事程式設計相關工作的話，建議可以熟悉掌握 Git 和 Github 的使用，並建立自己的 Github profile 作品集。</p>
+<h1 id="Git-基本觀念"><a href="#Git-基本觀念" class="headerlink" title="Git 基本觀念"></a>Git 基本觀念</h1><p><img src="/img/kdchang/cs101/git-workflow.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<p>Git 可以分為 Local（本地）和 Remote（遠端）兩個環境，由於 Git 屬於分散式的版本控制系統，所以開發者可以在離線 local 環境下開發，等到有網路時再將自己的程式推到 Remote 環境或 pull 下其他開發者程式碼進行整合。在 Local 中我們又分為 working directory（工作資料夾）、staging area（暫存區）和 repositories（檔案庫）。</p>
+<p>當自己開發時會在工作資料夾工作，當要進入檔案庫之前會先將檔案加入暫存區，確認沒問題則 commit 到檔案庫中，最後 push 上去 remote 環境。在 Git 中若是有和其他開發者一起合作，則會需要處理不同 branch 之間 conflict 和 merge 的問題。</p>
+<p><img src="/img/kdchang/cs101/git-branch.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<h1 id="Git-與-Github-實戰操作入門教學"><a href="#Git-與-Github-實戰操作入門教學" class="headerlink" title="Git 與 Github 實戰操作入門教學"></a>Git 與 Github 實戰操作入門教學</h1><p>接下來我們用一個實際的實戰範例讓讀者可以快速的掌握那些基礎必知必會的 Git/Github 操作技能：</p>
+<ol>
+<li><p>安裝並且設定 Git</p>
+<p> <code>任務 1：安裝 Git 到你的電腦上，並且設定好 Git 內部的使用者名稱和電子信箱</code></p>
+<p> Linux 若是使用 <code>Debian</code> 基礎的作業系統可以在終端機輸入以下指令安裝 git：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt-get install git</span><br></pre></td></tr></table></figure>
+<p> 若是 <code>Fedora</code> 系列可以輸入：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install git-core</span><br></pre></td></tr></table></figure>
+<p> 若是 windows 可以下載安裝 <a href="http://cmder.net/" target="_blank" rel="noopener">cmder</a> 這個模擬 Linux terminal 終端機時選擇完整版本就會順便安裝或是到 <a href="https://git-scm.com/" target="_blank" rel="noopener">Git 官網安裝</a>。當然在市面上有許多免費 <a href="https://git-scm.com/download/gui/linux" target="_blank" rel="noopener">GUI 圖形化的 Git 操作軟體</a>，若是初學者則建議先熟悉整個 git 工作模式和指令，再去使用圖形化工具會比較好，這樣你才比較知道圖形化程式背後做了什麼事情。Mac 則是可以到 <a href="https://git-scm.com/downloads" target="_blank" rel="noopener">Git 官方網站</a> 選擇對應作業系統，按照步驟完整下載安裝。另外也可以參考<a href="https://git-scm.com/book/zh-tw/v1/%E9%96%8B%E5%A7%8B-%E5%AE%89%E8%A3%9D-Git" target="_blank" rel="noopener">中文安裝教學</a>。</p>
+<p> 由於我們會選擇 Github 當作遠端托管程式的環境，所以我們也可以根據作業系統安裝 <a href="https://desktop.github.com/" target="_blank" rel="noopener">Github 桌面版</a>當作操作工具（內建安裝 Git）。</p>
+<p> <img src="/img/kdchang/cs101/git-version.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<p> 若是安裝完成，打開終端機（terminal）或 cmder 輸入以下指令，若成功顯示版本（建議 Git 版本在 2 以上），代表安裝成功囉！terminal（終端機）是一個可以下指令讓電腦做事情的互動介面（例如：新增檔案、移動到資料夾等）</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 其中 $ 為提示字元，在輸入指令時不用輸入該符號，否則會錯誤，若是使用 windows cmder 預設是 λ</span><br><span class="line">$ git --version</span><br></pre></td></tr></table></figure>
+<p> 接下來設定你的帳戶，讓 Git 知道這台電腦做的修改要連結到哪一個使用者（待會我們要在 Github 上註冊帳號，建議使用一致的帳號和電子信箱）：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name &quot;&lt;Your Name&gt;&quot;</span><br></pre></td></tr></table></figure>
+<p> 設定電子郵件：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.email &quot;&lt;your@gmail.com&gt;&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>建立一個本機的 repository</p>
+<p> <code>任務二：在自己的電腦上建立一個新的 local repositories（本地檔案庫）</code></p>
+<p> <img src="/img/kdchang/cs101/git-folder.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<p> repository（檔案庫）是一個什麼樣的概念呢？事實上 repository 就是一個專案，又簡稱 repo。以電腦的檔案資料管理來看，我們通常會把同一個專案的資料放到同一個資料夾下，所以我們也可以把 repository 看成一個資料夾。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 建立一個 hello-git 資料夾</span><br><span class="line">$ mkdir hello-git</span><br><span class="line">// 移動到 hello-git 資料夾</span><br><span class="line">$ cd hello-git</span><br><span class="line">// 將專案資料夾建立成 git repository</span><br><span class="line">$ git init</span><br><span class="line">// 列出專案資料夾下的檔案和資料夾（-l 參數為列出詳細資料，-a 為列出隱藏資料夾）</span><br><span class="line">$ ls -la</span><br></pre></td></tr></table></figure>
+<p> 當你執行 <code>git init</code> 後，你可以發現多出了 <code>.git</code> 這個隱藏資料夾，可以看到裡面檔案和資料夾如下：</p>
+<p> <img src="/img/kdchang/cs101/git-folder2.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<p> 到這邊恭喜讀者，完成你第一個 git 專案資料夾改造計畫！</p>
+</li>
+<li><p>檢視狀態、新增或修改 commits</p>
+<p> <code>任務三：在你的 repository 檔案庫中建立一個新檔案，新增一些內容到該檔案並且將那些檔案修改提交 commit 到 Git 中</code></p>
+<p> 接著我們使用文字編輯器，新增一個 hello.py 的檔案（裡面是一個會印出 <code>hello python &amp; git</code> 字串的 python 程式）：</p>
+ <figure class="highlight python"><figcaption><span>hello.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'hello python &amp; git'</span>)</span><br></pre></td></tr></table></figure>
+<p> 然後在終端機的專案資料夾下輸入 <code>git status</code> 顯示目前工作環境狀態：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line"></span><br><span class="line">Initial commit</span><br><span class="line"></span><br><span class="line">Untracked files:</span><br><span class="line">(use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)</span><br><span class="line"></span><br><span class="line">    hello.py</span><br><span class="line"></span><br><span class="line">nothing added to commit but untracked files present (use &quot;git add&quot; to track)</span><br></pre></td></tr></table></figure>
+<p> 我們會發現因為我們有新增新的檔案，但是還沒進到 git 追蹤範圍中/暫存區，所以我們要使用 <code>git add hello.py</code> 加入追蹤，這樣之後檔案有修改就可以追蹤到。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ git add hello.py</span><br><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line"></span><br><span class="line">Initial commit</span><br><span class="line"></span><br><span class="line">Changes to be committed:</span><br><span class="line">(use &quot;git rm --cached &lt;file&gt;...&quot; to unstage)</span><br><span class="line"></span><br><span class="line">    new file:   hello.py</span><br></pre></td></tr></table></figure>
+<p> 若是確認沒問題我們就準備 commit 進去 repository 囉！</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 比較現在檔案和上次 commit 之間的差異，也就是說你做了哪些修改</span><br><span class="line">$ git diff</span><br><span class="line">// -m 為輸入 commit message，也就是說這個 commit 內做了哪些事情</span><br><span class="line">$ git commit -m &quot;Init hello.py&quot;</span><br><span class="line">[master (root-commit) ad6d328] Init hello.py</span><br><span class="line">1 file changed, 1 insertion(+)</span><br><span class="line">create mode 100644 hello.py</span><br><span class="line"></span><br><span class="line">// commmit 完成</span><br><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">nothing to commit, working tree clean</span><br></pre></td></tr></table></figure>
+<p> 若是想反悔不想把檔案加入追蹤呢？</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 檔案尚未加入過追蹤時使用，即可恢復到檔案尚未加入暫存區</span><br><span class="line">$ git rm --cached hello.py</span><br><span class="line"></span><br><span class="line">// 若檔案已經在 repository 內，則使用以下指令</span><br><span class="line">// repository 與 stage 的檔案都會被還原到 HEAD，但 working directory 內的檔案不變</span><br><span class="line">$ git reset HARD</span><br></pre></td></tr></table></figure>
+<p> 當你追蹤後修改了檔案，例如把 <code>hello.py</code> 的內容改成：</p>
+ <figure class="highlight python"><figcaption><span>hello.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'hello python &amp; git rock'</span>)</span><br></pre></td></tr></table></figure>
+<p> 若有檔案修改，記得要再 <code>add</code> 修改的檔案（這是新手比較容易忘記的部分），若是要放棄修改可以使用 <code>git checkout -- 檔案名稱</code></p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 比較現在檔案和上次 commit 之間的差異，也就是說你做了哪些修改</span><br><span class="line">$ git diff</span><br><span class="line">// 查看目前工作狀態</span><br><span class="line">$ git status</span><br><span class="line">Changes not staged for commit:</span><br><span class="line">(use &quot;git add &lt;file&gt;...&quot; to update what will be committed)</span><br><span class="line">(use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)</span><br><span class="line"></span><br><span class="line">    modified:   hello.py</span><br></pre></td></tr></table></figure>
+<p> commit 這個修改時簡寫會寫成這樣（-a 是 add，-m 為 message 簡寫，後面接訊息資訊）：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -a -m &quot;修改了 hello.py&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>註冊 GitHub 帳號</p>
+<p> <code>任務四：建立一個 GitHub 帳號，並在 Git 設定中加入使用者帳號</code></p>
+<p> 到目前為主我們程式主要是在我們 local 工作環境中操作，但還記得我們在 Git 基本觀念中有提到，git 分為 local 和 remote，若是我們想要和全世界其他開發者合作或是貢獻開放原始碼的話，我們可以透過 github 來當作我們 remote 工作環境，去管理我們程式碼，同樣的也可以透過 github 平台和其他開發者一起合作，參與開放原始碼的開發。github 若是公開的 repo 是無限制數量免費的，但是若是想使用 private repo 可以<a href="https://github.com/pricing" target="_blank" rel="noopener">參考付費方案</a>。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 注意大小寫要一致</span><br><span class="line">$ git config --global user.username &lt;你的 github 使用者名稱&gt;</span><br></pre></td></tr></table></figure>
+<p> 先到 github.com 註冊帳號：</p>
+<p> <img src="/img/kdchang/cs101/github-example1.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<p> <img src="/img/kdchang/cs101/github-example4.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<p> 點選右上角 <code>+</code> 來新增 new repository（檔案庫）：</p>
+<p> <img src="/img/kdchang/cs101/github-example3.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<p> 輸入 repository name（你要取的專案名稱），最好跟電腦 local 專案一致，我們這邊輸入 <code>git-example</code>。然後輸入簡短專案描述並先不勾選初始化 README 和，也先不要選擇 .gitignore 和 License 授權（不然會造成本地端和遠端不一致會需要額外一些處理）：</p>
+<p> <code>.gitignore</code>：要忽略的檔案清單，這是用來告訴 Git，當在做版本控制記錄的時候，忽略這些檔案。通常一些機密資料，如資料庫帳號密碼或是 server IP 位置等，記得要加入。也可以參考 github 上面的<a href="https://github.com/github/gitignore" target="_blank" rel="noopener">一些範本</a> 在新增 repository 時選取對應的程式語言</p>
+<p> <code>README.md</code>：repository 介紹和使用方式說明（例如：使用方法、參與專案方式等），使用 <code>markdown</code> 語法撰寫。另外通常有 CONTRIBUTING.md 額外說明如何參與貢獻。</p>
+<p> <code>LICENSE</code>：專案使用何種授權方式，例如：MIT、BSD 等</p>
+<p> <img src="/img/kdchang/cs101/github-example5.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<p> 接著按 create 按鈕！恭喜你新增成功，創建了自己第一個 github repository（遠端檔案庫）！</p>
+</li>
+<li><p>將 repository 做本機和遠端的連結</p>
+<p> <code>任務五：把電腦裡 Local（本地端）的 repository（檔案庫）和 remote（遠端）的 repository（檔案庫）連結起來，並 push 電腦上的修改</code></p>
+<p> <img src="/img/kdchang/cs101/github-example6.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<p> 因我們已經在專案有把 <code>hello.py</code> 修改加入追蹤並 commit 到 local 檔案庫，所以我們可以參考下方的指令說明把 remote 網址加入：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 本地端專案知道 origin 對應到遠端網址</span><br><span class="line">$ git remote add origin &lt;remote 網址&gt;</span><br></pre></td></tr></table></figure>
+<p> 接者準備將本地端程式 push 到遠端檔案庫：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 觀看情況</span><br><span class="line">$ git status</span><br><span class="line">// 將本地端程式 push 到遠端檔案庫</span><br><span class="line">$ git push -u origin master</span><br><span class="line">Counting objects: 3, done.</span><br><span class="line">Writing objects: 100% (3/3), 239 bytes | 0 bytes/s, done.</span><br><span class="line">Total 3 (delta 0), reused 0 (delta 0)</span><br><span class="line">To https://github.com/happycodergit/git-example.git</span><br><span class="line">* [new branch]      master -&gt; master</span><br><span class="line">Branch master set up to track remote branch master from origin.</span><br></pre></td></tr></table></figure>
+<p> 參數 <code>-u</code> 等同於 <code>--set-upstream</code>，設定 <code>upstream</code> 可以使分支開始追蹤指定的遠端分支。事實上，只要做過一次 <code>$ git push -u &lt;remote name&gt; &lt;branch name&gt;</code>，並且成功 push 出去；本機端的 master 就會被設定去追蹤遠端的 <code>&lt;remote name&gt;/&lt;branch name&gt;</code> 分支。只要成功設定好 upstream 後，第二次以後要上傳分支時，就只需要透過 git push 就可以了，不必再帶 <code>&lt;remote name&gt;</code> 跟 <code>&lt;branch name&gt;</code> 等參數。例如：<code>$ git push</code>。</p>
+<p> 事實上，<code>$ git push -u origin master</code> 可以拆解成：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin master</span><br><span class="line">$ git checkout master</span><br><span class="line">$ git branch -u origin/master</span><br></pre></td></tr></table></figure>
+<p> 恭喜你成功把你的專案推送上去 github 啦！</p>
+<p> <img src="/img/kdchang/cs101/github-example7.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+</li>
+<li><p>Fork 和 clone 一個 open source（開源）的計畫</p>
+<p> <code>任務六：從 GitHub.com 建立專案，複本 fork，並下載 clone 到電腦上</code></p>
+<p> 點選左上角 github icon 回到首頁，我們從上面搜尋欄搜尋 react：</p>
+<p> <img src="/img/kdchang/cs101/github-example8.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<p> 點選右上角 fork 按鈕，複製一份專案到我們這：</p>
+<p> <img src="/img/kdchang/cs101/github-example9.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<p> 等待 fork 中：</p>
+<p> <img src="/img/kdchang/cs101/github-example10.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<p> 點選右邊綠色按鈕 clone download 複製 HTTP 網址：</p>
+<p> <img src="/img/kdchang/cs101/github-example11.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 複製到本地端</span><br><span class="line">$ git clone https://github.com/happycodergit/react.git</span><br><span class="line">// 移動到 react 資料夾</span><br><span class="line">$ cd react</span><br><span class="line">// 切出自己的新分支（使用 -b）</span><br><span class="line">$ git checkout -b happycoder@feature_branch</span><br><span class="line">// 做一些 README.md 檔案修改，然後 commit 到自己 fork 過來的專案</span><br><span class="line">$ git commit -a -m &quot;Update README&quot;</span><br><span class="line">$ git push origin happycoder@feature_branch</span><br></pre></td></tr></table></figure>
+<p> 事實上，每個開放原始碼都有他自己貢獻的方式，記得要先了解。例如可以<a href="https://reactjs.org/docs/how-to-contribute.html" target="_blank" rel="noopener">參考 react 貢獻說明</a>！</p>
+<p> <img src="/img/kdchang/cs101/github-example12.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+<p> 你可以透過將自己的修改 commit 到自己 fork 過來的專案，然後到原始專案頁面點選 new pull request 按鈕發 pull request（會比對程式碼的差異）。若對方 review 完後接受就可以將自己的程式碼合併到原始專案中，為開放原始碼做出第一步貢獻！</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 若完成 pull request 記得讓 master（或是合併進去的 branch）保持同步</span><br><span class="line">$ git pull upstream master</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>練習建立一個 feature branch</p>
+<p> <code>任務七：回來原來的 git-example 專案新增 feature branch（分支）</code></p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 建立一個名為 dev 的 branch</span><br><span class="line">$ git checkout -b dev</span><br></pre></td></tr></table></figure>
+<p> 在 <code>hello.py</code> 最上面多加一行 <code># hi, this is comment</code> 註解後存檔</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// commit 到本地端更新</span><br><span class="line">$ git commit -a -m &quot;Init dev branch&quot;</span><br><span class="line">$ gut push origin dev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>邀請別人和你合作</p>
+<p> <code>任務八：在專案新增夥伴 collaborator</code></p>
+<p> 在右上角進入 setting 可以選擇到 collaborator 新增合作者：</p>
+<p> <img src="/img/kdchang/cs101/github-example13.png" alt="自學程式設計與電腦科學入門實戰：Git 與 Github 版本控制基本指令與操作入門教學"></p>
+</li>
+<li><p>利用 push 和 pull 來和 GitHub.com 同步</p>
+<p> <code>任務九：用 pull 來和其他 collaborators（合作者）同步更新，確保程式是最新的版本</code></p>
+<p> 請其他開發者 git colone 下來你的 git-example 專案並 checkout 到 <code>dev</code> branch，並完成新增一個 <code>README.md</code> 檔案後發 pull request 過來，若沒問題就按同意並合併。我們則透過 git pull 來保持本地端和遠端程式碼同步：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git pull origin dev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Merge（合併）和刪除 branches</p>
+<p><code>任務十：在本機上 merge 合併你的 branch（分支），刪除舊的 branch（分支）</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 移動到 master branch</span><br><span class="line">$ git checout master</span><br><span class="line">// 合併 dev 到 master</span><br><span class="line">$ git merge dev</span><br><span class="line">// 刪除 dev branch</span><br><span class="line">$ git branch -d dev</span><br><span class="line">// 將合併後的 master 推送到遠端</span><br><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上就是 Git 與 Github 版本控制基本指令與操作入門教學！希望讀者可以動手一起操作，漸漸就能感受到 git 的威力和好處，同時也有能力參與開放原始碼（open source）的社群和提昇自己在職場上的價值，朝成為一個真正的軟體工程師（Software Engineer）邁進！</p>
+<h1 id="參考文件"><a href="#參考文件" class="headerlink" title="參考文件"></a>參考文件</h1><ol>
+<li><a href="https://github.com/doggy8088/Learn-Git-in-30-days/blob/master/zh-tw/README.md" target="_blank" rel="noopener">30 天精通 Git 版本控管</a></li>
+<li><a href="https://git-scm.com/" target="_blank" rel="noopener">Git 官方網站</a></li>
+<li><a href="https://www.codeschool.com/courses/try-git" target="_blank" rel="noopener">Try Git</a></li>
+<li><a href="http://jlord.us/git-it/index-zhtw.html" target="_blank" rel="noopener">Git-it</a></li>
+<li><a href="https://guides.github.com" target="_blank" rel="noopener">GitHub Guides</a></li>
+<li><a href="http://oomusou.io/git/git-remove-stage/" target="_blank" rel="noopener">如何將檔案從stage移除?</a></li>
+<li><a href="https://www.gitbook.com/book/zlargon/git-tutorial/details" target="_blank" rel="noopener">Git 教學</a></li>
+</ol>
+<p>（image via <a href="https://git-scm.com/images/logos/downloads/Git-Logo-1788C.png" target="_blank" rel="noopener">git-scm</a>、<a href="https://dn-sdkcnssl.qbox.me/article/fyuBUISCkmddVNC0t2Iu.png" target="_blank" rel="noopener">qbox</a>、<a href="https://qph.ec.quoracdn.net/main-qimg-3aa29f29ede6a8245b6964f663c60339" target="_blank" rel="noopener">quoracdn</a>、<a href="https://i.ytimg.com/vi/DPIPC25xzUM/maxresdefault.jpg" target="_blank" rel="noopener">ytimg</a>、<a href="https://3c1703fe8d.site.internapcdn.net/newman/gfx/news/hires/2014/linux.jpg" target="_blank" rel="noopener">linux</a>、<a href="https://i.stack.imgur.com/RUIIq.png" target="_blank" rel="noopener">imgur</a>、<a href="https://martinfitzpatrick.name/images/method/1472/GitBranchName_1.png" target="_blank" rel="noopener">martinfitzpatrick</a>）</p>
+<p>關於作者：<br><a href="http://blog.kdchang.cc" target="_blank" rel="noopener">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino/Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/01/17/learning-programming-and-coding-with-python-git-and-github-tutorial/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/01/17/learning-programming-and-coding-with-python-git-and-github-tutorial/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/01/17/learning-programming-and-coding-with-python-git-and-github-tutorial/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/01/17/learning-programming-and-coding-with-python-git-and-github-tutorial/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/01/27/tensorflow-mnist/">
+        ← 使用 TensorFlow 來做簡單的手寫數字辨識
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/01/13/p5ML-deeplearnjs/">
+        前端也能玩 Deep learning - 以 p5-deeplearn-js 為例 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

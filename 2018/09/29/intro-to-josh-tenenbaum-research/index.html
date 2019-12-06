@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>一起來看 Joshua B. Tenenbaum 教授有趣的認知科學研究 - Building Machines that Learn and Think Like People | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-09-29T23:38:19.000Z" itemprop="datePublished">
+          2018-09-29
+      </time>
+    
+    
+    | 
+    <a href='/tags/artificial-intelligence/'>artificial intelligence</a>,
+    
+    <a href='/tags/cognitive-science/'>cognitive science</a>
+    
+    
+</span>
+
+<meta name="generator" content="一起來看 Joshua B. Tenenbaum 教授有趣的認知科學研究 - Building Machines that Learn and Think Like People">
+<meta name="og:title" content="一起來看 Joshua B. Tenenbaum 教授有趣的認知科學研究 - Building Machines that Learn and Think Like People">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">一起來看 Joshua B. Tenenbaum 教授有趣的認知科學研究 - Building Machines that Learn and Think Like People</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><a href="https://scholar.google.com.tw/citations?hl=zh-TW&amp;user=rRJ9wTJMUB8C&amp;view_op=list_works&amp;sortby=pubdate" target="_blank" rel="noopener">Joshua B. Tenenbaum</a> 教授的研究很有趣，他從小嬰兒的行為出發，研究人們是如何透過無數次跟世界的互動，建立起簡單的物理概念（e.g. 物質不滅、物質不會浮在半空中、物體會撞到彼此等等）、還有簡單的心理學（e.g. 看到別人去抓門把，就可以猜到那個人想要開門）。</p>
+<p>今天就想要來介紹一下他的研究和未來的藍圖，讓有興趣鑽研人工智慧的讀者一起看看認知科學跟人工智慧的最前端研究。</p>
+<h2 id="我們是從什麼基礎開始建構起一切的能力"><a href="#我們是從什麼基礎開始建構起一切的能力" class="headerlink" title="我們是從什麼基礎開始建構起一切的能力?"></a>我們是從什麼基礎開始建構起一切的能力?</h2><p>這個問題，就是 Tenenbaum 教授研究中最核心的問題。</p>
+<p>讓我們看看下面這部影片，在這部影片中，我們可以看到一個 18 個月大的小嬰兒，就已經有能力了解 “書會被櫃子們擋住，得把櫃子打開才能把書放進去”、”別人一直拿書去撞櫃子，是因為他想把書放進去，而且他沒有手開門” 等等稍具複雜度的物理概念和心理學概念。</p>
+<p><a href="https://www.youtube.com/watch?v=Z-eU5xZW7cU" target="_blank" rel="noopener"><img src="https://img.youtube.com/vi/Z-eU5xZW7cU/0.jpg" alt="video"></a></p>
+<p>在我們還無法自己生存、還無法說話、還無法做我們長大後能做的很多事之前，我們就已經學會基本的物理和基本的心理學概念。</p>
+<p>這件事情提供的想法是，我們如果可以打造出有能力自己學懂這些基礎物理知識和心理學知識的機器，那這部機器是否就能夠再學會各式各樣的技能？就如同有能力學會基礎物理和心理學知識的小嬰兒，就有能力學會長大後需要學的各種技能。</p>
+<h2 id="腦海中的遊戲引擎"><a href="#腦海中的遊戲引擎" class="headerlink" title="腦海中的遊戲引擎"></a>腦海中的遊戲引擎</h2><p>雖然嬰兒的學習過程提供了我們一些 insight，讓研究有了切入方向，但有能力學習的基礎到底是什麼？</p>
+<p>以 Tenenbaum 教授的想法來說，大概就是一個 <strong>能夠自我修正的、programmable 的遊戲引擎</strong>。</p>
+<p>上面這句話到底在講什麼東西？讓我們繼續往下看。</p>
+<p>大家可能都有經驗，當你要找一件東西，你會開始回想起你上次還看見那個東西的場景，回憶你走過的每個地方，直到你不在記得那件東西還在，你就可以回到那個地方尋找。</p>
+<p>小小的一件事情，包含了你的記憶能力、場景想像能力，就好像你的腦海中有一個可讀出檔案的遊戲。</p>
+<p>再舉一個例子，當你要拿一個很珍貴的花瓶，你是不是會很小心翼翼地拿？因為你甚至可以在腦海中想像如果沒拿好花瓶，可能會摔到地上破掉？</p>
+<p>這跟我們在電腦模擬中看到的現象簡直一模一樣，你可以模擬上千次，但不會直接改變現實世界；就像你可以在腦海中模擬無數次上台演講的畫面。</p>
+<p>這個概念很重要，因為在處理訊息跟思考的時候，我們幾乎是時時依賴這個腦海中遊戲引擎。雖然有很多習慣因為已經被重複太多次，在使用時幾乎不需要調用遊戲引擎來模擬，但是這些習慣必然是符合我們腦內遊戲引擎的規則。</p>
+<p>什麼意思呢？</p>
+<p>就像我們每個人都拿過很多次杯子，所以幾乎是想都不用想就可以拿起來。但如果有一天，有個愛整人的朋友把你的杯子用強力膠黏在桌上，於是你要拿杯子發現它穩如泰山完全不動，你就會感到驚訝。因為在你的腦海中，杯子的重量是有一定程度的，而一般情況下，不可能重到你拿不起來。</p>
+<p>所以這時候你就會開始研究，為什麼你看到的現象跟你 <strong>腦海中的遊戲引擎</strong> 預測得不一樣？直到你發現原來是被黏在桌上，你腦海中的遊戲引擎就會發生變化，讓它未來更有可能預測到杯子會被黏在桌上（似乎也有點強化學習的味道，對吧？）。</p>
+<p>這也是為什麼魔術很有趣，因為魔術常常推翻我們遊戲引擎具備的規則；</p>
+<p><a href="https://www.youtube.com/watch?v=LFlstuiUQzo" target="_blank" rel="noopener"><img src="https://img.youtube.com/vi/LFlstuiUQzo/0.jpg" alt="video"></a></p>
+<h2 id="怎麼打造像人一樣學習的機器"><a href="#怎麼打造像人一樣學習的機器" class="headerlink" title="怎麼打造像人一樣學習的機器 ?"></a>怎麼打造像人一樣學習的機器 ?</h2><p>Tenenbaum 教授的短期研究藍圖如下圖，他的想法，是從視覺著手：</p>
+<p><img src="https://i.imgur.com/yKcC8KS.jpg" alt="blue-print"></p>
+<p>為什麼是從視覺，我想這也很合理，畢竟在我們還不太會走路、不太會抓東西的時候，我們就已經不斷地在看這世界中的各項事物，開始學習世界裡的一切規則，而這些規則都是我們可以正常走路、抓好東西的重要基礎。</p>
+<p>有了藍圖之後，接下來就是方法，於是他們也提出了一個大的架構：</p>
+<p><img src="https://i.imgur.com/YUehkv5.jpg" alt="architecture"></p>
+<p>而撐起這個大架構的技術細節，就是我們耳熟能詳的各種技術：</p>
+<p><img src="https://i.imgur.com/8OvUB6y.jpg" alt="tech"></p>
+<p>但這些技術如何交互使用？如何構建成具備人類認知能力的基礎？都還是剛起步的研究題目，所以就留待大家去發掘。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>今天跟大家簡單介紹了 Tenenbaum 教授的研究，個人覺得他的研究出發點非常有趣，也完全可以跟我們的成長經驗串連，希望未來可以看到更多有趣的研究成果。</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a href="https://www.youtube.com/watch?v=7ROelYvo8f0" target="_blank" rel="noopener">MIT AGI: Building machines that see, learn, and think like people (Josh Tenenbaum)</a></li>
+<li><a href="https://www.youtube.com/watch?v=RB78vRUO6X8" target="_blank" rel="noopener">Building Machines that Learn &amp; Think Like People - Prof. Josh Tenenbaum ICML2018</a></li>
+</ol>
+<p>關於作者：<br><a href="https://pojenlai.wordpress.com/" target="_blank" rel="noopener">@pojenlai</a> 演算法工程師，對機器人、電腦視覺和人工智慧有少許研究，正在學習<a href="https://buzzorange.com/techorange/2017/07/10/elon-musk-first-principle/" target="_blank" rel="noopener">用心體會事物的本質</a>跟<a href="https://www.ted.com/talks/eduardo_briceno_how_to_get_better_at_the_things_you_care_about" target="_blank" rel="noopener">不斷進入學生心態改進</a>。</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/09/29/intro-to-josh-tenenbaum-research/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/09/29/intro-to-josh-tenenbaum-research/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/09/29/intro-to-josh-tenenbaum-research/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/09/29/intro-to-josh-tenenbaum-research/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/10/05/how-to-use-python-manipulate-excel-spreadsheet/">
+        ← 如何使用 Python 程式操作 Excel 試算表
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/09/22/visit-ast-with-babel-plugin/">
+        透過製作 Babel-plugin 初訪 AST →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>記一次軟體工程師面試心得 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-01-27T17:06:06.000Z" itemprop="datePublished">
+          2017-01-27
+      </time>
+    
+    
+    | 
+    <a href='/tags/frontend/'>frontend</a>,
+    
+    <a href='/tags/interview/'>interview</a>,
+    
+    <a href='/tags/job/'>job</a>,
+    
+    <a href='/tags/resume/'>resume</a>
+    
+    
+</span>
+
+<meta name="generator" content="記一次軟體工程師面試心得">
+<meta name="og:title" content="記一次軟體工程師面試心得">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">記一次軟體工程師面試心得</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我自己很喜歡看一些面試的文章，因為可以從裡面學到許多，如果有面試題目的話那就更棒了，可以邊看邊想，測測看自己的實力。這篇文章是我前一陣子面試某間公司的歷程跟一些心得，希望對大家會有幫助。順帶一提，最後是有拿到 offer 的。</p>
+<p>我面試的職缺叫做 Software Engineer，軟體工程師，四次面試都是中文的（我原本以為會有英文）。HR 有先跟我聊過，我有說我比較想要做前端，所以有些面試的考題會比較偏前端。但因為這間公司也很注重 CS 的基礎，所以依然會有很多資工本科的問題。（作業系統、資料庫、資料結構與演算法等等）</p>
+<p>因為公司不在台灣，所以面試的形式都是採用 Skype 視訊加上某個線上 coding 的網站。現在很多公司的遠端面試都很喜歡採用這種形式，就是出題目給你讓你即時 coding，面試官那邊看得到你打字（就跟 hackpad 或是 Google docs 一樣），也可以直接 compile 看看答案對不對。</p>
+<h2 id="一面"><a href="#一面" class="headerlink" title="一面"></a>一面</h2><p>一面的面試官是個前端工程師，所以問題會比較偏前端。程式語言的部分我是選擇用 JavaScript 來作答。</p>
+<h3 id="第一題"><a href="#第一題" class="headerlink" title="第一題"></a>第一題</h3><p>在 Facebook 上面，對於按讚這個功能，通常會有以下幾種描述：</p>
+<ol>
+<li>只有一個人按讚：<code>A likes this</code></li>
+<li>有兩個人按讚：<code>A and B like this</code></li>
+<li>有三個人按讚：<code>A, B and C like this</code></li>
+<li>有四個人以上按讚：<code>A, B and 2 others like this</code></li>
+</ol>
+<p>寫一個 function，會給你一個叫做 names 的陣列，根據 names 輸出結果。</p>
+<p>這一題很基本，我覺得主要是想看你會怎麼解決這個問題，以及讓你小試身手一下（怕你太緊張）。我自己的話是直接寫 if…else 去判斷。</p>
+<p>另外，記得把一些 edge case 也考慮一下，例如說 names 有可能是空陣列嗎？如果是的話應該輸出什麼？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">like</span>(<span class="params">names</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> output = <span class="string">" likes this"</span>;</span><br><span class="line">    <span class="keyword">if</span>(names.length&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">    <span class="keyword">if</span>(names.length===<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> names[<span class="number">0</span>] + output;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    output = <span class="string">" like this"</span>;</span><br><span class="line">    <span class="keyword">if</span>(names.length==<span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> names[<span class="number">0</span>] + <span class="string">" and "</span> + names[<span class="number">1</span>] + output;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(names.length==<span class="number">3</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> names[<span class="number">0</span>] + <span class="string">", "</span> + names[<span class="number">1</span>] + <span class="string">" and "</span> + names[<span class="number">2</span>] + output;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> names[<span class="number">0</span>] + <span class="string">", "</span> + names[<span class="number">1</span>] + <span class="string">" and "</span> + names.length<span class="number">-2</span> + <span class="string">" others"</span> + output;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第二題"><a href="#第二題" class="headerlink" title="第二題"></a>第二題</h3><p>幫 array 加一個 <code>any</code> 的 function，可以輸入任一 function，如果任何一個元素丟進那 function 裡面的值是 true，就輸出 true，否則就 false。</p>
+<p>例如說現在有個 function 叫做：isGreaterThanZero，範例就會是這樣：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>].any(isGreaterThanZero); <span class="comment">//=&gt; true</span></span><br><span class="line">[<span class="number">-1</span>, <span class="number">0</span>].any(isGreaterThanZero); <span class="comment">//=&gt; false</span></span><br></pre></td></tr></table></figure>
+<p>這題應該主要是考會不會用 <code>Array.prototype</code> 來新增函式上去，如果會的話，實作的部分則沒有什麼難度。一樣附上我的解答：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.any = <span class="function"><span class="keyword">function</span>(<span class="params">func</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> len = <span class="keyword">this</span>.length;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;len; i++) &#123;</span><br><span class="line">      <span class="keyword">if</span>(func(<span class="keyword">this</span>[i])) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第三題"><a href="#第三題" class="headerlink" title="第三題"></a>第三題</h3><p>對於這一行程式碼：<code>var MyObject = new MyClass();</code>可以試著講講看背後做了什麼事嗎？有沒有可能不用 <code>new</code> 但是卻達成一樣的效果？</p>
+<p>這一題我答的頗差的，主要是考對 JavaScript prototype 機制的理解程度，想瞭解更多的可以參考：<a href="http://openhome.cc/Gossip/CodeData/EssentialJavaScript/Prototype.html" target="_blank" rel="noopener">JavaScript 語言核心（15）函式 prototype 特性</a>。</p>
+<h3 id="第四題"><a href="#第四題" class="headerlink" title="第四題"></a>第四題</h3><p>有些很慢的 function，我們想把它 cache 起來，下次執行時就不會那麼慢，例如說：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">complexFunction(&apos;a&apos;, &apos;b&apos;); //=&gt; 10s</span><br><span class="line">complexFunction(&apos;a&apos;, &apos;b&apos;); //=&gt; 10s</span><br><span class="line"></span><br><span class="line">var ccf = cache(complexFunction);</span><br><span class="line"></span><br><span class="line">ccf(&apos;a&apos;, &apos;b&apos;); //=&gt; 10s</span><br><span class="line">ccf(&apos;a&apos;, &apos;b&apos;); // Instant</span><br></pre></td></tr></table></figure>
+<p>寫出一個 cache 的 function，可以把傳進來的 function 加上 cache 功能</p>
+<p>這一題其實考的點滿多的，第一個是考你會不會回傳一個 function（雖然這也滿基本的啦），第二個是考你知不知道怎麼做 deep equal。</p>
+<p>因為他範例給的是兩個字串，所以乍看之下好像不是很難，但再追問下去，就會知道應該要寫出一個能夠 cache 所有參數的版本，意思就是如果參數是 Object 的話也應該能做 cache。所以就要紀錄參數跟輸出的組合，去查一下有沒有已經算過的參數，有的話就直接輸出結果。</p>
+<p>這題我覺得要做到完美的話其實也挺難的，可以再優化的點應該很多。</p>
+<p>我最後完成的不完美的版本：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">cache</span>(<span class="params">func</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> cached = [];</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">deepEqual</span>(<span class="params">obj1, obj2</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> obj1Type = <span class="keyword">typeof</span> obj1;</span><br><span class="line">        <span class="keyword">var</span> obj2Type = <span class="keyword">typeof</span> obj2;</span><br><span class="line">        <span class="keyword">if</span>(obj1Type !== obj2Type) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// same type</span></span><br><span class="line">        <span class="keyword">if</span>(obj1Type!==<span class="string">'object'</span>) &#123;</span><br><span class="line">          <span class="keyword">return</span> obj1===obj2;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// object</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> obj1)&#123;</span><br><span class="line">            <span class="keyword">if</span>(!obj2[key])&#123;</span><br><span class="line">              <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// have the same key</span></span><br><span class="line">            <span class="keyword">if</span>(!deepEqual(obj1[key], obj2[key]))&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> isCached = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">var</span> cacheResult = <span class="literal">null</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;cached.length; i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>( deepEqual(cached[i].arguments, <span class="built_in">arguments</span>) ) &#123;</span><br><span class="line">                isCached = <span class="literal">true</span>;</span><br><span class="line">                cacheResult = cached[i].result;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(isCached) &#123;</span><br><span class="line">            <span class="keyword">return</span> cacheResult;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">var</span> result = func.apply(<span class="literal">null</span>, <span class="built_in">arguments</span>);</span><br><span class="line">            cached.push(&#123;</span><br><span class="line">              <span class="built_in">arguments</span>: <span class="built_in">arguments</span>,</span><br><span class="line">              result: result  </span><br><span class="line">            &#125;)</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第五題"><a href="#第五題" class="headerlink" title="第五題"></a>第五題</h3><p>用 CSS 實現一個很簡單的網格系統，假設一行有 12 格好了，請問像是<code>col-4</code>這種 class 的 CSS 應該怎麼寫？</p>
+<p>因為我 CSS 原本就比較弱，所以還滿怕碰到 CSS 問題，也沒有自己實作過網格系統。所以這一題我就答說：<code>display: inline-block; width: 25%</code>。</p>
+<p>後來就被提示說，概念差不多，可是實作上會碰到一些問題，因為預設會有 margin，所以四個雖然看起來會排滿，但其實會排成兩行。要再加上一些修正才行。</p>
+<p>一面差不多就到這邊結束了，問的都是一些基本的 JavaScript 跟 CSS 的題目，我覺得沒有特別困難的。所以我自己覺得一面的表現算是還不錯啦。</p>
+<h2 id="二面"><a href="#二面" class="headerlink" title="二面"></a>二面</h2><p>考的問題都是一些比較偏資工本科系的問題了，問題大致如下：</p>
+<ol>
+<li>tcp 連線時有三次握手，那關閉時候的流程是什麼（考你四次揮手的流程）</li>
+<li>有寫過 linux 上的程式嗎（應該是考你有沒有寫過系統程式）</li>
+<li>thread 跟 process 的差別（經典考題）</li>
+<li>mysql 的 index 有哪些，差在哪？（考對資料庫的熟悉程度）</li>
+<li>hashmap 怎麼實現（考資料結構）</li>
+<li>virtual memory 在幹嘛（考作業系統）</li>
+<li>資料庫欄位 TEXT 跟 VARCHAR 差異（考資料庫）</li>
+</ol>
+<p>可以看到考題還滿廣的，網路、系統程式、作業系統、資料庫、資料結構全部都有問到。這邊是我的弱項，所以都答得滿差的…</p>
+<h2 id="三面"><a href="#三面" class="headerlink" title="三面"></a>三面</h2><p>原本以為二面完就掰掰了，但我自己猜測因為我一面的表現還不錯，綜合起來還是進到了第三面。結果第三面考的依舊是我不太在行的部分。</p>
+<p>第三面我有印象的題目只有一題而已，考完之後上網查了一下發現也是滿經典的題目。</p>
+<p>假設現在有很多 url 的資料，每筆一行，請找出重複次數最多的前 k 個，並講一下時間複雜度是多少？</p>
+<p>其實就是一個純粹考資料結構加演算法的題目，看你要用哪些組合來處理這個問題。但光是知道還不夠，也要能夠把時間複雜度一併講出來才行。我記得我最後給出的解法應該是維護一個有 k 個元素的陣列，然後用 map 來存 url 的出現次數，邊讀資料邊更新出現次數，然後也更新那 k 個元素的陣列，找到最後就是答案了。但這個解法我的時間複雜度也沒有回答得很好，有些地方不太清楚時間複雜度是多少。</p>
+<p>對這類型的題目有興趣的話，可參考：<a href="http://blog.csdn.net/v_july_v/article/details/6279498" target="_blank" rel="noopener">十道海量数据处理面试题与十个方法大总结</a>。</p>
+<h2 id="四面"><a href="#四面" class="headerlink" title="四面"></a>四面</h2><p>最後一面依舊是問了很多技術，這一輪面試被問的問題最多，而且也有針對我以前做過的東西去問。我覺得廣度跟深度都有顧及到。</p>
+<h3 id="第一題-1"><a href="#第一題-1" class="headerlink" title="第一題"></a>第一題</h3><p>先小試身手，寫一個 reverse 的 function，反轉字串</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reverse</span>(<span class="params">s</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> output = <span class="string">""</span>;</span><br><span class="line">    <span class="keyword">var</span> len = s.length;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=len<span class="number">-1</span>; i&gt;=<span class="number">0</span>; i--)&#123;</span><br><span class="line">        output+=s[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> output;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第二題-1"><a href="#第二題-1" class="headerlink" title="第二題"></a>第二題</h3><p>寫一個 function：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var main = [1,2,3,4,5,6];</span><br><span class="line">var sub = [3,5];</span><br><span class="line">removeSubArray(main, sub) -&gt; [1,2,4,6]</span><br></pre></td></tr></table></figure>
+<p>這一題比較特別的點是要直接改變傳進來的 array 而不是 return 新的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">removeSubArray</span>(<span class="params">main, sub</span>) </span>&#123;</span><br><span class="line">   <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;main.length; i++)&#123;</span><br><span class="line">       <span class="keyword">var</span> temp = sub.indexOf(main[i]);</span><br><span class="line">       </span><br><span class="line">       <span class="comment">//remove</span></span><br><span class="line">       <span class="keyword">if</span>(temp&gt;=<span class="number">0</span>) &#123;</span><br><span class="line">           sub.splice(temp, <span class="number">1</span>);</span><br><span class="line">           main.splice(i, <span class="number">1</span>);</span><br><span class="line">           i--;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第三題-1"><a href="#第三題-1" class="headerlink" title="第三題"></a>第三題</h3><p>寫一個 copy 的 function，複製傳進來的 object</p>
+<p>這一題雖然看似簡單但其實陷阱很多，例如說：如果碰到循環引用的 case 怎麼辦？<br>例如說</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var a = &#123;</span><br><span class="line">  test: &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">a.test = a;</span><br></pre></td></tr></table></figure>
+<p>有些 library 提供的 deep clone 函式，碰到這個 case 一樣也會掛掉。但在面試的時候這個 case 我依舊解不掉，需要再花點時間想想。</p>
+<h3 id="第四題-1"><a href="#第四題-1" class="headerlink" title="第四題"></a>第四題</h3><p>寫一個 closure（什麼樣子的都可以）  </p>
+<p>這一題還滿簡單的啦，只要你知道什麼是 closure 應該都寫得出來。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> increment = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"> <span class="keyword">var</span> times = <span class="number">0</span>;</span><br><span class="line"> <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ++times;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第五題-1"><a href="#第五題-1" class="headerlink" title="第五題"></a>第五題</h3><p>問我之前做過的 Android 熱更新怎麼做的，問很多技術細節。</p>
+<h3 id="第六題"><a href="#第六題" class="headerlink" title="第六題"></a>第六題</h3><p>問我之前做的搶紅包活動是怎麼設計的？這邊的實作在我之前寫過的文章：<a href="http://blog.techbridge.cc/2016/06/18/redis-introduction/">資料庫的好夥伴：Redis</a>裡面有提到過。</p>
+<p>那個活動的需求是：</p>
+<ol>
+<li>中午 12 點開放使用者進入網站，並且回答一題問題</li>
+<li>回答完後會看到自己的排名（依答題時間排序），照名次獲得獎品</li>
+<li>只有前 300 名有獎品，之後都沒有</li>
+</ol>
+<p>評估過後我決定引入 Redis 來減輕資料庫的負擔。面試官問的問題是：<code>有沒有辦法寫成：300 名以後連答題頁面都看不到，直接擋在外面</code>。這邊我想很久之後還是沒有想到一個比較好的解法，就只想到把 Database lock 起來，但這樣又會造成很多性能的損耗。最後我有問面試官這題應該怎麼解，他說他也還沒有想法，只是問問看有沒有可能而已XD</p>
+<h3 id="第七題"><a href="#第七題" class="headerlink" title="第七題"></a>第七題</h3><p>講一下 session 跟 cookie 的差別，還有 session 存在哪裡、如果有兩台機器怎麼管理 session？  </p>
+<p>剛好這一塊我之前有弄懂過，所以回答的還滿完整的。在之前公司也有碰過兩台機器要共用 session 的情況，我先給了他一個 AWS EC2 上面的 sticky session 的解法，他不太滿意。再來給了用 Redis 統一儲存 cache 再搭配 Redis Replication 來做 HA 的解法，他就很滿意的說：「嗯，這樣可以」</p>
+<h3 id="第八題"><a href="#第八題" class="headerlink" title="第八題"></a>第八題</h3><p>問資料庫的index的概念，為什麼要有 index？index 應該怎麼建？</p>
+<p>因為資料庫跟後端那邊我沒有很熟，所以這題也是回答得亂七八糟的。</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>其實這樣四次面試下來，每一次都問技術也是還滿累的，但每次面試也都是可以檢驗自己技術能力的好時刻。你會越面試越知道自己哪一個部分不足，例如說我就是對於資工本科系的那些必修比較不熟，所以之後就應該往這個方向加強。</p>
+<p>還有，很多時候我都喜歡自己默默思考，思考出一個自己覺得可行的解法以後才跟面試官講。可是我後來發現這樣做不太好，因為你不說話，他也不說話，整個面試過程就會有很多空白，兩個都不講話。所以可以的話，應該要邊想邊講話我認為是比較好的。例如說：「我剛剛提出的解法是 O(n^2)，我現在在想說有沒有可能把複雜度壓到 O(n log n)，我目前的方向大概是朝…去思考」</p>
+<p>儘管最後沒有答出來，有把想法講出來，總比只給一句：「我不知道」來得好。</p>
+<p>面試的時候，其實我也都是抱著一種學習的心態。因為知道自己的實力真的不強，所以也希望能從面試官那邊得到一些建議。很多題目我在答不出來之後都會問他們說能不能提供一些方向，因為我真的很想知道答案（不過有些不一定會給就是了）。</p>
+<p>大致上就是這樣囉，希望這篇心得對大家之後的面試有幫助。</p>
+<p>關於作者：<br><a href="http://huli.logdown.com/" target="_blank" rel="noopener">@huli</a> 野生工程師，相信分享與交流能讓世界變得更美好</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/01/27/interview-review/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/01/27/interview-review/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/01/27/interview-review/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/01/27/interview-review/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/02/03/css-grid-intro/">
+        ← 與 CSS Grid 的第一次接觸
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/01/21/simple-hash-table-intro/">
+        白話的 Hash Table 簡介 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

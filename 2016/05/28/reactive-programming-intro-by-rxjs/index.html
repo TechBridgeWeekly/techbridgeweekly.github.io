@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Reactive Programming 簡介與教學(以 RxJS 為例) | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-05-28T00:03:18.000Z" itemprop="datePublished">
+          2016-05-28
+      </time>
+    
+    
+    | 
+    <a href='/tags/Rx-RxJS/'>Rx, RxJS</a>
+    
+    
+</span>
+
+<meta name="generator" content="Reactive Programming 簡介與教學(以 RxJS 為例)">
+<meta name="og:title" content="Reactive Programming 簡介與教學(以 RxJS 為例)">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Reactive Programming 簡介與教學(以 RxJS 為例)</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p>Rx 其實也出來一段時間了，前陣子看到一篇<a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754" target="_blank" rel="noopener">文章</a>解釋得蠻好的，擷取重點並加入一些自己的心得範例供大家參考，畢竟 Rx 中文的介紹似乎少了點…</p>
+<p>相信聽過 Rx 的讀者，應該也會耳聞 RxJS, RxJAVA, RxAndroid等等，因此被 Google 慣壞的我們一定會試著去搜尋一下 Rx 到底是什麼</p>
+<p>然後在 Google Search Result page 的最下方會看到 MSDN 的 Reactive Extensions 和 ReactiveX </p>
+<p><img src="/img/arvinh/RxGoogleResult.png" alt="Rx goolge search result" title="Rx goolge search result"></p>
+<p>好的看來就是我們要找的東西，但這好眼熟喔? 是每天在寫的React嗎？難道是相關的東西？!</p>
+<p>定睛一看會發現… 恩，基本上沒什麼關係。</p>
+<p>Reactive Extensions 是 Microsoft open source 推廣的一個lib</p>
+<p><code>Reactive Extensions (Rx) is a library for composing asynchronous and event-based programs using observable sequences and LINQ-style query operators.</code></p>
+<p>網站連結：<a href="https://rx.codeplex.com/" target="_blank" rel="noopener">rx</a><br>網站連結：<a href="http://reactivex.io/" target="_blank" rel="noopener">ReactiveX.io</a></p>
+<p><img src="/img/arvinh/reactiveX.png" alt="ReactiveX" title="ReactiveX"></p>
+<p><code>ReactiveX is a combination of the best ideas from
+the Observer pattern, the Iterator pattern, and functional programming</code></p>
+<p>ok, Observer pattern, Iterator patter, functional programming 都聽過，而這些串起來似乎就是傳說中的 Reactive Programming.</p>
+<h1 id="What-is-Reactive-Programming"><a href="#What-is-Reactive-Programming" class="headerlink" title="What is Reactive Programming?"></a>What is Reactive Programming?</h1><p>Reactive Programming 是一種以 asynchronous data streams 為中心思想出發的程式撰寫方式，比較常聽到的是 asynchronous event，像是 user click event, mouse hover event 等等，而這邊特別的則是 <strong><span style="color:red; font-style: italic;">data<span></span></span></strong> 與 <strong><span style="color:red; font-style: italic;">stream<span></span></span></strong>，顧名思義，Reactive Extensions 將 event 延伸為 data，並且注重在 stream （串流）上，也就是 <strong><span style="color:red; font-style: italic;">時間序列上的一連串資料事件<span></span></span></strong>，Rx讓你將任何事情都變化為 data streams : variables, user inputs, properties, caches, data structures 等等皆可，透過 Observe 這些 data streams，並依據其造成的 side effects 進行對應的動作。</p>
+<h3 id="Stream-時間序列上的一連串資料事件"><a href="#Stream-時間序列上的一連串資料事件" class="headerlink" title="Stream:     時間序列上的一連串資料事件"></a><strong>Stream</strong>:     <strong>時間序列上的一連串資料事件</strong></h3><p>以一個 click event 來說，在 user 點擊的動作發生後，會有一段時間觸發了幾個事件 (event stream)：value, error or completed signal</p>
+<p><img src="/img/arvinh/clickeventstream.png" alt="click event stream (source：https://gist.github.com/staltz/868e7e9bc2a7b8c1f754)" title="click event stream "></p>
+<p>而在 Reactive Programming 的概念下，你可以把任何事情都看作 <strong>Stream</strong>，並且 <strong>Observe</strong> stream 中的變化，以下面一個例子來說：</p>
+<p>假設我們想要印出一個包含 1 到 5 的 Array，一般我們會這樣做：</p>
+<p><a href="http://jsbin.com/fiyiyo/edit?js,console,output" target="_blank" rel="noopener">example 1</a><br><figure class="highlight javascript"><figcaption><span>iterate1To5.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> source = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>];</span><br><span class="line">source.map(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"onNext: "</span>+item);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>然而，以Rx來說，任何事情都要 Observable，因此我們可以這樣做：</p>
+<figure class="highlight javascript"><figcaption><span>observe1To5.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Creates an observable sequence of 5 integers</span></span><br><span class="line"><span class="keyword">var</span> source = Rx.Observable.range(<span class="number">1</span>, <span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// catch every status and print out value</span></span><br><span class="line"><span class="keyword">var</span> subscription = source.subscribe(</span><br><span class="line">    x =&gt; <span class="built_in">console</span>.log(<span class="string">'onNext: '</span> + x),</span><br><span class="line">  </span><br><span class="line">    e =&gt; <span class="built_in">console</span>.log(<span class="string">'onError: '</span> + e.message),</span><br><span class="line">  </span><br><span class="line">    () =&gt; <span class="built_in">console</span>.log(<span class="string">'onCompleted'</span>));</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，我們創建了一個 Observable 的整數陣列，並且透過 <strong>subscribe</strong> 的動作去 <strong>listening</strong> 這個陣列，當有我們設定的 event 觸發時，我們就會 <strong>observe</strong> 到，並採取對應動作，這基本上就是 <strong>Observer Design Pattern</strong> 做的事情</p>
+<h2 id="Why-RxJS"><a href="#Why-RxJS" class="headerlink" title="Why RxJS"></a>Why RxJS</h2><p>以 Javascript 來說，想要抓取這些事件，一般可以用 callback 或是 Promise 來達成，然而 Promise 主要設計於一次性的事件與單一回傳值，而 RxJS 除了包含 Promise 外，提供了更豐富的整合應用。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Single return value</th>
+<th>Mutiple return values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pull/Synchronous/Interactive</td>
+<td>Object</td>
+<td>Iterables (Array/Set/Map/Object)</td>
+</tr>
+<tr>
+<td>Push/Asynchronous/Reactive</td>
+<td>Promise</td>
+<td>Observable</td>
+</tr>
+</tbody>
+</table>
+<p>還記得前面 ReactiveX 的定義嗎？ “combination of Observer pattern, <strong>Iterator pattern</strong> and functional programming” </p>
+<p>RxJS 結合 Array#extras 的優點，讓你能夠方便處理 <strong>Multiple return values</strong></p>
+<p>延伸上面的例子來說：</p>
+<p><a href="http://jsbin.com/yizequ/edit?html,js,console,output" target="_blank" rel="noopener">example 2</a><br><figure class="highlight javascript"><figcaption><span>iteratorPattern.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data = [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>, <span class="string">'D'</span>, <span class="string">'E'</span>, <span class="string">'F'</span>, <span class="string">'G'</span>, <span class="string">'H'</span>];</span><br><span class="line"><span class="keyword">const</span> source = Rx.Observable</span><br><span class="line">                 .interval(<span class="number">500</span>)</span><br><span class="line">                 .take(<span class="number">6</span>)</span><br><span class="line">                 .map(<span class="function"><span class="params">i</span> =&gt;</span> data[i])</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> result = source</span><br><span class="line"></span><br><span class="line">result.subscribe(<span class="function"><span class="params">x</span> =&gt;</span> <span class="built_in">console</span>.log(x));</span><br></pre></td></tr></table></figure></p>
+<p>當你 subscribe 這個 Observale 的 data source 時，他能讓你 <strong>監聽</strong> 陣列中，每 500ms (interval) 取一個值 (map(i =&gt; data[i])) 並取 6 次 (take(6))</p>
+<p>再回到最早的 click event 來說，假若我們想要能夠抓取 single click 與 double click 的事件，用最原始的 javascript 可能會需要許多變數來紀錄狀態、時間等等，但透過 RxJS 提供的 library，你只需要短短四行 code 就可以達成：</p>
+<p><a href="http://jsfiddle.net/staltz/4gGgs/27/" target="_blank" rel="noopener">完整範例</a><br><figure class="highlight javascript"><figcaption><span>multiClickStream.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> multiClickStream = clickStream</span><br><span class="line">    .buffer(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> clickStream.throttle(<span class="number">250</span>); &#125;)</span><br><span class="line">    .map(<span class="function"><span class="keyword">function</span>(<span class="params">list</span>) </span>&#123; <span class="keyword">return</span> list.length; &#125;)</span><br><span class="line">    .filter(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123; <span class="keyword">return</span> x &gt;= <span class="number">2</span>; &#125;);</span><br></pre></td></tr></table></figure></p>
+<p><img src="/img/arvinh/muticlick.png" alt="Double click event (source：https://gist.github.com/staltz/868e7e9bc2a7b8c1f754)" title="double click">     </p>
+<p>由上圖可以清楚看到，RxJS 幫你把 Stream 上的 event 依照你想要的時間做 <strong>整理</strong>，<code>buffer</code> 住觸發時間在 250ms 間的 click events，並且利用 <code>map</code> 函式抓出每個 event list 的長度，並進一步抓出長度大於 2 ，也就是 double click 的 event 出來。</p>
+<p>接著你只需要 <code>subscribe</code> 你剛剛定義的 event stream，即可做出反應(reaction)</p>
+<figure class="highlight javascript"><figcaption><span>multiClickStream.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">multiClickStream.subscribe(<span class="function"><span class="keyword">function</span> (<span class="params">numclicks</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">document</span>.querySelector(<span class="string">'h2'</span>).textContent = <span class="string">''</span>+numclicks+<span class="string">'x click'</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="More-examples-Autocompletion-service"><a href="#More-examples-Autocompletion-service" class="headerlink" title="More examples (Autocompletion service)"></a>More examples (Autocompletion service)</h3><p>以現在的 web app 來說，大量依賴 user 互動的效果與呈現，在不影響使用者體驗的前提下，多是用非同步的方式去抓取資料、渲染頁面等等，因此 Rx 系列的出現絕對是一個很大的助益。</p>
+<p>最後讓我們再以一個例子來做結尾，利用 RxJS 與 Jquery 打造 Wikipedia Autocompletion Service。</p>
+<p><a href="http://jsbin.com/yojuwu/edit?html,js,output" target="_blank" rel="noopener">完整範例</a><br>(source: <a href="http://xgrommx.github.io/rx-book/why_rx.html" target="_blank" rel="noopener">http://xgrommx.github.io/rx-book/why_rx.html</a>)</p>
+<h3 id="Step-1"><a href="#Step-1" class="headerlink" title="Step 1"></a>Step 1</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> keyups = Rx.Observable.fromEvent(input, <span class="string">'keyup'</span>)</span><br><span class="line">    .map(<span class="function"><span class="params">e</span> =&gt;</span> e.target.value)</span><br><span class="line">    .filter(<span class="function"><span class="params">text</span> =&gt;</span> text.length &gt; <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Now throttle the input for 500ms */</span></span><br><span class="line"><span class="keyword">var</span> throttled = keyups.throttle(<span class="number">500</span> <span class="comment">/* ms */</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Now get only distinct values, so we eliminate the arrows and other control characters */</span></span><br><span class="line"><span class="keyword">var</span> distinct = throttled.distinctUntilChanged();</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>我們先利用 Rx.Observable.fromEvent 來 Create 一個 binding keyup event 的 Observalbe keyups object，並且針對每次事件發生時，回傳被綁定的元素其 value 值長度大於二的</p>
+</li>
+<li><p>接著設定 keyups 的 throttle 時間，將 500ms 內的input當做一次event去觸發</p>
+</li>
+<li><p>再來剔除掉不相干的控制輸入，只抓取 distinct 的 value</p>
+</li>
+</ol>
+<h3 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2"></a>Step 2</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">searchWikipedia</span> (<span class="params">term</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> $.ajax(&#123;</span><br><span class="line">        url: <span class="string">'http://en.wikipedia.org/w/api.php'</span>,</span><br><span class="line">        dataType: <span class="string">'jsonp'</span>,</span><br><span class="line">        data: &#123;</span><br><span class="line">            action: <span class="string">'opensearch'</span>,</span><br><span class="line">            format: <span class="string">'json'</span>,</span><br><span class="line">            search: term</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).promise();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>簡單撰寫一個 ajax 來 fetch search api</li>
+<li>這邊我們直接 return promise，RxJS 會幫你 wrap 起來變成 Obserbale，或是你也可以利用 <code>Rx.Observable.fromPromise</code>來將原有的 Promise 改裝</li>
+</ol>
+<h3 id="Step-3"><a href="#Step-3" class="headerlink" title="Step 3"></a>Step 3</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> suggestions = distinct.flatMapLatest(searchWikipedia);</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>利用 <a href="http://xgrommx.github.io/rx-book/content/observable/observable_instance_methods/flatmaplatest.html" target="_blank" rel="noopener">flatMapLatest</a> 將剛才的 Observable object <code>distinct</code> 與 <code>searchWikipedia</code> function 做結合，then we good to go! (先不管flatMapLatest是什麼，總之他會將 distinct 這個 Observable sequence內的元素丟給 searchWikipedia，並將回傳回來的資料再轉換成 Observable sequence，讓人可以 subscribe)</li>
+</ol>
+<h3 id="Step-4"><a href="#Step-4" class="headerlink" title="Step 4"></a>Step 4</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">suggestions.subscribe(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> res = data[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">    $results.empty();</span><br><span class="line"></span><br><span class="line">    $.each(res, (_, value) =&gt; $(<span class="string">'&lt;li&gt;'</span> + value + <span class="string">'&lt;/li&gt;'</span>).appendTo($results));</span><br><span class="line">&#125;, error =&gt; &#123;</span><br><span class="line">    <span class="comment">/* handle any errors */</span></span><br><span class="line">    $results.empty();</span><br><span class="line"></span><br><span class="line">    $(<span class="string">'&lt;li&gt;Error: '</span> + error + <span class="string">'&lt;/li&gt;'</span>).appendTo($results);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>接著就是 Subscribe 剛剛的 Observable sequence <strong>suggestions</strong>，並將 listen 到的資料 show 出來</li>
+</ol>
+<p>就這麼簡單完成了一個 Autocompletion 的 service 了！</p>
+<h3 id="題外話"><a href="#題外話" class="headerlink" title="題外話"></a>題外話</h3><p>先簡單介紹什麼是 flatMap 與 flatMapLatest，畢竟剛剛範例有用到，而實際上 RxJS 還有很多複雜的 function 可以應用，待之後我有時間再繼續專研吧！但有興趣的讀者可以在文章最下方的連結找到資源。</p>
+<p>flatMap 會將 一個 Observable Sequence 的元素 映射到 另一個新的 Observable Sequence，並且subscribe 原先的 Observable Sequence 的人也都可以聽得到</p>
+<p>簡單的例子如下：</p>
+<figure class="highlight javascript"><figcaption><span>flatMap</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.clear();</span><br><span class="line"><span class="keyword">var</span> source = Rx.Observable</span><br><span class="line">    .range(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">    .flatMap(<span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Rx.Observable.range(x, <span class="number">2</span>);    </span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> subscription = source.subscribe(</span><br><span class="line">    <span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'Next: '</span> + x);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'Error: '</span> + err);   </span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'Completed'</span>);   </span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Result: </span></span><br><span class="line"><span class="comment">// =&gt; Next: 1 </span></span><br><span class="line"><span class="comment">// =&gt; Next: 2  Rx.Observable.range(1, 2)</span></span><br><span class="line"><span class="comment">// =&gt; Next: 2 </span></span><br><span class="line"><span class="comment">// =&gt; Next: 3  Rx.Observable.range(2, 2)</span></span><br><span class="line"><span class="comment">// =&gt; Completed</span></span><br></pre></td></tr></table></figure>
+<p>See? 他會把 sequence 中的元素丟進 callback，並回傳 Observable sequence，你也可以丟入 Promise，就像範例中做的。</p>
+<p>而 flatMapLatest 則是只會進行最後一次的 sequence，以剛剛的範例來說，最後subscribe的人接收到的會是最新的那個 Observable sequence 的結果！而不會每打一個字所搜尋的結果都一直累加顯示上去。</p>
+<h2 id="One-more-thing"><a href="#One-more-thing" class="headerlink" title="One more thing"></a>One more thing</h2><p>在我前面放的圖中，描繪 Click event 的 叫做 <strong>marble</strong> 圖，這邊有個網站可以讓你以視覺化互動的方式去操作這些 event，幫助你理解 Rx 當中的各個 function 之功用！非常推薦！！<br>去玩玩吧！<a href="http://rxmarbles.com/" target="_blank" rel="noopener">rxmarbles</a></p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>Rx 真的是蠻有趣的東西，提供的lib又號稱毫無相依性，可以應用在各種framework上方，只是必須要懂得如何Think in Reactive Programming，否則這些lib的用法還真的是不好理解，這篇拋磚引玉簡單介紹一下，之後會再有更深入的研究！ 有什麼說明不對的地方也請見諒與指教！</p>
+<p>參考資料</p>
+<ul>
+<li><a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754" target="_blank" rel="noopener">The introduction to Reactive Programming you’ve been missing (by @andrestaltz)</a></li>
+<li><a href="http://xgrommx.github.io/rx-book/" target="_blank" rel="noopener">Rx-book</a></li>
+<li><a href="https://github.com/Reactive-Extensions/RxJS/tree/master/doc" target="_blank" rel="noopener">Reactive-Extensions RxJS</a></li>
+<li><a href="http://rxmarbles.com/" target="_blank" rel="noopener">rxmarbles</a></li>
+</ul>
+<p>關於作者：<br><a href="http://blog.arvinh.info/about/" target="_blank" rel="noopener">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2016/05/28/reactive-programming-intro-by-rxjs/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2016/05/28/reactive-programming-intro-by-rxjs/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2016/05/28/reactive-programming-intro-by-rxjs/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2016/05/28/reactive-programming-intro-by-rxjs/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2016/06/04/sketch-prototyping-for-engineer/">
+        ← 給工程師的 Sketch Prototyping 簡易入門教學
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/05/20/fast-way-to-get-apk-information/">
+        快速取得 apk 相關資訊 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

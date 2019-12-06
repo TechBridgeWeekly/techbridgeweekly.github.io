@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>簡明 Linux Shell Script 入門教學 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-11-15T10:23:23.000Z" itemprop="datePublished">
+          2019-11-15
+      </time>
+    
+    
+    | 
+    <a href='/tags/軟體工程師/'>軟體工程師</a>,
+    
+    <a href='/tags/軟體工程/'>軟體工程</a>,
+    
+    <a href='/tags/software-engineering/'>software engineering</a>,
+    
+    <a href='/tags/bash/'>bash</a>,
+    
+    <a href='/tags/shell/'>shell</a>,
+    
+    <a href='/tags/linux/'>linux</a>,
+    
+    <a href='/tags/指令/'>指令</a>,
+    
+    <a href='/tags/命令列/'>命令列</a>,
+    
+    <a href='/tags/command-line/'>command line</a>,
+    
+    <a href='/tags/script/'>script</a>,
+    
+    <a href='/tags/unix/'>unix</a>,
+    
+    <a href='/tags/mac/'>mac</a>,
+    
+    <a href='/tags/os/'>os</a>,
+    
+    <a href='/tags/windows/'>windows</a>,
+    
+    <a href='/tags/curl/'>curl</a>,
+    
+    <a href='/tags/shell-script/'>shell script</a>
+    
+    
+</span>
+
+<meta name="generator" content="簡明 Linux Shell Script 入門教學">
+<meta name="og:title" content="簡明 Linux Shell Script 入門教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">簡明 Linux Shell Script 入門教學</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/shell-script/shell-script.png" alt="簡明 Linux Shell Script 入門教學"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Shell 是一種讓使用者可以和作業系統 Kernel（核心用來控制 CPU、記憶體、硬碟等硬體）互動溝通的橋樑。Shell Script 主要是使用在 Linux 和 MacOS 等 Unix-like 作業系統的自動化操作指令的程式語言。其透過 Unix shell 命令列直譯器來執行（我們這邊主要使用 bash shell，其他的 Unix shell 觀念大致類似），使用方式有點類似直譯式程式語言（不用編譯直接執行）。在 Windows 系列家族也有類似的使用方式：Batch file。</p>
+<p><img src="/img/kdchang/shell-script/kernel.png" alt="簡明 Linux Shell Script 入門教學"></p>
+<p>一般情況 Shell Script 常用於系統管理、自動化操作檔案、自動化重複的指令碼、分析 log 等文件檔案、列印呈現我們想要的資料等，透過程式語言的使用來減少重複瑣碎的工作，所以若能妥善使用將提升不少開發者和軟體工程師的日常工作效率。接著我們將透過日常生活常用的使用情境，帶領讀者們進入入門 Shell Script（讀者需要具備基本 Linux 指令碼的基本觀念，若你需要複習常見 Linux 指令可以參考 <a href="https://blog.techbridge.cc/2017/12/23/linux-commnd-line-tutorial/">Linux Command 命令列指令與基本操作入門教學</a>）。</p>
+<h1 id="Shell-Script-初體驗"><a href="#Shell-Script-初體驗" class="headerlink" title="Shell Script 初體驗"></a>Shell Script 初體驗</h1><p>在撰寫 Shell Script 之前我們先來了解 Shell Script 撰寫的流程和架構。一般我們會使用 <code>.sh</code> 副檔名來命名 Shell Script 檔案。然後將該檔案設定為可執行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x demo.sh</span><br></pre></td></tr></table></figure>
+<p>可以透過檢視檔案詳細資料觀看是否已有 <code>+x</code> 的執行權限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ls -l demo.sh</span><br><span class="line"></span><br><span class="line"># -rwxr-xr-x  1 user  staff  106 Nov 16 10:41 demo.sh</span><br></pre></td></tr></table></figure>
+<p>執行 Shell Script 檔案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./demo.sh</span><br></pre></td></tr></table></figure>
+<p>接著，我們先利用一個簡單的範例：將目前執行 process 的 PID 依照數字大小排序，取出前 10 名，來了解撰寫 Shell Script 的基本架構。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 宣告使用 /bin/bash</span><br><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">echo &quot;=== 將目前執行 process 的 PID 依照數字大小排序，取出前 10 名 === &quot;</span><br><span class="line"></span><br><span class="line"># ps 為列出 process 相關資訊，透過 | pipe 管線傳遞資料。awk 可以根據 pattern 進行資料處理（這邊印出第一欄 PID）而 sort 是進行排序，其排序時，預設都是把資料當作字串來排序，若想讓資料根據實際數值的大小來排序，可以加上 -n 參數。-r 則是由大到小排序，預設是由小到大</span><br><span class="line">ps | awk &apos;&#123;print $1&#125;&apos; | sort -rn | head -10</span><br></pre></td></tr></table></figure>
+<p>執行結果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ ./demo.sh</span><br><span class="line">=== 將目前執行 process 的 PID 依照數字大小排序，取出前 10 名 ===</span><br><span class="line">83784</span><br><span class="line">83783</span><br><span class="line">75956</span><br><span class="line">75955</span><br><span class="line">75954</span><br><span class="line">75952</span><br><span class="line">74069</span><br><span class="line">74068</span><br><span class="line">73543</span><br><span class="line">37621</span><br></pre></td></tr></table></figure>
+<p>恭喜你，你已經完成了第一個 Shell Script 程式了！</p>
+<h1 id="變數"><a href="#變數" class="headerlink" title="變數"></a>變數</h1><p>一般來說程式語言中變數是用來暫存接下來會使用到的資料或是儲存指到物件的參考位置。在 Shell Script 可以使用以下三種方式來宣告變數並給定值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">variable1=value</span><br><span class="line"># 若是值內有空白則需要使用 &apos;&apos; 或 &quot;&quot; 包裹起來</span><br><span class="line">variable2=&apos;value 2&apos;</span><br><span class="line">variable3=&quot;value 3&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>註解使用 #，因為沒有多行註解，所以需要使用多單行註解達到</p>
+</blockquote>
+<p>使用變數方式為 <code>${變數名稱}</code>，花括號主要是輔助了解變數的範圍：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">pathName=demo.sh</span><br><span class="line"># echo 是列印值，印出變數 pathName 內容 demo.sh</span><br><span class="line">echo $&#123;pathName&#125;</span><br></pre></td></tr></table></figure>
+<p>更新變數直接重新 assign 值即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">pathName=demo1.sh</span><br><span class="line"># 印出 demo1.sh</span><br><span class="line">echo $&#123;pathName&#125;</span><br><span class="line"></span><br><span class="line">pathName=demo2.sh</span><br><span class="line"># 印出 demo2.sh</span><br><span class="line">echo $&#123;pathName&#125;</span><br></pre></td></tr></table></figure>
+<p>刪除變數使用 <code>unset</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">pathName=demo.sh</span><br><span class="line"># 印出 demo.sh</span><br><span class="line">echo $&#123;pathName&#125;</span><br><span class="line">unset pathName</span><br><span class="line"># 空值</span><br><span class="line">echo $&#123;pathName&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意系統環境變數為全域變數、區域變數則為 Shell Script 內部程式使用，不能跨檔案使用。</p>
+</blockquote>
+<h1 id="運算式"><a href="#運算式" class="headerlink" title="運算式"></a>運算式</h1><p>運算式是當運算子和運算元計算結果回傳後賦值給變數。在 Bash Shell 中內建原生不支援運算式，但我們可以使用 expr、awk 等指令來支援實現運算式。</p>
+<h2 id="算式"><a href="#算式" class="headerlink" title="算式"></a>算式</h2><p>我們可以使用四則運算來賦值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">result=`expr 10 + 2`</span><br><span class="line"></span><br><span class="line"># 12</span><br><span class="line">echo &quot;Result: $result&quot;</span><br></pre></td></tr></table></figure>
+<h1 id="條件判斷"><a href="#條件判斷" class="headerlink" title="條件判斷"></a>條件判斷</h1><p>在 Shell Script 中同樣可以使用 if..else 條件判斷，特別注意的是在 Shell Script 中使用 <code>fi</code> 為結尾（為 <code>if</code> 的倒寫法，同樣的接下來討論的 <code>case</code> 也有類似用法），代表條件判斷結束。<code>==</code> 為等於，<code>!=</code> 為不等於運算子。</p>
+<h2 id="if"><a href="#if" class="headerlink" title="if"></a>if</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">x=20</span><br><span class="line">y=30</span><br><span class="line"></span><br><span class="line">if [ $x == $y ]; then</span><br><span class="line">   echo &quot;value x is equal to value y&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ $x != $y ]; then</span><br><span class="line">   echo &quot;value x is not equal to value y&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<h2 id="if-else"><a href="#if-else" class="headerlink" title="if else"></a>if else</h2><p>在 Shell Script 可以使用 <code>-gt</code> （greater than 縮寫）和 <code>-lt</code> （less than 縮寫）代表<code>大於</code>和<code>小於</code>，而 <code>-ge</code> （greater equal 縮寫）和 <code>-le</code>（less equal 縮寫）則是<code>大於等於</code>和<code>小於等於</code>的運算子符號。</p>
+<blockquote>
+<p>記得比較條件需要放在 [] 中，前後要留空白</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">if [ $x -gt $y ]; then</span><br><span class="line">   echo &quot;value x is greater than value y&quot;</span><br><span class="line">else</span><br><span class="line">   echo &quot;value x is not greater than value y&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ $x -lt $y ]; then</span><br><span class="line">   echo &quot;value x is not less than value y&quot;</span><br><span class="line">else</span><br><span class="line">   echo &quot;value x is not less than value y&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ $x -ge $y ]; then</span><br><span class="line">   echo &quot;value x is greater or equal than value y&quot;</span><br><span class="line">else</span><br><span class="line">   echo &quot;value x is not greater than value y&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if [ $x -le $y ]; then</span><br><span class="line">   echo &quot;value x is not less or equal than value y&quot;</span><br><span class="line">else</span><br><span class="line">   echo &quot;value x is not less or equal than value y&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<h2 id="if-elif-else"><a href="#if-elif-else" class="headerlink" title="if elif else"></a>if elif else</h2><p>若有多個條件需要判斷，可以使用 <code>if elif else</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">value1=20</span><br><span class="line">value2=30</span><br><span class="line">value3=30</span><br><span class="line"></span><br><span class="line">if [ $value1 -gt $value2 ]; then</span><br><span class="line">   echo &quot;value1 is greater than value2&quot;</span><br><span class="line">elif [ $value1 == $value3 ]; then</span><br><span class="line">   echo &quot;value1 is equal to value3&quot;</span><br><span class="line">else</span><br><span class="line">   echo &quot;other result&quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<h2 id="case-…-esac"><a href="#case-…-esac" class="headerlink" title="case … esac"></a>case … esac</h2><p>若要使用類似一般程式語言的 <code>switch</code> 來處理多種條件判斷時，可以使用 <code>case</code> 來進行判斷：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">language=&apos;Java&apos;</span><br><span class="line"></span><br><span class="line">case $language in</span><br><span class="line">    Java*) echo &quot;是 Java！&quot;</span><br><span class="line">            ;;</span><br><span class="line">    Python*) echo &quot;是 Python！&quot;</span><br><span class="line">            ;;</span><br><span class="line">    C*)     echo &quot;是 C！&quot;</span><br><span class="line">            ;;</span><br><span class="line">    *)      echo &quot;沒 match 到！&quot;</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+<h1 id="迴圈"><a href="#迴圈" class="headerlink" title="迴圈"></a>迴圈</h1><p>當我們需要重複某些瑣碎的任務或是迭代取得資料就需要迴圈來支援。此時可以使用 <code>for</code>、<code>while</code> 和 <code>until</code> 迴圈進行迭代。</p>
+<h2 id="for"><a href="#for" class="headerlink" title="for"></a>for</h2><p>Shell Script 的 <code>for</code> 使用方法和一般程式語言類似，同樣可以針對條件使用 <code>break</code>、<code>continue</code> 來跳出或是跳過迴圈。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">for loop in 1 2 3; do</span><br><span class="line">    echo &quot;number: $loop&quot;</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h2 id="while"><a href="#while" class="headerlink" title="while"></a>while</h2><p>若是需要設定一個條件直到該條件為止，可以使用 <code>while</code>，但要注意避免無限迴圈狀況：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">counter=0</span><br><span class="line">while [ $counter -le 5 ]; do</span><br><span class="line">    counter=&apos;expr $counter+1&apos;</span><br><span class="line">    echo $counter</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h2 id="until"><a href="#until" class="headerlink" title="until"></a>until</h2><p>直到某個條件結束可以使用 <code>until</code> 來進行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"># 從 0 印出數字直到 10</span><br><span class="line">counter=0</span><br><span class="line">until [ $counter -gt 10 ]; do</span><br><span class="line">   echo $counter</span><br><span class="line">   counter=`expr $counter + 1`</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h1 id="函式"><a href="#函式" class="headerlink" title="函式"></a>函式</h1><p>隨著我們的程式越來越大，我們需要透過模組化或是將重複使用的程式碼改成函式。函式基本架構如下：</p>
+<ol>
+<li>函式名稱（<code>function</code> 關鍵字為選擇性）</li>
+<li>是否有傳入參數</li>
+<li>函式內操作</li>
+<li>是否有回傳值</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function function_name () &#123;</span><br><span class="line">    # 做一些事情</span><br><span class="line">    [ 回傳值 ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>函式範例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">function echoHello() &#123;</span><br><span class="line">    # hello world, rock!!</span><br><span class="line">    echo &quot;$&#123;0&#125; hello $&#123;1&#125;, $&#123;2&#125;!!&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">echoHello &apos;world&apos; &apos;rock&apos;</span><br></pre></td></tr></table></figure>
+<p>以上我們可以看到使用 <code>&quot;&quot;</code> 雙引號把字串和變數取出來印出（你可以試試看使用單引號會發生什麼事情），與一般程式語言比較不同的是其函式呼叫不需要有小括號傳入參數，直接以空白當作參數傳遞的格式。注意參數從 1 開始，<code>${0}</code> 為檔名。</p>
+<h1 id="特殊變數"><a href="#特殊變數" class="headerlink" title="特殊變數"></a>特殊變數</h1><p>在 Shell Script 檔案和函式往往需要透過傳入參數來設定執行程式的內容。在 Shell Script 支援許多好用的特殊變數，可以方便我們透過使用變數方式來設置程式執行的流程。</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>描述</th>
+<th>註解</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$0</td>
+<td>目前的檔案檔名</td>
+<td></td>
+</tr>
+<tr>
+<td>$n</td>
+<td>n 從 1 開始，代表第幾個參數</td>
+<td></td>
+</tr>
+<tr>
+<td>$#</td>
+<td>傳遞到程式或函式目前有幾個參數</td>
+<td></td>
+</tr>
+<tr>
+<td>$*</td>
+<td>傳遞到程式或函式所有參數</td>
+<td></td>
+</tr>
+<tr>
+<td>$@</td>
+<td>類似 $* 但是在被雙引號包含時有些許不同</td>
+<td></td>
+</tr>
+<tr>
+<td>$?</td>
+<td>上一個指令退出狀態或是函式的返回值</td>
+<td></td>
+</tr>
+<tr>
+<td>$$</td>
+<td>目前 process PID</td>
+</tr>
+</tbody>
+</table>
+<p>透過執行 <code>./demo_special_var.sh var1 var2</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">echo &quot;$0&quot;</span><br><span class="line">echo &quot;$1&quot;</span><br><span class="line">echo &quot;$#&quot;</span><br><span class="line">echo &quot;$*&quot;</span><br><span class="line">echo &quot;$@&quot;</span><br><span class="line">echo &quot;$?&quot;</span><br><span class="line">echo &quot;$$&quot;</span><br></pre></td></tr></table></figure>
+<p>印出結果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">./demo.sh</span><br><span class="line">var1</span><br><span class="line">2</span><br><span class="line">var1 var2</span><br><span class="line">var1 var2</span><br><span class="line">0</span><br><span class="line">80417</span><br></pre></td></tr></table></figure>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上我們透過循序漸進入門了 Shell Script 並撰寫了我們第一個 Shell Script 程式，並了解如何在 Shell Script 中使用變數、條件判斷、迴圈、函式以及特殊變數。Shell Script 常用於系統管理、自動化操作檔案、自動化重複的指令碼、分析 log 等文件檔案、列印呈現我們想要的資料等，透過程式語言的使用來減少重複瑣碎的工作，快把 Shell Script 放入你的工具箱中吧！若能妥善使用將提升不少開發者和軟體工程師的日常工作效率。</p>
+<h1 id="參考文件"><a href="#參考文件" class="headerlink" title="參考文件"></a>參考文件</h1><ol>
+<li><a href="https://zh.wikipedia.org/zh-tw/Shell%E8%84%9A%E6%9C%AC" target="_blank" rel="noopener">Wiki Shell 指令碼</a></li>
+<li><a href="https://zh.wikipedia.org/zh-tw/%E5%86%85%E6%A0%B8" target="_blank" rel="noopener">Wiki 核心 (電腦科學)</a></li>
+<li><a href="http://linux.vbird.org/" target="_blank" rel="noopener">鳥哥的 Linux 私房菜</a></li>
+</ol>
+<p>（image via <a href="https://i.stack.imgur.com/jJgjc.png" target="_blank" rel="noopener">stackoverflow</a>）</p>
+<p>關於作者：<br><a href="http://blog.kdchang.cc" target="_blank" rel="noopener">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino/Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/11/15/linux-shell-script-tutorial/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/11/15/linux-shell-script-tutorial/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/11/15/linux-shell-script-tutorial/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/11/15/linux-shell-script-tutorial/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/11/22/leetcode-pattern-fast-and-slow-pointer/">
+        ← Leetcode 刷題 pattern - Fast & Slow Pointer
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/11/06/svg-animation-in-10mins/">
+        十分鐘、五步驟，SVG 動起來！ →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

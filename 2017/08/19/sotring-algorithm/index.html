@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>一起用 JavaScript 來複習經典排序法吧！ | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-08-19T18:54:33.000Z" itemprop="datePublished">
+          2017-08-19
+      </time>
+    
+    
+    | 
+    <a href='/tags/sort-algorithm/'>sort, algorithm</a>
+    
+    
+</span>
+
+<meta name="generator" content="一起用 JavaScript 來複習經典排序法吧！">
+<meta name="og:title" content="一起用 JavaScript 來複習經典排序法吧！">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">一起用 JavaScript 來複習經典排序法吧！</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近剛好上到 <a href="https://www.youtube.com/watch?v=jUyQqLvg8Qw" target="_blank" rel="noopener">CS50 Week3</a>，這一週的主題是：Algorithms，裡面介紹到了幾種經典的排序法，像是選擇排序、泡沫排序、插入排序以及合併排序。</p>
+<p>我覺得身為一個軟體工程師，大概一輩子都脫離不了排序了，畢竟這是經典演算法之一嘛！與其每次要面試之前都凌亂的準備，不如現在就整理出一篇，紀錄一下各個排序法的心得，幫自己做個統整。</p>
+<p>因此，這一篇將利用 JavaScript 來實作各個經典排序演算法。</p>
+<p>這次實做的排序法都會是由小到大排序，並且為了方便起見，每一個排序法「都會直接更改原本的 array」，但如果你不想改到原本的也很簡單，在每一個的函式最開頭加上：<code>arr = arr.slice()</code>複製一份原本的即可。</p>
+<p>還有，因為文章裡面比較難放動畫，所以我只能放一些圖片而已，若是想搭配視覺化演算法一起學習的話，我非常推薦 <a href="https://visualgo.net/en" target="_blank" rel="noopener">VISUALGO</a>，這網站絕對會讓你對排序的理解度更上一層樓。</p>
+<h1 id="選擇排序法（Selection-Sort）"><a href="#選擇排序法（Selection-Sort）" class="headerlink" title="選擇排序法（Selection Sort）"></a>選擇排序法（Selection Sort）</h1><p>選擇排序是我認為最好理解的排序法，因為它的原理超級簡單：</p>
+<blockquote>
+<p>找到最小值，移到最左邊。</p>
+</blockquote>
+<p>當你第一輪跑完之後，你就找到整個陣列的最小值了，然後你把尋找範圍從 0 ~ n-1 變成 1 ~ n-1，重複做一樣的事情就可以了。或是，你也可以想成是：找到最小值，第二小值，第三小值…第 n 小值。</p>
+<p><img src="/img/huli/sorting/selection.jpg" alt><br>（圖片來源：<a href="http://cheetahonfire.blogspot.sg/2009/05/selection-sort-vs-insertion-sort.html" target="_blank" rel="noopener">http://cheetahonfire.blogspot.sg/2009/05/selection-sort-vs-insertion-sort.html</a> ）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> selectionSort = <span class="function">(<span class="params">arr</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> length = arr.length;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 有幾個元素，就要找幾輪的最小值</span></span><br><span class="line">  <span class="comment">// 這邊的 i 代表 i 以前的元素都排序好了</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 先預設第一個是最小的</span></span><br><span class="line">    <span class="keyword">let</span> min = arr[i];</span><br><span class="line">    <span class="keyword">let</span> minIndex = i;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 從還沒排好的元素開始找最小值</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = i; j &lt; length; j++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[j] &lt; min) &#123;</span><br><span class="line">        min = arr[j];</span><br><span class="line">        minIndex = j;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// ES6 的用法，交換兩個數值</span></span><br><span class="line">    [arr[minIndex], arr[i]] = [arr[i], arr[minIndex]];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>時間複雜度就是大家所熟知的 <code>O(n^2)</code>，最好、最壞、平均都是一樣的，因為無論原本的陣列長怎樣，都要經過這麼多輪比較。</p>
+<h1 id="泡沫排序法（Bubble-Sort）"><a href="#泡沫排序法（Bubble-Sort）" class="headerlink" title="泡沫排序法（Bubble Sort）"></a>泡沫排序法（Bubble Sort）</h1><p>泡沫排序應該是很多人第一個接觸的排序法，原理也很簡單好懂：</p>
+<blockquote>
+<p>跟隔壁互相比較，順序錯了就交換，讓大的元素一直浮到最後</p>
+</blockquote>
+<p>就是這樣交換的過程，才讓它稱為「泡沫」排序法，因為元素很像「浮」了上來。</p>
+<p><img src="/img/huli/sorting/bubble.png" alt><br>（圖片來源：<a href="http://www.opentechguides.com/how-to/article/c/51/bubble-sort-c.html" target="_blank" rel="noopener">http://www.opentechguides.com/how-to/article/c/51/bubble-sort-c.html</a> ）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> bubbleSort = <span class="function">(<span class="params">arr</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> n = arr.length;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 一共要跑 n 輪</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 從第一個元素開始，不斷跑到第 n - 1 - i 個</span></span><br><span class="line">    <span class="comment">// 原本是 n - 1，會再加上 - i 是因為最後 i 個元素已經排好了</span></span><br><span class="line">    <span class="comment">// 所以沒必要跟那些排好的元素比較</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; n - <span class="number">1</span> - i; j++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">        [arr[j], arr[j + <span class="number">1</span>]] = [arr[j + <span class="number">1</span>], arr[j]];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>雖然泡沫排序法的平均跟最壞時間複雜度都是<code>O(n^2)</code>，但值得注意的是 best case，出現在輸入的陣列已經是排序好的情況下。在這種情況下呢，時間複雜度是 O(n)，不會做任何的交換。</p>
+<p>但是呢，如果你要做到最優的情形是 <code>O(n)</code>，你必須要加上一個小優化才行。不然以我們上面的情況，雖然不會做任何交換，但還是會把每一個元素都 check 一遍。</p>
+<p>可以加上一個 flag 標注內圈有沒有交換的情形發生，如果沒有，就代表陣列已經排序好了，就可以直接跳掉。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">optimzedBubbleSort</span> = (<span class="params">arr</span>) =&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">const</span>  n = arr.length;</span><br><span class="line">  <span class="keyword">let</span> swapped = <span class="literal">true</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 一共要跑 n 輪</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; n &amp;&amp; swapped; i++) &#123;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 從第一個元素開始，不斷跑到第 n - 1 - i 個</span></span><br><span class="line">    <span class="comment">// 原本是 n - 1，會再加上 - i 是因為最後 i 個元素已經排好了</span></span><br><span class="line">    <span class="comment">// 所以沒必要跟那些排好的元素比較</span></span><br><span class="line">    swapped = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; n - <span class="number">1</span> - i; j++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[j] &gt; arr[j + <span class="number">1</span>]) &#123;</span><br><span class="line">        swapped = <span class="literal">true</span>;</span><br><span class="line">        [arr[j], arr[j + <span class="number">1</span>]] = [arr[j + <span class="number">1</span>], arr[j]];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>改良之後，如果輸入是已經排好的陣列，就只會跑一次內圈，然後就跳掉了，所以時間複雜度會是<code>O(n)</code>。</p>
+<h1 id="插入排序法（Insertion-Sort）"><a href="#插入排序法（Insertion-Sort）" class="headerlink" title="插入排序法（Insertion Sort）"></a>插入排序法（Insertion Sort）</h1><p>插入排序法是我認為相當直覺的一個排序法，簡單來說就是：</p>
+<blockquote>
+<p>你玩撲克牌的時候會用到的排序法</p>
+</blockquote>
+<p>就是不斷把撲克牌插入到適合的位置嘛，只是你玩牌的時候可能一次插入好多牌，而插入排序法是一次插入一張牌。</p>
+<p><img src="/img/huli/sorting/insertion.gif" alt><br>（圖片來源：<a href="https://commons.wikimedia.org/wiki/File:Insertion-sort-example.gif" target="_blank" rel="noopener">https://commons.wikimedia.org/wiki/File:Insertion-sort-example.gif</a> ）</p>
+<p>這邊比較值得注意的是在插入時候的演算法，不斷往前找到適合的位置，並且在邊找的時候就邊挪動元素了，所以等找到的時候就可以直接插入。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> insertionSort = <span class="function">(<span class="params">arr</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> n = arr.length;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 假設第一個元素已經排好，所以從 1 開始跑</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// position 表示可以插入的位置</span></span><br><span class="line">    <span class="keyword">let</span> position = i;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 先把要插入的元素存起來</span></span><br><span class="line">    <span class="keyword">const</span> value = arr[i];</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 開始往前找，只要符合這條件就代表這個位置是可以插入的</span></span><br><span class="line">    <span class="comment">// 邊找的時候就可以邊把元素往後挪，騰出空間</span></span><br><span class="line">    <span class="keyword">while</span> (i &gt;= <span class="number">0</span> &amp;&amp; arr[position - <span class="number">1</span>] &gt; value) &#123;</span><br><span class="line">      [arr[position], arr[position - <span class="number">1</span>]] = [arr[position - <span class="number">1</span>], arr[position]];</span><br><span class="line">      position--;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 找到適合的位置，放入元素</span></span><br><span class="line">    arr[position] = value;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>插入排序法的最佳情形出現在輸入元素已經是排序好的情況，這時候裡面的<code>while</code>只要跑一次就會結束了，所以時間複雜到就是外圈的<code>O(n)</code>而已。</p>
+<p>這邊提一個小插曲，我當初在寫示範跟測試的程式碼的時候沒寫好，導致拿來測試的陣列都是已經排好的，我就想說：「怎麼插入排序法比快速排序法還快，不合理啊！」</p>
+<h1 id="合併排序法（Merge-Sort）"><a href="#合併排序法（Merge-Sort）" class="headerlink" title="合併排序法（Merge Sort）"></a>合併排序法（Merge Sort）</h1><p>接著要進入到比較快的排序法了，合併排序法算是滿好理解的一個：</p>
+<blockquote>
+<p>切一半，排好左邊，排好右邊，合併</p>
+</blockquote>
+<p>談合併排序法的時候我喜歡先談合併這個步驟，其實就是把兩個各自排序好的陣列合併成一個。這一步其實也滿簡單，因為兩邊都已經排序好了嘛，所以就是不斷看兩邊的第一個元素，誰小就抓誰下來，接著左邊抓完就抓右邊，反之亦然。</p>
+<p><img src="/img/huli/sorting/merge.png" alt><br>（圖片來源：<a href="http://www.java2novice.com/java-sorting-algorithms/merge-sort/" target="_blank" rel="noopener">http://www.java2novice.com/java-sorting-algorithms/merge-sort/</a> ）</p>
+<p>我自己之前在看合併排序的時候，發現可以寫成一個比較好懂，但是空間耗費比較多的版本：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> simpleMergeSort = <span class="function">(<span class="params">arr</span>) =&gt;</span> &#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 合併</span></span><br><span class="line">  <span class="keyword">const</span> merge = <span class="function">(<span class="params">leftArray, rightArray</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> result = [];</span><br><span class="line">    <span class="keyword">let</span> nowIndex = <span class="number">0</span>, left = <span class="number">0</span>, right = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">const</span> leftLength = leftArray.length;</span><br><span class="line">    <span class="keyword">const</span> rightLength = rightArray.length;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 如果左右兩邊都沒抓完，就看誰比較小抓誰</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt; leftLength &amp;&amp; right &lt; rightLength) &#123;</span><br><span class="line">      <span class="keyword">if</span> (leftArray[left] &lt; rightArray[right]) &#123;</span><br><span class="line">        result[nowIndex++] = leftArray[left++];</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        result[nowIndex++] = rightArray[right++];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 跑到這裡代表左右兩邊其中一邊抓完了</span></span><br><span class="line">    <span class="comment">// 如果是左邊沒抓完，全部抓下來</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt; leftLength) &#123;</span><br><span class="line">      result[nowIndex++] = leftArray[left++];</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 右邊沒抓完，全部抓下來</span></span><br><span class="line">    <span class="keyword">while</span> (right &lt; rightLength) &#123;</span><br><span class="line">      result[nowIndex++] = rightArray[right++];</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 把合併好的陣列直接傳回去</span></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> _mergeSort = <span class="function">(<span class="params">arr</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> length = arr.length;</span><br><span class="line">    <span class="keyword">if</span> (length &lt;= <span class="number">1</span>) <span class="keyword">return</span> arr;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 切兩半</span></span><br><span class="line">    <span class="keyword">const</span> middle = <span class="built_in">Math</span>.floor(length / <span class="number">2</span>);</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 排左邊</span></span><br><span class="line">    <span class="keyword">const</span> leftArray = _mergeSort(arr.slice(<span class="number">0</span>, middle));</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 排右邊</span></span><br><span class="line">    <span class="keyword">const</span> rightArray = _mergeSort(arr.slice(middle, length));</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 合併後丟回去</span></span><br><span class="line">    <span class="keyword">return</span> merge(leftArray, rightArray);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> _mergeSort(arr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>對我來說，比較簡單的理由是滿直覺的，你就直接用 slice 切成兩個陣列，排序好之後合併起來就好。</p>
+<p>但比較省空間的做法是直接更改原來的陣列就好，這時候我們的參數會變得不太一樣：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeSort</span> = (<span class="params">arr</span>) =&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> merge = <span class="function">(<span class="params">array, start, middle, end</span>) =&gt;</span> &#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 宣告一個暫時的陣列來放合併後的結果</span></span><br><span class="line">    <span class="keyword">let</span> temp = [];</span><br><span class="line">    <span class="keyword">let</span> nowIndex = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">let</span> left = start;</span><br><span class="line">    <span class="keyword">let</span> right = middle + <span class="number">1</span>;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 這邊都跟上面一樣</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt;= middle &amp;&amp; right &lt;= end) &#123;</span><br><span class="line">      <span class="keyword">if</span> (array[left] &lt; array[right]) &#123;</span><br><span class="line">        temp[nowIndex++] = array[left++];</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        temp[nowIndex++] = array[right++];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">while</span> (left &lt;= middle) &#123;</span><br><span class="line">      temp[nowIndex++] = array[left++];</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">while</span> (right &lt;= end) &#123;</span><br><span class="line">      temp[nowIndex++] = array[right++];</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 要把合併後的陣列放回去 array[start ~ end]</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = start; i &lt;= end; i++) &#123;</span><br><span class="line">      array[i] = temp[i - start];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 代表要從 start 排到 end</span></span><br><span class="line">  <span class="keyword">const</span> _mergeSort = <span class="function">(<span class="params">array, start, end</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (end &lt;= start) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">const</span> middle = <span class="built_in">Math</span>.floor((start + end) / <span class="number">2</span>);</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 對左右兩半排序</span></span><br><span class="line">    _mergeSort(array, start, middle);</span><br><span class="line">    _mergeSort(array, middle + <span class="number">1</span>, end);</span><br><span class="line">    merge(array, start, middle, end);</span><br><span class="line">    <span class="keyword">return</span> array;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> _mergeSort(arr, <span class="number">0</span>, arr.length - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因為是直接更改原本的陣列，所以要多傳幾個數字進去，代表我要排序這個陣列的那一段。而呼叫完之後，你就可以預設這一段的陣列已經是排序好的了。</p>
+<p>基本上流程都跟上面簡單版的沒兩樣，但省了一些記憶體空間。</p>
+<h1 id="快速排序法（Quick-Sort）"><a href="#快速排序法（Quick-Sort）" class="headerlink" title="快速排序法（Quick Sort）"></a>快速排序法（Quick Sort）</h1><p>快速排序法我一開始覺得滿複雜，知道原理之後就覺得沒那麼難了，其實原理滿簡單：</p>
+<blockquote>
+<p>找一個數，並且把這個數調整到：讓左邊的元素比它小，右邊的元素比它大，再對左右兩遍做一樣的事</p>
+</blockquote>
+<p>那個數我們稱作 pivot，會把數列分割成左右兩邊。</p>
+<p>例如說現在有一個數列是：14, 7, 6, 9, 10, 20, 15</p>
+<p>我們挑選 14 當作 pivot，調整過後變成：7, 6, 9 , 10, <code>14</code>, 20, 15，左邊都比它小，右邊都比它大。</p>
+<p>而當你把 14 調整好的時候，其實這個元素就排好了！因為左邊比它小，右邊比它大嘛，所以這一個數字就排好了。接著只要對左右兩邊還沒排好的也做快速排序就行了。</p>
+<p>而快速排序的核心在於你要怎麼找到那個數，如果你找的數字剛好是數列的中位數，那當然效率最高。如果找的是最小的數，那就是最壞的情形，時間複雜度就變成<code>O(n^2)</code>，有分割跟沒分割一樣。</p>
+<p>我們直接假設第一個數就是 pivot，這樣比較方便。</p>
+<p>那再來有一個問題是，要怎麼把這個數字調整到左邊比它小，右邊比它大呢？我們可以維護一個變數叫做 <code>splitIndex</code>，讓這個 index 左邊的元素都比 pivot 小，而這個 index 本身以及它右邊的元素都比 pivot 大。</p>
+<p>當你掃一遍陣列，發現某個元素比 pivot 小的時候，就把這個元素跟 splitIndex 上的元素交換，並且把 splitIndex + 1，就可以做到我們上面想做的事情了。最後記得把 pivot 跟 splitIndex - 1（也就是最後一個比它小的元素）交換，就能夠把 pivot 放到正確的位置上了。</p>
+<p>可以參考下面的 gif，或是直接去<a href="https://visualgo.net/en" target="_blank" rel="noopener">VISUALGO</a>看看。</p>
+<p><img src="/img/huli/sorting/quick.gif" alt><br>（來源：<a href="https://github.com/hustcc/JS-Sorting-Algorithm/blob/master/6.quickSort.md" target="_blank" rel="noopener">https://github.com/hustcc/JS-Sorting-Algorithm/blob/master/6.quickSort.md</a> ）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span> = (<span class="params">arr</span>) =&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> swap = <span class="function">(<span class="params">array, i , j</span>) =&gt;</span> &#123;</span><br><span class="line">    [array[i], array[j]] = [array[j], array[i]];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> partition = <span class="function">(<span class="params">array, start, end</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> splitIndex = start + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = start + <span class="number">1</span>; i &lt;= end; i++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (array[i] &lt; array[start]) &#123;</span><br><span class="line">        swap(array, i, splitIndex);</span><br><span class="line">        splitIndex++;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 記得把 pivot 跟最後一個比它小的元素互換</span></span><br><span class="line">    swap(array, start, splitIndex - <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> splitIndex - <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> _quickSort = <span class="function">(<span class="params">array, start, end</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (start &gt;= end) <span class="keyword">return</span> array;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 在 partition 裡面調整數列，並且回傳 pivot 的 index</span></span><br><span class="line">    <span class="keyword">const</span> middle = partition(array, start, end);</span><br><span class="line">    _quickSort(array, start, middle - <span class="number">1</span>);</span><br><span class="line">    _quickSort(array, middle + <span class="number">1</span>, end);</span><br><span class="line">    <span class="keyword">return</span> array;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> _quickSort(arr, <span class="number">0</span>, arr.length - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="堆排序（Heap-Sort）"><a href="#堆排序（Heap-Sort）" class="headerlink" title="堆排序（Heap Sort）"></a>堆排序（Heap Sort）</h1><p>Heap 是一種資料結構，並且有分兩種：max heap 跟 min heap，兩種的原理其實雷同，我們直接拿 max heap 來講。</p>
+<p>先讓大家看一張 max heap 的圖片：</p>
+<p><img src="/img/huli/sorting/heap.jpg" alt><br>（資料來源：<a href="https://www.tutorialspoint.com/data_structures_algorithms/heap_data_structure.htm" target="_blank" rel="noopener">https://www.tutorialspoint.com/data_structures_algorithms/heap_data_structure.htm</a> ）</p>
+<p>大家可以發現，max heap 滿足了兩個性質：</p>
+<ol>
+<li>父節點一定大於子節點</li>
+<li>整個樹的根節點一定是最大值（可以由 1 推出來）</li>
+</ol>
+<p>而要用陣列表示 heap 也很簡單，會像這樣：</p>
+<p><img src="/img/huli/sorting/heap2.png" alt><br>（資料來源：<a href="http://notepad.yehyeh.net/Content/Algorithm/Sort/Heap/Heap.php" target="_blank" rel="noopener">http://notepad.yehyeh.net/Content/Algorithm/Sort/Heap/Heap.php</a> ）</p>
+<p>所以 heap sort 就是利用這個資料結構做排序，流程很簡單：</p>
+<ol>
+<li>先把讀進來的陣列建成 max heap（這時候 arr[0] 一定是這陣列最大值）</li>
+<li>把 arr[0] 跟最後一個節點互換（其實是最後一個還沒排序過的節點）</li>
+<li>調整成 max heap，回到步驟 2</li>
+</ol>
+<p>heap sort 其實有點複雜，複雜到可以再獨立出來一篇了…</p>
+<p>但簡單來說呢，就是改良版的選擇排序法，每一次都選最大值出來，然後把剩下的數字再調整成 max heap。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">heapSort</span> = (<span class="params">arr</span>) =&gt; </span>&#123;  </span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">heapify</span>(<span class="params">arr, length, node</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> left = node * <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">const</span> right = node * <span class="number">2</span> + <span class="number">2</span>;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 先預設最大的節點是自己</span></span><br><span class="line">    <span class="keyword">let</span> max = node;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span> (left &lt; length &amp;&amp; arr[left] &gt; arr[max]) &#123;</span><br><span class="line">      max = left;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span> (right &lt; length &amp;&amp; arr[right] &gt; arr[max]) &#123;</span><br><span class="line">      max = right;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 如果左右兩邊有任何一個比 node 大的話</span></span><br><span class="line">    <span class="keyword">if</span> (max !== node) &#123;</span><br><span class="line">      <span class="comment">// 就把兩個互換</span></span><br><span class="line">      [arr[node], arr[max]] = [arr[max], arr[node]];</span><br><span class="line">  </span><br><span class="line">      <span class="comment">// 接著繼續 heapfiy</span></span><br><span class="line">      heapify(arr, length, max);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// build max heap</span></span><br><span class="line">  <span class="keyword">const</span> length = arr.length;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="built_in">Math</span>.floor(length / <span class="number">2</span>) - <span class="number">1</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">    heapify(arr, length, i);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 排序</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = length - <span class="number">1</span>; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">    [arr[<span class="number">0</span>], arr[i]] = [arr[i], arr[<span class="number">0</span>]];</span><br><span class="line">    heapify(arr, i, <span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>其實仔細研究過後，就會發現每一個排序演算法都有值得參考的地方，而且每個排序法都滿有趣的。也會發現懂原理是一回事，寫不寫的出來又是另外一回事了。這篇就當作自己的排序法筆記吧，如果有任何錯誤麻煩不吝指出。</p>
+<p>如果想要自己玩玩看的話，<a href="https://github.com/aszx87410/JavaScript-sorting-algorithm-demo" target="_blank" rel="noopener">我有放到 Github 上</a>，有寫好 testcase，改一改就可以直接測了，應該滿方便的。</p>
+<p>因為要測試的關係，所以每個排序法前面都會加上：<code>arr = arr.slice()</code>避免修改到原本的 array。</p>
+<p>測試的過程也滿有趣的，我發現有些 ES6 語法（例如說很潮的交換語法或甚至是<code>let</code>）有時候會拖慢執行速度，因此我之前有把語法全部改回 ES5，發現效率快了不少，但這篇因為重點不在效能，所以還是全部用 ES6 的語法。</p>
+<h1 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h1><ol>
+<li><a href="http://notepad.yehyeh.net/Content/Algorithm/Sort/Heap/Heap.php" target="_blank" rel="noopener">[演算法] 堆積排序法(Heap Sort)</a></li>
+<li><a href="http://bubkoo.com/2014/01/14/sort-algorithm/heap-sort/" target="_blank" rel="noopener">常见排序算法 - 堆排序 (Heap Sort)</a></li>
+<li><a href="http://marklin-blog.logdown.com/posts/1910116" target="_blank" rel="noopener">排序之堆積排序法(Heap Sort)</a></li>
+<li><a href="https://my.oschina.net/wanglihui/blog/701263" target="_blank" rel="noopener">js算法:heap sort 使用堆排序</a></li>
+<li><a href="https://github.com/hustcc/JS-Sorting-Algorithm/blob/master/7.heapSort.md" target="_blank" rel="noopener">JS-Sorting-Algorithm/7.heapSort.md</a></li>
+<li><a href="http://blog.kdchang.cc/2016/09/27/javascript-data-structure-algorithm-sort-and-search/" target="_blank" rel="noopener">用 JavaScript 學習資料結構和演算法：排序（Sort）與搜尋（Search）篇</a></li>
+</ol>
+<p>關於作者：<br><a href="http://huli.logdown.com/" target="_blank" rel="noopener">@huli</a> 野生工程師，相信分享與交流能讓世界變得更美好</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/08/19/sotring-algorithm/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/08/19/sotring-algorithm/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/08/19/sotring-algorithm/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/08/19/sotring-algorithm/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/08/26/canvas-path-map/">
+        ← D3v4 & Canvas 工作坊 - D3 + Canvas 繪製動態路線圖
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/08/12/python-web-flask101-tutorial-sqlalchemy-orm-database-models/">
+        Python Web Flask 實戰開發教學 - SQLAlchemy 與 ORM →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

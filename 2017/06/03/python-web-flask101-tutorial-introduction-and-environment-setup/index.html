@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Python Web Flask 實戰開發教學 - 簡介與環境建置 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-06-03T12:00:00.000Z" itemprop="datePublished">
+          2017-06-03
+      </time>
+    
+    
+    | 
+    <a href='/tags/Python-Django-MVC-Web-MTV-Web-Backend-Web-Framework-教學-Flask-框架-網站開發-Anaconda/'>Python, Django, MVC, Web, MTV, Web Backend, Web Framework, 教學, Flask, 框架, 網站開發, Anaconda</a>
+    
+    
+</span>
+
+<meta name="generator" content="Python Web Flask 實戰開發教學 - 簡介與環境建置">
+<meta name="og:title" content="Python Web Flask 實戰開發教學 - 簡介與環境建置">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Python Web Flask 實戰開發教學 - 簡介與環境建置</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/flask101/python-logo.png" alt="Python Web Flask 實戰開發教學 - 簡介與環境建置"> </p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Web 開發涉及層面很廣，包含了前後端開發、資料庫優化、平行處理、負載平衡、高可用性、資訊安全、雲端伺服器部屬等議題，本系列文章將透過介紹 Python Web Flask 實戰開發來學習現代化網站開發的方方面面。一開始先從簡介和環境建置開始吧！</p>
+<h1 id="什麼是-Python？"><a href="#什麼是-Python？" class="headerlink" title="什麼是 Python？"></a>什麼是 Python？</h1><p><a href="https://zh.wikipedia.org/wiki/Python" target="_blank" rel="noopener">Python</a> 是一種物件導向、直譯式的跨平台電腦程式語言，它包含了一組功能完備的標準庫和豐富套件生態系，可以輕鬆完成很多常見的任務（例如：讀寫檔案、自然語言處理、網路爬蟲、網站開發、機器學習等），因為它可以很輕易整合其他底層語言（例如：C/C++ 等），所以又稱為膠水語言。它的語法簡單，與其它大多數程式設計語言使用大括弧不一樣，它使用空白縮進來定義語句塊。由於具備簡潔易學等特性，許多開發者推薦 Python 為初學者第一個學習的程式語言。由於版本更迭，我們接下來討論的主要是以 Python3 為主，若電腦沒有安裝的話，你可以在<a href="https://www.python.org/" target="_blank" rel="noopener">官方網站下載</a>，若你不是安裝 <a href="https://www.continuum.io/downloads" target="_blank" rel="noopener">Anaconda</a> 這個 all-in-one 版本的話（自帶許多套件和科學運算工具，也可以建立虛擬開發環境），記得要安裝 <a href="https://pypi.python.org/pypi/pip" target="_blank" rel="noopener">pip</a>、<a href="https://ipython.org/" target="_blank" rel="noopener">IPython</a>。 </p>
+<p>接下來我們將以 Anaconda 這個開發環境為主要講解環境。由於我們假定讀者已經有一些 Python 基礎，所以我們會跳過有關 Python 語法的基本教學。</p>
+<h1 id="什麼是-Flask？"><a href="#什麼是-Flask？" class="headerlink" title="什麼是 Flask？"></a>什麼是 Flask？</h1><p><img src="/img/kdchang/flask101/flask-index.png" alt="Python Web Flask 實戰開發教學 - 簡介與環境建置"> </p>
+<p><a href="http://flask.pocoo.org/" target="_blank" rel="noopener">Flask</a> 是一個使用 Python 撰寫的輕量級 Web 應用程式框架，由於其輕量特性，也稱為 micro-framework（微框架）。Flask 核心十分簡單，主要是由 <a href="http://werkzeug.pocoo.org/" target="_blank" rel="noopener">Werkzeug WSGI 工具箱</a>和 <a href="http://jinja.pocoo.org/docs/2.9/" target="_blank" rel="noopener">Jinja2 模板引擎</a>所組成，Flask 和 Django 不同的地方在於 Flask 給予開發者非常大的彈性（當然你也可以說是需要思考更多事情），可以選用不同的用的 extension 來增加其功能。相比之下，Django 雖然完善但技術選擇相對不彈性，不論是 ORM、表單驗證或是模版引擎都有自己的作法。事實上沒有最好的框架，只有合適的使用情境，Django 相比之下適合需要快速的開發大型的應用程式，和 Ruby 中的 <a href="http://rubyonrails.org/" target="_blank" rel="noopener">Ruby on Rails</a> 相似，而 Flask 則是相對輕量彈性，更像是 Ruby 界的 <a href="http://www.sinatrarb.com/" target="_blank" rel="noopener">Sinatra</a>。若讀者想先體驗看看 Flask 的程式狀況，以下是 Flask 簡易運行的程式，啟動測試伺服器後，可以在瀏覽器中（<a href="http://localhost:5000/）印出" target="_blank" rel="noopener">http://localhost:5000/）印出</a> <code>Hello World!</code>。</p>
+<figure class="highlight python"><figcaption><span>index.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route("/")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Hello World!"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+<h1 id="Python-Web-開發環境建置"><a href="#Python-Web-開發環境建置" class="headerlink" title="Python Web 開發環境建置"></a>Python Web 開發環境建置</h1><p>所謂工欲善其事，必先利其器，要開發好的應用程式必須先準備好開發環境才行。以下介紹我們在接下來開發 Python Flask Web 應用程式所需要安裝的開發環境工具（以下以 Mac OS 等 Unix-like 作業系統為示範，若是 Windows 使用者建議安裝 Virtualbox 並運行 Linux Ubuntu 作業系統，<a href="http://blog.xuite.net/yh96301/blog/432341564-VirtualBox+5.1%E5%AE%89%E8%A3%9DUbuntu+16.04" target="_blank" rel="noopener">參考安裝文件</a>）：</p>
+<ol>
+<li><p>Microsoft VSCode 編輯器<br> Microsoft VSCode 是 Microsoft 推出的編輯器（非整合開發環境 IDE），夾帶著 Microsoft 過去打造 Visual studio 整合開發環境的豐富經驗，相比 Sublime Text 和其他編輯器，VSCode 的優勢在於開源且活躍的開發社群、內建 debugger 框架、原生 Git 整合、套件整合容易等特性。所以對於初學者來說 VSCode 是一個蠻適合入門的開發環境。它的安裝方式也十分簡易，在官網下載後按照指示安裝完成即可。</p>
+<p> <img src="/img/kdchang/flask101/vscode-index.png" alt="Python Web Flask 實戰開發教學 - 簡介與環境建置"> </p>
+<p> 我們可以安裝 Python 語法和格式檢查的相關 Python 套件幫助除錯：</p>
+<p> <img src="/img/kdchang/flask101/vscode-python.png" alt="Python Web Flask 實戰開發教學 - 簡介與環境建置"> </p>
+</li>
+<li><p>終端機環境（iTterm/內建 terminal）<br> terminal（終端機）是我們下指令的地方，許多時候我們進行程式開發時不會使用 GUI 的介面而是使用下指令方式請電腦做相對應的行為。在 Linux 和 Mac 裡面都有內建的 terminal 的應用程式，若你是 Mac 用戶想使用更便利的工具（分割視窗、熱鍵、搜尋、自動補完等）可以額外安裝 <a href="https://www.iterm2.com/index.html" target="_blank" rel="noopener">iterm2</a> 做使用。</p>
+<p> <img src="/img/kdchang/flask101/iterm2.png" alt="Python Web Flask 實戰開發教學 - 簡介與環境建置"> </p>
+<p> 下指令（$ 為提示字元，不用輸入）：</p>
+<p> <img src="/img/kdchang/flask101/iterm2-example.png" alt="Python Web Flask 實戰開發教學 - 簡介與環境建置"> </p>
+<p> 對於有志於從事程式開發相關工作的讀者建議可以多熟悉指令碼的輸入，更多指令碼可以參考鳥哥撰寫的 <a href="http://linux.vbird.org/linux_basic/redhat6.1/linux_06command.php" target="_blank" rel="noopener">Linux 基本指令介紹</a> 和 <a href="http://www.linux.org.tw/resource.html" target="_blank" rel="noopener">Linux 學習資源</a>。</p>
+</li>
+<li><p>Git 版本控制系統/註冊 GitHub 帳戶<br> Git 是一種分散式版本控制系統，可以讓我們可以更方便地管理我們的程式碼。在網路上有非常多優秀的 Git 教學文件（<a href="https://backlogtool.com/git-guide/tw/" target="_blank" rel="noopener">連猴子都能懂的Git入門指南</a>、<a href="https://www.slideshare.net/littlebtc/git-5528339" target="_blank" rel="noopener">寫給大家的 Git 教學</a>、<a href="https://www.slideshare.net/lkiral/git-34157836" target="_blank" rel="noopener">初心者 Git 上手攻略</a>）。安裝 Git 方式是到官網下載軟體，依照指示安裝。</p>
+<p> <img src="/img/kdchang/flask101/git-index.png" alt="Python Web Flask 實戰開發教學 - 簡介與環境建置"> </p>
+<p> 互動式語法學習：</p>
+<p> <img src="/img/kdchang/flask101/try-git.png" alt="Python Web Flask 實戰開發教學 - 簡介與環境建置"> </p>
+<p> 在介紹完 git 之後我們來了解一下 GitHub。GitHub 是一個可以存放 git 程式碼專案的平台，透過 GitHub 我們可以接觸到最新的開放原始碼資訊，也可以將我們的程式碼開源出來。</p>
+<p> <img src="/img/kdchang/flask101/github-index.png" alt="Python Web Flask 實戰開發教學 - 簡介與環境建置"> </p>
+<p> 從 GitHub 上複製程式碼</p>
+<p> <img src="/img/kdchang/flask101/github-clone.png" alt="Python Web Flask 實戰開發教學 - 簡介與環境建置"> </p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 複製一份到本地端</span><br><span class="line">$ git clone https://github.com/kdchang/flask101.git</span><br><span class="line"># 移動到資料夾</span><br><span class="line">$ cd flask101</span><br></pre></td></tr></table></figure>
+<p> 常見 Git 指令：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 初始化專案</span><br><span class="line">$ git init</span><br><span class="line"># 查看狀態</span><br><span class="line">$ git status</span><br><span class="line"># 檢查差異</span><br><span class="line">$ git diff </span><br><span class="line"># 將變更檔案放入暫存區</span><br><span class="line">$ git add index.py</span><br><span class="line"># 使用 commit -m 提交變更</span><br><span class="line">$ git -a -m &apos;init commit&apos;</span><br><span class="line"># 查看歷史</span><br><span class="line">$ git log</span><br><span class="line"># 放棄已經 commit 的檔案重回暫存區</span><br><span class="line">$ git reset HEAD index.py</span><br><span class="line"># 放棄檔案變更</span><br><span class="line">$ git checkout index.py</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Anaconda Python3 版本<br> Anaconda 是一個 all-in-one 的 Python 開發環境，對於初學者來說是個十分合適的開發環境包。Anaconda 具備了幾項特點：</p>
+<ul>
+<li>便於安裝許多流行的科學、數學、工程、數據分析的 Python 模組  </li>
+<li>開源和免費</li>
+<li>跨平台支持：Linux、Windows、Mac</li>
+<li>支持 Python 版本切換，方便建立不同的虛擬開發環境</li>
+<li><p>內建 Spyder 編輯器和 Jupyter Notebook 環境 </p>
+<p>安裝流程也十分簡單，進入 Anaconda 首頁，選擇對應作業系統（這邊使用 Mac OS）：<br><img src="/img/kdchang/flask101/anaconda-index.png" alt="Python Web Flask 實戰開發教學 - 簡介與環境建置"></p>
+<p>選擇對應 Python 版本下載，我們使用 Graphical Installer（圖像介面安裝方式），接著在下載完成時按照預設的安裝方式完成安裝；<br><img src="/img/kdchang/flask101/anaconda-install.png" alt="Python Web Flask 實戰開發教學 - 簡介與環境建置"> </p>
+<p>若是完整安裝成功，可以打開終端機輸入，若是顯示 Python 3.6.0 :: Anaconda 4.3.0 (x86_64) 版本號即安裝成功：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ python -V</span><br><span class="line">Python 3.6.0 :: Anaconda 4.3.0 (x86_64)</span><br></pre></td></tr></table></figure>
+<p>接著要建立我們專案虛擬環境，這樣在安裝操作套件時比較不容易被污染到 root 的環境，啟動後會出現（套件名稱）的提示字元：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 顯示目前虛擬環境列表</span><br><span class="line">$ conda info -e </span><br><span class="line"># 創建虛擬環境</span><br><span class="line">$ conda create -n 套件名稱 python=3.6</span><br><span class="line"># 進入虛擬環境（若是 Windows cmder 環境不用加 source） ，成功後提示字元變成：（套件名稱）$</span><br><span class="line">$ source activate 套件名稱</span><br><span class="line"># 離開虛擬環境（若是 Windows cmder 環境不用加 source） </span><br><span class="line">$ source deactivate</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="建立第一個-Flask-開發專案"><a href="#建立第一個-Flask-開發專案" class="headerlink" title="建立第一個 Flask 開發專案"></a>建立第一個 Flask 開發專案</h1><h2 id="使用-pip-管理-Python-模組"><a href="#使用-pip-管理-Python-模組" class="headerlink" title="使用 pip 管理 Python 模組"></a>使用 pip 管理 Python 模組</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 安裝模組</span><br><span class="line">$ pip install 模組名</span><br><span class="line"># 移除模組</span><br><span class="line">$ pip uninstall 模組名</span><br><span class="line"># 搜尋模組</span><br><span class="line">$ pip search 模組名</span><br></pre></td></tr></table></figure>
+<p>通常開發專案時我們會將已安裝模組名稱和版本號存成一個列表，以便下次安裝使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip freeze &gt; requirements.txt</span><br></pre></td></tr></table></figure>
+<p>根據 <code>requirements.txt</code> 列表安裝模組：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install -r requirements.txt</span><br></pre></td></tr></table></figure>
+<h2 id="建立虛擬環境"><a href="#建立虛擬環境" class="headerlink" title="建立虛擬環境"></a>建立虛擬環境</h2><p>在了解 pip 套件管理工具後我們正式來建立一個 Flask 的專案：</p>
+<p>建立專案資料夾</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir python-flask-todo-app</span><br><span class="line">$ cd python-flask-todo-app</span><br></pre></td></tr></table></figure>
+<p>建立獨立虛擬環境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ conda create -n python-flask-todo-app python=3.6</span><br><span class="line">$ source activate python-flask-todo-app</span><br></pre></td></tr></table></figure>
+<p>安裝 Flask 模組</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install flask</span><br></pre></td></tr></table></figure>
+<h2 id="設定-Config-設定檔案"><a href="#設定-Config-設定檔案" class="headerlink" title="設定 Config 設定檔案"></a>設定 Config 設定檔案</h2><p>建立設定檔 <code>config.py</code> 檔案在專案資料夾的根目錄中：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Config</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ProdConfig</span><span class="params">(Config)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DevConfig</span><span class="params">(Config)</span>:</span></span><br><span class="line">    DEBUG = <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<p>建立一個 <code>main.py</code> 檔案初始化 Flask App 和使用其 API，若是一切正常在終端機執行 <code>python main.py</code> 會在瀏覽器網址列輸入 <code>localhost:5000</code> 後看到 <code>Hello World</code> 了！</p>
+<figure class="highlight python"><figcaption><span>main.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"><span class="keyword">from</span> config <span class="keyword">import</span> DevConfig</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化 Flask 類別成為 instance</span></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.config.from_object(DevConfig)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 路由和處理函式配對</span></span><br><span class="line"><span class="meta">@app.route('/')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'Hello World!'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 判斷自己執行非被當做引入的模組，因為 __name__ 這變數若被當做模組引入使用就不會是 __main__</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+<h2 id="使用-Flask-Script"><a href="#使用-Flask-Script" class="headerlink" title="使用 Flask Script"></a>使用 Flask Script</h2><p><a href="https://flask-script.readthedocs.io/en/latest/" target="_blank" rel="noopener">Flask Script</a> 是 Flask 常用的 extensions，可以讓我們使用指令列來操作 Flask 程式並在 shell 環境下操作 app context，使用方式如下：</p>
+<p>安裝模組</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install flask-script</span><br></pre></td></tr></table></figure>
+<p>建立 <code>manage.py</code> 於根目錄</p>
+<figure class="highlight python"><figcaption><span>manage.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask_script <span class="keyword">import</span> Manager, Server</span><br><span class="line"><span class="keyword">from</span> main <span class="keyword">import</span> app</span><br><span class="line"></span><br><span class="line"><span class="comment"># 設定你的 app</span></span><br><span class="line">manager = Manager(app)</span><br><span class="line"><span class="comment"># 設定 python manage.py runserver 為啟動 server 指令</span></span><br><span class="line">manager.add_command(<span class="string">'runserver'</span>, Server())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 設定 python manage.py shell 為啟動互動式指令 shell 的指令 </span></span><br><span class="line"><span class="meta">@manager.shell</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_shell_context</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> dict(app=app)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    manager.run()</span><br></pre></td></tr></table></figure>
+<p>當執行 <code>$ python manage.py runserver</code> 即會執行測試伺服器，<code>$ python manage.py shell</code> 可以在對話指令列中中輸入 <code>app</code> 找到被引入的 <code>&lt;Flask &#39;main&#39;&gt;</code>，可以讓我們在互動式指令對話框中測試操作使用。</p>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>本文介紹了如何建置 Python Web 開發環境，我們也實際完成了我們第一個 Python Flask 程式。在接下來章節中我們將持續介紹 Python Web Flask 實戰開發，並學習現代化網站開發的方方面面。</p>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><ol>
+<li><a href="https://en.wikipedia.org/wiki/Flask_(web_framework" target="_blank" rel="noopener">Wiki Flask (web framework)</a>)</li>
+<li><a href="http://pics.ee/c34g" target="_blank" rel="noopener">Python Web 程式設計入門實戰線上課程</a></li>
+</ol>
+<p>關於作者：<br><a href="http://blog.kdchang.cc" target="_blank" rel="noopener">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino/Android lover.:) </p>
+<p>（image via <a href="https://cdn.fedoramagazine.org/wp-content/uploads/2015/11/Python_logo.png" target="_blank" rel="noopener">fedoramagazine</a>）</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/06/03/python-web-flask101-tutorial-introduction-and-environment-setup/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/06/03/python-web-flask101-tutorial-introduction-and-environment-setup/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/06/03/python-web-flask101-tutorial-introduction-and-environment-setup/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/06/03/python-web-flask101-tutorial-introduction-and-environment-setup/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/06/10/lsd-slam-side-1/">
+        ← 深入學習 LSD-SLAM 番外篇 - RDS X RTAB-Map
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/05/23/css-houdini/">
+        CSS 魔術師 Houdini API 介紹 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

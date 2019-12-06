@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-08-26T20:23:23.000Z" itemprop="datePublished">
+          2019-08-26
+      </time>
+    
+    
+    | 
+    <a href='/tags/Python/'>Python</a>,
+    
+    <a href='/tags/tutorial/'>tutorial</a>,
+    
+    <a href='/tags/Flask/'>Flask</a>,
+    
+    <a href='/tags/Prometheus/'>Prometheus</a>,
+    
+    <a href='/tags/Grafana/'>Grafana</a>,
+    
+    <a href='/tags/Alertmanager/'>Alertmanager</a>,
+    
+    <a href='/tags/docker-compose/'>docker-compose</a>,
+    
+    <a href='/tags/slack/'>slack</a>,
+    
+    <a href='/tags/monitor/'>monitor</a>,
+    
+    <a href='/tags/monitoring-system/'>monitoring system</a>,
+    
+    <a href='/tags/pagerduty/'>pagerduty</a>,
+    
+    <a href='/tags/alert-system/'>alert system</a>,
+    
+    <a href='/tags/Cloud-Native/'>Cloud Native</a>,
+    
+    <a href='/tags/Grafana-教學/'>Grafana 教學</a>,
+    
+    <a href='/tags/Prometheus-教學/'>Prometheus 教學</a>
+    
+    
+</span>
+
+<meta name="generator" content="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統">
+<meta name="og:title" content="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/cloud-native/cover.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>身為一個開發者，當我們部屬一個 Web service 時，不是射後不理，而是需要透過監控預警系統去 monitor server 的運行狀況，並在緊急狀況即時通知相關人員作對應處理。所以透過好的 monitoring/alert system 了解目前 server 硬體系統使用狀況（CPU/Memory usage）和整個 service 的網路 networking 狀況是非常重要的一件事情。若是有經驗的讀者，可能過去曾經使用過 <a href="https://www.zabbix.com/" target="_blank" rel="noopener">Zabbix</a>、<a href="https://www.nagios.org/" target="_blank" rel="noopener">Nagios</a> 等工具來監控 service 的運行狀況，以便除錯和維持 service 的可用性（Availability）。</p>
+<p>在眾多的 monitor 工具中，<a href="https://prometheus.io/" target="_blank" rel="noopener">Prometheus</a> 是一個很方便且整合完善的監控預警框架 TSDB（Time Series Database）時間序列資料庫，可以很容易建立不同維度的 metrics 和整合不同的 alert tool 以及資訊視覺化圖表的監控工具並提供自帶的 <a href="https://prometheus.io/docs/prometheus/latest/querying/basics/" target="_blank" rel="noopener">PromQL (Prometheus Query Language)</a> 進行 query 查詢。此外，源自於 <a href="http://soundcloud.com/" target="_blank" rel="noopener">SoundCloud</a> 的 Prometheus 目前是獨立於任何公司外的 open source project 並和 <a href="https://kubernetes.io/" target="_blank" rel="noopener">Kubernetes</a> 一樣是 <a href="https://www.cncf.io/" target="_blank" rel="noopener">Cloud Native Computing Foundation（CNCF）</a> 下的一員（目前已經孵化成熟畢業了），也有許多知名公司如：Uber、DigitalOcean 等導入企業專案，所以在使用上相對有保障。</p>
+<p>今天我們就要透過 docker compose 搭配 flask 實作一個簡單 web service 範例，來整合 <a href="https://prometheus.io/" target="_blank" rel="noopener">Prometheus</a> 和 <a href="https://grafana.com/" target="_blank" rel="noopener">Grafana</a> 來建立一個 web service 監控預警系統。</p>
+<h1 id="Prometheus-介紹"><a href="#Prometheus-介紹" class="headerlink" title="Prometheus 介紹"></a>Prometheus 介紹</h1><p><img src="/img/kdchang/cloud-native/prometheus-cover.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<p>簡單來說 Prometheus 是一個監控預警框架和 TSDB（Time Series Database）時間序列資料庫，可以很容易建立不同維度（dimension）的 metrics 和整合不同的 alert tool 以及資訊視覺化的監控工具。透過 Prometheus 我們可以建立一站式的監控預警系統。Prometheus 可能在儲存擴展上比不上其他 Time Series Database，但在整合各種第三方的 data source 上十分方便（算是一個懶人包），且在支援雲端服務和 container 容器相關工具都十分友好。然而在圖表顯現上就稍嫌單薄，所以通常會搭配精美的儀表板工具 Grafana 等來進行資訊視覺化和圖表呈現。</p>
+<p><img src="/img/kdchang/cloud-native/prometheus-architecture.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<p>俗話說，一張圖勝過千言萬語：接下來我們用架構圖就可以更清楚了解 Prometheus 整體的架構和定位：</p>
+<ol>
+<li>有個 Prometheus server 本體，會去 Prometheus client pull 相關 metrics，若是短期的 job 例如 cronjob 在還來不及 pull 資料回來可能就已經完成任務，清洗掉資料。所以會有一個 pushgateway 接收 job push 過來的相關資訊，Prometheus server 再從其中拉取資料（就是 gateway 的感覺）</li>
+<li>上面部分則透過 Service discovery 的方式可以很好的蒐集 kubernetes 相關的資訊</li>
+<li>Prometheus 本體會將資料儲存在 local on-disk time series database 或是可以串接 remote storage systems</li>
+<li>Prometheus server 資料拉回來後可以提供本身自帶的 Web UI 或 Grafana 和其他 client 來呈現（透過使用 PromQL 進行查詢）</li>
+<li>當抓取資料的值超過 alert rule 所設定的閥值（threshold） 時， alert manager 就會將訊息送出（可以透過 Email、Slack、<a href="https://www.pagerduty.com/" target="_blank" rel="noopener">pagerduty</a> 等訊息通知），提醒相關人員注意</li>
+</ol>
+<p>另外 Prometheus 更多強化模組礙於篇幅下次再討論：</p>
+<ol>
+<li>Node exporter：蒐集作業系統（OS）和硬體（hardware）相關資料</li>
+<li>cAdvisor：蒐集容器（container）相關資料</li>
+</ol>
+<p>最後，我們要了解的是 Prometheus Client 函式庫支援了四種主要 Metric 的類型：</p>
+<ol>
+<li>Counter: 累加的資料，重設值為 0。常用於 HTTP request 錯誤的出現次數或是 error exception 出現次數</li>
+<li>Gauge: 屬於與時間無關的當下資料（可以增減），例如：CPU/Memory 使用量</li>
+<li>Histogram: 主要使用在表示一段時間範圍內的資料蒐集，以長條圖呈現</li>
+<li>Summary： 表示一段時間內的資料蒐集的總結</li>
+</ol>
+<p>以上就是 Promethus 架構的一個概覽，相信讀者們對於 Promethus 已經有個初步認識，知道 Promethus 是一個監控預警框架和 TSDB（Time Series Database）時間序列資料庫，接下來我們介紹 Grafana 的部分。</p>
+<h1 id="Grafana-介紹"><a href="#Grafana-介紹" class="headerlink" title="Grafana 介紹"></a>Grafana 介紹</h1><p><img src="/img/kdchang/cloud-native/grafana-cover.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<p>Grafana 是由 Grafana Lab 經營的一個非常精美的儀表板 dashboard 系統，可以整合各種不同的 datasource，例如：Promethus、<a href="https://www.elastic.co/" target="_blank" rel="noopener">Elasticsearch</a>、<a href="https://www.mysql.com/" target="_blank" rel="noopener">MySQL</a>、<a href="https://www.postgresql.org/docs/10/plpgsql.html" target="_blank" rel="noopener">PostgreSQL</a> 等。透過不同種 metric 呈現在 dashboard 上。在這裡我們主要聚焦在和 Promethus 和 Grafana 的整合上。</p>
+<h1 id="專題時間：透過-docker-compose-運行-Prometheus-Grafana-監控-Flask-Web-App"><a href="#專題時間：透過-docker-compose-運行-Prometheus-Grafana-監控-Flask-Web-App" class="headerlink" title="專題時間：透過 docker-compose 運行 Prometheus/Grafana 監控 Flask Web App"></a>專題時間：透過 docker-compose 運行 Prometheus/Grafana 監控 Flask Web App</h1><p>接著我們要透過 docker 和 docker-compose 啟動一個簡單 Python Flask Web Server 並使用 Prometheus 和 Grafana 當作其監控預警系統，最後我們會呈現的是一個 Prometheus 和 Grafana dashbaord 以及我們會使用 locust 直接模擬大量 request 去觸發預警系統送通知到 slack！（若是對於 docker/docker compose 或 locust 比較不熟悉的讀者可以參考筆者之前撰寫的相關文章：<a href="https://blog.techbridge.cc/2018/09/07/docker-compose-tutorial-intro/">Docker Compose 建置 Web service 起步走入門教學</a> 和 <a href="https://blog.techbridge.cc/2019/05/29/how-to-use-python-locust-to-do-load-testing/">如何使用 Python 和 Locust 進行 Load testing 入門教學
+</a>）。</p>
+<h2 id="建立-Flask-Web-App"><a href="#建立-Flask-Web-App" class="headerlink" title="建立 Flask Web App"></a>建立 Flask Web App</h2><ol>
+<li><p>透過 docker/docker-compose 建立 Web App</p>
+<p> 我們這邊使用一個 flask web app 當作測試，也就是一個讓 prometheus_server pull 資料回去的 server。</p>
+<p> 首先先安裝相關套件，建立 requirements.txt 檔案：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">flask</span><br><span class="line">prometheus_client</span><br><span class="line">locustio</span><br></pre></td></tr></table></figure>
+<p> 以下是 Dockerfile：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FROM python:3.6-alpine</span><br><span class="line"></span><br><span class="line">ADD . /code</span><br><span class="line">WORKDIR /code</span><br><span class="line">RUN pip install -r requirements.txt</span><br><span class="line"></span><br><span class="line">CMD [&quot;python&quot;, &quot;app.py&quot;]</span><br></pre></td></tr></table></figure>
+<p> 這邊使用一個簡單的 flask app 來當作測試（<code>app.py</code>），主要是提供一個 endpoint <code>/</code>，並使用 prometheus_client 中 counter metric，當有使用者打 endpoint，則累加紀錄一次。而 <code>/metrics</code> endpoint 則 export 了 flask app server 的資訊，提供 prometheus_server 來 pull 相關資料回去。（這裡為求簡化流程所以只使用 Counter，讀者可以自己嘗試新增 Gauge、Histogram、Summary 等 metric 類型）</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import prometheus_client</span><br><span class="line">from prometheus_client import Counter</span><br><span class="line">from flask import Response, Flask, jsonify</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">total_requests = Counter(&apos;request_count&apos;, &apos;Total webapp request count&apos;)</span><br><span class="line"></span><br><span class="line">@app.route(&apos;/metrics&apos;)</span><br><span class="line">def requests_count():</span><br><span class="line">    total_requests.inc()</span><br><span class="line">    return Response(prometheus_client.generate_latest(total_requests), mimetype=&apos;text/plain&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&apos;/&apos;)</span><br><span class="line">def index():</span><br><span class="line">    total_requests.inc()</span><br><span class="line">    return jsonify(&#123;</span><br><span class="line">        &apos;status&apos;: &apos;ok&apos;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    app.run(host=&apos;0.0.0.0&apos;, port=5000)</span><br></pre></td></tr></table></figure>
+<p> 在 docker-compose.yaml 追加 flask app（透過 Dockerfile 啟動，port 在 5000）</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">version: &apos;3.7&apos;</span><br><span class="line">services:</span><br><span class="line">    web:</span><br><span class="line">        build: .</span><br><span class="line">        ports:</span><br><span class="line">        - &quot;5000:5000&quot;</span><br><span class="line">        volumes:</span><br><span class="line">        - .:/code # 把當前資料夾 mount 掛載進去 container，這樣你可以直接在本地端專案資料夾改動檔案，container 裡面的檔案也會更動也不用重新 build image！</span><br></pre></td></tr></table></figure>
+<p> 接著在終端機透過 docker-compose up 就可以啟動 flask web app 在 localhost:5000 囉！</p>
+</li>
+</ol>
+<h2 id="設定-Promethus"><a href="#設定-Promethus" class="headerlink" title="設定 Promethus"></a>設定 Promethus</h2><ol>
+<li><p>在資料夾下建立設定檔案：prometheus.yaml</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 設定 global 全域設定</span><br><span class="line"># scrape_interval 是多久抓取一次資料</span><br><span class="line">global:</span><br><span class="line">    scrape_interval: 5s</span><br><span class="line">    external_labels:</span><br><span class="line">        monitor: &apos;demo-monitor&apos;</span><br><span class="line"></span><br><span class="line"># scrape_configs 則是抓取來源，這邊先設定我們 prometheus 本體 server 和 flask api_monitor，docker-compose 會把 service 加入 default network 所以可以用 web:5000 找到 flask app web service</span><br><span class="line">scrape_configs:</span><br><span class="line">    - job_name: &apos;prometheus&apos;</span><br><span class="line">    static_configs:</span><br><span class="line">        - targets: [&apos;localhost:9090&apos;]</span><br><span class="line">    - job_name: &apos;api_monitor&apos;</span><br><span class="line">    scrape_interval: 5s</span><br><span class="line">    static_configs:</span><br><span class="line">        - targets: [&apos;web:5000&apos;]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>透過 docker/docker-compose 安裝 Prometheus</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">version: &apos;3.7&apos;</span><br><span class="line"></span><br><span class="line">volumes:</span><br><span class="line">    prometheus_data: &#123;&#125;</span><br><span class="line">    grafana_data: &#123;&#125;</span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line">  prometheus:</span><br><span class="line">    image: prom/prometheus:v2.1.0</span><br><span class="line">    volumes:</span><br><span class="line">      - ./prometheus.yaml:/etc/prometheus/prometheus.yaml</span><br><span class="line">    command:</span><br><span class="line">      - &apos;--config.file=/etc/prometheus/prometheus.yaml&apos;</span><br><span class="line">    ports:</span><br><span class="line">      - &apos;9090:9090&apos;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>在終端機使用 <code>$ docker-compose up</code> 啟動 Prometheus</p>
+<ol start="3">
+<li><p>觀看 promethus web UI dashboard</p>
+<p> <img src="/img/kdchang/cloud-native/prometheus-1.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+</li>
+</ol>
+<ol start="4">
+<li><p>觀看 promethus metrics</p>
+<p> Prometheus metric 呈現格式：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;metric name&gt;&#123;&lt;label name&gt;=&lt;label value&gt;, ...&#125;</span><br></pre></td></tr></table></figure>
+<p> <img src="/img/kdchang/cloud-native/prometheus-2.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+</li>
+</ol>
+<ol start="5">
+<li><p>觀看 flask app metrics</p>
+<p> <img src="/img/kdchang/cloud-native/prometheus-3.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+</li>
+</ol>
+<p>到這邊恭喜讀者已經完成 Promethus 的初始設定並擁有一個 Promethus Service 了，接下來我們要把資料串接到 Grafana 讓資料可以透過 dashboard 呈現。</p>
+<h2 id="設定-Grafana"><a href="#設定-Grafana" class="headerlink" title="設定 Grafana"></a>設定 Grafana</h2><ol>
+<li><p>透過 docker-compose 安裝 Grafana</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">grafana:</span><br><span class="line">    image: grafana/grafana</span><br><span class="line">    volumes:</span><br><span class="line">        - grafana_data:/var/lib/grafana</span><br><span class="line">    environment:</span><br><span class="line">      - GF_SECURITY_ADMIN_PASSWORD=pass</span><br><span class="line">    depends_on:</span><br><span class="line">      - prometheus</span><br><span class="line">    ports:</span><br><span class="line">      - &apos;3000:3000&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>串接 promethus datasource 到 grafana 上（登入帳號為 admin/pass）</p>
+<p> <img src="/img/kdchang/cloud-native/grafana-1.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<p> 首先我們先選擇 Add data source，可以看到有很多不同的資料來源可以串接：</p>
+<p> <img src="/img/kdchang/cloud-native/grafana-2.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<p> <img src="/img/kdchang/cloud-native/grafana-3.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<p> 我們選擇串接 Promethus 為 datasource，並在串接 url 輸入 <a href="http://promethus:9090（透過" target="_blank" rel="noopener">http://promethus:9090（透過</a> promethus docker compose 會幫我們找到對應 ip），就可以找到 Promethus 的 metrics 資料。</p>
+<p> <img src="/img/kdchang/cloud-native/grafana-4.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<p> 由於 Promethus 是使用 PromQL 讀取資料，所以一開始不熟悉的話可以先把預設的 dashboard 給 import 進來，在 dashboard 就可以看到預設 dashboard，可以選擇 dashboard 上的 edit 參考相關語法</p>
+<p> <img src="/img/kdchang/cloud-native/grafana-5.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<p> 回到就可以看到 Promethus 2.0 Stats 等圖表可以觀看：</p>
+<p> <img src="/img/kdchang/cloud-native/grafana-6.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<p> 但我們想看的是我們 Flask Web App 的 Counter 次數，所以我們可以點選左方選單的 + 號，手動新增圖表 dashbaord（選擇 Add Query），透過 Query 下拉式選單選擇 Promethus 然後 Metrics 下拉選 request -&gt; request_count_toal 就可以看到 flask web app 被 request 次數。此時可以手動重新整理多次 flask web app 頁面就可以看到統計資料持續往上。接下來我們會使用 locust 直接模擬大量 request 去觸發預警系統送通知到 slack！</p>
+<p> <img src="/img/kdchang/cloud-native/grafana-7.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<p> <img src="/img/kdchang/cloud-native/grafana-8.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<p> 更多圖表，讀者若有興趣可以繼續探索：</p>
+<p> <img src="/img/kdchang/cloud-native/grafana-9.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<p> <img src="/img/kdchang/cloud-native/grafana-10.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+</li>
+</ol>
+<h2 id="設定-Alert-manager"><a href="#設定-Alert-manager" class="headerlink" title="設定 Alert manager"></a>設定 Alert manager</h2><ol>
+<li><p>透過 docker-compose 安裝 Alert manager<br> 在 docker-compose 追加 alertmanager 相關設定，也記得也要把這段 <code>- ./alert_rules.yaml:/etc/prometheus/alert_rules.yaml</code> 放到 prometheus service 的 volumes 中</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">alertmanager:</span><br><span class="line">  image: prom/alertmanager</span><br><span class="line">  ports:</span><br><span class="line">    - 9093:9093</span><br><span class="line">  volumes:</span><br><span class="line">    - ./alertmanager.yaml/:/etc/alertmanager/alertmanager.yaml</span><br><span class="line">  restart: always</span><br><span class="line">  command:</span><br><span class="line">    - &apos;--config.file=/etc/alertmanager/alertmanager.yaml&apos;</span><br><span class="line">    - &apos;--storage.path=/alertmanager&apos;</span><br></pre></td></tr></table></figure>
+<p> 設定 slack 取得 YOUR_SLACK_WEBHOOK_URL</p>
+<p> <img src="/img/kdchang/cloud-native/alert-1.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<p> <img src="/img/kdchang/cloud-native/alert-2.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+</li>
+<li><p>新增 alert_rules.yaml 檔案於資料夾下，定義規則（request_count_total &gt; 100 持續超過 10s 就準備發出 alert 送到 slack）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">groups:</span><br><span class="line">    - name: too_many_request_count_total</span><br><span class="line">      rules:</span><br><span class="line">      - alert: TooManyReq</span><br><span class="line">        expr: request_count_total &gt; 100</span><br><span class="line">        for: 10s</span><br><span class="line">        labels:</span><br><span class="line">          user: test</span><br><span class="line">        annotations:</span><br><span class="line">          summary: &quot;request_count_total is too over!&quot;</span><br><span class="line">          description: &quot;&#123;&#123; $labels.instance &#125;&#125; of job &#123;&#123; $labels.job &#125;&#125; has over 100 for more than 1 sec.&quot;</span><br><span class="line">          username: &quot;@channel&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新增設定 alertmanager.yaml 於資料夾下，指定訊息傳送方式（可以是送 email、slack 等方式，這邊使用 slack，記得先去 slack 開申請 install app 到對應 channel，然後取得 YOUR_SLACK_WEBHOOK_URL）</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">global:</span><br><span class="line">  resolve_timeout: 2h</span><br><span class="line"></span><br><span class="line">route:</span><br><span class="line">  group_by: [&apos;alertname&apos;]</span><br><span class="line">  group_wait: 5s</span><br><span class="line">  group_interval: 10s</span><br><span class="line">  repeat_interval: 1h</span><br><span class="line">  receiver: &apos;slack&apos;</span><br><span class="line"></span><br><span class="line">receivers:</span><br><span class="line">  - name: &apos;slack&apos;</span><br><span class="line">    slack_configs:</span><br><span class="line">      - api_url: &quot;YOUR_SLACK_WEBHOOK_URL&quot;</span><br><span class="line">        channel: &quot;#alert-test&quot;</span><br><span class="line">        text: &quot;Alert!&quot;</span><br><span class="line">        title: &quot;&#123;&#123;.CommonAnnotations.summary&#125;&#125;&quot;</span><br></pre></td></tr></table></figure>
+<p> 重啟 docker-compose 然後回到 Prometheus dashboard 可以看到 alert 規則已經設定完成：</p>
+<p> <img src="/img/kdchang/cloud-native/alert-3.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+</li>
+</ol>
+<h2 id="完整程式碼-docker-compose-yaml"><a href="#完整程式碼-docker-compose-yaml" class="headerlink" title="完整程式碼 docker-compose.yaml"></a>完整程式碼 docker-compose.yaml</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">version: &apos;3.7&apos;</span><br><span class="line"></span><br><span class="line">volumes:</span><br><span class="line">    prometheus_data: &#123;&#125;</span><br><span class="line">    grafana_data: &#123;&#125;</span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line">  prometheus:</span><br><span class="line">    image: prom/prometheus:v2.1.0</span><br><span class="line">    volumes:</span><br><span class="line">      - ./prometheus.yaml:/etc/prometheus/prometheus.yaml</span><br><span class="line">      - ./alert_rules.yaml:/etc/prometheus/alert_rules.yaml</span><br><span class="line">    command:</span><br><span class="line">      - &apos;--config.file=/etc/prometheus/prometheus.yaml&apos;</span><br><span class="line">    ports:</span><br><span class="line">      - &apos;9090:9090&apos;</span><br><span class="line">  grafana:</span><br><span class="line">    image: grafana/grafana</span><br><span class="line">    volumes:</span><br><span class="line">        - grafana_data:/var/lib/grafana</span><br><span class="line">    environment:</span><br><span class="line">      - GF_SECURITY_ADMIN_PASSWORD=pass</span><br><span class="line">    depends_on:</span><br><span class="line">      - prometheus</span><br><span class="line">    ports:</span><br><span class="line">      - &apos;3000:3000&apos;</span><br><span class="line">  web:</span><br><span class="line">    build: .</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;5000:5000&quot;</span><br><span class="line">    volumes:</span><br><span class="line">      - .:/code</span><br><span class="line">    depends_on:</span><br><span class="line">      - prometheus</span><br><span class="line">  alertmanager:</span><br><span class="line">    image: prom/alertmanager</span><br><span class="line">    ports:</span><br><span class="line">      - 9093:9093</span><br><span class="line">    volumes:</span><br><span class="line">      - ./alertmanager.yaml/:/etc/alertmanager/alertmanager.yaml</span><br><span class="line">    restart: always</span><br><span class="line">    command:</span><br><span class="line">      - &apos;--config.file=/etc/alertmanager/alertmanager.yaml&apos;</span><br><span class="line">      - &apos;--storage.path=/alertmanager&apos;</span><br></pre></td></tr></table></figure>
+<h2 id="Alert-Manager-測試"><a href="#Alert-Manager-測試" class="headerlink" title="Alert Manager 測試"></a>Alert Manager 測試</h2><p>這邊我們參考 <a href="https://blog.techbridge.cc/2019/05/29/how-to-use-python-locust-to-do-load-testing/">如何使用 Python 和 Locust 進行 Load testing 入門教學</a> 來送出測試 request，讓 request count 快速增加達到 alert 的門檻。</p>
+<p>撰寫 locustfile.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">from locust import HttpLocust, TaskSet, task</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class WebsiteTasks(TaskSet):</span><br><span class="line">    @task(1)</span><br><span class="line">    def index(self):</span><br><span class="line">        self.client.get(&apos;/&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class WebsiteUser(HttpLocust):</span><br><span class="line">    task_set = WebsiteTasks</span><br><span class="line">    min_wait = 5000</span><br><span class="line">    max_wait = 15000</span><br></pre></td></tr></table></figure>
+<p>在終端機 terminal 值行以下指令，模擬不斷發出大量 request：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ locust -f locustfile.py -H http://localhost:5000 --no-web -c 100 -r 10 -t 600s</span><br></pre></td></tr></table></figure>
+<p>看到數值已超過閥值：</p>
+<p><img src="/img/kdchang/cloud-native/alert-4.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<p>等待中：</p>
+<p><img src="/img/kdchang/cloud-native/alert-5.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<p>發送通知：</p>
+<p><img src="/img/kdchang/cloud-native/alert-6.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<p>可以看到 grafana 上 request_count metric 圖表不斷增加，promethus 的 alert 最後也響起，發送訊息到 slack 上！</p>
+<p><img src="/img/kdchang/cloud-native/alert-7.png" alt="使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統"></p>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上我們整合了 Promethus（負責蒐集資料和預警）和 Grafana（負責視覺化資料）成功為我們的 Python Flask App 打造了監控預警系統並發送訊息到 slack 上。未來當 service 發生問題時，就可以在第一時間提醒值班的工程師，準備上班囉！事實上，Promethus 和 Grafana 有蠻多更進階的主題值得持續探索，例如如何和 Kubernetes（k8s）的整合、硬體效能監控和評估、AIOps（人工智慧運維）等，未來有機會再和大家繼續分享！</p>
+<h1 id="參考文件"><a href="#參考文件" class="headerlink" title="參考文件"></a>參考文件</h1><ol>
+<li><a href="https://prometheus.io/docs/prometheus/2.3/installation/" target="_blank" rel="noopener">prometheus installation</a></li>
+<li><a href="https://blog.pilosus.org/posts/2019/06/01/grafana-dashboard-flask-app/" target="_blank" rel="noopener">Grafana Dashboard for Prometheus official Python client with Flask App metrics</a></li>
+<li><a href="https://grafana.com/docs/features/datasources/prometheus/" target="_blank" rel="noopener">Using Prometheus in Grafana</a></li>
+<li><a href="https://burhan.io/flask-application-monitoring-with-prometheus/" target="_blank" rel="noopener">Flask application monitoring with Prometheus</a></li>
+</ol>
+<p>（image via <a href="https://aptira.com/training/introduction-to-monitoring-with-prometheus-grafana/" target="_blank" rel="noopener">aptira</a>）</p>
+<h1 id="關於作者"><a href="#關於作者" class="headerlink" title="關於作者"></a>關於作者</h1><p><a href="http://blog.kdchang.cc" target="_blank" rel="noopener">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino/Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/08/26/how-to-use-prometheus-grafana-in-flask-app/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/08/26/how-to-use-prometheus-grafana-in-flask-app/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/08/26/how-to-use-prometheus-grafana-in-flask-app/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/08/26/how-to-use-prometheus-grafana-in-flask-app/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/08/30/leetcode-pattern-two-pointer/">
+        ← Leetcode 刷題 pattern - Two Pointer
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/08/17/webauthn-intro/">
+        一起來了解 Web Authentication →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

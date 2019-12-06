@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Leetcode 刷題 pattern - Sliding Window | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-09-28T16:51:34.000Z" itemprop="datePublished">
+          2019-09-28
+      </time>
+    
+    
+    | 
+    <a href='/tags/Algorithm/'>Algorithm</a>,
+    
+    <a href='/tags/Leetcode/'>Leetcode</a>,
+    
+    <a href='/tags/Software-Engineer/'>Software Engineer</a>
+    
+    
+</span>
+
+<meta name="generator" content="Leetcode 刷題 pattern - Sliding Window">
+<meta name="og:title" content="Leetcode 刷題 pattern - Sliding Window">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Leetcode 刷題 pattern - Sliding Window</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>身在大 CS 時代，有越來越多人投入刷題的行列，在眼花撩亂的題海中，要想有效率地刷題，掌握並通達題目解法背後，可以不斷被拿來使用的觀念，才能做到以簡禦繁。</p>
+<p>繼上次的 Two Pointer，今天要來跟大家介紹另一種演算法的 pattern - Sliding Window。</p>
+<h2 id="Sliding-Window-的第一個範例-Leetcode-209-Minimum-Size-Subarray-Sum"><a href="#Sliding-Window-的第一個範例-Leetcode-209-Minimum-Size-Subarray-Sum" class="headerlink" title="Sliding Window 的第一個範例 - Leetcode #209 - Minimum Size Subarray Sum"></a>Sliding Window 的第一個範例 - Leetcode #209 - Minimum Size Subarray Sum</h2><h3 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h3><p>我們先看一下題目的敘述：</p>
+<p><img src="https://i.imgur.com/hyxLArY.png" alt="img"></p>
+<p>這題是要找到一個最小的 subarray，而且這個 subarray 的 element 總和必須要 &gt;= s。</p>
+<h3 id="暴力法"><a href="#暴力法" class="headerlink" title="暴力法"></a>暴力法</h3><p>最直覺的方法當然就是暴力法啦，我們可以列舉出所有可能的 subarray，檢查每個 subarray 的總和是否 &gt;= s，如果 &gt;= s，再跟已經出現過滿足條件最小的 subarray 比大小，如果更小，那就可以更新最小值。</p>
+<p>假設 input 的 nums 裡面有 n 個 element，這樣做的時間複雜度是 $O(n^3)$，因為除了要花 $O(n^2)$ 的時間列舉所有 subarray，還得重複計算每個 subarray 的 sum。</p>
+<h3 id="Sliding-Window-解法"><a href="#Sliding-Window-解法" class="headerlink" title="Sliding Window 解法"></a>Sliding Window 解法</h3><p>暴力法雖然簡單，可是真的太慢了！如果我們仔細觀察暴力法的過程，就會發現有很多 subarray sum 是重複計算的！我們看看下面這個例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">nums = [2,3,1,2,4,3]</span><br><span class="line">暴力法列舉出的 subarrays =</span><br><span class="line">[2]</span><br><span class="line">[2,3]</span><br><span class="line">[2,3,1]</span><br><span class="line">[2,3,1,2]</span><br><span class="line">[2,3,1,2,4]</span><br><span class="line">[2,3,1,2,4,3]</span><br><span class="line"> </span><br><span class="line">[3]</span><br><span class="line">[3,1]</span><br><span class="line">[3,1,2]</span><br><span class="line">[3,1,2,4]</span><br><span class="line">[3,1,2,4,3]</span><br><span class="line"> </span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>不難發現，其實以 2 為開頭的 subarray 跟以 3 為開頭的 subarray 其實只差在開頭有沒有那個 2，後面的數值應該要可以重複利用！</p>
+<p>所以我們可以用 windowStart 跟 windowEnd 兩個指向 subarray 邊界的指針，來控制我們現在要看的 subarray。演算法就是要先一直擴張 windowEnd，如果發現 windowSum 已經比 s 大，那就開始縮減 window（也就是把 windowStart 往右移），直到走到 nums 的尾巴。實做出來的程式碼如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">int</span> <span class="title">minSubArrayLen</span><span class="params">(<span class="keyword">int</span> s, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> windowSum = <span class="number">0</span>, windowStart = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> minWindowSize = numeric_limits&lt;<span class="keyword">int</span>&gt;::max();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> windowEnd = <span class="number">0</span>; windowEnd &lt; nums.size(); windowEnd++) &#123;</span><br><span class="line">      windowSum += nums[windowEnd];</span><br><span class="line">      </span><br><span class="line">      <span class="comment">// 如果 subarray sum &gt;= s，那就開始縮減 subarray</span></span><br><span class="line">      <span class="keyword">while</span>(windowSum &gt;= s) &#123;</span><br><span class="line">        minWindowSize = min(minWindowSize, windowEnd-windowStart+<span class="number">1</span>);</span><br><span class="line">        windowSum -= nums[windowStart];</span><br><span class="line">        windowStart++;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> minWindowSize == numeric_limits&lt;<span class="keyword">int</span>&gt;::max() ? <span class="number">0</span> : minWindowSize;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>使用這個方法，就完全去除掉冗餘的計算，讓時間複雜度下降到 $O(n)$！剛開始學到這個演算法的時候會懷疑這樣真的能走過所有可能的 subarray 嗎？</p>
+<p>我覺得大家可以透過這個例子觀察：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">nums = [2,3,1,2,4,3], s = 7</span><br><span class="line">暴力法列舉出的 subarrays =</span><br><span class="line">[2]</span><br><span class="line">[2,3]</span><br><span class="line">[2,3,1]</span><br><span class="line">[2,3,1,2] // WindowStart 會開始往右移</span><br><span class="line">[2,3,1,2,4]</span><br><span class="line">[2,3,1,2,4,3]</span><br><span class="line"> </span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>一開始 windowStart 指向 2，然後 windowEnd 會慢慢擴張，當擴張到 [2,3,1,2] 這個情況時，因為 sum 已經 &gt;= 7，所以 windowStart 會開始右移。也就是說，原本暴力法會考慮的 [2,3,1,2,4] 跟 [2,3,1,2,4,3] 就不會被考慮到。</p>
+<p>就是因為這種情況，直觀下會覺得<strong>我們這樣不就少考慮到很多情況嗎</strong>？</p>
+<p>但大家可以再仔細想想，我們現在要求的是 sum &gt;= s 的最小 subarray，如果 [2,3,1,2] 已經滿足條件了，我們繼續看 [2,3,1,2,4] 跟 [2,3,1,2,4,3] 又有什麼意義呢？畢竟這兩個 subarray 都大於 [2,3,1,2] 啊！</p>
+<p>只要把這點想通了，就不會再有用 Sliding Window 沒有考慮到所有 case 的這種讓心裡隱約覺得不對的想法！接著讓我們繼續看下去，更加熟悉 Sliding Window 可以應用的場景。</p>
+<h2 id="Sliding-Window-的第二個範例-Leetcode-340-Longest-Substring-with-At-Most-K-Distinct-Characters"><a href="#Sliding-Window-的第二個範例-Leetcode-340-Longest-Substring-with-At-Most-K-Distinct-Characters" class="headerlink" title="Sliding Window 的第二個範例 - Leetcode # 340 - Longest Substring with At Most K Distinct Characters"></a>Sliding Window 的第二個範例 - Leetcode # 340 - Longest Substring with At Most K Distinct Characters</h2><h3 id="題目-1"><a href="#題目-1" class="headerlink" title="題目"></a>題目</h3><p>我們來看一下題目：</p>
+<p><img src="https://i.imgur.com/RW0eDUR.png" alt="img"></p>
+<p>我們要找的是最多有 K 個不同 character 的最長 substring。注意，這題是 Hard 題，但寫完會覺得沒那麼 Hard。</p>
+<h3 id="暴力法-1"><a href="#暴力法-1" class="headerlink" title="暴力法"></a>暴力法</h3><p>這題的暴力法應該不難想到，我們可以列舉出所有的 substring，一一檢查每個 substring 是否只有 &lt;= K 的 distinct characters。時間複雜度一樣是 $O(n^3)$。</p>
+<h3 id="Sliding-Window-解法-1"><a href="#Sliding-Window-解法-1" class="headerlink" title="Sliding Window 解法"></a>Sliding Window 解法</h3><p>跟上面那題很像，暴力法冗餘之處在於重複檢查 characters 是否 distinct。所以我們可以在擴張 substring 的時候，將 substring 裡面的 character 和出現次數存起來，利用 Hash Table 來記錄目前 substring 是否最多只有 K 個 distinct characters。</p>
+<p>這邊之所以要用 Hash Table，而不是用 set ，是有原因的，大家可以先想一下，再往下看原因。</p>
+<p>好！想完了嗎？答案是，因為要處理 substring 裡有 duplicate character 的情況，舉個例子，假設目前 substring 是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a, c, a, b</span><br></pre></td></tr></table></figure>
+<p>假設把 windowStart 往右移，就會刪掉 windowStart 的 a，如果是用 set，這時就會以為 substring 裡沒有 a 了，但其實後面還是有個 a。所以若用 set，我們就會誤以為刪掉了 windowStart 的 a 之後，就沒有 a 了。</p>
+<p>使用 Hash table 實作如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">int</span> <span class="title">lengthOfLongestSubstringKDistinct</span><span class="params">(<span class="built_in">string</span> s, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> maxLength = <span class="number">0</span>, windowStart = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="keyword">char</span>, <span class="keyword">int</span>&gt; table;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> windowEnd = <span class="number">0</span>; windowEnd &lt; s.length(); windowEnd++) &#123;</span><br><span class="line">      table[s[windowEnd]] ++;</span><br><span class="line"> </span><br><span class="line">      <span class="comment">// table.size() &gt; k 表示有超過 k 個 distinct character</span></span><br><span class="line">      <span class="keyword">while</span>(table.size() &gt; k) &#123;</span><br><span class="line">        <span class="keyword">if</span>(--table[s[windowStart]] == <span class="number">0</span>)</span><br><span class="line">          table.erase(s[windowStart]);</span><br><span class="line">          </span><br><span class="line">        windowStart++;</span><br><span class="line">      &#125;</span><br><span class="line"> </span><br><span class="line">      <span class="comment">// 經過上面的 while 迴圈處理，這時 window 必定滿足條件</span></span><br><span class="line">      maxLength = max(maxLength, windowEnd-windowStart+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> maxLength;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>程式碼是不是很簡潔呢？這可是一道 Hard 題，如果對 Sliding Window 不夠了解，或是無法靈活地跟 Hash Table 合併使用（Combo 技！），這題可是沒那麼簡單喔。</p>
+<h2 id="Sliding-Window-的第三個範例-Leetcode-3-Longest-Substring-Without-Repeating-Characters"><a href="#Sliding-Window-的第三個範例-Leetcode-3-Longest-Substring-Without-Repeating-Characters" class="headerlink" title="Sliding Window 的第三個範例 - Leetcode #3 - Longest Substring Without Repeating Characters"></a>Sliding Window 的第三個範例 - Leetcode #3 - Longest Substring Without Repeating Characters</h2><h3 id="題目-2"><a href="#題目-2" class="headerlink" title="題目"></a>題目</h3><p>我們先看一下題目的敘述：</p>
+<p><img src="https://i.imgur.com/kdtv0Rw.png" alt="img"></p>
+<h3 id="暴力法-2"><a href="#暴力法-2" class="headerlink" title="暴力法"></a>暴力法</h3><p>暴力法我就不贅述了，一樣也是列舉出所有的 substring，然後檢查 substring 有沒有 repeating character，最後就能找到 longest substring without repeating characters。</p>
+<h3 id="Sliding-Window-解法-2"><a href="#Sliding-Window-解法-2" class="headerlink" title="Sliding Window 解法"></a>Sliding Window 解法</h3><p>基本上，Sliding Window 的寫法跟前面很像，都是需要設置 windowStart 跟 windowEnd，但不一樣的地方在於，我們得先確定 windowEnd 的 char 不在 substring 中，才能擴張 window。</p>
+<p>實際做法上，我們可以用一個 set 來儲存目前 window 裡面有的 char，然後每次都要確定 window 裡已經沒有重複的 char，才會繼續擴張 window。實作如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n = s.length();</span><br><span class="line">    <span class="built_in">set</span>&lt;<span class="keyword">char</span>&gt; st;</span><br><span class="line">    <span class="keyword">int</span> maxLen = <span class="number">0</span>, windowStart = <span class="number">0</span>, windowEnd = <span class="number">0</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">while</span>(windowEnd &lt; n) &#123;</span><br><span class="line">      <span class="keyword">if</span>(st.find(s[windowEnd]) == st.end()) &#123;</span><br><span class="line">        st.insert(s[windowEnd]);</span><br><span class="line">        maxLen = max(maxLen, windowEnd-windowStart+<span class="number">1</span>);</span><br><span class="line">        windowEnd++;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span> &#123;</span><br><span class="line">        st.erase(st.find(s[windowStart]));</span><br><span class="line">        windowStart++;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> maxLen;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>實作起來是不是變得很簡單了呢？如果你有這種感覺，那恭喜你，你已經開始習慣 Sliding Window 的演算法運作了！</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>希望大家看完之後，可以感受到 Sliding Window 的方便和效率。體驗到這個演算法好用、厲害，才會在該用的時候，自然而然地使用，比起用背的（例如看到…，就要用…），我覺得去體驗通達各種解法，覺得酷到不自覺笑出來、感受到讚讚讚，可能就是讓演算法功力進到下一個境界的現象。</p>
+<p>上面提供的三題是讓大家初步體會一下 Sliding Window 的威力，而且可以初步掌握 Sliding Window 的模板要怎麼寫 - <strong>設置 windowStart 跟 windowEnd，最外面的 for 迴圈每一輪都擴張 windowEnd，但是當某些條件滿足時，就要移動 windowStart 來縮減 window</strong>。</p>
+<p>如果你對這個 pattern 有興趣，可以再去看看延伸閱讀的筆記，裡面記錄了不少 Sliding Window 的題目，而且從簡單到越來越難，如果把這些題目一次寫完，對於 Sliding Window 的掌握度應該就大大提升了！</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a href="https://po-jen.gitbooks.io/coding-practice-advanced-topics/content/sliding-window.html" target="_blank" rel="noopener">我的 Leetcode 刷題筆記 - Sliding Window pattern</a></li>
+</ol>
+<p>關於作者：<br><a href="https://pojenlai.wordpress.com/" target="_blank" rel="noopener">@pojenlai</a> 演算法工程師，對機器人、電腦視覺和人工智慧有少許研究，正在學習<a href="https://buzzorange.com/techorange/2017/07/10/elon-musk-first-principle/" target="_blank" rel="noopener">用心體會事物的本質</a>跟<a href="https://www.ted.com/talks/eduardo_briceno_how_to_get_better_at_the_things_you_care_about" target="_blank" rel="noopener">不斷進入學生心態改進</a>。</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/09/28/leetcode-pattern-sliding-window/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/09/28/leetcode-pattern-sliding-window/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/09/28/leetcode-pattern-sliding-window/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/09/28/leetcode-pattern-sliding-window/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/10/04/web-backend-interview-in-2019/">
+        ← 2019 Web Backend 面試總結
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/09/21/how-to-use-python-tkinter-to-make-gui-app-tutorial/">
+        如何使用 Python Tkinter 製作 GUI 應用程式入門教學 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

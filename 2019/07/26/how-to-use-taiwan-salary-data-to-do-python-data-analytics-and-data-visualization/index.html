@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>使用 Python 資料分析和視覺化上市櫃公司薪資公開資料 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-07-26T20:23:23.000Z" itemprop="datePublished">
+          2019-07-26
+      </time>
+    
+    
+    | 
+    <a href='/tags/Python/'>Python</a>,
+    
+    <a href='/tags/Data-Analytics/'>Data Analytics</a>,
+    
+    <a href='/tags/Data-Visualization/'>Data Visualization</a>,
+    
+    <a href='/tags/make-a-fortune/'>make a fortune</a>,
+    
+    <a href='/tags/pandas/'>pandas</a>,
+    
+    <a href='/tags/上市櫃薪資資料/'>上市櫃薪資資料</a>,
+    
+    <a href='/tags/公開資訊觀測站/'>公開資訊觀測站</a>,
+    
+    <a href='/tags/台灣薪資/'>台灣薪資</a>,
+    
+    <a href='/tags/台灣薪水/'>台灣薪水</a>,
+    
+    <a href='/tags/salary/'>salary</a>,
+    
+    <a href='/tags/python-資料分析/'>python 資料分析</a>,
+    
+    <a href='/tags/python-資料視覺化/'>python 資料視覺化</a>
+    
+    
+</span>
+
+<meta name="generator" content="使用 Python 資料分析和視覺化上市櫃公司薪資公開資料">
+<meta name="og:title" content="使用 Python 資料分析和視覺化上市櫃公司薪資公開資料">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">使用 Python 資料分析和視覺化上市櫃公司薪資公開資料</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/python-data-analytics/salary-wordcloud.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>證交所今（28）日在公開資訊觀測站公布上市公司申報之107年度「非擔任主管職務之全時員工薪資」資訊。藉由提升員工薪酬資訊透明度，讓摳門老闆無所遁形。</p>
+</blockquote>
+<p>根據新聞媒體的報導 <a href="https://tw.news.yahoo.com/%E8%AD%89%E4%BA%A4%E6%89%80%E5%85%AC%E5%B8%83%E4%B8%8A%E5%B8%82%E5%85%AC%E5%8F%B8%E9%9D%9E%E4%B8%BB%E7%AE%A1%E5%85%A8%E6%99%82%E5%93%A1%E5%B7%A5%E8%96%AA%E8%B3%87-145450200.html" target="_blank" rel="noopener">證交所公布上市公司非主管全時員工薪資</a>，讓我們可以一窺近兩千家（853 + 733）上市櫃公司的薪資水準，也可以看看哪些公司薪資水準相對較低（順便看看各種逗趣的理由？本文 cover 圖即是將低薪公司的理由放入 <a href="https://wordcloud.timdream.org/" target="_blank" rel="noopener">wordcloud 產生器</a>產生的圖片！），當作我們尋找合適工作的參考依據之一（但薪資高低不是決定合適工作的唯一標準）。</p>
+<p>當然身為一個略懂略懂資料分析的軟體工程師，我們當然不能只看新聞媒體所提供的加工過的二手資料，更應該親自動手 hands on 來進行資料探索看看有哪些有趣的小 insight。因此接下來我們將使用 Python 網路爬蟲爬取證交所公開資訊觀測站上的上市櫃公司「非擔任主管職務之全時員工薪資」資訊並使用 python pandas、matplotlib 和 jupyter notebook 進行資料分析和資訊視覺化，看到更多有趣的薪水數據分析。</p>
+<h1 id="資料蒐集-Data-Collect-Data-Scraping"><a href="#資料蒐集-Data-Collect-Data-Scraping" class="headerlink" title="資料蒐集 Data Collect / Data Scraping"></a>資料蒐集 Data Collect / Data Scraping</h1><p><img src="/img/kdchang/python-data-analytics/demo1.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<p><code>正所謂巧婦難為無米之炊，資料分析難為沒 data！</code> 所以在決定要進行上市櫃公司的薪資資料後，我們必須蒐集相關的資料以利後續分析。</p>
+<p>一開始我們先來到 <a href="https://mops.twse.com.tw/mops/web/t100sb15" target="_blank" rel="noopener">證交所公開資訊觀測站</a> 來觀察如何爬取非擔任主管職務之全時員工薪資資訊。</p>
+<p><img src="/img/kdchang/python-data-analytics/demo2.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<p>經過一番觀察後發現當下拉選單選擇時會使用 ajax 去後端 api 擷取資料。所以我們可以透過 POST <code>https://mops.twse.com.tw/mops/web/ajax_t100sb15</code> 這個 endpoint 去取得薪資資料。</p>
+<p><img src="/img/kdchang/python-data-analytics/demo3.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<p><img src="/img/kdchang/python-data-analytics/demo4.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<p>由於資料集的欄位有合併的部分，所以我們拿掉 <code>非擔任主管職務之全時員工資訊</code>、<code>同業公司資訊</code> 和 <code>薪資統計情形</code> 讓 columns 可以更單純，以利於接下來使用 pandas 進行資料分析。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">from collections import OrderedDict</span><br><span class="line"></span><br><span class="line">import requests</span><br><span class="line">import pandas as pd</span><br><span class="line">from bs4 import BeautifulSoup</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class HTMLTableParser:</span><br><span class="line"></span><br><span class="line">    def get_html_tables_from_resp(self, html_text):</span><br><span class="line">        soup = BeautifulSoup(html_text, &apos;html.parser&apos;)</span><br><span class="line">        tables = soup.find_all(&apos;table&apos;)</span><br><span class="line">        return tables</span><br><span class="line"></span><br><span class="line">    def parse_html_table(self, table):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        &lt;tr&gt;</span><br><span class="line">            &lt;th align=&quot;center&quot; class=&quot;tblHead&quot; nowrap=&quot;&quot; rowspan=&quot;2&quot;&gt;產業類別&lt;/th&gt;</span><br><span class="line">            &lt;th align=&quot;center&quot; class=&quot;tblHead&quot; nowrap=&quot;&quot; rowspan=&quot;2&quot;&gt;公司代號&lt;/th&gt;</span><br><span class="line">            &lt;th align=&quot;center&quot; class=&quot;tblHead&quot; nowrap=&quot;&quot; rowspan=&quot;2&quot;&gt;公司名稱&lt;/th&gt;</span><br><span class="line">            &lt;th align=&quot;center&quot; class=&quot;tblHead&quot; colspan=&quot;4&quot; nowrap=&quot;&quot;&gt;非擔任主管職務之&lt;br/&gt;全時員工資訊&lt;/th&gt;</span><br><span class="line">            &lt;th align=&quot;center&quot; class=&quot;tblHead&quot; colspan=&quot;2&quot; nowrap=&quot;&quot;&gt;同業公司資訊&lt;/th&gt;</span><br><span class="line">            &lt;th align=&quot;center&quot; class=&quot;tblHead&quot; colspan=&quot;4&quot; nowrap=&quot;&quot;&gt;薪資統計情形&lt;/th&gt;</span><br><span class="line">        &lt;/tr&gt;</span><br><span class="line">        &lt;tr&gt;</span><br><span class="line">            &lt;th align=&quot;center&quot; class=&quot;tblHead&quot; nowrap=&quot;&quot;&gt;員工薪資總額(仟元)&lt;/th&gt;</span><br><span class="line">            &lt;th align=&quot;center&quot; class=&quot;tblHead&quot; nowrap=&quot;&quot;&gt;員工人數-加權平均(人)&lt;/th&gt;</span><br><span class="line">            &lt;th align=&quot;center&quot; class=&quot;tblHead&quot; nowrap=&quot;&quot;&gt;員工薪資-平均數(仟元/人)&lt;/th&gt;</span><br><span class="line">            &lt;th align=&quot;center&quot; class=&quot;tblHead&quot; nowrap=&quot;&quot;&gt;每股盈餘(元/股)&lt;/th&gt;</span><br><span class="line">            &lt;th align=&quot;center&quot; class=&quot;tblHead&quot; nowrap=&quot;&quot;&gt;員工薪資-平均數(仟元/人)&lt;/th&gt;</span><br><span class="line">            &lt;th align=&quot;center&quot; class=&quot;tblHead&quot; nowrap=&quot;&quot;&gt;平均每股盈餘(元/股)&lt;/th&gt;</span><br><span class="line">            &lt;th align=&quot;center&quot; class=&quot;tblHead&quot; nowrap=&quot;&quot;&gt;非經理人之&lt;br/&gt;全時員工薪資&lt;br/&gt;平均數未達50萬元&lt;/th&gt;</span><br><span class="line">            &lt;th align=&quot;center&quot; class=&quot;tblHead&quot; nowrap=&quot;&quot;&gt;公司EPS獲利表現較同業為佳&lt;br/&gt;，惟非經理人之全時員工&lt;br/&gt;薪資平均數低於同業水準&lt;/th&gt;</span><br><span class="line">            &lt;th align=&quot;center&quot; class=&quot;tblHead&quot; nowrap=&quot;&quot;&gt;公司EPS較前一年度成長&lt;br/&gt;，惟非經理人之全時員工&lt;br/&gt;薪資平均數較前一年度減少&lt;/th&gt;</span><br><span class="line">            &lt;th align=&quot;center&quot; class=&quot;tblHead&quot; nowrap=&quot;&quot;&gt;公司經營績效與員工薪酬&lt;br/&gt;之關聯性及合理性說明&lt;/th&gt;</span><br><span class="line">        &lt;/tr&gt;</span><br><span class="line">        &lt;tr&gt;</span><br><span class="line">            &lt;td nowrap=&quot;&quot; style=&quot;text-align:left !important;&quot;&gt;資訊服務業&lt;/td&gt;</span><br><span class="line">            &lt;td nowrap=&quot;&quot; style=&quot;text-align:left !important;&quot;&gt;8416&lt;/td&gt;</span><br><span class="line">            &lt;td nowrap=&quot;&quot; style=&quot;text-align:left !important;&quot;&gt;實威&lt;/td&gt;</span><br><span class="line">            &lt;td nowrap=&quot;&quot; style=&quot;text-align:right !important;&quot;&gt; 158,636 &lt;/td&gt;</span><br><span class="line">            &lt;td nowrap=&quot;&quot; style=&quot;text-align:right !important;&quot;&gt; 186 &lt;/td&gt;</span><br><span class="line">            &lt;td nowrap=&quot;&quot; style=&quot;text-align:right !important;&quot;&gt; 853 &lt;/td&gt;</span><br><span class="line">            &lt;td nowrap=&quot;&quot; style=&quot;text-align:right !important;&quot;&gt; 9.69 &lt;/td&gt;</span><br><span class="line">            &lt;td nowrap=&quot;&quot; style=&quot;text-align:right !important;&quot;&gt; 807 &lt;/td&gt;</span><br><span class="line">            &lt;td nowrap=&quot;&quot; style=&quot;text-align:right !important;&quot;&gt; 1.20 &lt;/td&gt;</span><br><span class="line">            &lt;td nowrap=&quot;&quot; style=&quot;text-align:right !important;&quot;&gt;&lt;/td&gt;</span><br><span class="line">            &lt;td nowrap=&quot;&quot; style=&quot;text-align:right !important;&quot;&gt;&lt;/td&gt;</span><br><span class="line">            &lt;td nowrap=&quot;&quot; style=&quot;text-align:right !important;&quot;&gt;&lt;/td&gt;</span><br><span class="line">            &lt;td nowrap=&quot;&quot; style=&quot;text-align:left !important;&quot;&gt;&lt;br/&gt;&lt;/td&gt;</span><br><span class="line">        &lt;/tr&gt;</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        parsed_data = []</span><br><span class="line"></span><br><span class="line">        # Find number of rows and columns</span><br><span class="line">        # we also find the column titles if we can</span><br><span class="line">        table_row_tags = table.find_all(&apos;tr&apos;)</span><br><span class="line">        table_header_tags = table.find_all(&apos;th&apos;)</span><br><span class="line">        column_names = [table_header_tag.get_text() for key, table_header_tag in enumerate(table_header_tags) if key not in (3, 4, 5)]</span><br><span class="line">        column_names[7] = &apos;同業公司&#123;&#125;&apos;.format(column_names[7])</span><br><span class="line">        column_names[8] = &apos;同業公司&#123;&#125;&apos;.format(column_names[8])</span><br><span class="line"></span><br><span class="line">        tr_td_tags = [</span><br><span class="line">            [td_tag.get_text().strip() for td_tag in table_row.find_all(&apos;td&apos;)]</span><br><span class="line">            for table_row in table_row_tags if table_row.find_all(&apos;td&apos;)</span><br><span class="line">        ]</span><br><span class="line"></span><br><span class="line">        parsed_data = [</span><br><span class="line">            OrderedDict(&#123;</span><br><span class="line">                column_names[index]: td_tag</span><br><span class="line">                for index, td_tag in enumerate(tr_td_tag)</span><br><span class="line">            &#125;)</span><br><span class="line">            for tr_td_tag in tr_td_tags</span><br><span class="line">        ]</span><br><span class="line"></span><br><span class="line">        df = pd.DataFrame.from_dict(parsed_data)</span><br><span class="line"></span><br><span class="line">        return df</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">htlm_parser = HTMLTableParser()</span><br><span class="line"></span><br><span class="line">payload = &#123;</span><br><span class="line">    # &apos;encodeURIComponent&apos;: 1,</span><br><span class="line">    &apos;step&apos;: 1,</span><br><span class="line">    &apos;firstin&apos;: 1,</span><br><span class="line">    &apos;TYPEK&apos;: &apos;sii&apos;, # sii 上市 / otc 上櫃</span><br><span class="line">    &apos;RYEAR&apos;: 107,</span><br><span class="line">    &apos;code&apos;: &apos;&apos;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">headers = &#123;&apos;User-Agent&apos;: &apos;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36&apos;&#125;</span><br><span class="line"></span><br><span class="line">resp = requests.post(&apos;https://mops.twse.com.tw/mops/web/ajax_t100sb15&apos;, data=payload, headers=headers, timeout=2)</span><br><span class="line"></span><br><span class="line">html_tables = htlm_parser.get_html_tables_from_resp(resp.text)</span><br><span class="line"></span><br><span class="line">df_table = htlm_parser.parse_html_table(html_tables[0])</span><br><span class="line"></span><br><span class="line">df_table.to_csv(&apos;107_&#123;&#125;.csv&apos;.format(payload[&apos;TYPEK&apos;]), index=False, encoding=&apos;utf-8&apos;)</span><br><span class="line"></span><br><span class="line">print(df_table)</span><br></pre></td></tr></table></figure>
+<h1 id="資料前處理-Data-Preprocessing"><a href="#資料前處理-Data-Preprocessing" class="headerlink" title="資料前處理 Data Preprocessing"></a>資料前處理 Data Preprocessing</h1><p>資料前處理是資料探勘和資料分析流程步驟之一，主要目的是將真實世界的資料進行整理轉化，變得可以閱讀和分析。</p>
+<p>在蒐集完資料後，我們將使用 pandas 載入我們抓取的<a href="https://pse.is/GKXXU" target="_blank" rel="noopener">上市櫃公司薪資的 .csv 檔案來進行分析</a> 並進行資料前處理。我們蠻幸運的是這個資料集算是完整且是結構化資料，不太需要做太多的資料前處理（例如：補值、刪除遺漏值等），主要要做的是 columns 名稱調整和員工薪資值的取代和轉換成整數。</p>
+<p>上市公司的 107_sii.csv 檔案：</p>
+<p><img src="/img/kdchang/python-data-analytics/spreadsheet-1.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<p><img src="/img/kdchang/python-data-analytics/spreadsheet-3.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<p>上櫃公司的 107_otc.csv 檔案：</p>
+<p><img src="/img/kdchang/python-data-analytics/spreadsheet-4.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<p><img src="/img/kdchang/python-data-analytics/spreadsheet-6.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<p>接著我們來進行資料的前處理，方便接下來的探索性資料分析，首先載入 pandas、matplotlib 函式庫並使用 pandas 載入資料集</p>
+<p><img src="/img/kdchang/python-data-analytics/demo5.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import pandas as pd</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line"></span><br><span class="line">df_sii = pd.read_csv(&apos;./107_sii.csv&apos;)</span><br><span class="line">df_otc = pd.read_csv(&apos;./107_otc.csv&apos;)</span><br><span class="line"></span><br><span class="line">df_sii.shape</span><br><span class="line"># (853, 13) 共有 853 家上市公司資料，13 個欄位</span><br><span class="line">df_otc.shape</span><br><span class="line"># (733, 13) 共有 733 家上市公司資料，13 個欄位</span><br><span class="line">df_sii.index</span><br><span class="line"># RangeIndex(start=0, stop=853, step=1)</span><br><span class="line">df_sii.values</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">array([[&apos;水泥工業&apos;, 1101, &apos;台泥&apos;, ..., nan, nan, nan],</span><br><span class="line">       [&apos;水泥工業&apos;, 1102, &apos;亞泥&apos;, ..., nan, nan, nan],</span><br><span class="line">       [&apos;水泥工業&apos;, 1103, &apos;嘉泥&apos;, ..., nan, nan, nan],</span><br><span class="line">       ...,</span><br><span class="line">       [&apos;建材營造&apos;, 9946, &apos;三發地產&apos;, ..., nan, nan, nan],</span><br><span class="line">       [&apos;其他&apos;, 9955, &apos;佳龍&apos;, ..., nan, nan, nan],</span><br><span class="line">       [&apos;鋼鐵工業&apos;, 9958, &apos;世紀鋼構&apos;, ..., nan, nan, nan]], dtype=object)</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">df_sii.columns</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">Index([&apos;產業類別&apos;, &apos;公司代號&apos;, &apos;公司名稱&apos;, &apos;員工薪資總額(仟元)&apos;, &apos;員工人數-加權平均(人)&apos;, &apos;員工薪資-平均數(仟元/人)&apos;,</span><br><span class="line">       &apos;每股盈餘(元/股)&apos;, &apos;同業公司員工薪資-平均數(仟元/人)&apos;, &apos;同業公司平均每股盈餘(元/股)&apos;,</span><br><span class="line">       &apos;非經理人之全時員工薪資平均數未達50萬元&apos;, &apos;公司EPS獲利表現較同業為佳，惟非經理人之全時員工薪資平均數低於同業水準&apos;,</span><br><span class="line">       &apos;公司EPS較前一年度成長，惟非經理人之全時員工薪資平均數較前一年度減少&apos;, &apos;公司經營績效與員工薪酬之關聯性及合理性說明&apos;],</span><br><span class="line">      dtype=&apos;object&apos;)</span><br><span class="line">&quot;&quot;</span><br></pre></td></tr></table></figure>
+<p>整體資料資訊：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">df_sii.info()</span><br><span class="line"></span><br><span class="line">&lt;class &apos;pandas.core.frame.DataFrame&apos;&gt;</span><br><span class="line">RangeIndex: 853 entries, 0 to 852</span><br><span class="line">Data columns (total 13 columns):</span><br><span class="line">產業類別                                    853 non-null object</span><br><span class="line">公司代號                                    853 non-null int64</span><br><span class="line">公司名稱                                    853 non-null object</span><br><span class="line">員工薪資總額(仟元)                              853 non-null object</span><br><span class="line">員工人數-加權平均(人)                            853 non-null object</span><br><span class="line">員工薪資-平均數(仟元/人)                          853 non-null object</span><br><span class="line">每股盈餘(元/股)                               853 non-null float64</span><br><span class="line">同業公司員工薪資-平均數(仟元/人)                      853 non-null object</span><br><span class="line">同業公司平均每股盈餘(元/股)                         853 non-null float64</span><br><span class="line">非經理人之全時員工薪資平均數未達50萬元                    66 non-null object</span><br><span class="line">公司EPS獲利表現較同業為佳，惟非經理人之全時員工薪資平均數低於同業水準    142 non-null object</span><br><span class="line">公司EPS較前一年度成長，惟非經理人之全時員工薪資平均數較前一年度減少     0 non-null float64</span><br><span class="line">公司經營績效與員工薪酬之關聯性及合理性說明                   207 non-null object</span><br><span class="line">dtypes: float64(3), int64(1), object(9)</span><br><span class="line">memory usage: 86.7+ KB</span><br></pre></td></tr></table></figure>
+<p>觀看前面幾筆資料長相：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ df_sii.head()</span><br></pre></td></tr></table></figure>
+<p><img src="/img/kdchang/python-data-analytics/demo6.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<p>將 columns 名稱調整成英文，方便分析操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">headers = [&apos;industry&apos;,&apos;company_code&apos;, &apos;company_people_count&apos;, &apos;company_name&apos;, &apos;company_total_salary&apos;, &apos;company_average_salary&apos;, &apos;company_eps&apos;, &apos;industry_average_salary&apos;, &apos;industry_average_eps&apos;, &apos;is_under_50&apos;, &apos;high_eps_low_salary&apos;, &apos;growth_but_low_salary&apos;, &apos;low_salary_reason&apos;]</span><br><span class="line">df_sii.columns = headers</span><br><span class="line">df_otc.columns = headers</span><br><span class="line"></span><br><span class="line">df_sii.columns</span><br><span class="line"></span><br><span class="line">Index([&apos;industry&apos;, &apos;company_code&apos;, &apos;company_name&apos;, &apos;company_people_count&apos;,</span><br><span class="line">       &apos;company_total_salary&apos;, &apos;company_average_salary&apos;, &apos;company_eps&apos;,</span><br><span class="line">       &apos;industry_average_salary&apos;, &apos;industry_average_eps&apos;, &apos;is_under_50&apos;,</span><br><span class="line">       &apos;high_eps_low_salary&apos;, &apos;growth_but_low_salary&apos;, &apos;low_salary_reason&apos;],</span><br><span class="line">      dtype=&apos;object&apos;)</span><br></pre></td></tr></table></figure>
+<p>調整 column 過後：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">df_sii.info()</span><br><span class="line">&lt;class &apos;pandas.core.frame.DataFrame&apos;&gt;</span><br><span class="line">RangeIndex: 853 entries, 0 to 852</span><br><span class="line">Data columns (total 13 columns):</span><br><span class="line">industry                   853 non-null object</span><br><span class="line">company_code               853 non-null int64</span><br><span class="line">company_name               853 non-null object</span><br><span class="line">company_total_salary       853 non-null object</span><br><span class="line">company_people_count       853 non-null object</span><br><span class="line">company_average_salary     853 non-null int64</span><br><span class="line">company_eps                853 non-null float64</span><br><span class="line">industry_average_salary    853 non-null object</span><br><span class="line">industry_average_eps       853 non-null float64</span><br><span class="line">is_under_50                66 non-null object</span><br><span class="line">high_eps_low_salary        142 non-null object</span><br><span class="line">growth_but_low_salary      0 non-null float64</span><br><span class="line">low_salary_reason          207 non-null object</span><br><span class="line">dtypes: float64(3), int64(2), object(8)</span><br><span class="line">memory usage: 86.7+ KB</span><br></pre></td></tr></table></figure>
+<p>將員工薪資-平均數(仟元/人) , 去除並將字串 str 轉為 float<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df_sii[&apos;company_average_salary&apos;] = df_sii[&apos;company_average_salary&apos;].str.replace(&apos;,&apos;, &apos;&apos;).astype(int)</span><br><span class="line">df_otc[&apos;company_average_salary&apos;] = df_otc[&apos;company_average_salary&apos;].str.replace(&apos;,&apos;, &apos;&apos;).astype(int)</span><br></pre></td></tr></table></figure></p>
+<p>新的資料長相：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_sii.head()</span><br></pre></td></tr></table></figure>
+<p><img src="/img/kdchang/python-data-analytics/demo7.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<h1 id="探索性資料分析-Explore-Data-Analytics"><a href="#探索性資料分析-Explore-Data-Analytics" class="headerlink" title="探索性資料分析 Explore Data Analytics"></a>探索性資料分析 Explore Data Analytics</h1><p>探索性資料分析是資料分析的一個步驟，透過敘述統計、圖表分析等方式來了解資料（例如：最大、最小值、平均值、標準差、離群值等），找出假設和可能的特徵值。</p>
+<p>在進行完資料前處理後我們要來進行探索性資料分析，看看有哪些有趣的資料組合、相關性和圖表。</p>
+<ol>
+<li><p>首先我們來看看一些基本的敘述統計：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_sii.describe()</span><br></pre></td></tr></table></figure>
+<p> <img src="/img/kdchang/python-data-analytics/demo8.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<p> 喔喔，853 家上是公司平均薪資達 82 萬，挺不錯的呀！但記得這是平均數（首富跟你的平均）。EPS 平均有 2.73 左右。來看看薪資排名：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_sii.sort_values([&apos;company_average_salary&apos;], ascending=False)</span><br></pre></td></tr></table></figure>
+<p> 最大值當然就是媒體爭相報導的發哥聯發科的 270 萬，郭董事長的鴻海也是榜上有名啦，當然我們台灣之光台積電也是名列前茅（讓人肅然起敬的還是台積電員工數量也是相當多）：</p>
+<p> <img src="/img/kdchang/python-data-analytics/demo9.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<p> 最小值則是食品公司興泰的 34 萬（嗯，月薪約 NT 28,500，比 22k 好一點）</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_sii.sort_values([&apos;company_average_salary&apos;], ascending=True)</span><br></pre></td></tr></table></figure>
+<p> <img src="/img/kdchang/python-data-analytics/demo10.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<p> 去<a href="https://goodinfo.tw/StockInfo/StockList.asp?MARKET_CAT=%E7%86%B1%E9%96%80%E6%8E%92%E8%A1%8C&amp;INDUSTRY_CAT=%E5%85%AC%E5%8F%B8%E7%B8%BD%E5%B8%82%E5%80%BC%E6%9C%80%E9%AB%98%40%40%E5%85%AC%E5%8F%B8%E7%B8%BD%E5%B8%82%E5%80%BC%40%40%E5%85%AC%E5%8F%B8%E7%B8%BD%E5%B8%82%E5%80%BC%E6%9C%80%E9%AB%98&amp;SHEET=%E5%85%AC%E5%8F%B8%E5%9F%BA%E6%9C%AC%E8%B3%87%E6%96%99" target="_blank" rel="noopener">台灣股市資訊網</a> 弄來的台灣前 20 大市值公司名單：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">top20_valuable_stock_list = [2330, 2317, 6505, 2412, 1301, 3008, 1303, 1326, 2882, 2454, 1216, 2881, 2886, 2891, 2308, 2002, 3045, 2912, 3711, 2892]</span><br><span class="line">df_sii[df_sii[&apos;company_code&apos;].isin(top20_valuable_stock_list)]</span><br></pre></td></tr></table></figure>
+<p> 嗯，看來公司市值比較高，薪水不一定比較高。</p>
+<p> 台股前二十大市值公司薪資排行：<code>聯發科、鴻海、台積電、中鋼、中華電、台達電、兆豐金、台塑石化、台塑、台化</code> &lt;= 抓到了，公司市值大薪資又高的公司！讀者準備 CV 中（大誤）</p>
+<p> <img src="/img/kdchang/python-data-analytics/demo11.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<p> 最後來關心一下，咱們網路軟體業的薪資水平好了。若以純網路軟體可以看一下目前獨立出來的上市櫃公司的電子商務類別：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_otc[df_otc[&apos;industry&apos;].isin([&apos;電子商務&apos;])].sort_values([&apos;company_average_salary&apos;], ascending=False)</span><br></pre></td></tr></table></figure>
+<p> 好吧，革命尚未成功，同志仍需努力。台灣半導體、電子業還是很強，網路軟體業還是得加點油。</p>
+<p> <img src="/img/kdchang/python-data-analytics/demo12.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df_otc_ec = df_otc[df_otc[&apos;industry&apos;].isin([&apos;電子商務&apos;])]</span><br><span class="line">df_otc_ec.company_average_salary = pd.to_numeric(df_otc_ec.company_average_salary)</span><br><span class="line">df_otc_ec.loc[:, [&apos;company_code&apos;, &apos;company_average_salary&apos;]].plot(kind=&apos;bar&apos;, x=&apos;company_code&apos;, y=&apos;company_average_salary&apos;, title =&quot;TW EC&quot;, figsize=(15, 10), legend=True, fontsize=12)</span><br></pre></td></tr></table></figure>
+<p> <img src="/img/kdchang/python-data-analytics/demo13.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+</li>
+</ol>
+<ol start="2">
+<li><p>EPS 和 薪資的相關性：<br> 接著我們想了解公司賺錢是否有合理分配到員工身上，因為依照正常的邏輯假設來講，公司賺錢（這邊簡單用 EPS 每股盈餘來看，稅後 EPS = 淨利/在外流通股數），應該員工的薪資會相對較高，但真的是這樣嗎？</p>
+<p> 在畫散佈圖之前，我們先把 dataFrame 取子集合（僅含公司平均薪資和公司 eps）</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_sii_average_salary_eps = df_sii[[&apos;company_average_salary&apos;, &apos;company_eps&apos;]]</span><br></pre></td></tr></table></figure>
+<p> sort 發現有 大立光、國巨、華新科 index [488, 252, 372] 這幾個 eps 超高的 outliner，簡單起見先把它們去除：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_sii_average_salary_eps.sort_values([&apos;company_eps&apos;], ascending=False)</span><br></pre></td></tr></table></figure>
+<p> <img src="/img/kdchang/python-data-analytics/demo14.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">filter_df_sii_average_salary_eps = df_sii_average_salary_eps.drop(df_sii_average_salary_eps.index[[488, 252, 372]])</span><br><span class="line">filter_df_sii_average_salary_eps.sort_values([&apos;company_eps&apos;], ascending=False)</span><br></pre></td></tr></table></figure>
+<p> 看起來正常多了：</p>
+<p> <img src="/img/kdchang/python-data-analytics/demo15.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<p> 將 company_eps 當作 x 軸，company_average_salary 當 y 軸畫出 scatter，看起來大部分公司 eps 都在 0-10 之間，但 eps 和薪資相關性看起來沒辦法很確定是否相關：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filter_df_sii_average_salary_eps.plot(kind=&apos;scatter&apos;, x=&apos;company_eps&apos;, y=&apos;company_average_salary&apos;)</span><br></pre></td></tr></table></figure>
+<p> <img src="/img/kdchang/python-data-analytics/demo16.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<p> 使用 <a href="https://zh.wikipedia.org/zh-tw/%E7%9A%AE%E5%B0%94%E9%80%8A%E7%A7%AF%E7%9F%A9%E7%9B%B8%E5%85%B3%E7%B3%BB%E6%95%B0" target="_blank" rel="noopener">Pearson correlation coefficient</a> 來看看 eps 和薪資的相關程度：</p>
+<blockquote>
+<p>皮爾森相關分析用於探討兩連續變數 (X, Y) 之間的線性相關性，若兩變數之間的相關係數絕對值較大，則表示彼此相互共變的程度較大。一般而言，若兩變數之間為正相關，則當 X 提升時，Y 也會隨之提升；反之，若兩變數之間為負相關，則當 X 提升時，Y 也會隨之下降。一般研究學者認為，相關係數 0.3 以下為低相關，0.3-0.7 為中等相關，0.7 以上為高度相關。</p>
+</blockquote>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filter_df_sii_average_salary_eps.corr(method =&apos;pearson&apos;)</span><br></pre></td></tr></table></figure>
+<p> <img src="/img/kdchang/python-data-analytics/demo17.png" alt="使用 Python 資料分析和視覺化上市櫃公司薪水公開資料"></p>
+<p> 結果是 0.307071。所以台灣上市公司 eps 和公司薪資應該可以算是中等相關，也就是說公司賺錢和你賺不賺錢不一定高度相關，還要看老闆產業和老闆摳不摳門呀！</p>
+</li>
+</ol>
+<ol start="3">
+<li><p>公司經營績效與員工薪酬之關聯性及合理性說明：<br> 這次證交所公布的公開資料蠻有趣的，特別要求若是屬於低薪的公司需要公布低薪理由。若有興趣的讀者可以研究看看，可以拓展視野，開了不少眼界XD，也更加印證了：</p>
+<p> <code>高薪的理由只有一個（產業、公司賺錢發大財），低薪的理由卻可以有很多種。</code></p>
+<blockquote>
+<p>本公司地處偏鄉，人才要求不易致外籍員工人數較高拉低平均薪資，且對個人的學經歷及技能要求無法提高，僅能於就職過程中予以訓練及培養，雖無法達到規定金額仍盡力提高員工所得。</p>
+</blockquote>
+<p> <code>為何外籍員工只能低薪？可以雇用高級技術員工？</code></p>
+<blockquote>
+<p>1.全球經濟不景氣2.過度教育讓學歷貶值、同儕效應使薪資過低3.外勞人數多，拉低平均薪資4.派遣員工的比例高，拉低對員工平均薪資的成長</p>
+</blockquote>
+<p> <code>過度教育讓學歷貶值？全球經濟不景氣？（千錯萬錯都是別人的錯？黑人問號？）</code></p>
+<blockquote>
+<p>因總公司座落在「新竹科學園區」外，相較薪資水準與園區內的同業較低。且公司大部份員工是在地居民，所以薪資福利項目屬於外縣市之交通、住宿補助福利較少。</p>
+</blockquote>
+<p> <code>新竹科學園區 OS：低薪怪我囉～</code></p>
+</li>
+</ol>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上我們透過簡單使用 Python 資料分析和視覺化上市櫃公司薪水公開資料，進行資料分析的步驟：</p>
+<ol>
+<li>資料蒐集 Data Collect / Data Scraping</li>
+<li>資料前處理 Data Preprocessing</li>
+<li>探索性資料分析 Explore Data Analytics</li>
+</ol>
+<p>主要是透過一個難得的公開資料集進行簡單的資料分析（政府部門德政應該好好的鼓勵一下，也期許自己未來有機會也不要成為員工口中的慣老闆？）。未來我們也可以更進一步整合更多資料集來進行選股、公司低薪理由文字分析或是分析各區域的薪資地圖等更多有趣的資料分析應用。我們下回見啦！</p>
+<h1 id="參考文件"><a href="#參考文件" class="headerlink" title="參考文件"></a>參考文件</h1><ol>
+<li><a href="https://www.twse.com.tw/zh/news/newsDetail/ff8080816b543823016b9cf0c75d013c" target="_blank" rel="noopener">證交所公布本國上市公司107年度非擔任主管職務之全時員工薪資資訊</a></li>
+<li><a href="https://goodinfo.tw/StockInfo/StockList.asp?MARKET_CAT=%E7%86%B1%E9%96%80%E6%8E%92%E8%A1%8C&amp;INDUSTRY_CAT=%E5%85%AC%E5%8F%B8%E7%B8%BD%E5%B8%82%E5%80%BC%E6%9C%80%E9%AB%98%40%40%E5%85%AC%E5%8F%B8%E7%B8%BD%E5%B8%82%E5%80%BC%40%40%E5%85%AC%E5%8F%B8%E7%B8%BD%E5%B8%82%E5%80%BC%E6%9C%80%E9%AB%98&amp;SHEET=%E5%85%AC%E5%8F%B8%E5%9F%BA%E6%9C%AC%E8%B3%87%E6%96%99" target="_blank" rel="noopener">台灣公司總市值</a></li>
+<li><a href="https://www.yongxi-stat.com/pearson-correlation/" target="_blank" rel="noopener">皮爾森積差相關分析(Pearson Correlation)-說明與SPSS操作</a></li>
+</ol>
+<p>（image via <a href="https://pbs.twimg.com/media/Dsa6TcAVAAEUcTw.jpg" target="_blank" rel="noopener">twimg</a>、<a href="http://www.topjavatutorial.com/wp-content/uploads/2016/04/LRU-Cache.png" target="_blank" rel="noopener">topjavatutorial</a>、<a href="https://cdn-images-1.medium.com/max/2600/1*fvlMpkpIKmPm6IF_QnmjmQ.jpeg" target="_blank" rel="noopener">Hacker Noon
+</a>）</p>
+<p>關於作者：<br><a href="http://blog.kdchang.cc" target="_blank" rel="noopener">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino/Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/07/26/how-to-use-taiwan-salary-data-to-do-python-data-analytics-and-data-visualization/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/07/26/how-to-use-taiwan-salary-data-to-do-python-data-analytics-and-data-visualization/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/07/26/how-to-use-taiwan-salary-data-to-do-python-data-analytics-and-data-visualization/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/07/26/how-to-use-taiwan-salary-data-to-do-python-data-analytics-and-data-visualization/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/08/03/leetcode-comprehension-valid-number/">
+        ← 記一次 Leetcode 刷題體悟 - Valid Number
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/07/16/web-ar/">
+        淺嚐 Web AR →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

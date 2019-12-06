@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>從頭打造一個簡單的 Virtual DOM | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-02-04T11:19:30.000Z" itemprop="datePublished">
+          2019-02-04
+      </time>
+    
+    
+    | 
+    <a href='/tags/web/'>web</a>,
+    
+    <a href='/tags/react/'>react</a>,
+    
+    <a href='/tags/javascript/'>javascript</a>,
+    
+    <a href='/tags/virtual-dom/'>virtual dom</a>
+    
+    
+</span>
+
+<meta name="generator" content="從頭打造一個簡單的 Virtual DOM">
+<meta name="og:title" content="從頭打造一個簡單的 Virtual DOM">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">從頭打造一個簡單的 Virtual DOM</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>過年除舊佈新，剛好趁這個機會來複習一下已經是老觀念的 Virtual DOM。很多人在講到 React 的時候都一定會提到 Virtual DOM，而問到 Virtual DOM 的好處時，就會說到實際 DOM 的操作成本很貴，所以透過 Virtual DOM 可以降低成本。</p>
+<p>你在除夕餐桌上這樣講可能沒問題，面試只講這樣應該不太好。</p>
+<p>畢竟你最後還是會操作實體 DOM 啊，這樣說明太簡化了。</p>
+<p>Virtual DOM 的由來可以從 MVC 和 MVVM 的架構追溯起，主要都是為了解決前端頁面呈現、資料更動、使用者操作這三種狀態交互作用產生的複雜性，MVC 提供了一個解法，MVVM 提出的 View Model 有了優化的方案，還有 data 與 view 雙向綁定的方式等等，而 React 提出了另一種思路，但那不是我今天的重點，有興趣且還不知道這些名詞是什麼的讀者可以去搜尋看看，有很多文章在說明這些資訊與歷史。</p>
+<p>React 的 Virtual DOM 是因應其數據與 UI 更新繪製的特殊思路而提出的效能解決方案。</p>
+<p>React 希望在資料更新時，能夠直接重新渲染頁面，不用主動去探究是數據的哪部份發生變化，要對應去更新頁面哪一部分的 DOM。但頁面重新渲染的成本可是更高，所以才需要 Virtual DOM 作為緩衝，透過資料更新後，重新繪製 Virtual DOM，與實體 DOM 進行 Diff，最後再把差異部分 Patch 上去，這不僅修正了重新渲染的成本問題，也降低了 data 與 view 交互更新的複雜度，提高了 developer 的開發體驗。</p>
+<p>說了這麼多，其實今天就只是單純想自己手刻一個 Virtual DOM 來理解一下該怎麼實現這樣的功能，畢竟知道了概念，總覺得手刻應該不難。<br>手刻 Virtual DOM 其實也沒什麼太大意義，但很多時候就是 for fun，然後做個記錄。</p>
+<p>主要參考至 <a href="https://twitter.com/ycmjason" target="_blank" rel="noopener">@ycmjason</a> 的 <a href="https://youtu.be/85gJMUEcnkc" target="_blank" rel="noopener">talk</a> 與 <a href="https://dev.to/ycmjason/building-a-simple-virtual-dom-from-scratch-3d05#mount-node-target" target="_blank" rel="noopener">blog</a>，非常推薦欣賞，講者的熱情完全掩蓋掉音訊不佳的缺點，又很清楚地介紹了 VDOM 實作。</p>
+<h2 id="所以，Virtual-DOM-到底長什麼樣子？"><a href="#所以，Virtual-DOM-到底長什麼樣子？" class="headerlink" title="所以，Virtual DOM 到底長什麼樣子？"></a>所以，Virtual DOM 到底長什麼樣子？</h2><p>Virtual DOM 就只是個 javascript plain object，並且模仿 Actual DOM 的結構（但當然簡化很多）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> vElement = &#123;</span><br><span class="line">  tagName: <span class="string">'div'</span>,</span><br><span class="line">  attrs: &#123;</span><br><span class="line">    id: <span class="string">'v-element'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  children: []</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>一個基本的 VDOM，我們只需要元素名稱（tagName）、元素屬性（attrs）與其 Children list（既然是虛擬 DOM，這個 plain object 裡面的屬性其實隨便你取名，只要對應得到實際 DOM 即可）。</p>
+<p>根據這個想法，我們可以模仿現存的 VDOM lib，提供一個 <code>createElement</code> 的 function：</p>
+<figure class="highlight js"><figcaption><span>createElement.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> (tagName, &#123; attrs = &#123;&#125;, children = [] &#125;) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> vElement = <span class="built_in">Object</span>.create(<span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">Object</span>.assign(vElement, &#123;</span><br><span class="line">    tagName,</span><br><span class="line">    attrs,</span><br><span class="line">    children,</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> vElement;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Note: 利用 <code>Object.create(null)</code> 與 <code>Object.assign</code> 的方式產生物件，可以避免直接採用 Object literals 的方式會繼承到 object prototype 的屬性。</p>
+</blockquote>
+<p>使用方式如下：</p>
+<figure class="highlight js"><figcaption><span>main.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> createElement <span class="keyword">from</span> <span class="string">'./createElement'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> vRootApp = createElement(<span class="string">'div'</span>, &#123;</span><br><span class="line">  attrs: &#123;</span><br><span class="line">    id: <span class="string">'root'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  children: [</span><br><span class="line">    createElement(<span class="string">'img'</span>, &#123;</span><br><span class="line">      attrs: &#123;</span><br><span class="line">        src: <span class="string">'http://placekitten.com/200/300'</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(vRootApp);</span><br></pre></td></tr></table></figure>
+<p>結果：</p>
+<p><img src="/img/arvinh/vdom-createElement.png" alt="vdom-createElement"></p>
+<h2 id="從-Virtual-DOM-到-Real-DOM"><a href="#從-Virtual-DOM-到-Real-DOM" class="headerlink" title="從 Virtual DOM 到 Real DOM"></a>從 Virtual DOM 到 Real DOM</h2><p>有了 Virtual DOM，我們還需要一個 <code>render</code> 函數來將其繪製到頁面上。方法很簡單，我們只需要 <code>document.createElement</code>、<code>setAttribute</code> 與 <code>appendChild</code> 三個 web api 即可完成：</p>
+<figure class="highlight js"><figcaption><span>render.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> renderElem = <span class="function">(<span class="params">&#123; tagName, attrs, children &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> elem = <span class="built_in">document</span>.createElement(tagName);</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> [k, v] <span class="keyword">of</span> <span class="built_in">Object</span>.entries(attrs)) &#123;</span><br><span class="line">    elem.setAttribute(k, v);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> child <span class="keyword">of</span> children) &#123;</span><br><span class="line">    elem.appendChild(renderElem(child));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> elem;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> renderElem;</span><br></pre></td></tr></table></figure>
+<p>根據 <code>tagName</code> 使用 <code>document.createElement</code> 來建立實際的 DOM 物件，並且將 <code>attrs</code> 一個一個 <code>setAttribute</code> 到實際的 DOM 元素上；最後再將 <code>children</code> 遞迴丟入 <code>renderElem</code> 函數中，將所有小孩的實際 DOM object 都建立好並 <code>appendChild</code> 到上層的實際 DOM 物件上，最後將完整的 real DOM object 回傳出去。</p>
+<p>以概念來說基本上這樣就完成了，但可以讓他在完整一點，提供 <code>textNode</code> 的支援，利用 <code>document.createTextNode</code> 來產生純 string 的元素，稍微修改 <code>render.js</code> 如下：</p>
+<figure class="highlight js"><figcaption><span>render.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> renderElem = <span class="function">(<span class="params">&#123; tagName, attrs, children &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> elem = <span class="built_in">document</span>.createElement(tagName);</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> [k, v] <span class="keyword">of</span> <span class="built_in">Object</span>.entries(attrs)) &#123;</span><br><span class="line">    elem.setAttribute(k, v);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> child <span class="keyword">of</span> children) &#123;</span><br><span class="line">    elem.appendChild(render(child));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> elem;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> render = <span class="function">(<span class="params">vNode</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> vNode === <span class="string">'string'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">document</span>.createTextNode(vNode);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> renderElem(vNode);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> render;</span><br></pre></td></tr></table></figure>
+<p>從 <code>render</code> 函數回傳的基本上就會是一顆完整的 Virtual DOM Tree 了，舉個例子來看：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> createElement <span class="keyword">from</span> <span class="string">'./createElement'</span>;</span><br><span class="line"><span class="keyword">import</span> render <span class="keyword">from</span> <span class="string">'./render'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> vRootApp = createElement(<span class="string">'div'</span>, &#123;</span><br><span class="line">  attrs: &#123;</span><br><span class="line">    id: <span class="string">'root'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  children: [</span><br><span class="line">    <span class="string">'Hello VDOM'</span>,</span><br><span class="line">    createElement(<span class="string">'img'</span>, &#123;</span><br><span class="line">      attrs: &#123;</span><br><span class="line">        src: <span class="string">'http://placekitten.com/200/300'</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> rootApp = render(vRootApp);</span><br></pre></td></tr></table></figure>
+<p>結果如下，Virtual DOM 就是個 Javascript plain object，而經由 <code>render</code> 函數回傳的即是包含實際 DOM 屬性的 Real DOM：</p>
+<p><img src="/img/arvinh/vDom-render-actualDOM.png" alt="Render to real dom"></p>
+<h3 id="掛到頁面上吧！"><a href="#掛到頁面上吧！" class="headerlink" title="掛到頁面上吧！"></a>掛到頁面上吧！</h3><p>透過 <code>render</code> 我們有了實體 DOM，但這樣還沒辦法在頁面上顯示，需要有個類似 <code>ReactDOM.render</code> 的方法來幫助我們實現：</p>
+<figure class="highlight js"><figcaption><span>mount.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> (element, targetNode) =&gt; &#123;</span><br><span class="line">  targetNode.appendChild(element);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><figcaption><span>main.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> createElement <span class="keyword">from</span> <span class="string">'./createElement'</span>;</span><br><span class="line"><span class="keyword">import</span> render <span class="keyword">from</span> <span class="string">'./render'</span>;</span><br><span class="line"><span class="keyword">import</span> mount <span class="keyword">from</span> <span class="string">'./mount'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> vRootApp = createElement(<span class="string">'div'</span>, &#123;</span><br><span class="line">  attrs: &#123;</span><br><span class="line">    id: <span class="string">'root'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  children: [</span><br><span class="line">    <span class="string">'Hello VDOM'</span>,</span><br><span class="line">    createElement(<span class="string">'img'</span>, &#123;</span><br><span class="line">      attrs: &#123;</span><br><span class="line">        src: <span class="string">'http://placekitten.com/200/300'</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> rootApp = render(vRootApp);</span><br><span class="line">mount(rootApp, <span class="built_in">document</span>.getElementById(<span class="string">'rootApp'</span>));</span><br></pre></td></tr></table></figure>
+<p>很簡單，就把我們產生的 Real DOM <code>appendChild</code> 到 targetNode 下就好。</p>
+<p>或是也能用 <code>targetNode.replaceWith(element);</code> 的方式直接取代掉 targetNode。（不過要注意一下 IE 是無法使用的喔！）</p>
+<p><img src="/img/arvinh/mount-to-html.png" alt="Mounted DOM"></p>
+<h1 id="Diff-Virtual-DOM-Reconciliation"><a href="#Diff-Virtual-DOM-Reconciliation" class="headerlink" title="Diff Virtual DOM - Reconciliation"></a>Diff Virtual DOM - Reconciliation</h1><p>知道怎麼產生 Virtual DOM 並繪製到頁面上後，也是時候進入重頭戲了！</p>
+<p>如前言所說，Virtual DOM 作為我們操作 Real DOM 的一層緩衝，我們比較經過狀態變化後產生的新舊 Virtual DOM 來找出實際需要更新的 Real DOM 位置，如此一來，儘管每次都重新 Render，實際更新的 DOM 也不會是全部，可以大幅改善直接重新渲染的效能問題。</p>
+<p>而 tree diff 的演算法其實很複雜，如果用 <a href="https://grfia.dlsi.ua.es/ml/algorithms/references/editsurvey_bille.pdf" target="_blank" rel="noopener">Tree Edit Distance</a> 的方式遞迴檢查每個節點，複雜度將可達到 O(n^3)，是非常驚人的數字，幾乎無法在短時間處理完，因此 React 所提出的 reconciliation 制定了一些策略，來將複雜度從 O(n^3) 降至 O(n)。<a href="https://reactjs.org/docs/reconciliation.html" target="_blank" rel="noopener">React 官方文檔其實說明得很清楚</a>。</p>
+<p>主要有兩個假設：</p>
+<ol>
+<li>只需要比較同一層的節點，同一層內的元素若擁有不同的 type，往下長出的樹就會不同。</li>
+<li>同樣 type 的元件，開發者可以使用 <code>key</code> 這個 props 來決定其子樹是否需要重新 render。</li>
+</ol>
+<p>如假設一提及，我們只比較新舊兩棵 Virtual DOM Tree 中，同個父節點下的所有子節點，若發現某個節點不存在了，那就整個子樹都會刪除不去進一步比較。</p>
+<p><img src="/img/arvinh/vdom-level-comparison.png" alt="只比同 level 的 node"></p>
+<p>這樣做的意思就是說，如果今天發生了一些跨層級的操作，像是整顆子樹被搬移到另一個節點上，對 React 來說，會是刪掉原有的子樹，然後重新在新的位置建立一模一樣的子樹出來：</p>
+<p><img src="/img/arvinh/vdom-cross-level-modify.png" alt="刪掉原子樹，在新位置重建"></p>
+<blockquote>
+<p>Note: 實際上 React 在這兩個假設下，還做了許多更細節的事情（component diff、element diff），可以先去參考這篇很久之前的<a href="https://zhuanlan.zhihu.com/p/20346379" target="_blank" rel="noopener">文章</a>，再去閱讀 <a href="https://github.com/acdlite/react-fiber-architecture" target="_blank" rel="noopener">React fiber 的介紹</a>。</p>
+</blockquote>
+<p>基於這兩個假設我們可以開始實作簡單版的 Virtual DOM Diffing 演算法，基本上有四個 cases 處理：</p>
+<ol>
+<li>newTreeRoot 為 undefined，也就是某個節點被刪除了。</li>
+<li>兩個 Node 都是純字串。</li>
+<li>一個 Node 為純字串，一個 Node 為 Virtual Element。</li>
+<li>新舊 TreeRoot 的 TagName 不同。</li>
+</ol>
+<p>根據這四種 cases 我們個別處理，並且回傳一個 <code>patch</code> 函數，供之後來將 diff 完的結果 attach 到 Real DOM 上 （Note: r 開頭的都代表 Real DOM，v 開頭為 Virtual DOM）：</p>
+<figure class="highlight js"><figcaption><span>diff.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> render <span class="keyword">from</span> <span class="string">'./render'</span>;</span><br><span class="line"><span class="keyword">const</span> diff = <span class="function">(<span class="params">oldVTreeRoot, newVTreeRoot</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 假設 oldVTreeRoot 一定都存在，只有 newVTreeRoot 有機會被刪除，也就是 undefined</span></span><br><span class="line">  <span class="keyword">if</span> (newVTreeRoot === <span class="literal">undefined</span>) &#123;</span><br><span class="line">    <span class="comment">// 回傳 patch 函數，會接收 Real DOM，這邊 r 開頭的都代表 Real DOM，v 開頭為 Virtual DOM</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">rNode</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 因為新的 Virtual DOM Tree 是空的，所以回傳的 Patch 函式就是直接把 Real DOM 刪除。</span></span><br><span class="line">      rNode.remove();</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">undefined</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> oldVTreeRoot === <span class="string">'string'</span> ||</span><br><span class="line">    <span class="keyword">typeof</span> newVTreeRoot === <span class="string">'string'</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (oldVTreeRoot !== newVTreeRoot) &#123;</span><br><span class="line">      <span class="comment">// 這邊包含兩種 cases：</span></span><br><span class="line">      <span class="comment">// Case 1：新舊 Virtual DOM Tree 其中一個為 string，一個為 Virtual Node，所以當然會 !==</span></span><br><span class="line">      <span class="comment">// Case 2：是兩者都為 string，但 !==</span></span><br><span class="line">      <span class="comment">// 我們直接根據新的 Virtual Tree render 新的 Real Tree，並 replace 掉原本的 Real Tree</span></span><br><span class="line">      <span class="keyword">return</span> <span class="function"><span class="params">rNode</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="comment">// 回傳 patch 函數</span></span><br><span class="line">          <span class="keyword">const</span> rNewNode = render(newVTreeRoot);</span><br><span class="line">          rNode.replaceWith(rNewNode);</span><br><span class="line">          <span class="keyword">return</span> rNewNode;</span><br><span class="line">       &#125;;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 若都為 string 且值相同，那就不用改。</span></span><br><span class="line">      <span class="keyword">return</span> <span class="function"><span class="params">rNode</span> =&gt;</span> rNode; <span class="comment">// 回傳 patch 函數</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (oldVTreeRoot.tagName !== newVTreeRoot.tagName) &#123;</span><br><span class="line">    <span class="comment">// 根據優化 Tree diffing 演算法的假設一，只要 tagName 不同，我們就直接重新 render。</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">rNode</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 回傳 patch 函數</span></span><br><span class="line">      <span class="keyword">const</span> rNewNode = render(newVTreeRoot);</span><br><span class="line">      rNode.replaceWith(rNewNode);</span><br><span class="line">      <span class="keyword">return</span> rNewNode;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> diff;</span><br></pre></td></tr></table></figure>
+<p>聰明的你看到這邊就會發問了：tag name 相同的 case 沒有處理到啊？</p>
+<p>沒錯，如果新舊兩棵 Virtual Tree 的 tag name 都一樣，那我們還得比 attributes，而要比較兩個節點的所有 attributes，不如直接 replace 上新的就好。但要注意，因為 attributes 很多，所以會產生多個 patch 函數需要被 apply 到 Real DOM 上，我們額外用一個陣列暫存，最後回傳一個 wrapper patch 函數，把所有暫存的 patch 函數都 apply 到傳進來的 Real DOM ：</p>
+<figure class="highlight js"><figcaption><span>diffAttrs.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> diffAttrs = <span class="function">(<span class="params">oldAttrs, newAttrs</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 因為 attributes 很多，需要一個 array 來存所有需要的 patch 函數</span></span><br><span class="line">  <span class="keyword">const</span> patches = [];</span><br><span class="line">  <span class="comment">// 放上新的 attributes</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> [k, v] <span class="keyword">of</span> <span class="built_in">Object</span>.entries(newAttrs)) &#123;</span><br><span class="line">    patches.push(<span class="function"><span class="params">rNode</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 暫存 patch 函數</span></span><br><span class="line">      rNode.setAttribute(k, v);</span><br><span class="line">      <span class="keyword">return</span> rNode;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 移除舊的 attributes</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> k <span class="keyword">in</span> oldAttrs) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!(k <span class="keyword">in</span> newAttrs)) &#123;</span><br><span class="line">      patches.push(<span class="function"><span class="params">rNode</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 暫存 patch 函數</span></span><br><span class="line">        rNode.removeAttribute(k);</span><br><span class="line">        <span class="keyword">return</span> rNode;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 最後傳出去的外層 patch 函數</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="params">rNode</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> patch <span class="keyword">of</span> patches) &#123;</span><br><span class="line">      <span class="comment">// 把每個暫存的 patch 函數都 apply 到 Real DOM 上</span></span><br><span class="line">      patch(rNode);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rNode;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> diffAttrs;</span><br></pre></td></tr></table></figure>
+<p>處理完 attributes 後，我們還得考慮 children，diff children 的方式其實跟 diff 整棵樹一樣，但我們要考慮到子樹的長度：</p>
+<ol>
+<li><code>oldVChildren.length === newVChildren.length</code>，那就直接 <code>diff(oldVChildren[i], newVchildren[i])</code>，i 從 0 到 <code>oldVChildren.length</code>。</li>
+<li><code>oldVChildren.length &gt; newVChildren.length</code>，跟 case 1 其實一樣，因為新子樹比較少，就代表有 Node 被刪除，在我們原本的 diff 函式中有處理了。</li>
+<li><code>oldVChildren.length &lt; newVChildren.length</code>，新子樹比較長，那就先把舊子樹的所有點先 update 好，再把剩餘的新子樹 patch 上去。</li>
+</ol>
+<p>從上述三個 cases 來看，我們橫豎都需要 loop oldVChildren 一次，最後若有多餘的 newVChildren 再想辦法 update 上去。另外，這邊一樣需要暫存多個 patch 函數，實作細節我註解在 code 裡比較清楚，最後回傳的 patch 函數比較特別：</p>
+<figure class="highlight js"><figcaption><span>diffChildren.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> diffChildren = <span class="function">(<span class="params">oldVChildren, newVChildren</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 無論如何都 loop 過 oldVChildren 一次，把所有 diff 回傳的 patch 函數暫存在 childrenPatches 內</span></span><br><span class="line">  <span class="comment">// 這是一定會 apply 到 old tree 的部分。</span></span><br><span class="line">  <span class="keyword">const</span> childPatches = [];</span><br><span class="line">  oldVChildren.forEach(<span class="function">(<span class="params">oldVChild, i</span>) =&gt;</span> &#123;</span><br><span class="line">    childPatches.push(diff(oldVChild, newVChildren[i]));</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">// 接著我們看看 `newVChildren` 是否有多餘的子樹需要處理</span></span><br><span class="line">  <span class="comment">// 若有，我們產生的 patch 函數就是單純 `render` 出 Real Node 並且</span></span><br><span class="line">  <span class="comment">// appendChild 到 patch 傳進的 Real Node 上（實際要被 patch 的 parent 節點）</span></span><br><span class="line">  <span class="keyword">const</span> additionalPatches = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> additionalVChild <span class="keyword">of</span> newVChildren.slice(oldVChildren.length)) &#123;</span><br><span class="line">    additionalPatches.push(<span class="function"><span class="params">rNode</span> =&gt;</span> &#123;</span><br><span class="line">      rNode.appendChild(render(additionalVChild));</span><br><span class="line">      <span class="keyword">return</span> rNode;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="params">rParent</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 由於這是 children 的 patch，吃進來的會是 parent 的 Real DOM</span></span><br><span class="line">    <span class="comment">// 我們要抓出 `rParent.childNodes` 來針對 old tree 做 patch</span></span><br><span class="line">    <span class="comment">// zip 函數其實就是 lodash 的 zip，成對將 childPatches, rParent.childNodes 的元素並排傳出，這樣比較簡潔</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> [patch, rChild] <span class="keyword">of</span> zip(childPatches, rParent.childNodes)) &#123;</span><br><span class="line">      patch(rChild);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 最後把 new tree 多餘的 patches 直接 patch 到 parent 的 Real DOM 下即可（因為我們是 appendChild）</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> patch <span class="keyword">of</span> additionalPatches) &#123;</span><br><span class="line">      patch(rParent);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> rParent;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>最後在我們原本的 <code>diff.js</code> 中的最後面加上：</p>
+<figure class="highlight js"><figcaption><span>diff.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> render <span class="keyword">from</span> <span class="string">'./render'</span>;</span><br><span class="line"><span class="keyword">const</span> diff = <span class="function">(<span class="params">oldVTreeRoot, newVTreeRoot</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (newVTreeRoot === <span class="literal">undefined</span>) &#123;</span><br><span class="line">    <span class="comment">// ....</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> oldVTreeRoot === <span class="string">'string'</span> ||</span><br><span class="line">    <span class="keyword">typeof</span> newVTreeRoot === <span class="string">'string'</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (oldVTreeRoot !== newVTreeRoot) &#123;</span><br><span class="line">      <span class="comment">// ....</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// ....</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (oldVTreeRoot.tagName !== newVTreeRoot.tagName) &#123;</span><br><span class="line">      <span class="comment">// ....</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> patchAttrs = diffAttrs(oldVTreeRoot.attrs, newVTreeRoot.attrs);</span><br><span class="line">  <span class="keyword">const</span> patchChildren = diffChildren(oldVTreeRoot.children, newVTreeRoot.children);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="params">rNode</span> =&gt;</span> &#123;</span><br><span class="line">    patchAttrs(rNode);</span><br><span class="line">    patchChildren(rNode);</span><br><span class="line">    <span class="keyword">return</span> rNode;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> diff;</span><br></pre></td></tr></table></figure>
+<p>完整的 diff code 可以看這邊 <a href="https://codesandbox.io/s/434xr5mr84" target="_blank" rel="noopener">codesandbox</a></p>
+<p>到這邊為止，Virtual DOM 算是告一段落了！</p>
+<h2 id="最後修改下-main-js，做點變化讓大家看製作出的-VDOM-效果"><a href="#最後修改下-main-js，做點變化讓大家看製作出的-VDOM-效果" class="headerlink" title="最後修改下 main.js，做點變化讓大家看製作出的 VDOM 效果"></a>最後修改下 main.js，做點變化讓大家看製作出的 VDOM 效果</h2><p>我們讓 <code>createVApp</code> 柯里化，多傳一個參數 <code>count</code> 進去改變 attributes 跟圖片尺寸，接著 <code>setInterval</code> 讓每兩秒產生一個隨機數字當作 <code>count</code> 值，用來 update 我們的節點：</p>
+<figure class="highlight js"><figcaption><span>main.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> createVApp = <span class="function"><span class="params">count</span> =&gt;</span> createElement(<span class="string">'div'</span>, &#123;</span><br><span class="line">  attrs: &#123;</span><br><span class="line">    id: <span class="string">'root'</span>,</span><br><span class="line">    dataCount: count, <span class="comment">// we use the count here</span></span><br><span class="line">  &#125;,</span><br><span class="line">  children: [</span><br><span class="line">    <span class="string">'Hello Kitty'</span>,</span><br><span class="line">    createElement(<span class="string">'img'</span>, &#123;</span><br><span class="line">      attrs: &#123;</span><br><span class="line">        src: <span class="string">`http://placekitten.com/<span class="subst">$&#123;count&#125;</span>00/<span class="subst">$&#123;count&#125;</span>00`</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> vApp = createVApp(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">const</span> rApp = render(vApp);</span><br><span class="line"><span class="keyword">let</span> rRootEl = mount(rApp, <span class="built_in">document</span>.getElementById(<span class="string">'rootApp'</span>));</span><br><span class="line">setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> n = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * <span class="number">10</span>);</span><br><span class="line">  <span class="keyword">const</span> vNewApp = createVApp(n);</span><br><span class="line">  <span class="keyword">const</span> patch = diff(vApp, vNewApp);</span><br><span class="line">  <span class="comment">// 每次 patch 完就 assgin 回原有變數，這樣下個 interval 才會抓到更新的樹</span></span><br><span class="line">  rRootEl = patch(rRootEl);</span><br><span class="line">  vApp = vNewApp;</span><br><span class="line">&#125;, <span class="number">2000</span>);</span><br></pre></td></tr></table></figure>
+<p>效果如下，可以看到圖片一直變動，但是我們真的只改到了需要改的節點與 attributes，並不會整個頁面重新刷新：</p>
+<p><img src="/img/arvinh/vdom-demo.gif" alt="demo"></p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>雖然沒辦法跟市面上實際的 VDOM 相提並論，但是從這簡單的實作可以很清楚的知道整個概念與要解決的問題，我覺得是蠻不錯的小練習，接下來再去看 React 或是 Vue 在這方面的實作應該會比較有頭緒一些！<br>最後再附上一次 codesandbox 連結讓想玩的人直接試試：<a href="https://codesandbox.io/s/434xr5mr84" target="_blank" rel="noopener">codesandbox</a></p>
+<h2 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h2><ol>
+<li><a href="https://youtu.be/85gJMUEcnkc" target="_blank" rel="noopener">Video: Building a Simple Virtual DOM from Scratch - Jason Yu</a></li>
+<li><a href="https://dev.to/ycmjason/building-a-simple-virtual-dom-from-scratch-3d05#mount-node-target" target="_blank" rel="noopener">Blog: Building a Simple Virtual DOM from Scratch - Jason Yu</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/20346379" target="_blank" rel="noopener">React 源碼剖析系列 － 不可思議的 react diff</a></li>
+<li><a href="https://github.com/livoras/blog/issues/13" target="_blank" rel="noopener">深度剖析：如何实现一个 Virtual DOM 算法</a></li>
+</ol>
+<p>關於作者：<br><a href="http://blog.arvinh.info/about/" target="_blank" rel="noopener">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/02/04/vdom-from-scratch/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/02/04/vdom-from-scratch/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/02/04/vdom-from-scratch/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/02/04/vdom-from-scratch/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/02/16/ssd-hand-detection-with-tensorflow-object-detection-api/">
+        ← 如何用 TensorFlow object detection API 的 Single Shot MultiBox Detector 來做 hand detection
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/02/01/linux-curl-command-tutorial/">
+        Linux Curl Command 指令與基本操作入門教學 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

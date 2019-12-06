@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>如何做出一個好的 NodeJS 模組？ | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-02-14T13:55:57.000Z" itemprop="datePublished">
+          2018-02-14
+      </time>
+    
+    
+    | 
+    <a href='/tags/nodejs/'>nodejs</a>,
+    
+    <a href='/tags/npm/'>npm</a>,
+    
+    <a href='/tags/module/'>module</a>,
+    
+    <a href='/tags/tutorial/'>tutorial</a>
+    
+    
+</span>
+
+<meta name="generator" content="如何做出一個好的 NodeJS 模組？">
+<meta name="og:title" content="如何做出一個好的 NodeJS 模組？">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">如何做出一個好的 NodeJS 模組？</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>這篇文章需要知道什麼是 <a href="https://www.w3schools.com/nodejs/default.asp" target="_blank" rel="noopener">NodeJS</a>，簡單來說 NodeJS 讓 Javascript 可以變成一個後端的語言，而不是僅限瀏覽器才能解讀的前端語言。如果你還沒用過 NodeJS，首先需要安裝他，Windows 和 MacOS 的用戶可以直接上<a href="https://nodejs.org/en/" target="_blank" rel="noopener">官網</a>下載，Linux 的用戶推薦使用 <a href="https://github.com/creationix/nvm" target="_blank" rel="noopener">NVM</a> 安裝。</p>
+<p>回想我們一開始學 C++ 的時候，如果想要用數學的函式，必須引入 <code>cmath</code> 函式庫（Library）才能呼叫 <code>sin</code>、<code>cos</code> 等函式。而我們在寫 NodeJS 的時候，一樣可能會需要引入函式庫加入主程式，在 NodeJS 中我們稱為模組（Module）。寫一個模組雖然很簡單，但若是想要讓自己寫的模組給更多人使用，就要注意一些小細節，讓我娓娓道來。</p>
+<h2 id="簡單的-NodeJS-模組"><a href="#簡單的-NodeJS-模組" class="headerlink" title="簡單的 NodeJS 模組"></a>簡單的 NodeJS 模組</h2><p>在 NodeJS 中要寫模組很簡單，假設我今天寫了一個模組叫做 <code>greeting</code>，我可以這樣寫：</p>
+<ol>
+<li>建立一個檔案叫做 <code>greeting.js</code>：</li>
+<li><p>裡面內容是：</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// greeting.js</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">greeting</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"哈囉！你好嗎～"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.export = greeting;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意到 <code>module.export</code> 是要輸出成模組的意思。</p>
+</li>
+</ol>
+<p>假設<strong>同目錄</strong>下，有一個主程式 <code>index.js</code>，當我想使用 <code>greeting</code> 的時候，我就可以引用模組來使用，呼叫方式是 <code>require()</code> 如以下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"><span class="keyword">const</span> greeting = <span class="built_in">require</span>(<span class="string">'./greeting'</span>); <span class="comment">// 要注意路徑</span></span><br><span class="line">greeting();</span><br></pre></td></tr></table></figure>
+<p>這時候打開終端機，執行主程式：</p>
+<p><code>$ node index.js</code></p>
+<p>就會輸出</p>
+<p><code>&gt; 哈囉！你好嗎～</code></p>
+<p>這就是最簡單的 NodeJS 模組了！</p>
+<h2 id="NPM-套件管理"><a href="#NPM-套件管理" class="headerlink" title="NPM 套件管理"></a>NPM 套件管理</h2><h3 id="介紹-NPM"><a href="#介紹-NPM" class="headerlink" title="介紹 NPM"></a>介紹 NPM</h3><p>今天假設我需要一個模組負責影像處理，我可能會需要自己寫一個模組，裡面可能包含裁切、變色、縮放等功能。但是俗話說的好：</p>
+<blockquote>
+<p>Don’t reinventing the wheel!</p>
+</blockquote>
+<p>不要自己造輪子，買一個回來不就得了！寫軟體也一樣，你遇到的問題，別人八成也遇過。意思是別人可能已經有寫好套件了！</p>
+<p>而 NodeJS 世界中，有一個平台專門讓大家把自己寫的套件分享的平台，叫做 <a href="https://www.npmjs.com/" target="_blank" rel="noopener">NPM</a>，任何人都能下載裡面的套件，或是把套件上傳到平台上。在繼續之前，我們先來看一篇<a href="https://www.thenewslens.com/article/39189" target="_blank" rel="noopener">新聞</a>，以下我擷取新聞稍做修改：</p>
+<blockquote>
+<p>有一個稱為 left-pad 的模組，只有11行程式碼︰</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = leftpad;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">leftpad</span>(<span class="params">str, len, ch</span>) </span>&#123;</span><br><span class="line">    str = <span class="built_in">String</span>(str);</span><br><span class="line">    <span class="keyword">var</span> i = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">if</span> (!ch &amp;&amp; ch !== <span class="number">0</span>) ch = <span class="string">' '</span>;</span><br><span class="line">    len = len - str.length;</span><br><span class="line">    <span class="keyword">while</span> (++i &lt; len) &#123;</span><br><span class="line">        str = ch + str;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> str;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>這個模組的工作非常簡單︰把一個字串的開頭補上字符，使其長度符合要求。假如程式員希望所有字串都是 5 個字元，不夠長的話都用 0 補上，使用 left-pad 就能把「369」變成「00369」。</p>
+<p>如此簡單的 left-pad 很受歡迎——根據 NPM 統計數據，在過去一個月有超過 200萬次下載。很多開發人員也許未曾聽 left-pad，但在不經意的情況下用到這個模組——可能是他們使用的模組用到 left-pad，可能是他們使用的模組所使用的模組……如此類推。</p>
+</blockquote>
+<p>先不管新聞討論爭議的問題（軟體自由與商業利益），我們看到一個簡單的套件對世界就有如此大的影響力，套件不一定要很厲害，但是好用最重要，打個比方就像螺絲，牽一髮而動全身。</p>
+<h3 id="分享到-NPM"><a href="#分享到-NPM" class="headerlink" title="分享到 NPM"></a>分享到 NPM</h3><p>假設我們今天想分享一個套件，以我開發的小套件<a href="https://github.com/tigercosmos/date2obj" target="_blank" rel="noopener">date2obj</a>為例，告訴大家怎樣分享到 NPM 上。簡單介紹一下 <code>date2obj</code>，在寫 Javascipt 的時候，<code>Date</code> 時間物件常常要做分離的動作，雖然程式碼很短，但每個專案都要 copy 一次真的很麻煩，所以我弄成可以呼叫的套件。</p>
+<p>分享到 NPM 的操作步驟如下：</p>
+<ol>
+<li>在 Github 建立 <code>date2obj</code> 專案。</li>
+<li>接著直接 <code>git clone</code> 下來。</li>
+<li>終端機 <code>cd date2obj</code> 進入資料夾。</li>
+<li>終端機輸入 <code>npm init</code> 用來初始化專案，如果有裝好 NodeJS 的話，<code>npm</code> 就是安裝好的了。</li>
+<li>接下來終端機會出現問題，要你填寫專案名稱、版本號、作者、關鍵字等等資訊。什麼都不輸入，按下 <code>enter</code> 就是省略的意思。其中他會問主程式就照預設的 <code>index.js</code> 即可，而 test 可以先略過，版本號其實有它的意義，不過這邊我們可以隨便輸入或照預設的<code>1.0.0</code>。完成之後應該會看到目錄底下多一個 <code>package.json</code> 的檔案。</li>
+<li>這時候目錄裡面應該只有一個檔案：<code>package.json</code>，我們要手動建立一個 <code>index.js</code> 檔案。</li>
+<li><p>假設我們在 <code>index.js</code> 打好程式了。這邊我們來觀察 <code>date2obj</code> 的 <a href="https://github.com/tigercosmos/date2obj/blob/master/index.js" target="_blank" rel="noopener">index.js</a>，最底下有一行 <code>module.exports = date2obj;</code>，這是關鍵！我們剛剛設定依照步驟將主程式設定為 <code>index.js</code>，在 <code>package.json</code> 裡面就是 <code>&quot;main&quot;: &quot;index.js&quot;</code>。</p>
+<p>NPM 會根據 <code>main</code> 得到這個專案的的輸出地方是 <code>index.js</code>，所以我們在 <code>index.js</code> 的最後一行說明我要輸出的函式是什麼，在這邊是 <code>function date2obj()</code>。</p>
+</li>
+<li><code>index.js</code> 也可以引用別人的 NPM 套件，甚至專案目錄裡面的程式可以非常複雜，但最後要有一個輸出點，讓 NPM 知道以後別人要用這個套件要從哪邊進入。</li>
+<li>到目前為止，專案裡面只有<strong><em>兩個檔案</em></strong>，<code>package.json</code> 和 <code>index.js</code>。但這樣已經是合格的套件了喔！這兩個檔案缺一不可，<code>package.json</code> 可以想像成貨品的標籤，<code>index.js</code> 則是貨物本身。</li>
+<li>接下來就可以分享到 NPM 平台上囉！終端機輸入 <code>npm publish</code> 來上傳你的模組，第一次使用這個指令他會需要建立個人資訊和密碼，照著提示做即可。</li>
+<li>之後假設你有更新模組，<code>package.json</code> 的版本號要增加，例如 <code>0.0.1</code> 變 <code>0.0.2</code>，再輸入 <code>npm publish</code> 就會更新了！</li>
+</ol>
+<p>看到這邊，你已經能自己寫一個模組，並分享到 NPM 和世界的人共享開源！不過一個好的套件，到這邊卻還沒完成！</p>
+<h2 id="還缺什麼？"><a href="#還缺什麼？" class="headerlink" title="還缺什麼？"></a>還缺什麼？</h2><p>其實目前為止已經合格了。不過我們可以讓他更好。以軟體工程師的角度，我會希望再增加幾點：</p>
+<ul>
+<li>說明文件（Document）</li>
+<li>單元測試（Unit Test）</li>
+<li>持續整合（CI）</li>
+</ul>
+<h3 id="說明文件"><a href="#說明文件" class="headerlink" title="說明文件"></a>說明文件</h3><p>如果套件的目的是自己用，那麼沒有說明文件倒是無所謂，自己能記住就好。但是我們都已經發佈到 NPM 上了，代表其實我們希望別人也能使用，你不能期望別人翻開你的原始碼，研究半天才知道怎麼使用它，事實上通常我看到說明文件艱澀難懂、甚至沒有的時候，就直接找下一個可行的套件了。所以說明文件可以說是至關重要。</p>
+<p>最簡單的說明文件就是在專案根目錄底下建立一個 <code>README.md</code> 檔案。<code>README.md</code>檔案被 NPM 和 Github 預設當作專案首頁，意思是別人點進去看到的第一眼，就是<code>README.md</code>的內容。通常裡面簡單描述這個模組可以幹嘛？該如何使用？比較大型的模組通常會把說明文件用網站呈現，並在 <code>README.md</code> 中引導你去網站查看文件。</p>
+<p>不論自己用或給別人用，有說明文件都是比較方便的。</p>
+<h3 id="單元測試"><a href="#單元測試" class="headerlink" title="單元測試"></a>單元測試</h3><p>為什麼要寫單元測試？Google 一下會有很多答案，但以我來說，大概可以歸納兩點：</p>
+<ul>
+<li>確保自己寫的程式沒有問題</li>
+<li>別人看了比較心安</li>
+</ul>
+<p>寫程式非常容易出錯，最低級的錯誤才有機會在編譯、執行的時候馬上看出來，那種藏得非常深的問題，甚至有時候是超大漏洞，往往在寫的時候看不出來。單元測試有幫自己檢查的好處，可以盡可能列出可能的錯誤，在測試的時候即時發現，關於如何寫測試本篇不多敘述。</p>
+<p>另外一點就是，當我想用別人套件的時候，我會看他有沒有寫測試，如果沒有的話，實在很難令人放心他沒問題，所以發佈的套件必寫測試幾乎已經成為不成文規定了！</p>
+<h3 id="持續整合"><a href="#持續整合" class="headerlink" title="持續整合"></a>持續整合</h3><p>通常模組的專案還會再加上持續整合的服務，像是 <a href="https://travis-ci.org/" target="_blank" rel="noopener">Travis</a> 或 <a href="https://circleci.com/" target="_blank" rel="noopener">CircleCI</a> 等等。簡單說明持續整合的概念，是每次程式碼有變動的時候，都要能確保它可以編譯、執行、通過測試，以免下次改程式不小心整個模組爛掉，這種檢查有專門的服務商在做，可以完整支援與 Github 同步，每當有新的 Pull Request 或是有新 commit 到專案的分支，持續整合就會做檢查，告訴你新的程式碼有沒有問題，假設都沒問題，就可以把新的程式碼 merge 進 <code>master</code> 主幹中。</p>
+<h2 id="最後最後"><a href="#最後最後" class="headerlink" title="最後最後"></a>最後最後</h2><p>你寫了一個好的套件，總是希望人能用吧？不然不就白寫了嗎！！</p>
+<p>有極小機率，你的套件莫名其妙爆紅，但千萬別指望這樣。比較務實的做法是，做一點行銷手段，到社群分享你的套件，寫部落格介紹你套件的原理，在大型專案中自告奮勇提出使用你的套件等等。</p>
+<p>希望大家都能寫出好的 NodeJS 模組！</p>
+<hr>
+<blockquote>
+<p><strong><em>關於作者</em></strong></p>
+<p><strong>劉安齊</strong></p>
+<p>軟體工程師，熱愛寫程式，更喜歡推廣程式讓更多人學會</p>
+<ul>
+<li><a href="https://tigercosmos.github.io" target="_blank" rel="noopener">個人網站</a></li>
+<li><a href="https://github.com/tigercosmos" target="_blank" rel="noopener">Github</a></li>
+<li><a href="https://www.facebook.com/CodingNeutrino/" target="_blank" rel="noopener">FB粉專–微中子</a></li>
+</ul>
+</blockquote>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/02/14/how-to-make-a-good-node-module/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/02/14/how-to-make-a-good-node-module/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/02/14/how-to-make-a-good-node-module/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/02/14/how-to-make-a-good-node-module/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/02/17/golang101-tutorial-basic-flow-control/">
+        ← Go Web 程式設計入門教學：語法基礎之流程控制（flow control）篇
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/02/10/chrome-devtool-extension/">
+        Chrome devtools extension 實作介紹 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

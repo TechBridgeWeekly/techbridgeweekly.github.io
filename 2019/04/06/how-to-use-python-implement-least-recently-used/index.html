@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>如何使用 Python 實現 LRU Cache 快取置換機制 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-04-06T20:23:23.000Z" itemprop="datePublished">
+          2019-04-06
+      </time>
+    
+    
+    | 
+    <a href='/tags/Python/'>Python</a>,
+    
+    <a href='/tags/cache/'>cache</a>,
+    
+    <a href='/tags/LRU/'>LRU</a>,
+    
+    <a href='/tags/Least-Recently-Used/'>Least Recently Used</a>
+    
+    
+</span>
+
+<meta name="generator" content="如何使用 Python 實現 LRU Cache 快取置換機制">
+<meta name="og:title" content="如何使用 Python 實現 LRU Cache 快取置換機制">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">如何使用 Python 實現 LRU Cache 快取置換機制</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/cs101/algorithm/cache.jpeg" alt="如何使用 Python 實現 LRU 快取"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由於電腦記憶體空間（memory）的限制，無法容納所有資料和文件，所以當有新的文件要被置換進入快取（cache）時，必須根據一定的規則來取代掉適合的文件，這就是所謂的快取文件置換機制。</p>
+<p>一般來說常見的快取文件置換機制有：</p>
+<ol>
+<li>FIFO（First In, First Out）先進先出算法</li>
+<li>LFU（Least Frequently Used）最近最不常使用算法</li>
+<li>LRU（Least Recently Used）最近最少使用算法</li>
+<li>NMRU（Not Most Recently Used）非最近使用算法</li>
+</ol>
+<p>通常我們評量快取機制的指標主要有兩種：延遲（latency）和命中率（hit rate），其中延遲指的是命中後回傳對應資料的所花的時間。而命中率則是需要的資料在快取中被找到的頻率。</p>
+<p>本文則要介紹 LRU（Least Recently Used）這個常見經典算法（在 memcached 也有使用），並使用 Python 實現簡單的 LRU 算法。其核心思想主要就是如果資料最近有被使用過，則未來被使用的機率也比較高。實際上的實作基本概念就是快取一定的資料量，若是超過一定的資料量則把最近最少使用的資料淘汰掉。</p>
+<h1 id="LRU-基本原理"><a href="#LRU-基本原理" class="headerlink" title="LRU 基本原理"></a>LRU 基本原理</h1><p><img src="/img/kdchang/cs101/algorithm/lru-cover.jpg" alt="如何使用 Python 實現 LRU 快取"></p>
+<p>關於 LRU 算法用生活化一點說明就像是平常衣架管理衣服一樣。想像你的衣架是一個有限空間的衣架，越常穿的衣服靠外面。當我們有新衣服時會先從前面放入，要穿衣服時則會把想要的衣服拿出來使用，洗完後放到最前面（因為比較常穿）。當衣服太多超過衣架可容納空間時，最後面不常穿的衣服從衣架掉下去，消失不見：P</p>
+<h1 id="使用-Python-實現-LRU-快取方案"><a href="#使用-Python-實現-LRU-快取方案" class="headerlink" title="使用 Python 實現 LRU 快取方案"></a>使用 Python 實現 LRU 快取方案</h1><p>通常我們常會使用 hash map 搭配 Double Linked List 來實作（set/get 時間複雜度 O(1)），這樣可以避免單純使用陣列並存 counter/timestamp 的方式需要不停維護 counter 或是只使用 Linked List 實作，在 get 值時時間複雜度為 O(n)，來的合適。</p>
+<p><img src="/img/kdchang/cs101/algorithm/lru-algorithm.png" alt="如何使用 Python 實現 LRU 快取"></p>
+<p>以下我們使用 Python Dict (hash map) 和 Queue (Double Linked List) 來實作簡單的 LRU 算法。</p>
+<p>建立一個給定大小的 LRU cache 系統，並實作兩種操作方式，取值和設定值</p>
+<ol>
+<li>get(key)：當 key 對應的值存在 cache 系統中時回傳該值，並把該值放到 cache 系統最前面，若沒有對應值則回傳 -1</li>
+<li>set(key, value)：當 key 不存在 cache 系統中時，則將 key, value 放入 cache，若系統值滿則移除最不常使用的 key, value 並塞入插入新的 key, value</li>
+</ol>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, cache_size)</span>:</span></span><br><span class="line">        self.cache_size = cache_size</span><br><span class="line">        self.queue = deque()</span><br><span class="line">        self.hash_map = dict()</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">is_queue_full</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.queue) == self.cache_size</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">set</span><span class="params">(self, key, value)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">not</span> <span class="keyword">in</span> self.hash_map:</span><br><span class="line">            <span class="keyword">if</span> self.is_queue_full():</span><br><span class="line">                pop_key = self.queue.pop()</span><br><span class="line">                self.hash_map.pop(pop_key)</span><br><span class="line">                self.queue.appendleft(key)</span><br><span class="line">                self.hash_map[key] = value</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                self.queue.appendleft(key)</span><br><span class="line">                self.hash_map[key] = value</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, key)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">not</span> <span class="keyword">in</span> self.hash_map:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.queue.remove(key)</span><br><span class="line">            self.queue.appendleft(key)</span><br><span class="line">            <span class="keyword">return</span> self.hash_map[key]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 設定 cache 大小為 3</span></span><br><span class="line">    lru_cache = LRUCache(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">    lru_cache.set(<span class="string">'key1'</span>, <span class="number">7</span>)</span><br><span class="line">    lru_cache.set(<span class="string">'key2'</span>, <span class="number">2</span>)</span><br><span class="line">    lru_cache.set(<span class="string">'key3'</span>, <span class="number">3</span>)</span><br><span class="line">    lru_cache.set(<span class="string">'key4'</span>, <span class="number">4</span>)</span><br><span class="line">    print(lru_cache.get(<span class="string">'key2'</span>))</span><br><span class="line">    <span class="comment"># 超過 cache 大小，被丟棄，所以 key1 回傳值為 -1</span></span><br><span class="line">    print(lru_cache.get(<span class="string">'key1'</span>))</span><br><span class="line">    lru_cache.set(<span class="string">'key1'</span>, <span class="number">7</span>)</span><br><span class="line">    <span class="comment"># key1 已存在 cache 中，所以不做任何動作</span></span><br><span class="line">    lru_cache.set(<span class="string">'key1'</span>, <span class="number">2</span>)</span><br><span class="line">    print(lru_cache.get(<span class="string">'key1'</span>))</span><br></pre></td></tr></table></figure>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上簡單介紹如何使用 Python 實現 LRU 快取方案，若是讀者有興趣的話可以自己嘗試 OrderedDict 實作或是針對 multi thread 進行 cache 讀寫操作設計，甚至可以模仿 redis 或 memcached 給儲存資料追加 expire time，實作一個（自幹輪子）更完整的 cache 系統解決方案！</p>
+<h1 id="參考文件"><a href="#參考文件" class="headerlink" title="參考文件"></a>參考文件</h1><ol>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%BF%AB%E5%8F%96%E6%96%87%E4%BB%B6%E7%BD%AE%E6%8F%9B%E6%A9%9F%E5%88%B6" target="_blank" rel="noopener">快取文件置換機制</a></li>
+</ol>
+<p>（image via <a href="https://pbs.twimg.com/media/Dsa6TcAVAAEUcTw.jpg" target="_blank" rel="noopener">twimg</a>、<a href="http://www.topjavatutorial.com/wp-content/uploads/2016/04/LRU-Cache.png" target="_blank" rel="noopener">topjavatutorial</a>、<a href="https://cdn-images-1.medium.com/max/2600/1*fvlMpkpIKmPm6IF_QnmjmQ.jpeg" target="_blank" rel="noopener">Hacker Noon
+</a>）</p>
+<p>關於作者：<br><a href="http://blog.kdchang.cc" target="_blank" rel="noopener">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino/Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/04/06/how-to-use-python-implement-least-recently-used/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/04/06/how-to-use-python-implement-least-recently-used/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/04/06/how-to-use-python-implement-least-recently-used/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/04/06/how-to-use-python-implement-least-recently-used/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/04/12/intro-to-human-adversarial-learning/">
+        ← 一起來讀論文 - Robot Learning via Human Adversarial Games
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/03/31/typescript-design-pattern-command/">
+        用 TypeScript 輕鬆學 Design pattern - Command Pattern →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

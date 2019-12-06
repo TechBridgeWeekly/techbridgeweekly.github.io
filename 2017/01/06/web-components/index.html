@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>2017，讓我們再來看看 Web Components 吧！ | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-01-06T13:00:24.000Z" itemprop="datePublished">
+          2017-01-06
+      </time>
+    
+    
+    | 
+    <a href='/tags/web-web-components-shadow-dom-custom-element/'>web, web components, shadow dom, custom element</a>
+    
+    
+</span>
+
+<meta name="generator" content="2017，讓我們再來看看 Web Components 吧！">
+<meta name="og:title" content="2017，讓我們再來看看 Web Components 吧！">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">2017，讓我們再來看看 Web Components 吧！</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>先前研究 Progressive Web App 的時候就有注意到 Web Components 這個東西，也看過公司前輩使用過，甚至在前陣子 <a href="https://devfest-taipei-3cbee.firebaseapp.com/" target="_blank" rel="noopener">GDG DevFest Taipei 2016</a> 的官方網站內，不僅使用 PWA，也採用了 Web Components 的技術（當然應該是用 Google 的 Polymer）來搭建。但還是很少看人使用與談論，我自己也是從來沒有仔細研究過（汗..</p>
+<p>我稍微搜尋一下，大部分的介紹文章都是2013, 2014 年的，過了三年，Web Components 的 API 都從 v0 來到了 v1。除了瀏覽器的支援程度外，React 跟 Vue 等等的崛起相信也是主因之一，畢竟，React 寫起來這麼爽快，實在沒必要去專研一個支援度低，複雜度也不低的技術啊！</p>
+<p>等等，那我寫這篇要幹麻…</p>
+<p>欸不是，都已經 2017 年了，新的一年總要有些新的開始，剛剛也提到，API 版本從 v0 進化到 v1 了，加上 ES6 的支援越來越好，許多寫法都更漂亮了，是個好時機來認識一下這個強大的 web 標準！</p>
+<h2 id="為何需要-Web-Components"><a href="#為何需要-Web-Components" class="headerlink" title="為何需要 Web Components ?"></a>為何需要 Web Components ?</h2><p>不論是什麼樣的程式，模組化在開發上都是很重要的一個概念，前端工程也不例外，我們都會希望能夠將 Web 開發過程中的 JS, CSS, HTML 封裝起來，以便後續重複使用，而過程中就會出現一些缺點：</p>
+<ol>
+<li><p>js, css, html 三者的資源在最一般的網頁開發上基本上是分開管理，你如果想用別人的 library，可能還需要先載入對方需要的 JQuery，include 該套件需要的 css，最後才能在你的 HTML 內加入。</p>
+</li>
+<li><p>Scope 問題：即便是使用 React，都有可能遭遇到自己實作的 component 因為別人設定的 CSS class name 衝突而導致 Style 變動的情況。</p>
+</li>
+<li><p>相容性：各個 Framework 間的 components 基本上無法共用，當你的舊專案想移植到 React 上頭時，即便我們先不管 React 在狀態管理的機制，很多元件要能夠相容的話，也可能需要透過 webpack 等各種 hack 的方式才能成功。</p>
+</li>
+</ol>
+<p>關於前兩點，透過 React, Webpack 與 <a href="https://github.com/css-modules/css-modules" target="_blank" rel="noopener">CSS Modules</a> 都可以找到相對應的解法，而第三點相信透過許多 hack 也是可以解決。</p>
+<p>而 Web Components 則是希望透過規範，用更好更方便的方式，解決這些問題。</p>
+<p>Web Components 是 <a href="https://www.w3.org/standards/techs/components#w3c_all" target="_blank" rel="noopener">W3C 擬定的標準</a><br>由下列四大規範組成：</p>
+<ul>
+<li>HTML Templates</li>
+<li>Custom Elements</li>
+<li>Shadow DOM</li>
+<li>HTML imports</li>
+</ul>
+<p>其中除了 <code>HTML Templates</code> 外，皆尚處在 Drafts 階段。<br>接下來會一一介紹。</p>
+<p>不過這邊要先提醒一下，雖然剛剛用 React 來舉例比較，但實際上 React 與 Web Comoponent 真正要解決的問題是不同的，React 主旨在於 state 與 view 的狀態管理方式，而 Web Components 主力於整體元件的封裝，包含 Scoped CSS 等等。React component 內甚至可以載入 Web Components，畢竟 Web Components 可以只是 Plain JS, HTML, CSS。</p>
+<h3 id="先來個-Demo"><a href="#先來個-Demo" class="headerlink" title="先來個 Demo"></a>先來個 Demo</h3><p>在進入規範的介紹前，怕大家覺得我騙台錢，先給大家看一下一個最簡單的 Web Component 會長什麼樣子。有興趣的話再往下看！</p>
+<p><a class="jsbin-embed" href="http://jsbin.com/sijerap/embed" target="_blank" rel="noopener">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?3.40.3"></script></p>
+<p>可以看到在 <code>&lt;body&gt;</code> 的最下方，有個 <code>&lt;gakki-div-template&gt;</code> 的 tag，這就是我 create 出來的一個簡單的 Web Components，tag 內的文字就會像 Meme 一樣顯示在圖片上方。而圖片以及標題文字與 CSS 都是封裝在裡頭，就算我在外面對一樣的 class name 設定不同 style，(即使是 !important）都不會影響到。</p>
+<p>整段 code 我只有載入一個 polyfill 的外部 js 檔案 <code>webcomponents.min.js</code>，但如果你是用 Chrome 53 以上版本，基本上不需要也能正常運作。</p>
+<p>另外，會寫 Vue.js 的讀者可能會覺得有點點眼熟，基本上 Vue.js 的寫法跟概念都跟 Web components 雷同，Vue.js 等於是自己寫了一套 Web Components，並且提供更好的瀏覽器支援，所以如果喜歡 Web Components 的朋友們，在標準真的被各家瀏覽器實作前，可以先用用 Vue.js！</p>
+<h2 id="HTML-Template"><a href="#HTML-Template" class="headerlink" title="HTML Template"></a>HTML Template</h2><p>Template 的概念在許多 Web Framework 當中都有，像是 Django(python), EJS/Jade (Express/Node)，雖然用法皆有所不同，但概念都是共通的，而已經成為 HTML5 標準的 <code>&lt;template&gt;</code> 也不例外。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"mytemplate"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">""</span> <span class="attr">alt</span>=<span class="string">"great image"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"comment"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以上述的 template 來說，我們在 html 裡面宣告一個 template，裡面包含一個 <code>&lt;img&gt;</code> 與 <code>&lt;div&gt;</code> 元件，在瀏覽器解析 HTML 文件時，template 的 DOM 物件並不會生效，裡頭包含的 Javascript 也不會執行，但是會產生一個 <code>cloneable</code> 的 DOM 物件，讓你在整個 web app 的生命週期都能使用。</p>
+<p>來看一個簡單的使用情境：</p>
+<p>假設我們要做一個簡單的 counter，計算 button 的點擊次數，然後每次都將次數新增到 button 下方的話，可以怎麼做？</p>
+<p>可能會用字串串接的方式：</p>
+<p><a class="jsbin-embed" href="http://jsbin.com/mumacu/embed" target="_blank" rel="noopener">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?3.40.3"></script></p>
+<p>但如果有了 template 的幫助，可以將 HTML 字串的部分與邏輯分開：</p>
+<p><a class="jsbin-embed" href="http://jsbin.com/yaxiyir/embed" target="_blank" rel="noopener">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?3.40.3"></script></p>
+<p>source: <a href="https://www.html5rocks.com/en/tutorials/webcomponents/template/" target="_blank" rel="noopener">html5rocks-html-template</a><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"useIt()"</span>&gt;</span>Use me<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"container"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="function"><span class="keyword">function</span> <span class="title">useIt</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> content = <span class="built_in">document</span>.querySelector(<span class="string">'#counter-template'</span>).content;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// Update something in the template DOM.</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> span = content.querySelector(<span class="string">'span'</span>);</span></span><br><span class="line"><span class="javascript">    span.textContent = <span class="built_in">parseInt</span>(span.textContent) + <span class="number">1</span>;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">document</span>.querySelector(<span class="string">'#container'</span>).appendChild(</span></span><br><span class="line"><span class="javascript">        <span class="built_in">document</span>.importNode(content, <span class="literal">true</span>));</span></span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"counter-template"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span>Template used: <span class="tag">&lt;<span class="name">span</span>&gt;</span>0<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>我們準備了一個 <code>template</code>，<code>id</code> 為 <code>counter-template</code>，在每次 button 被點選時，從 template 中取得目前的 <code>content</code>，將內容加一之後再 append 到 document 內。</p>
+<p>雖然這個例子看起來，使用 template 反倒還要寫比較多 code，但是如果你今天需要產生的 template 是很複雜的 HTML 結構時，<code>template</code> 絕對可以為你帶來不少幫助的。</p>
+<p>我們也可以直接複製 template 內容：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> content = <span class="built_in">document</span>.querySelector(<span class="string">'#counter-template'</span>).content;  </span><br><span class="line"><span class="keyword">const</span> copyedContent = content.cloneNode(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.body.appendChild(copyedContent);</span><br></pre></td></tr></table></figure>
+<h2 id="Custom-Elements"><a href="#Custom-Elements" class="headerlink" title="Custom Elements"></a>Custom Elements</h2><p>Custom Elements API 是構成 Web Components 的基礎之一，有了它的幫助，我們可以自己用最單純的 JS/HTML/CSS 來創造新的 HTML tags，或是 extend 別人的 components，甚至是擴展原有現存的 HTML tags；而也因為可以自行定義 tag 的名稱，讓標籤能夠更加語意化。</p>
+<p>Chrome 在 version 33 時就有推出 v0 的 Custom Elements，而到了現在 version 55，已經採用 v1 的版本，雖然觀念是一樣的，但語法有許多差異，以下介紹皆為 v1 版本，並使用 ES6 的寫法。</p>
+<p>要新增一個自定義的 HTML tag 很簡單：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GakkiTemplate</span> <span class="keyword">extends</span> <span class="title">HTMLElement</span> </span>&#123;&#125;</span><br><span class="line"><span class="built_in">window</span>.customElements.define(<span class="string">'gakki-div-template'</span>, GakkiTemplate);</span><br></pre></td></tr></table></figure>
+<p>或是可以用暱名函式的方式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.customElements.define(<span class="string">'gakki-div-template'</span>, <span class="class"><span class="keyword">class</span> <span class="keyword">extends</span> <span class="title">HTMLElement</span> </span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
+<p>兩種方式都可以讓你產生一個 <code>&lt;gakki-div-template&gt;&lt;/gakki-div-template&gt;</code> 的 tag。</p>
+<p>其中我們用到 ES6 的 class 語法，來繼承 <code>HTMLElement</code>，這樣做可以讓我們的 <code>GakkitTemplate</code> 擁有所有 DOM API，並且讓你自己新增 Method 到你創建的這個 element 的 DOM interface 中。</p>
+<p>拿最前面的 Demo 來舉例，宣告元素的地方我們可以修改成這樣：</p>
+<p><a class="jsbin-embed" href="http://jsbin.com/vuvoceq/embed" target="_blank" rel="noopener">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?3.40.3"></script></p>
+<p>變動有點多，沒關係我們慢慢解釋：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GakkiTemplate</span> <span class="keyword">extends</span> <span class="title">HTMLElement</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">  <span class="keyword">get</span> light() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.hasAttribute(<span class="string">'light'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">set</span> light(val) &#123;</span><br><span class="line">    <span class="comment">// Reflect the value of the light property as an HTML attribute.</span></span><br><span class="line">    <span class="keyword">if</span> (val) &#123;</span><br><span class="line">      <span class="keyword">this</span>.setAttribute(<span class="string">'light'</span>, <span class="string">''</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.removeAttribute(<span class="string">'light'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Can define constructor arguments if you wish.</span></span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">   ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先是 get/set，這兩個 method 代表賦予 <code>light</code> 這個 property getter/setter 的功能，這個要做什麼呢？</p>
+<p>假設當別人使用我們的 custom-element 時，有可能他們會想要能透過給予 <code>light</code> 這個 property 來設定以下的 style：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="selector-tag">gakki-div-template</span><span class="selector-attr">[light]</span> &#123;</span><br><span class="line">    <span class="attribute">opacity</span>: <span class="number">0.5</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>當然如果他直接設定 <code>&lt;gakki-div-template light&gt;&lt;/gakki-div-template&gt;</code> 就可以吃到 style，但多數時候我們會希望能用 JS 的方式來設置，像是：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gakkiDiv = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'gakki-div-template'</span>);</span><br><span class="line">gakkiDiv[<span class="number">0</span>].light</span><br><span class="line"><span class="comment">// 此時會觸發 getter，return this.hasAttribute('light');</span></span><br><span class="line"></span><br><span class="line">gakkiDiv[<span class="number">0</span>].ligth = <span class="literal">true</span>;</span><br><span class="line"><span class="comment">// 此時會觸發 setter，this.setAttribute('light', '');</span></span><br></pre></td></tr></table></figure>
+<p>此時我們的 custom-elements 就需要給予 getter/setter 的 method，並在其中設定 <code>this.setAttribute()</code> 的方式讓我們的 elements 吃得到該 property 的設定。（ Note: property 的名稱跟 get/set 的名稱要相同）</p>
+<p>再來是比較特別的兩個 method：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">get</span> observedAttributes() &#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="string">'add'</span>];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment">// Only called for the change attributes due to observedAttributes</span></span><br><span class="line">attributeChangedCallback(name, oldValue, newValue) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.add) &#123;</span><br><span class="line">      <span class="keyword">this</span>.addImg();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>透過定義 <code>static get observedAttributes()</code> 可以讓我們的 element 監聽該設定的 attributes 有沒有被 consumer 設置，如果有變動，會觸發 <code>attributeChangedCallback()</code> 來執行我們想要的動作。</p>
+<p>那當然也可以加入自定義的 method，像是這邊的 <code>addImg()</code>；也可以在 constructor 的時候加入 EventListener，</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Setup a click listener on &lt;gakki-div-template&gt; itself.</span></span><br><span class="line">    <span class="keyword">this</span>.addEventListener(<span class="string">'click'</span>, e =&gt; &#123;</span><br><span class="line">     </span><br><span class="line">      <span class="keyword">this</span>.addImg();</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="Custom-Elements-Life-Cycle"><a href="#Custom-Elements-Life-Cycle" class="headerlink" title="Custom Elements - Life Cycle:"></a>Custom Elements - Life Cycle:</h3><p>Custom Elements 有自己的生命週期，前述的 <code>attributeChangedCallback()</code> 也是其中之一：</p>
+<ul>
+<li><p>constructor：Custom Elements 建構式，通常會在這邊 create Shadow DOM。</p>
+</li>
+<li><p>connectedCallback：當你插入元件到 DOM 時會被呼叫。</p>
+</li>
+<li><p>disconnectedCallback：當你從 DOM 中移除元素時會被呼叫，可以在這邊 remove Event listener 之類的。</p>
+</li>
+<li><p>attributeChangedCallback(attrName, oldVal, newVal)：監聽的屬性有變動時會被呼叫。</p>
+</li>
+<li><p>adoptedCallback：整個 custom element 被人用 <code>document.adoptNode(el)</code> 呼叫時觸發。</p>
+</li>
+</ul>
+<p>可以玩玩看上述範例，看看我做了什麼無聊的功能 (畢竟只是範例麻 XD)。</p>
+<p>除了 <code>HTMLElement</code> 外，你也可以繼承別人或是你自己的 Custom-Elements：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FancyDrawer</span> <span class="keyword">extends</span> <span class="title">AppDrawer</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">super</span>(); <span class="comment">// always call super() first in the ctor. This also calls the extended class' ctor.</span></span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">customElements.define(<span class="string">'fancy-app-drawer'</span>, FancyDrawer);</span><br></pre></td></tr></table></figure>
+<p>或是繼承 Native Element：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// See https://html.spec.whatwg.org/multipage/indices.html#element-interfaces</span></span><br><span class="line"><span class="comment">// for the list of other DOM interfaces.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FancyButton</span> <span class="keyword">extends</span> <span class="title">HTMLButtonElement</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">super</span>(); <span class="comment">// always call super() first in the ctor.</span></span><br><span class="line">    <span class="keyword">this</span>.addEventListener(<span class="string">'click'</span>, e =&gt; <span class="keyword">this</span>.drawRipple(e.offsetX, e.offsetY));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Material design ripple animation.</span></span><br><span class="line">  drawRipple(x, y) &#123;</span><br><span class="line">    <span class="keyword">let</span> div = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">    div.classList.add(<span class="string">'ripple'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">customElements.define(<span class="string">'fancy-button'</span>, FancyButton, &#123;<span class="attr">extends</span>: <span class="string">'button'</span>&#125;);</span><br></pre></td></tr></table></figure>
+<p>這邊要注意的是，定義繼承 Native element 的元件時，需要傳入第三個參數 {extendds: ‘{native element you extend}’}<br>表明你要繼承的元素是什麼，因為不同的 HTML tags 可能共享相同的 DOM interface，像是 <code>&lt;q&gt;</code> 與 <code>&lt;blockquote&gt;</code> 都是 <code>HTMLQuoteElement</code>。</p>
+<p>而繼承 Native Element 的 Custom-Element 可以有另一種特殊使用方式（不過支援度更低 XD）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- This &lt;button&gt; is a fancy button. --&gt;</span><br><span class="line">&lt;button is=<span class="string">"fancy-button"</span> disabled&gt;Fancy button!<span class="xml"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="Shadow-DOM"><a href="#Shadow-DOM" class="headerlink" title="Shadow DOM"></a>Shadow DOM</h2><p>Shadow DOM 算是 Web Components 中的靈魂角色，主要就是設計來建構 Component-based 的 web app，它所帶來的好處有下列幾項：</p>
+<ul>
+<li><p>Isolated DOM：在 Shadow DOM 裡面的任何 nodes 都不會被外面的 <code>document.querySelector()</code> 給取得，不會被汙染也不會去污染別人。</p>
+</li>
+<li><p>Scoped CSS：定義在 Shadow DOM 內的 CSS 其作用域就只在 Shadow DOM 當中，不會作用於 Shadow DOM 外的 elements，而其他 Page 的 style 也不會影響到 Shadow DOM 內的定義。</p>
+</li>
+<li><p>Composition：可以透過 Shodow DOM 賦予你的 component 擁有 Declarative, markup-based 的 API 可操作。</p>
+</li>
+<li><p>Productivity：既然有 Isolated DOM 跟 Scoped CSS，就可以將你的 web app 切割成多個 DOM object 組成，完成模組化的使命！</p>
+</li>
+</ul>
+<h3 id="名詞介紹"><a href="#名詞介紹" class="headerlink" title="名詞介紹"></a>名詞介紹</h3><p>Shadow DOM：跟一般的 DOM 差異在於其產生的方式，以及他與頁面其他物件的互動方式。</p>
+<p>shadow tree：一般來說你可以利用 <code>document.createElement()</code> 來創建 DOM，並 <code>appendChild()</code> 到其他 element 上，而 shadow dom 則是依附在某個 normal DOM 底下，產生一個 scoped subtree，稱作 <code>shadow tree</code>。</p>
+<p>shadow host：掛載 shadow tree 的元素即為該 Shadow DOM 的 <code>shadow host</code>。</p>
+<h3 id="Create-Shadow-DOM"><a href="#Create-Shadow-DOM" class="headerlink" title="Create Shadow DOM"></a>Create Shadow DOM</h3><p>其實 Shadow DOM 不一定要用在建構 Web components，要創建 Shadow DOM 只要用下列方式即可：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> header = <span class="built_in">document</span>.createElement(<span class="string">'header'</span>);</span><br><span class="line"><span class="keyword">const</span> shadowRoot = header.attachShadow(&#123;<span class="attr">mode</span>: <span class="string">'open'</span>&#125;);</span><br><span class="line">shadowRoot.innerHTML = <span class="string">`</span></span><br><span class="line"><span class="string">      &lt;style&gt;#menu &#123; ... &#125;&lt;/style&gt; &lt;!-- styles are scoped to fancy-menu! --&gt;</span></span><br><span class="line"><span class="string">      &lt;div id="menu"&gt;...&lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>; <span class="comment">// Could also use appendChild().</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// header.shadowRoot === shadowRoot</span></span><br><span class="line"><span class="comment">// shadowRoot.host === header</span></span><br></pre></td></tr></table></figure>
+<p>這樣一來，你就有一個 header 底下的 Shadow DOM 了，裡面定義的 #menu style，不會向內外影響。</p>
+<p>但並非所有 DOM 都可以掛載 Shadow DOM，有些事已經有自己的 Shadow DOM （像是 <code>&lt;textarea&gt;</code>, <code>&lt;input&gt;</code>），有些是沒什麼必要（像是 <code>&lt;img&gt;</code>）。</p>
+<h3 id="Create-Shadow-DOM-for-Custom-Element"><a href="#Create-Shadow-DOM-for-Custom-Element" class="headerlink" title="Create Shadow DOM for Custom Element"></a>Create Shadow DOM for Custom Element</h3><p>在 Web Components 中，Shadow DOM 都會搭配 Custom Element 出現，如果說 Custom Element 提供 Web Component 骨幹 (HTML, DOM interface)，Shadow DOM 就是提供血和肉 (JS, Scoped CSS)。</p>
+<p>一樣以我們剛剛的範例來看，在 Custom Element 中創建 Shadow DOM：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">constructor</span>() &#123;</span><br><span class="line">  <span class="keyword">super</span>();</span><br><span class="line">  <span class="keyword">let</span> shadowRoot = <span class="keyword">this</span>.attachShadow(&#123;<span class="attr">mode</span>: <span class="string">'open'</span>&#125;);</span><br><span class="line">  <span class="keyword">const</span> t = <span class="built_in">document</span>.querySelector(<span class="string">'#gakki-div-template'</span>);</span><br><span class="line">  <span class="keyword">const</span> instance = t.content.cloneNode(<span class="literal">true</span>);</span><br><span class="line">  shadowRoot.appendChild(instance);</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">this</span>.shadowDOM = shadowRoot;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Setup a click listener on &lt;gakki-div-template&gt; itself.</span></span><br><span class="line">  <span class="keyword">this</span>.addEventListener(<span class="string">'click'</span>, e =&gt; &#123;</span><br><span class="line">    <span class="keyword">this</span>.addImg();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>這邊有幾點要說明：</p>
+<ol>
+<li><p>利用 <code>this.attachShadow({mode: &#39;open&#39;})</code> 來綁定 Shadow DOM 到目前的 Custom Element，其中的 <code>{mode: &#39;open&#39;}</code> 是代表這是個 open mode 的 Shadow DOM，host 這個 Shadow DOM 的 Element (以這邊的例子就是我們的 Custom Element）可以透過 JS 取得 Shadow DOM 內部的 DOM 元件，反之，如果設置為 close，即無法取得，官方不建議我們設定為 close，詳情可以參考 <a href="https://developers.google.com/web/fundamentals/getting-started/primers/shadowdom" target="_blank" rel="noopener">這裡</a></p>
+</li>
+<li><p>透過 <code>const t = document.querySelector(&#39;#gakki-div-template&#39;);</code> 我們取出 template，並利用 <code>t.content.cloneNode()</code> 複製一份 template，接著將此 template appendChild 到我們的 shadow tree 中。</p>
+</li>
+</ol>
+<p>透過這樣的方式，我們就擁有一個擁有 Scoped template 的 Custom Element，因為整個 Element 的內容都是透過 template 與 Shadow DOM 產生的，別人可以自由拿去使用，也不用擔心他們會污染到這個元件！</p>
+<h3 id="Slot-element"><a href="#Slot-element" class="headerlink" title="Slot element"></a>Slot element</h3><p>在我們範例的 template 中有個奇妙的元素 <code>slot</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"gakki-div-template"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Gakki Meme<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">width</span>=<span class="string">"300px"</span> <span class="attr">src</span>=<span class="string">"http://static.ettoday.net/images/2083/d2083850.jpg"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"slot"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>它的用途很簡單，就是一個 placeholders，讓元件的 consumer 可以安插自己的 DOM 進去，而你透過 slot 的位置來決定這些 user 的 DOM 該放在哪些位置。</p>
+<p>在範例中：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">gakki-div-template</span> <span class="attr">light</span>&gt;</span>你好，我是森山<span class="tag">&lt;/<span class="name">gakki-div-template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>我們將文字 ‘你好，我是森山’，放入 custom element，他就會被我們安插到 <code>&lt;slot&gt;&lt;/slot&gt;</code> 的位置</p>
+<p>如果有兩個以上的元素要插入的話，就需要用 <code>name</code> 來綁定：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">gakki-div-template</span> <span class="attr">light</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">slot</span>=<span class="string">"title"</span>&gt;</span>你好，我是森山<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  &lt;div&gt;嗨..妳好&gt;//&lt; &lt;/div&gt;</span><br><span class="line"><span class="tag">&lt;/<span class="name">gakki-div-template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Gakki Meme<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">img</span> <span class="attr">width</span>=<span class="string">"300px"</span> <span class="attr">src</span>=<span class="string">"http://static.ettoday.net/images/2083/d2083850.jpg"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"slot"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">"title"</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"slot2"</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><a class="jsbin-embed" href="http://jsbin.com/jezepof/embed" target="_blank" rel="noopener">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?3.40.3"></script></p>
+<p>你們也可以打開 DevTool 來看一下 Shadow DOM 的元件展開會是長什麼樣子，這邊就不再贅述。</p>
+<h3 id="Shadow-DOM-Styling"><a href="#Shadow-DOM-Styling" class="headerlink" title="Shadow DOM Styling"></a>Shadow DOM Styling</h3><p>接下來介紹如何在 Shadow DOM 中設定 CSS。</p>
+<p>在 Shadow DOM 中的 CSS 其實跟一般使用上沒有太大差異，你所設定的 CSS selector 都是 local 的，也就是只能設定到 Shadow DOM 裡頭的 element，不會受外部影響，也不會影響到外部。</p>
+<p>比較需要說明的有三個部分：</p>
+<ol>
+<li><code>:host</code>：</li>
+</ol>
+<p>你可以用 <code>:host</code> 這個 selector 來設定你的 component 的 style，但要注意的是，<code>:host</code> 所設定的值，是可以被外部 component 的使用者蓋過去的。</p>
+<p>像範例中為了讓 slot 的字能絕對定位，我需要把 <code>&lt;gakki-div-template&gt;</code> 本身設定為 <code>relative</code></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-pseudo">:host</span> &#123;</span><br><span class="line">      <span class="attribute">position</span>: relative;</span><br><span class="line">      <span class="attribute">display</span>: block;</span><br><span class="line">      <span class="attribute">width</span>: <span class="number">300px</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><code>:host-context</code>：<br>讓你根據 Component 的 Context 來設定 style，像是：</li>
+</ol>
+<p>當處於 darktheme class 下時，顏色要變成白色。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">class</span>=<span class="string">"darktheme"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">fancy-tabs</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line">  <span class="tag">&lt;/<span class="name">fancy-tabs</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">    <span class="selector-pseudo">:host-context(.darktheme)</span> &#123;</span></span><br><span class="line">      color: white;</span><br><span class="line">      background: black;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<ol start="3">
+<li><code>::slotted</code>：<br>最後則是透過 <code>::slotted</code>，來控制傳入的 slot 元件的 style。</li>
+</ol>
+<p>像範例中：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">        ...</span><br><span class="line"><span class="css">        <span class="selector-pseudo">::slotted(</span><span class="selector-id">#me</span>)&#123;</span></span><br><span class="line">          color: blue;</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;<span class="name">gakki-div-template</span> <span class="attr">light</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">slot</span>=<span class="string">"title"</span>&gt;</span>你好，我是森山<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  &lt;div id="me"&gt;嗨..妳好&gt;//&lt;&lt;/div&gt;</span><br><span class="line"><span class="tag">&lt;/<span class="name">gakki-div-template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="Event-Handle-in-Shadow-DOM"><a href="#Event-Handle-in-Shadow-DOM" class="headerlink" title="Event Handle in Shadow DOM"></a>Event Handle in Shadow DOM</h3><p>Shadow DOM 還有許多 Event 處理，包含 Slot 的 event 處理等等 issue 可以探討，這邊只簡單講個主要觀念。</p>
+<p>在 Shadow DOM 中對於事件處理，是透過在 Event Bubble 的過程中，來重新定位 event target 的位置，讓該事件像是從 Host 的元件觸發，並且會擋掉可能影響到外部頁面的事件處理。</p>
+<p>詳細可以看 <a href="https://developers.google.com/web/fundamentals/getting-started/primers/shadowdom#historysupport" target="_blank" rel="noopener">這邊</a> 與 <a href="http://www.jianshu.com/p/e8994b92bb7a" target="_blank" rel="noopener">這邊</a></p>
+<h2 id="HTML-Import"><a href="#HTML-Import" class="headerlink" title="HTML Import"></a>HTML Import</h2><p>Web Component 的最後一哩路，當我們製作好我們的 Component 後，當然會希望能很方便地給他人使用，HTML Import 就是要處理這樣的問題。</p>
+<p>他讓我們可以直接 link 一份 HTML 檔案，不管他是 template 也好，用 shadow dom 創建的 custom-element 也好，都可以直接 inlcude。</p>
+<p>使用方法很簡單，假設我們範例中的 HTML 叫做 <code>GakkiMeme.html</code>，別人想要 include 的話，只要在他的 index.html 中加入 <code>&lt;link rel=&quot;import&quot; href=&quot;GakkiMeme.html&quot;&gt;</code> 即可使用：</p>
+<figure class="highlight html"><figcaption><span>index.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span> <span class="attr">href</span>=<span class="string">"GakkiMeme.html"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">gakki-div-template</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">slot</span>=<span class="string">'title'</span>&gt;</span> 嗨嗨嗨 <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"me"</span>&gt;</span> 嘿嘿嘿 <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">gakki-div-template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>當然 Import 的部分還有很多可以玩，有興趣的可以到 <a href="https://www.html5rocks.com/en/tutorials/webcomponents/imports/" target="_blank" rel="noopener">HTML5rocks</a> 研究。</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>Web Components 提供我們一種方式來建構 reusable components，能支援 Cross-browser (當然要等標準全通過，瀏覽器全支援，但相信那天會到來的！)；不需要任何 framework 支援；也不需要學特殊語法，就是 DOM/CSS/HTML/JS；可以跟現有 Framework 共存使用。</p>
+<p>相信在未來我們會有更美好的 Web 可以使用！</p>
+<p>最後附上 Browser Support 的 Information 給各位：</p>
+<p><a href="https://developers.google.com/web/fundamentals/getting-started/primers/customelements#historysupport" target="_blank" rel="noopener">custom-elementv1</a><br><a href="https://developers.google.com/web/fundamentals/getting-started/primers/shadowdom#historysupport" target="_blank" rel="noopener">shadow-dom</a></p>
+<h2 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h2><ol>
+<li><a href="https://github.com/w3c/webcomponents" target="_blank" rel="noopener">W3C Web Components</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/getting-started/primers/customelements" target="_blank" rel="noopener">Custom Elements v1</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/getting-started/primers/shadowdom" target="_blank" rel="noopener">Shadow DOM v1</a></li>
+<li><a href="http://www.jianshu.com/p/e8994b92bb7a" target="_blank" rel="noopener">Web Components整理及分享</a></li>
+<li><a href="https://blog.hinablue.me/web-components-first-look/" target="_blank" rel="noopener">Web Components 初探</a></li>
+<li><a href="https://github.com/basic-web-components" target="_blank" rel="noopener">basic-web-components</a></li>
+<li><a href="https://www.html5rocks.com/en/tutorials/webcomponents/imports/" target="_blank" rel="noopener">HTML Imports</a></li>
+</ol>
+<p>關於作者：<br><a href="http://blog.arvinh.info/about/" target="_blank" rel="noopener">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/01/06/web-components/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/01/06/web-components/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/01/06/web-components/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/01/06/web-components/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/01/14/javascript101-tutorial/">
+        ← JavaScript 101 快速入門教學
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/12/31/review-2016/">
+        一個資淺工程師年末的自我省視 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

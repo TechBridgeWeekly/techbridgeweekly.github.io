@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>ecto 簡介 (2) – tendrils 與 scheduler | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-07-09T09:34:49.000Z" itemprop="datePublished">
+          2016-07-09
+      </time>
+    
+    
+    | 
+    <a href='/tags/ROS-ecto/'>ROS, ecto</a>
+    
+    
+</span>
+
+<meta name="generator" content="ecto 簡介 (2) – tendrils 與 scheduler">
+<meta name="og:title" content="ecto 簡介 (2) – tendrils 與 scheduler">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">ecto 簡介 (2) – tendrils 與 scheduler</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上次的文章介紹了 ecto 的基本機制 – cell 與 plasm，讓大家對於這個函式庫的基本功能有了一個認識，但你可能會感到疑惑，如果只是可以用來建立一個如 DAG 方式來執行的 pipeline ，寫在 main 函式裡不就好了，何苦使用 ecto，還得把一個 class 寫成一個又臭又長的 cell。這篇文章就會帶出 tendril 和 scheduler 的機制，讓大家了解到事情並不像我們想得那麼簡單。</p>
+<h2 id="tendril-是什麼-amp-tendril-好用在哪裡"><a href="#tendril-是什麼-amp-tendril-好用在哪裡" class="headerlink" title="tendril 是什麼 &amp; tendril 好用在哪裡"></a>tendril 是什麼 &amp; tendril 好用在哪裡</h2><p>tendril 這個 object 就是 cell 最基本的溝通媒介，舉凡 cell 的輸入、輸出以及 parameter 的傳遞都會使用到 tendril 。在上一篇我們也可以看到，cell 的函式定義裡面，都是使用 tendril 這個型態來傳遞參數。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Example01</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">declare_params</span><span class="params">(tendrils&amp; p)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    p.declare&lt;<span class="keyword">int</span>&gt;(<span class="string">"value"</span>, <span class="string">"Some integer"</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">configure</span><span class="params">(<span class="keyword">const</span> tendrils&amp; p, <span class="keyword">const</span> tendrils&amp; i, <span class="keyword">const</span> tendrils&amp; o)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n = p.get&lt;<span class="keyword">int</span>&gt;(<span class="string">"value"</span>);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Value of n is "</span> &lt;&lt; n &lt;&lt; <span class="string">"\n"</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>使用起來只要寫一小段 Python Script 就好：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> ecto</span><br><span class="line"><span class="keyword">from</span> ecto.ecto_examples <span class="keyword">import</span> Example01</span><br><span class="line"> </span><br><span class="line">ecell = Example01(value=<span class="number">17</span>)</span><br><span class="line">ecell.process()</span><br></pre></td></tr></table></figure>
+<p>那統一寫成 tendril 的好處是什麼呢? 統一的好處很直觀，就是很容易被廣泛地使用，舉例來說，如果我們今天要寫一個 scheduler 來控制整個 plasm 的排程，那每個 cell 的參數、輸入和輸出都統一用 tendril 在實作上會比較簡單。舉個例子，cell 的 process(const tendrils&amp;, const tendrils&amp;)就一定是固定有兩個 const 的 tendrils 類型的引數，不會被使用者任意自訂。</p>
+<p>這邊還有另一個容易讓人搞混的地方，就是 tendril 跟 tendrils 的差異，這兩個東西是不一樣的，tendrils 可以想成是一個裝著 tendril 的容器，可以給 tendril 的名字，這個名字會被當作一個 key （型態自然就是 string），用來對應到 tendril 的物件。</p>
+<h2 id="Scheduler-是什麼"><a href="#Scheduler-是什麼" class="headerlink" title="Scheduler 是什麼"></a>Scheduler 是什麼</h2><p>Scheduler 是幫忙控制 plasm 執行的工具，比較酷的是 ecto.MultiPlasmScheduler 這個類別，他可以讓我們輕鬆地平行執行多個 plasm ，例如我們有三個 plasm 要執行，且三個想要執行的頻率不一樣，那使用 MultiPlasmScheduler 可以透過設定 step 的大小來控制頻率。</p>
+<p><img src="/img/pojenlai/three_plasms.jpg" alt="three_plasms"></p>
+<p>自己如果想實作，那就要跟 multi-threads 奮戰，中間細致的控制滿容易出錯的，如果 thread 一多，debug更是困難。</p>
+<p>ecto 可以讓我們從比較上層的角度來控制多個 plasm ，有看到一個 test script 是使用 MultiPlasmScheduler 來執行兩個 thread，跟上面的範例圖不一樣，不過概念是相近的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Copyright (c) 2011, Willow Garage, Inc.</span></span><br><span class="line"><span class="comment"># All rights reserved.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Redistribution and use in source and binary forms, with or without</span></span><br><span class="line"><span class="comment"># modification, are permitted provided that the following conditions are met:</span></span><br><span class="line"><span class="comment">#     * Redistributions of source code must retain the above copyright</span></span><br><span class="line"><span class="comment">#       notice, this list of conditions and the following disclaimer.</span></span><br><span class="line"><span class="comment">#     * Redistributions in binary form must reproduce the above copyright</span></span><br><span class="line"><span class="comment">#       notice, this list of conditions and the following disclaimer in the</span></span><br><span class="line"><span class="comment">#       documentation and/or other materials provided with the distribution.</span></span><br><span class="line"><span class="comment">#     * Neither the name of the Willow Garage, Inc. nor the names of its</span></span><br><span class="line"><span class="comment">#       contributors may be used to endorse or promote products derived from</span></span><br><span class="line"><span class="comment">#       this software without specific prior written permission.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"</span></span><br><span class="line"><span class="comment"># AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE</span></span><br><span class="line"><span class="comment"># IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE</span></span><br><span class="line"><span class="comment"># ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE</span></span><br><span class="line"><span class="comment"># LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR</span></span><br><span class="line"><span class="comment"># CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF</span></span><br><span class="line"><span class="comment"># SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS</span></span><br><span class="line"><span class="comment"># INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN</span></span><br><span class="line"><span class="comment"># CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)</span></span><br><span class="line"><span class="comment"># ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE</span></span><br><span class="line"><span class="comment"># POSSIBILITY OF SUCH DAMAGE.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="keyword">import</span> ecto</span><br><span class="line"><span class="keyword">import</span> ecto.ecto_test <span class="keyword">as</span> ecto_test</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> ecto.test <span class="keyword">import</span> test</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_pipelines</span><span class="params">()</span>:</span></span><br><span class="line"></span><br><span class="line">    left_plasm = ecto.Plasm()</span><br><span class="line">    right_plasm = ecto.Plasm()</span><br><span class="line">    accumulator = ecto_test.Accumulator(<span class="string">"Accumulator"</span>, connected_inputs_only=<span class="literal">True</span>)</span><br><span class="line">    left_generator = ecto_test.Generate(<span class="string">"Left Generator"</span>, step=<span class="number">1.0</span>, start=<span class="number">1.0</span>, stop=<span class="number">10.0</span>)</span><br><span class="line">    right_generator = ecto_test.Generate(<span class="string">"Right Generator"</span>, step=<span class="number">2.0</span>, start=<span class="number">1.0</span>, stop=<span class="number">10.0</span>)</span><br><span class="line">    left_plasm.connect(left_generator[<span class="string">"out"</span>] &gt;&gt; accumulator[<span class="string">"left"</span>])</span><br><span class="line">    right_plasm.connect(right_generator[<span class="string">"out"</span>] &gt;&gt; accumulator[<span class="string">"right"</span>])</span><br><span class="line">    plasms = &#123;</span><br><span class="line">          <span class="string">"left"</span>: left_plasm,</span><br><span class="line">          <span class="string">"right"</span>: right_plasm</span><br><span class="line">         &#125;</span><br><span class="line">    scheduler = ecto.MultiPlasmScheduler(plasms, disable_qt_management=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">return</span> (accumulator, scheduler)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@test</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_plasm</span><span class="params">()</span>:</span></span><br><span class="line">    (accumulator, scheduler) = build_pipelines()</span><br><span class="line">    scheduler.spin()</span><br><span class="line">    print( <span class="string">"RESULT: %s"</span> % accumulator.outputs.out)</span><br><span class="line">    <span class="keyword">assert</span> accumulator.outputs.out == <span class="number">80.0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    test_plasm()</span><br></pre></td></tr></table></figure>
+<p>但是這一塊的 API 跟教學文章很不完整，要深入了解可能要看撰寫 ecto 的這些高手們怎麼把 ecto 用在 OpenCV、PCL 等開源的電腦視覺函式庫中，之後的文章會更深入探討。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>這一篇文章簡單跟大家介紹了 tendril 跟 scheduler 的概念，對於 ecto 的功能及彈性更加有感覺，不過看完這一篇可能還不太知道要怎麼活用 ecto，下一篇會帶大家實際來玩玩這個工具，會更通 ecto 可以做到的事跟實際應用的範例。</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a href="http://plasmodic.github.io/ecto/ecto/reference/tendril.html#tendril-overview" target="_blank" rel="noopener">ecto 官方網頁的 tendril 介紹</a></li>
+<li><a href="http://plasmodic.github.io/ecto/ecto/reference/schedulers.html#schedulers" target="_blank" rel="noopener">ecto 官方網頁的 scheduler 介紹</a></li>
+</ol>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2016/07/09/ros-ecto-second/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2016/07/09/ros-ecto-second/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2016/07/09/ros-ecto-second/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2016/07/09/ros-ecto-second/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2016/07/16/javascript-jsfuck-and-aaencode/">
+        ← 讓 JavaSript 難以閱讀：jsfuck 與 aaencode
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/07/02/ChatBot-with-Wit/">
+        利用 Wit.ai 讓你的 Messenger Bot 更聰明！ →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>一起探討 Micro Frontends 的世界 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-01-12T18:00:17.000Z" itemprop="datePublished">
+          2019-01-12
+      </time>
+    
+    
+    | 
+    <a href='/tags/frontends/'>frontends</a>,
+    
+    <a href='/tags/micro/'>micro</a>
+    
+    
+</span>
+
+<meta name="generator" content="一起探討 Micro Frontends 的世界">
+<meta name="og:title" content="一起探討 Micro Frontends 的世界">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">一起探討 Micro Frontends 的世界</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>大概三個月前，忘了在哪看到 Micro Frontends 這個詞，當時沒有仔細去了解（畢竟聽起來就像是另一個 Buzzword XD），只是從名字大概猜測是想讓前端頁面更加模組化，讓不同團隊能更有效率的開發共同的站。稍微 Google 了一下這個 term，發現文章多數在 2018 的五六月出現，之後就鮮少人提起，我也就淡忘了他。</p>
+<p>直到最近工作上接觸到的框架，似乎也想讓頁面上的元件更加低耦合，甚至是希望能支援運行不同版本或是 tech stack 的元件，才讓我又再想起 Micro Frontends 這個東西，所以查了點資料，這邊做個紀錄分享。</p>
+<h1 id="什麼是-Micro-Frontends"><a href="#什麼是-Micro-Frontends" class="headerlink" title="什麼是 Micro Frontends"></a>什麼是 Micro Frontends</h1><p>大部分查到的文章都有提到，Micro Frontends 最早出現在 <a href="https://www.thoughtworks.com/radar/techniques/micro-frontends" target="_blank" rel="noopener">2016 年 ThoughtWorks 這間公司公佈的技術雷達</a>中，並在 2018 年五月進入試驗階段，代表他們認為這個架構是有發展淺力的。（查了一下 <a href="https://en.wikipedia.org/wiki/ThoughtWorks" target="_blank" rel="noopener">wiki</a>，ThoughtWorks 是一間蠻大的全球軟體顧問公司，有自己的產品，也會為客戶制定各種前瞻軟體設計）</p>
+<p>要解釋 Micro Frontends，可以先從 Microservices 講起。</p>
+<p>Microservices 在後端的世界裡面已經運行多年，採用 Microservices 的團隊架構通常都是如下圖所繪：</p>
+<p><img src="/img/arvinh/monolithic-fe-micro-be.png" alt="monolithic-fe-micro-be"></p>
+<p>後端中每個 Microservices 彼此之間獨立作業，各個團隊可以擁有自己的部署與開發技術，溝通可以透過各樣 API 介面來達成，與前端之間也只需要 HTTP request 即可進行各種服務串接。</p>
+<p>在這樣的架構下，Frontend team 的程式碼卻還是都共存在一個 Monolithic 的結構內，當網站功能越趨複雜、團隊成長茁壯後，整個前端架構就會越來越難以維護，更別提前端技術的日新月異，很容易會產生 legacy code，這時若想要更新就麻煩了。</p>
+<p>由於慢慢有人體會到這種問題，Micro Frontends 的想法才被提出：</p>
+<p><img src="/img/arvinh/micro-fe-micro-be.png" alt="micro frontend"></p>
+<p>從圖中不難發現，Frontend 的模組被拆分至各個 team 中，每個團隊獨立掌管自己的前後端服務，擁有自己的部署環境與 tech stack，團隊間低耦合，團隊中高內聚。<br>此外，每個團隊產出的前端模組，要能夠有效的『拼貼』在同一個 SPA 頁面當中，保持使用者在產品的體驗上與原先的 SPA 一致。</p>
+<p>在 <a href="https://micro-frontends.org/" target="_blank" rel="noopener">micro-frontends.org</a> 這個網站中說到，這樣的結構就算是 Micro Frontends，而這樣的概念其實更早之前就有，只是有別的名稱，分別叫做 <a href="https://dev.otto.de/2014/07/29/scaling-with-microservices-and-vertical-decomposition/" target="_blank" rel="noopener">Frontend Integration for Verticalised Systems</a> 與 <a href="http://scs-architecture.org/" target="_blank" rel="noopener">Self-contained Systems</a>。</p>
+<p>但我自己認為，Micro frontend 應該主要著重在：如何將前端頁面中以功能模組來拆分成不同獨立應用，並黏貼共存在同個 SPA 中。(後面會再提到目前常見的實作方式。)</p>
+<p>而由 Micro Frontends 與 Micro Services 所組成的一個從 UI、商業邏輯、資料處理和系統部署，這樣完整的獨立服務，才算是一個 <a href="https://scs-architecture.org" target="_blank" rel="noopener">SCS - Self contain system</a>。</p>
+<h2 id="Micro-Frontends-的核心思想"><a href="#Micro-Frontends-的核心思想" class="headerlink" title="Micro Frontends 的核心思想"></a>Micro Frontends 的核心思想</h2><ul>
+<li><p><strong>Be Technology Agnostic</strong>：每個團隊可以使用自己的技術結構來開發前端模組，與其他團隊彼此之間互不干擾，也無須耗費成本相互協調。</p>
+</li>
+<li><p><strong>Isolate Team Code</strong>：就算各個團隊採用同樣的技術框架，彼此之間也不該共享變數或狀態。彼此間應該透過 public API 來溝通。</p>
+</li>
+<li><p><strong>Establish Team Prefixes</strong>：利用 Prefix 的方式來避免 CSS、Browser API、Web Event、Cookies 或 Local Storage 的衝突。</p>
+</li>
+<li><p><strong>Favor Native Browser Features over Custom APIs</strong>：要整合 Micro Frontends 的複雜度其實很高，當每個模組間需要溝通時，盡量採用 Browser Native API 來完成較好；若真的需要額外的溝通方式（pub/sub system），要盡量保持簡單。</p>
+</li>
+<li><p><strong>Build a Resilient Site</strong>：透過 SSI 或 PWA 的方式增強網站的穩定性，在 JS 無法執行的狀況下也有堪用的呈現。</p>
+</li>
+</ul>
+<h1 id="Micro-Frontends-的實作方法"><a href="#Micro-Frontends-的實作方法" class="headerlink" title="Micro Frontends 的實作方法"></a>Micro Frontends 的實作方法</h1><p><img src="/img/arvinh/three-teams.png" alt="PoC demo"><br><a href="https://micro-frontends.org/" target="_blank" rel="noopener">source</a></p>
+<p>接著我們先來看看要如何實現 Micro Frontends，達成如上圖所呈現的狀態，在同個頁面中，運行三個不同 Team 採用不同 Tech stack 的模組。</p>
+<p>Team checkout 與 Team inspire 各自開發了前後端整合的模組，而 Team product 要負責整合它們。</p>
+<p>三個 Team 採用不同 tech stack，並且獨立部署在各自的環境中運行，基本上可能會有三個 Host 分別 serve 它們：</p>
+<ol>
+<li><p><a href="https://microfrontends-checkout.com/" target="_blank" rel="noopener">https://microfrontends-checkout.com/</a></p>
+</li>
+<li><p><a href="https://microfrontends-inspire.com/" target="_blank" rel="noopener">https://microfrontends-inspire.com/</a></p>
+</li>
+<li><p><a href="https://microfrontends-product.com/" target="_blank" rel="noopener">https://microfrontends-product.com/</a></p>
+</li>
+</ol>
+<h2 id="方法一：使用-iframe"><a href="#方法一：使用-iframe" class="headerlink" title="方法一：使用 iframe"></a>方法一：使用 iframe</h2><p>在 Team product 的模組中，可以利用嵌入 iframe 的方式來載入另外兩個模組，由於 iframe 天生就有隔離運行環境的特性，各團隊的模組相互不會干擾，若要通訊，在同網域下，我們更能直接透過 <code>window.postMessage</code> 來達成。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- in Team Product --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">iframe</span> <span class="attr">width</span>=<span class="string">"100%"</span> <span class="attr">height</span>=<span class="string">"200"</span> <span class="attr">src</span>=<span class="string">"https://microfrontends-checkout.com/"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">iframe</span> <span class="attr">width</span>=<span class="string">"100%"</span> <span class="attr">height</span>=<span class="string">"200"</span> <span class="attr">src</span>=<span class="string">"https://microfrontends-inspire.com/"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>缺點</strong>:</p>
+<p>但使用 iframe 的缺點很多，基本上不會有人想採用這種方法…<br>像是：由於應用模組是分開的，無法將共用的依賴模組取出來，導致頁面可能會同時載入重複的 code；再者，UI 的呈現上也會變得很難控制，若是其中還含有表單之類的功能，就更麻煩了。</p>
+<h2 id="方法二：在-Client-side-用-JS-載入模組"><a href="#方法二：在-Client-side-用-JS-載入模組" class="headerlink" title="方法二：在 Client side 用 JS 載入模組"></a>方法二：在 Client side 用 JS 載入模組</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadPage</span> (<span class="params">element</span>) </span>&#123;</span><br><span class="line">  [].forEach.call(element.querySelectorAll(<span class="string">'script'</span>), <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> script = <span class="built_in">document</span>.createElement(<span class="string">"script"</span>);</span><br><span class="line">    script.setAttribute(<span class="string">"src"</span>, <span class="string">`https://microfrontends-<span class="subst">$&#123;element.dataset.url&#125;</span>.com/`</span>);</span><br><span class="line">    script.setAttribute(<span class="string">"type"</span>, <span class="string">"text/javascript"</span>);</span><br><span class="line">    element.appendChild(script);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">document</span>.querySelectorAll(<span class="string">'.pagelet'</span>).forEach(loadPage);</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- in Team Product --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"pagelet"</span> <span class="attr">data-url</span>=<span class="string">"checkout"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"pagelet"</span> <span class="attr">data-url</span>=<span class="string">"inspire"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>也就是在 client side ajax 抓取模組，塞入對應的 target div 內。這種做法需要注意 js、css 等的載入順序，Facebook 在多年前是用 <a href="https://www.facebook.com/notes/facebook-engineering/bigpipe-pipelining-web-pages-for-high-performance/389414033919/" target="_blank" rel="noopener">BigPipe</a> 來處理（可能 FB 已經沒在使用，但還是很值得了解的一個專案！）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">big_pipe.onPageletArrive(&#123;<span class="attr">id</span>: “pagelet_composer”, content=<span class="xml"><span class="tag">&lt;<span class="name">HTML</span>&gt;</span>, css=[..], js=[..], …&#125;)</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p>類似這樣，用 array 來依序載入資源。</p>
+<p>但缺點明顯就是無法 Server-side render。</p>
+<h2 id="方法三：Web-component"><a href="#方法三：Web-component" class="headerlink" title="方法三：Web component"></a>方法三：Web component</h2><p>這邊是指 Web standard 下包含 <code>Custom Element</code>、<code>HTML template</code>、<code>Shadow DOM</code> 與 <code>HTML imports</code> 的 Web component。</p>
+<p>各個團隊可以用自己想使用的 tech stack 來製作元件，但最終包裹成 Web component 的形式，以 React 為例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"><span class="keyword">const</span> SearchComponent = <span class="function">(<span class="params">&#123; children &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;p className=<span class="string">"search-component"</span>&gt;&#123;children&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomSearch</span> <span class="keyword">extends</span> <span class="title">HTMLElement</span> </span>&#123;</span><br><span class="line">  connectedCallback() &#123;</span><br><span class="line">    <span class="keyword">const</span> mountPoint = <span class="built_in">document</span>.createElement(<span class="string">'span'</span>);</span><br><span class="line">    <span class="keyword">this</span>.attachShadow(&#123; <span class="attr">mode</span>: <span class="string">'open'</span> &#125;).appendChild(mountPoint);</span><br><span class="line">    <span class="keyword">const</span> name = <span class="keyword">this</span>.getAttribute(<span class="string">'name'</span>);</span><br><span class="line">    <span class="keyword">const</span> keyword = <span class="keyword">this</span>.getAttribute(<span class="string">'keyword'</span>);</span><br><span class="line">    <span class="keyword">const</span> url = <span class="string">'https://www.google.com/search?q='</span> + <span class="built_in">encodeURIComponent</span>(name);</span><br><span class="line">    ReactDOM.render(</span><br><span class="line">      &lt;&gt;</span><br><span class="line">        &lt;a href=&#123;url&#125;&gt;&#123;name&#125;&lt;<span class="regexp">/a&gt;</span></span><br><span class="line"><span class="regexp">        &lt;SearchComponent&gt;&#123;keyword&#125;&lt;/</span>SearchComponent&gt;</span><br><span class="line">      &lt;<span class="regexp">/&gt;,</span></span><br><span class="line"><span class="regexp">      mountPoint,</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">customElements.define('custom-search', CustomSearch);</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- in Team Product --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- search component from Team Inspire --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">custom-search</span> <span class="attr">name</span>=<span class="string">"TeamInspire"</span> <span class="attr">keyword</span>=<span class="string">"Micro Frontends"</span>&gt;</span><span class="tag">&lt;/<span class="name">custom-search</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>採用 Web component 可以讓程式碼清晰可讀，元件之間各自獨立，所有資源都由自身控制該如何加載，團隊在使用這些元件上，就如同一般 HTML DOM，並且可以直接利用 Web Event API 來進行元間間的溝通。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in Team checkout</span></span><br><span class="line"><span class="keyword">const</span> event = <span class="keyword">new</span> CustomEvent(<span class="string">'buy'</span>, &#123; <span class="attr">item</span>: <span class="string">'car'</span> &#125;);</span><br><span class="line"><span class="built_in">window</span>.dispatchEvent(event);</span><br></pre></td></tr></table></figure>
+<p>In React:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">componentDidMount() &#123;</span><br><span class="line">  <span class="built_in">window</span>.addEventListener(<span class="string">'buy'</span>, (event) =&gt; &#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123; <span class="attr">buyItem</span>: [...this.state.buyItem, event.item] &#125;);</span><br><span class="line">  &#125;, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此外，如果 Web component 還能搭配 SSI (Server Side Includes) 來達成 SSR：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">custom-search</span> <span class="attr">keyword</span>=<span class="string">"Micro Frontends"</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--#include virtual="/custom-search?keyword="Micro Frontends" --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">custom-search</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen <span class="number">3000</span>;</span><br><span class="line">  ssi on;</span><br><span class="line"></span><br><span class="line">  location /TeamInspire &#123;</span><br><span class="line">    proxy_pass  https:<span class="comment">//microfrontends-TeamInspire.com;</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>每個 Micro Frontend team 自己要建立起 <code>component server</code>，用來 serve component 的 markup。並且實作的 Web component 本身也要修改成支援 Server side render。<br>不過重點是，這樣在技術上是可行的，至少比上一種方式好。</p>
+<p>但缺點也很明顯：</p>
+<ol>
+<li>需要 polyfills 來補足瀏覽器支援度問題。</li>
+<li>雖說大家能用不同 Tech stack，但本質上每個團隊最終還是得想辦法用成統一的 Web component</li>
+<li>Web component 的發展與普及不夠快速。</li>
+</ol>
+<p>關於 Web component 實作 Micro Frontends 的範例與細節，大家可以到 <a href="https://micro-frontends.org/" target="_blank" rel="noopener">micro-frontends.org</a> 看，範例 code 甚至都包成 docker，很快就能裝起來玩！</p>
+<h2 id="方法四：Single-SPA-javascript-metaframework"><a href="#方法四：Single-SPA-javascript-metaframework" class="headerlink" title="方法四：Single-SPA - javascript metaframework"></a>方法四：<a href="https://github.com/CanopyTax/single-spa" target="_blank" rel="noopener">Single-SPA - javascript metaframework</a></h2><p>CanopyTax 這間公司推出的一個開源專案，提供了一些方便的 API 讓你達到：</p>
+<ol>
+<li><p>用各種技術構建 micro frontends。</p>
+</li>
+<li><p>在同個頁面下使用多種前端 framework 組成的模組，且無需 refresh page。</p>
+</li>
+<li><p>在現有的應用中嘗試新的 framework，而不必全部重寫。</p>
+</li>
+<li><p>支援 Lazy load</p>
+</li>
+<li><p>支援 Hot reload</p>
+</li>
+</ol>
+<p>有興趣的讀者可以前往他們的 <a href="https://github.com/CanopyTax/single-spa" target="_blank" rel="noopener">repo</a> 看各種範例與程式碼。類似這樣的使用方式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> singleSpa <span class="keyword">from</span> <span class="string">'single-spa'</span>;</span><br><span class="line"><span class="keyword">const</span> loadingFunction = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">'./react/react.app.js'</span>);</span><br><span class="line"><span class="comment">// 可根據 route 來切分要換成哪個模組並動態載入相應資源</span></span><br><span class="line"><span class="keyword">const</span> activityFunction = <span class="function"><span class="params">location</span> =&gt;</span> location.hash.startsWith(<span class="string">'#/react-app'</span>);</span><br><span class="line">singleSpa.declareChildApplication(appName, loadingFunction, activityFunction);</span><br><span class="line">singleSpa.start();</span><br></pre></td></tr></table></figure>
+<h2 id="其他方法："><a href="#其他方法：" class="headerlink" title="其他方法："></a>其他方法：</h2><p>在查資料的過程中，其實大家在討論的 Micro Frontends 都會著重在各 Team 間採用不同 tech stack 的前提，可能是這樣才比較好凸顯 Micro Frontends 切割模組的感覺。</p>
+<p>但是如果只是想要讓 Microservices 都有各自對應的前端模組，我們其實也可以直接用 React 來建造各類元件庫，讓主 App 下載使用。</p>
+<p>這樣會是一個折衷的方案，不用煩惱 common dependences 的問題，但相對的在升級版本時，可能就得一次將所有元件庫內的元件都升級才可以使用。</p>
+<p>有點偏離 Micro Frontends 的核心就是了。</p>
+<h2 id="Micro-Frontends-帶來的好處與壞處"><a href="#Micro-Frontends-帶來的好處與壞處" class="headerlink" title="Micro Frontends 帶來的好處與壞處"></a>Micro Frontends 帶來的好處與壞處</h2><p>Micro Frontends 的好處就在於，各個模組間是非常獨立的，彼此間的部署不需要互相等待，tech stack 也不一定要用相同的，也就是說，在汰換 legacy code 的過程可以順暢一些，也更容易嘗試新技術，可以漸進式的把 SPA 上的模組替換成更好或更新的框架，讓新舊 code 能夠並存無衝突。團隊在開發上可以更敏捷。</p>
+<p>但實務上我想應該不太會有人想在同個頁面上同時存在多種框架吧？試想，一個頁面上如果同時存在 React 與 Vue，甚至是 Angular，這樣 Page load time 大概難以想像。<br>再加上缺乏統一打包的步驟，共用資源的相依性就無法被知曉，要如何有效處理 Common resources 是很麻煩的難題。</p>
+<p>還有就是 CSS 解決方案，會不會需要處理命名衝突，也是一個隱憂。若是公司資源不夠，沒有辦法利用像 Zeplin 之類的工具了統一定義 Style guideline，就還得想辦法協調各 Team 開發模組的 style 問題。</p>
+<p>整體而言看起來 Micro Frontends 的複雜度並不小，應該比較適合大型應用，或真的有許多 Legacy code 要處理的公司團隊。</p>
+<h1 id="那有誰採用-Micro-Frontends？"><a href="#那有誰採用-Micro-Frontends？" class="headerlink" title="那有誰採用 Micro Frontends？"></a>那有誰採用 Micro Frontends？</h1><p>很多公司可能都有自己的類似解決方案，就像 FB 的 bigpie，或是 Yahoo 也有類似的作法。</p>
+<p>在我查到的資料當中，比較有提到 Micro Frontends 的大公司有 Spotify 與 IKEA，細節就給大家自行去欣賞他們的分享了：</p>
+<p><a href="https://www.slideshare.net/kevingoldsmith/how-spotify-builds-products-organization-architecture-autonomy-accountability" target="_blank" rel="noopener">Spotify - How Spotify Builds Products (Organization. Architecture, Autonomy, Accountability)</a>:</p>
+<p><img src="/img/arvinh/spotify-microfe.jpg" alt="Spotify sharing"></p>
+<p>Spotify 是從 UI 來區分團隊負責的 function，原先採用 iframe 與 postMessage 的方式來處理 Micro Frontends，團隊間 technology independence，但他們已經捨棄這個架構很久了，後來改採一律 react/redux 的架構。可以看這份 <a href="https://twitter.com/derberq/status/910056617881817089" target="_blank" rel="noopener">twitter</a> 討論。</p>
+<p>另外，它們是有一個團隊在負責檢驗各 team 產出的模組 UI style 是否維持產品的一致性。</p>
+<p><a href="https://www.youtube.com/watch?v=4KVOuQDIfmw" target="_blank" rel="noopener">MICROSERVICE WEBSITES - Gustaf N. Kotte</a></p>
+<p><img src="/img/arvinh/ikea-microfe.png" alt="MICROSERVICE WEBSITES - Gustaf N. Kotte"></p>
+<h1 id="小結論"><a href="#小結論" class="headerlink" title="小結論"></a>小結論</h1><p>其實會需要用到 Micro Frontends 結構的應該不多，尤其在 React/Vue/Angular 主宰的這幾年，需求相對更少。越大型的 web app 與團隊才比較值得去嘗試。</p>
+<p>現行的實作方式其實都很複雜，上面描述的方法與網路看到的 prototype 都過於簡化了。</p>
+<p>但這種高階層架構的思考與設計其實多多益善，從中發現的困難更能推動技術發展，而且也很有趣！</p>
+<h2 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h2><ol>
+<li><a href="https://micro-frontends.org/" target="_blank" rel="noopener">micro-frontends.org</a></li>
+<li><a href="https://tech.mercari.com/entry/2018/12/06/162827" target="_blank" rel="noopener">フロントエンドエンジニアは Micro Frontends の夢を見るか</a></li>
+<li><a href="https://blog.jimmylv.info/2017-12-24-tech-radar-microfrontends-extending-microservice-to-fed/" target="_blank" rel="noopener">技术雷达之「微前端」- 将微服务理念扩展到前端开发（上：理论篇）</a></li>
+<li><a href="https://blog.jimmylv.info/2017-12-24-tech-radar-microfrontends-extending-microservice-to-fed-next/" target="_blank" rel="noopener">技术雷达之「微前端」- 将微服务理念扩展到前端开发（下：实战篇）</a></li>
+<li><a href="https://github.com/Pragmatists/microfrontends" target="_blank" rel="noopener">Micro Frontends Proof of Concept</a></li>
+<li><a href="https://blog.pragmatists.com/independent-micro-frontends-with-single-spa-library-a829012dc5be" target="_blank" rel="noopener">Independent micro frontends with Single SPA library</a></li>
+<li><a href="https://single-spa.surge.sh/" target="_blank" rel="noopener">Single-SPA</a></li>
+<li><a href="https://www.slideshare.net/kevingoldsmith/how-spotify-builds-products-organization-architecture-autonomy-accountability" target="_blank" rel="noopener">Spotify - How Spotify Builds Products (Organization. Architecture, Autonomy, Accountability)</a></li>
+<li><a href="https://www.youtube.com/watch?v=4KVOuQDIfmw" target="_blank" rel="noopener">MICROSERVICE WEBSITES - Gustaf N. Kotte</a></li>
+</ol>
+<p>關於作者：<br><a href="http://blog.arvinh.info/about/" target="_blank" rel="noopener">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/01/12/micro-frontends-concept/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/01/12/micro-frontends-concept/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/01/12/micro-frontends-concept/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/01/12/micro-frontends-concept/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/01/18/openpose-installation/">
+        ← 如何在 Windows 安裝 OpenPose 跟使用 Python API 來偵測人體姿態
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/01/05/hello-i-am-a-scrum-master/">
+        當一個 Scrum Master 是一個怎樣的體驗？ →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

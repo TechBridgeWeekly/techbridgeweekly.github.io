@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Python Web Flask 實戰開發教學 - SQLAlchemy 與 ORM | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-08-12T22:00:00.000Z" itemprop="datePublished">
+          2017-08-12
+      </time>
+    
+    
+    | 
+    <a href='/tags/Python-Django-MVC-Web-MTV-Web-Backend-Web-Framework-教學-Flask-框架-網站開發-Anaconda-ORM-SQLAlchemy-Database-Models-MVC-資料庫/'>Python, Django, MVC, Web, MTV, Web Backend, Web Framework, 教學, Flask, 框架, 網站開發, Anaconda, ORM, SQLAlchemy, Database, Models, MVC, 資料庫</a>
+    
+    
+</span>
+
+<meta name="generator" content="Python Web Flask 實戰開發教學 - SQLAlchemy 與 ORM">
+<meta name="og:title" content="Python Web Flask 實戰開發教學 - SQLAlchemy 與 ORM">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Python Web Flask 實戰開發教學 - SQLAlchemy 與 ORM</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/flask101/python-logo.png" alt="Python Web Flask 實戰開發教學"> </p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Web 開發涉及層面很廣，包含了前後端開發、資料庫優化、平行處理、負載平衡、高可用性、資訊安全、雲端伺服器部屬等議題，本系列文章將透過介紹 Python Web Flask 實戰開發來學習現代化網站開發的方方面面。上一篇我們完成了環境建置，這一單元我們將進入 MVC 架構的 Models 部分並學習如何使用 SQLAlchemy 建立和資料庫互動的 ORM 機制。</p>
+<p><img src="/img/kdchang/flask101/mvc_role_diagram.png" alt="Python Web Flask 實戰開發教學"> </p>
+<h1 id="什麼是-MVC？"><a href="#什麼是-MVC？" class="headerlink" title="什麼是 MVC？"></a>什麼是 MVC？</h1><p>MVC 模式（Model–view–controller）是軟體工程中的一種軟體架構模式，把軟體系統分為三個基本部分：模型（Model）、視圖（View）和控制器（Controller）。</p>
+<ul>
+<li>控制器（Controller）- 對 Request/Response 進行處理並透過 Controller 把 Model 的資料串接到 View（Templates）。 </li>
+<li>視圖（View） - 直接面對使用者的使用者介面設計。</li>
+<li>模型（Model） - 負責和資料庫互動，儲存資料。</li>
+</ul>
+<p>使用 MVC 的好處在於可以用更高階的角度去思考整個程式架構提高程式可重用性和降低程式耦合性。 事實上 Django、Rails 和 ASP.NET MVC 等較成熟的 Web 框架也是參考 MVC 的架構去設計。</p>
+<h1 id="什麼是關聯式資料庫（RDB）？"><a href="#什麼是關聯式資料庫（RDB）？" class="headerlink" title="什麼是關聯式資料庫（RDB）？"></a>什麼是關聯式資料庫（RDB）？</h1><p>Database 資料庫一個資料儲存的集合，方便我們去讀取新增刪除修改，而 Relational Database（關聯式資料庫）廣泛應用資料庫應用程式中，它把資料儲存在行列表格中，有可能不同資料表的內容會彼此依賴關聯。常見的關聯式資料庫，例如：MySQL、Postgres、Oracle、MSSSQL、SQLite，本文我們將使用 SQLite 這個輕量級的關聯式資料庫來當做範例教學。</p>
+<h1 id="什麼是-ORM？"><a href="#什麼是-ORM？" class="headerlink" title="什麼是 ORM？"></a>什麼是 ORM？</h1><p>ORM 指的是 Object Relational Mapping（物件關聯對應），是一種程式設計技術，用於實現物件導向程式語言裡不同類型系統的資料之間的轉換。一般而言物件導向是從軟體工程基本原則（例如：耦合、聚合、封裝）的基礎上發展起來的，然而關聯式資料庫則是從數學理論發展而來的，兩套理論存在顯著的區別。為了解決這個不符合的現象，物件關聯對映技術搬演著中介層的角色，讓開發可以使用物件方式來操作資料庫，而不用使用 SQL 語法，當然若是要使用複雜的操作，仍需要使用到 SQL 語法。</p>
+<p>更多 SQL 語法學習：<a href="http://www.1keydata.com/tw/sql/sql.html" target="_blank" rel="noopener">SQL語法教學- 1Keydata</a></p>
+<p><img src="/img/kdchang/flask101/Flask-SQLAlchemy.png" alt="Python Web Flask 實戰開發教學"> </p>
+<h1 id="Flask-SQLAlchemy-使用設定"><a href="#Flask-SQLAlchemy-使用設定" class="headerlink" title="Flask SQLAlchemy 使用設定"></a>Flask SQLAlchemy 使用設定</h1><p>SQLAlchemy 是 Python 社群最廣泛使用的 ORM 套件。為了方便使用 ORM 來操作資料庫，我們使用 <a href="https://www.sqlalchemy.org/" target="_blank" rel="noopener">SQLAlchemy</a> 的封裝 <a href="http://flask-sqlalchemy.pocoo.org/2.1/" target="_blank" rel="noopener">Flask SQLAlchemy</a> 來進行 Models 的建立（當然你也可以單獨使用 SQLAlchemy）。以下是 SQLAlchemy 使用的簡單範例：</p>
+<figure class="highlight python"><figcaption><span>main.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"><span class="keyword">from</span> flask_sqlalchemy <span class="keyword">import</span> SQLAlchemy</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"><span class="comment"># 設定資料庫位置，並建立 app</span></span><br><span class="line">app.config[<span class="string">'SQLALCHEMY_DATABASE_URI'</span>] = <span class="string">'sqlite:////tmp/test.db'</span></span><br><span class="line">db = SQLAlchemy(app)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><figcaption><span>models.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 建立資料表欄位</span></span><br><span class="line"><span class="keyword">from</span> main <span class="keyword">import</span> db</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Todo</span><span class="params">(db.Model)</span>:</span></span><br><span class="line">    <span class="comment"># __table__name = 'user_table'，若不寫則看 class name</span></span><br><span class="line">    <span class="comment"># 設定 primary_key</span></span><br><span class="line">    id = db.Column(db.Integer, primary_key=<span class="literal">True</span>)</span><br><span class="line">    content = db.Column(db.String(<span class="number">80</span>))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, content)</span>:</span></span><br><span class="line">        self.content = content</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'&lt;Todo %r&gt;'</span> % self.content</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><figcaption><span>manage.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask_script <span class="keyword">import</span> Manager, Server</span><br><span class="line"><span class="keyword">from</span> main <span class="keyword">import</span> app</span><br><span class="line"><span class="keyword">from</span> models <span class="keyword">import</span> Todo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 設定你的 app</span></span><br><span class="line">manager = Manager(app)</span><br><span class="line"><span class="comment"># 設定 python manage.py runserver 為啟動 server 指令</span></span><br><span class="line">manager.add_command(<span class="string">'runserver'</span>, Server())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 設定 python manage.py shell 為啟動互動式指令 shell 的指令 </span></span><br><span class="line"><span class="meta">@manager.shell</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_shell_context</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> dict(app=app, Todo=Todo)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    manager.run()</span><br></pre></td></tr></table></figure>
+<p>操作指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ python manage.py shell</span><br><span class="line">&gt;&gt;&gt; db.create_all()</span><br></pre></td></tr></table></figure>
+<h1 id="CRUD-操作設計"><a href="#CRUD-操作設計" class="headerlink" title="CRUD 操作設計"></a>CRUD 操作設計</h1><p>CRUD 是一般網路應用程式<a href="https://zh.wikipedia.org/wiki/%E8%B3%87%E6%96%99%E6%93%8D%E7%B8%B1%E8%AA%9E%E8%A8%80" target="_blank" rel="noopener">最常見的資料庫操作</a>（create, read, update, delete），接著我們要使用 session 來操作我們的 CRUD 功能，首先先在終端機中輸入 <code>$ python manage.py shell</code> 後進行資料庫指令模擬操作（要注意的是 Flask SQLAlchemy 針對每個 request 會創建一個新的 session，若沒有 commit 的操作即被丟棄）：</p>
+<ol>
+<li><p>新增（Create）<br> 新增一筆資料後將它加到 db.session 中，完成 commit：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; todo = Todo(content=&apos;hacking&apos;)</span><br><span class="line">&gt;&gt;&gt; db.session.add(todo)</span><br><span class="line">&gt;&gt;&gt; db.session.commit()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>讀取（Read）<br>Model.query 是 db.session.query(Model) 的簡寫，所以我們可以使用以下方式讀取資料庫資料：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 取得所有 todo 資料</span><br><span class="line">&gt;&gt;&gt; todos = Todo.query.all()</span><br><span class="line">&gt;&gt;&gt; todos</span><br><span class="line"># 限制 1 筆資料</span><br><span class="line">&gt;&gt;&gt; todos = Todo.query.limit(1).all()</span><br><span class="line"># 正向/逆向排序</span><br><span class="line">&gt;&gt;&gt; todos = Todo.query.order_by(Todo.content).all()</span><br><span class="line">&gt;&gt;&gt; todos = Todo.query.order_by(Todo.content.desc()).all()</span><br><span class="line"># 取得第一筆資料</span><br><span class="line">&gt;&gt;&gt; todo = Todo.query.first()</span><br><span class="line"># 取得 primary key=1 一筆資料</span><br><span class="line">&gt;&gt;&gt; todo = Todo.query.get(1)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>分頁（Pagination）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; todos = Todo.query.paginate(1, 10)</span><br><span class="line"># 總頁數</span><br><span class="line">&gt;&gt;&gt; todos.pages</span><br><span class="line"># 上/下一頁</span><br><span class="line">&gt;&gt;&gt; todos.prev()</span><br><span class="line">&gt;&gt;&gt; todos.next()</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>條件查詢（Filter）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; todo = Todo.query.filter_by(content=&apos;hacking&apos;).first()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; todos = Todo.query.filter(Todo.id &gt; 1).all()</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>修改（Update）</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; todo = Todo.query.filter_by(contant=&apos;hacking&apos;).update(&#123;</span><br><span class="line">    &apos;content&apos;: &apos;reading&apos;</span><br><span class="line">&#125;)</span><br><span class="line">&gt;&gt;&gt; db.session.commit()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>刪除（Delete）</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; todo = Todo.query.filter_by(content=&apos;reading&apos;).first()</span><br><span class="line">&gt;&gt;&gt; db.session.delete(todo)</span><br><span class="line">&gt;&gt;&gt; db.session.commit()</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="資料庫關聯用法"><a href="#資料庫關聯用法" class="headerlink" title="資料庫關聯用法"></a>資料庫關聯用法</h1><p>在關聯式資料庫中，最重要的就是資料表之間的關聯，透過關聯的使用，可以讓我們取得我們想要的資料。舉例而言，一篇部落格文章通常會對應多則評論，所以若是建立好關係則可以透過文章去取得所有和這篇文章有關的評論。同理，一篇文章通常會有多個 tag，而一個 tag 通常對應多篇文章，所以是個多對多關係。</p>
+<ul>
+<li>一對多</li>
+</ul>
+<figure class="highlight python"><figcaption><span>models.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 建立資料表欄位</span></span><br><span class="line"><span class="keyword">from</span> main <span class="keyword">import</span> db</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Todo</span><span class="params">(db.Model)</span>:</span></span><br><span class="line">    <span class="comment"># __table__name = 'user_table'，若不寫則看 class name</span></span><br><span class="line">    <span class="comment"># 設定 primary_key</span></span><br><span class="line">    id = db.Column(db.Integer, primary_key=<span class="literal">True</span>)</span><br><span class="line">    content = db.Column(db.String(<span class="number">80</span>))</span><br><span class="line">    user_id = db.Column(db.String(<span class="number">80</span>), db.ForeignKey(<span class="string">'user.id))</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    def __init__(self, content):</span></span><br><span class="line"><span class="string">        self.content = content</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    def __repr__(self):</span></span><br><span class="line"><span class="string">        return '</span>&lt;Todo %r&gt;<span class="string">' % self.content</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">class User(db.Model):</span></span><br><span class="line"><span class="string">    id = db.Column(db.Integer, primary_key=True)</span></span><br><span class="line"><span class="string">    name = db.Column(db.String(80))</span></span><br><span class="line"><span class="string">    todos = db.relationship(</span></span><br><span class="line"><span class="string">        '</span>Todo<span class="string">',</span></span><br><span class="line"><span class="string">        backref='</span>use<span class="string">r', # ref 可以讓我們使用 Todo.user 進行對 User 操作</span></span><br><span class="line"><span class="string">        lazy='</span>dynamic<span class="string">' # 有使用才載入，提昇效能</span></span><br><span class="line"><span class="string">    )</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    def __init__(self, name):</span></span><br><span class="line"><span class="string">        self.name = name</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    def __repr__(self):</span></span><br><span class="line"><span class="string">        return '</span>&lt;User %r&gt;<span class="string">' % self.name</span></span><br></pre></td></tr></table></figure>
+<p>操作方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; user = User.query.get(1)</span><br><span class="line">&gt;&gt;&gt; new_todo = Todo(&apos;Booking&apos;)</span><br><span class="line">&gt;&gt;&gt; new_todo.user_id = user.id</span><br><span class="line">&gt;&gt;&gt; db.session.add(new_todo)</span><br><span class="line">&gt;&gt;&gt; db.session.commit()</span><br><span class="line">&gt;&gt;&gt; user.todos</span><br></pre></td></tr></table></figure>
+<ul>
+<li>多對多</li>
+</ul>
+<figure class="highlight python"><figcaption><span>models.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">tags = db.Table(<span class="string">'todo_tags'</span>,</span><br><span class="line">    db.Column(<span class="string">'todo_id'</span>, db.Integer, db.ForeignKey(<span class="string">'todo.id'</span>)),</span><br><span class="line">    db.Column(<span class="string">'tag_id'</span>, db.Integer, db.ForeignKey(<span class="string">'tag.id'</span>))</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立資料表欄位</span></span><br><span class="line"><span class="keyword">from</span> main <span class="keyword">import</span> db</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Post</span><span class="params">(db.Model)</span>:</span></span><br><span class="line">    <span class="comment"># __table__name = 'user_table'，若不寫則看小寫 class name</span></span><br><span class="line">    <span class="comment"># 設定 primary_key</span></span><br><span class="line">    id = db.Column(db.Integer, primary_key=<span class="literal">True</span>)</span><br><span class="line">    title = db.Column(db.String(<span class="number">80</span>))</span><br><span class="line">    content = db.Column(db.String(<span class="number">80</span>))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, title, content)</span>:</span></span><br><span class="line">        self.title = title</span><br><span class="line">        self.content = content</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'&lt;Todo %r&gt;'</span> % self.content</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tag</span><span class="params">(db.Model)</span>:</span></span><br><span class="line">    <span class="comment"># __table__name = 'user_table'，若不寫則看 class name</span></span><br><span class="line">    <span class="comment"># 設定 primary_key</span></span><br><span class="line">    id = db.Column(db.Integer, primary_key=<span class="literal">True</span>)</span><br><span class="line">    title = db.Column(db.String(<span class="number">80</span>))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, title)</span>:</span></span><br><span class="line">        self.title = title</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'&lt;Tag %r&gt;'</span> % self.title</span><br></pre></td></tr></table></figure>
+<p>操作方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 創建 3 個 todo</span><br><span class="line">&gt;&gt;&gt; todo_1 = Todo(&apos;Python&apos;)</span><br><span class="line">&gt;&gt;&gt; todo_2 = Todo(&apos;JS&apos;)</span><br><span class="line">&gt;&gt;&gt; todo_3 = Todo(&apos;R&apos;)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; tag_1 = Tag(&apos;coding&apos;)</span><br><span class="line">&gt;&gt;&gt; tag_1.tags = [todo_1, todo_2]</span><br><span class="line">&gt;&gt;&gt; db.session.add()</span><br><span class="line">&gt;&gt;&gt; db.session.commit()</span><br></pre></td></tr></table></figure>
+<p><img src="/img/kdchang/flask101/Flask-Migration.png" alt="Python Web Flask 實戰開發教學"> </p>
+<h1 id="Flask-Migration（Alembic）使用"><a href="#Flask-Migration（Alembic）使用" class="headerlink" title="Flask Migration（Alembic）使用"></a>Flask Migration（<a href="http://alembic.zzzcomputing.com/en/latest/index.html" target="_blank" rel="noopener">Alembic</a>）使用</h1><p>隨著網路應用程式的發展，我們的 models 會不斷變更，為了記錄所有有關 models 的改動，我們使用 <code>Flask-Migrate</code> 這個 extensions。所有 models 改動都會記錄在 migration 檔案中，就像是資料庫的 git 一樣方便版本控制。</p>
+<p>安裝 <code>Flask-Migrate</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install Flask-Migrate</span><br></pre></td></tr></table></figure>
+<p>將 db 加入 Flask-Migrate 控制：</p>
+<figure class="highlight python"><figcaption><span>manage.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask_migrate <span class="keyword">import</span> Migrate, MigrateCommand</span><br><span class="line"><span class="keyword">from</span> flask_script <span class="keyword">import</span> Manager, Server</span><br><span class="line"><span class="keyword">from</span> main <span class="keyword">import</span> app</span><br><span class="line"><span class="keyword">from</span> models <span class="keyword">import</span> Todo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 設定你的 app</span></span><br><span class="line">manager = Manager(app)</span><br><span class="line"><span class="comment"># 設定 python manage.py db 來管理 models</span></span><br><span class="line">manager.add_command(<span class="string">'db'</span>, MigrateCommand)</span><br><span class="line"><span class="comment"># 設定 python manage.py runserver 為啟動 server 指令</span></span><br><span class="line">manager.add_command(<span class="string">'runserver'</span>, Server())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 設定 python manage.py shell 為啟動互動式指令 shell 的指令 </span></span><br><span class="line"><span class="meta">@manager.shell</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_shell_context</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> dict(app=app, Todo=Todo)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    manager.run()</span><br></pre></td></tr></table></figure>
+<p>使用 <code>Flask-Migrate</code> 操作 DB：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 初始化</span><br><span class="line">$ python manage.py db init</span><br><span class="line"># 記錄 model 變化</span><br><span class="line">$ python manage.py db migrate</span><br><span class="line"># 更新同步到 db</span><br><span class="line">$ python manage.py db upgrade</span><br><span class="line"># 查詢指令</span><br><span class="line">$ python manage.py db --help</span><br></pre></td></tr></table></figure>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>本文介紹了資料庫、關聯式資料庫、ORM 的概念，我們也實際使用了 Flask SQLAlchemy 和 Flask-Migrate 來操作我們的資料庫。在接下來章節中我們將持續介紹 Python Web Flask 實戰開發，並學習現代化網站開發的方方面面。</p>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><ol>
+<li><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller" target="_blank" rel="noopener">Wiki MVC</a></li>
+<li><a href="http://pics.ee/c34g" target="_blank" rel="noopener">Python Web 程式設計入門實戰線上課程</a></li>
+</ol>
+<p>（image via <a href="https://basicsofwebdevelopment.files.wordpress.com/2015/01/mvc_role_diagram.png" target="_blank" rel="noopener">basicsofwebdevelopment</a>）</p>
+<p>關於作者：<br><a href="http://blog.kdchang.cc" target="_blank" rel="noopener">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino/Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/08/12/python-web-flask101-tutorial-sqlalchemy-orm-database-models/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/08/12/python-web-flask101-tutorial-sqlalchemy-orm-database-models/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/08/12/python-web-flask101-tutorial-sqlalchemy-orm-database-models/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/08/12/python-web-flask101-tutorial-sqlalchemy-orm-database-models/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/08/19/sotring-algorithm/">
+        ← 一起用 JavaScript 來複習經典排序法吧！
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/08/05/lsd-slam-5/">
+        深入學習 lsd-slam - 5 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

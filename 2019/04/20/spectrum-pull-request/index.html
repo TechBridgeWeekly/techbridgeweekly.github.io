@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>記一次幫開源專案 spectrum 修 bug 的經歷 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-04-20T08:27:21.000Z" itemprop="datePublished">
+          2019-04-20
+      </time>
+    
+    
+    | 
+    <a href='/tags/github/'>github</a>,
+    
+    <a href='/tags/open-source/'>open source</a>,
+    
+    <a href='/tags/spectrum/'>spectrum</a>
+    
+    
+</span>
+
+<meta name="generator" content="記一次幫開源專案 spectrum 修 bug 的經歷">
+<meta name="og:title" content="記一次幫開源專案 spectrum 修 bug 的經歷">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">記一次幫開源專案 spectrum 修 bug 的經歷</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近又開始了自己的教學計畫，第一期的時候寫了這篇：<a href="https://github.com/aszx87410/blog/issues/27" target="_blank" rel="noopener">利用 Github Classroom 加 Travis CI 打造改作業系統</a>，第二期寫了這篇：<a href="https://github.com/aszx87410/blog/issues/32" target="_blank" rel="noopener">AWS Lambda + GitHub API + Google Sheet = 自動化簽到系統</a>，都是利用現成工具來快速湊出符合自己需求的系統。</p>
+<p>而第三期開始前我希望課程能有個討論區，讓學生們可以在上面很方便地問問題。一直以來都是用 Slack，但 Slack 最大的缺點就是免費版會吃訊息，很多不錯的資訊被洗掉就覺得滿可惜的，希望能有個論壇或是討論區之類的地方會比較好。</p>
+<p>在兩年前我也寫過一篇：<a href="http://huli.logdown.com/posts/1989995-the-forums-solution-flarum-discourse-github-issue" target="_blank" rel="noopener">自架論壇的解決方案：flarum, github issue, nodeBB, discourse</a>，研究了幾套方案，最後選擇 GitHub Issue。因為最簡單、最方便，但最大的缺點是學生好像不太習慣，因為左看右看上看下看其實都不像是個論壇。</p>
+<p>前陣子因緣際會之下知道了這一個平台：<a href="https://spectrum.chat/" target="_blank" rel="noopener">spectrum</a>，首頁的 slogan 寫得很清楚：</p>
+<blockquote>
+<p>The community platform for the future.</p>
+</blockquote>
+<p>去年被 GitHub 買下來之後變成完全免費的，以前付費版的功能也變免費了。在我看來，其實就是「更像討論區」的 Slack。先給大家看一張截圖：</p>
+<p><img src="/img/huli/spectrum/sc.png" alt></p>
+<p>最左邊是不同的 workspace，這跟 Slack 一樣。再來你可以看到各個 Channles，這跟 Slack 也一樣，唯一不同的是右邊，原本 Slack 的訊息變成了一個個討論串，有標題跟內文。</p>
+<p>這樣你大概可以懂我在說什麼了，這套跟 Slack 很像，但是更適合當作是討論區。</p>
+<p>免費、背後是 GitHub、可以有 private 的論壇、開源，這簡直是完美的解決方案。除了沒有手機 App 以外，其他沒什麼可以挑剔的，就決定是這一套了！</p>
+<h2 id="事情沒有那麼順利…"><a href="#事情沒有那麼順利…" class="headerlink" title="事情沒有那麼順利…"></a>事情沒有那麼順利…</h2><p>開始試用幾天之後，發現有一個超級大問題，雖然說在功能上沒什麼問題，但是在體驗上我覺得極差，這一個小缺點就足夠讓我放棄這個平台。</p>
+<p>是什麼問題呢？排版。</p>
+<p>spectrum 原生支援 Markdown，使用起來十分順手，可是換行卻出了問題。在有些地方只有空行是沒有用的，結尾要加兩個空格才會換行，雖然我覺得這很不方便，但勉強可以接受。</p>
+<p>可是！在 spectrum 上面，要兩個換行才會真的換行。</p>
+<p>底下是範例，最下面的 line1 跟 line2 應該要換行：</p>
+<p><img src="/img/huli/spectrum/layout1.png" alt></p>
+<p>可是 po 文之後卻會變成這樣：</p>
+<p><img src="/img/huli/spectrum/layout2.png" alt></p>
+<p>換行變成了空格，如果是英文還好，但如果是中文的話排版就變得超級無敵奇怪，完全不能接受。</p>
+<p>心灰意冷的我去了官方討論區<a href="https://spectrum.chat/spectrum/general/how-to-input-new-line-when-creating-a-new-post~2e53fc58-990a-433c-8f86-d2e28cdeaf87" target="_blank" rel="noopener">發文</a>，想說會不會有什麼其他換行的方法只是我不知道。</p>
+<p>結果官方給我的回覆是：「對，現在你只能換行兩次才會真的換行」。</p>
+<p>原本槁木死灰的我想說那就乾脆放棄吧，研究看看有沒有其他解法，甚至還一度想說要不要自己寫一套出來，但一想到要支援一大堆功能就覺得很麻煩，遲遲無法下定決心。</p>
+<p>經過幾天的深思之後，覺得 spectrum 這個平台真的很好，但唯一的缺點就是排版問題，如果這個缺點解決了，沒道理不用它。</p>
+<p>馬特拉不拉，我們自己拉。官方有 bug 沒空修，沒關係，我們自己修！這就是開源的好處。</p>
+<h2 id="修-bug-之旅"><a href="#修-bug-之旅" class="headerlink" title="修 bug 之旅"></a>修 bug 之旅</h2><p>要幫開源專案修 bug 的第一步很簡單，就是想辦法把整個環境跑起來。你要有辦法在本機跑起來才有辦法驗證自己到底有沒有修成功，所以官方文件是很重要的。</p>
+<p><a href="https://github.com/withspectrum/spectrum" target="_blank" rel="noopener">spectrum</a> 的文件很齊全，有一連串的指示告訴你應該要怎麼做。照著做之後，就能把前後端都在自己的 local 跑起來了。</p>
+<p>在等待安裝這些套件的途中，可以自己稍微猜一下問題出在哪裡。那時的我猜說應該是 markdown 的編輯器出了什麼問題，可能在把 markdown 轉成 HTML 的時候出了問題，沒有處理好，所以少了換行。</p>
+<p>光猜是沒有用的，第一步要縮小問題範圍並且定位問題，先找出最重要的發文這一段到底發生了什麼事情。</p>
+<p>在 Chrome 我們可以用 React Devtool，看到發文的介面是一個叫做 composer 的 component。接著在 <a href="https://github.com/withspectrum/spectrum/blob/0cef471b45779adcdfbb22dcc57884712c015e91/src/components/composer/index.js#L500" target="_blank" rel="noopener">composer/index.js</a> 裡面可以看到是由一個叫做 Inputs 的元件負責。</p>
+<p>在 <a href="https://github.com/withspectrum/spectrum/blob/0cef471b45779adcdfbb22dcc57884712c015e91/src/components/composer/inputs.js#L54" target="_blank" rel="noopener">Inputs.js</a> 裡面發現了一件驚人的事情，原來按下 Preview 的時候，會直接送 request 到一個寫死的路徑並且把結果顯示出來：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> onClick = <span class="function">(<span class="params">show: boolean</span>) =&gt;</span> &#123;</span><br><span class="line">  setShowPreview(show);</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (show) &#123;</span><br><span class="line">    setPreviewBody(<span class="literal">null</span>);</span><br><span class="line">    fetch(<span class="string">'https://convert.spectrum.chat/from'</span>, &#123;</span><br><span class="line">      method: <span class="string">'POST'</span>,</span><br><span class="line">      body,</span><br><span class="line">    &#125;)</span><br><span class="line">      .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (res.status &lt; <span class="number">200</span> || res.status &gt;= <span class="number">300</span>)</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Oops, something went wrong'</span>);</span><br><span class="line">        <span class="keyword">return</span> res.json();</span><br><span class="line">      &#125;)</span><br><span class="line">      .then(<span class="function"><span class="params">json</span> =&gt;</span> &#123;</span><br><span class="line">        setPreviewBody(json);</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>既然轉換是 Server 做的，那接下來就要來找找 Server 到底做了什麼。</p>
+<p>可是我又不知道<code>https://convert.spectrum.chat/from</code>是對應到 Server 的哪裡，要怎麼找到 Server 是怎麼處理的呢？</p>
+<p>這邊可以換一個想法，雖然說預覽的時候的確是送到這邊沒錯，但是發文的時候 Server 一定也會處理這個格式轉換，所以可以先找出發文的時候 Server 到底做了什麼，應該會有一些線索。</p>
+<p>接著在前端發文之後查看 Network tab，因為後端是 GraphQL 所以滿好看的，是一個叫做<code>publushThread</code>的操作。</p>
+<p>立刻往 Server 的部分找，循線找到了這個檔案：<a href="https://github.com/withspectrum/spectrum/blob/0cef471b45779adcdfbb22dcc57884712c015e91/api/mutations/thread/publishThread.js#L76" target="_blank" rel="noopener">publishThread.js</a>，並且發現裡面呼叫了一個 <code>processThreadContent</code> 來做轉換。</p>
+<p>往下追這個 function，<a href="https://github.com/withspectrum/spectrum/blob/0cef471b45779adcdfbb22dcc57884712c015e91/shared/draft-utils/process-thread-content.js#L12" target="_blank" rel="noopener">看程式碼</a>之後發現這應該是最底層了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// @flow</span></span><br><span class="line"><span class="keyword">import</span> &#123; stateFromMarkdown &#125; <span class="keyword">from</span> <span class="string">'draft-js-import-markdown'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; convertFromRaw, convertToRaw, EditorState &#125; <span class="keyword">from</span> <span class="string">'draft-js'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; addEmbedsToEditorState &#125; <span class="keyword">from</span> <span class="string">'./add-embeds-to-draft-js'</span>;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> (type: <span class="string">'TEXT'</span> | <span class="string">'DRAFTJS'</span>, <span class="attr">body</span>: ?string): <span class="function"><span class="params">string</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> newBody = body;</span><br><span class="line">  <span class="keyword">if</span> (type === <span class="string">'TEXT'</span>) &#123;</span><br><span class="line">    <span class="comment">// workaround react-mentions bug by replacing @[username] with @username</span></span><br><span class="line">    <span class="comment">// @see withspectrum/spectrum#4587</span></span><br><span class="line">    newBody = newBody ? newBody.replace(<span class="regexp">/@\[([a-z0-9_-]+)\]/g</span>, <span class="string">'@$1'</span>) : <span class="string">''</span>;</span><br><span class="line">    newBody = <span class="built_in">JSON</span>.stringify(</span><br><span class="line">      convertToRaw(</span><br><span class="line">        stateFromMarkdown(newBody, &#123;</span><br><span class="line">          customBlockFn: <span class="function"><span class="params">elem</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (elem.nodeName !== <span class="string">'PRE'</span>) <span class="keyword">return</span>;</span><br><span class="line">  </span><br><span class="line">            <span class="keyword">const</span> code = elem.childNodes.find(<span class="function"><span class="params">node</span> =&gt;</span> node.nodeName === <span class="string">'CODE'</span>);</span><br><span class="line">            <span class="keyword">if</span> (!code) <span class="keyword">return</span>;</span><br><span class="line">  </span><br><span class="line">            <span class="keyword">const</span> className = code.attributes.find(</span><br><span class="line">              (&#123; name &#125;) =&gt; name === <span class="string">'class'</span></span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (!className) <span class="keyword">return</span>;</span><br><span class="line">  </span><br><span class="line">            <span class="keyword">const</span> lang = className.value.replace(<span class="string">'lang-'</span>, <span class="string">''</span>);</span><br><span class="line">  </span><br><span class="line">            <span class="keyword">return</span> &#123;</span><br><span class="line">              type: <span class="literal">null</span>,</span><br><span class="line">              data: &#123;</span><br><span class="line">                language: lang,</span><br><span class="line">              &#125;,</span><br><span class="line">            &#125;;</span><br><span class="line">          &#125;,</span><br><span class="line">          parserOptions: &#123;</span><br><span class="line">            atomicImages: <span class="literal">true</span>,</span><br><span class="line">            breaks: <span class="literal">true</span>,</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;)</span><br><span class="line">      )</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// Add automatic embeds to body</span></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">JSON</span>.stringify(addEmbedsToEditorState(<span class="built_in">JSON</span>.parse(newBody || <span class="string">''</span>)));</span><br><span class="line">    <span class="comment">// Ignore errors during automatic embed detection</span></span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(err);</span><br><span class="line">    <span class="keyword">return</span> newBody || <span class="string">''</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>而且沒有看出任何跡象，看起來一切正常。此時的我想說：該不會要往下追到 draft-js 或是其他的 library 吧？</p>
+<p>但是既然都找到這了，應該先來看一下它轉出來會是什麼東西，再決定下一步該怎麼辦，於是我在這個 function 加了 log，把它最後轉換的東西印出來。</p>
+<p>我的輸入是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">oneline</span><br><span class="line">newline  </span><br><span class="line">thirdline</span><br><span class="line">  </span><br><span class="line">fourline</span><br><span class="line">  </span><br><span class="line">fiveline</span><br></pre></td></tr></table></figure>
+<p>輸出是：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"blocks"</span>:[</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"key"</span>:<span class="string">"bq56i"</span>,</span><br><span class="line">      <span class="string">"text"</span>:<span class="string">"oneline\nnewline\nthirdline"</span>,</span><br><span class="line">      <span class="string">"type"</span>:<span class="string">"unstyled"</span>,</span><br><span class="line">      <span class="string">"depth"</span>:<span class="number">0</span>,</span><br><span class="line">      <span class="string">"inlineStyleRanges"</span>:[],</span><br><span class="line">      <span class="string">"entityRanges"</span>:[],</span><br><span class="line">      <span class="string">"data"</span>:&#123;&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"key"</span>:<span class="string">"9h38b"</span>,</span><br><span class="line">      <span class="string">"text"</span>:<span class="string">"fourline"</span>,</span><br><span class="line">      <span class="string">"type"</span>:<span class="string">"unstyled"</span>,</span><br><span class="line">      <span class="string">"depth"</span>:<span class="number">0</span>,</span><br><span class="line">      <span class="string">"inlineStyleRanges"</span>:[],</span><br><span class="line">      <span class="string">"entityRanges"</span>:[],</span><br><span class="line">      <span class="string">"data"</span>:&#123;&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"key"</span>:<span class="string">"fuprm"</span>,</span><br><span class="line">      <span class="string">"text"</span>:<span class="string">"fiveline"</span>,</span><br><span class="line">      <span class="string">"type"</span>:<span class="string">"unstyled"</span>,</span><br><span class="line">      <span class="string">"depth"</span>:<span class="number">0</span>,</span><br><span class="line">      <span class="string">"inlineStyleRanges"</span>:[],</span><br><span class="line">      <span class="string">"entityRanges"</span>:[],</span><br><span class="line">      <span class="string">"data"</span>:&#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">"entityMap"</span>:&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不印則已，一印驚人！</p>
+<p>沒想到上面的測資轉換出來是：<code>&quot;text&quot;:&quot;oneline\nnewline\nthirdline&quot;</code>，看來 Server 的轉換完全正常，換行被轉為<code>\n</code>，兩個換行被轉為一個新的 block，看來問題是出在前端沒有把這個換行好好輸出。</p>
+<p>接著再用差不多的方法一樣用 React Devtool 來看，發現前端顯示是 <a href="https://github.com/withspectrum/spectrum/blob/be3d7cc2b2bafec6715c7623db59c897902073ff/src/views/thread/components/threadDetail.js#L359" target="_blank" rel="noopener">threadDetail.js</a> 在處理，而裡面呼叫了 threadRenderer.js，看來這就是真的 render 的地方了。</p>
+<p>找到 <a href="https://github.com/withspectrum/spectrum/blob/c34bb1fa4b9957bcfcc6ff0165582e2f635bf5e7/src/components/threadRenderer/index.js#L4" target="_blank" rel="noopener">threadRenderer.js</a> 之後，發現裡面只是單純地呼叫了 <a href="https://github.com/lokiuz/redraft" target="_blank" rel="noopener">redraft</a> 這個 library。</p>
+<p>好，雖然又有新的東西要研究，但離答案愈來愈近了。</p>
+<p>仔細看了一下 redraft 的文件，看起來是可以自定義每一個型態最後的輸出要長什麼樣子。往下把官方文件看完，發現有一區是 <a href="https://github.com/lokiuz/redraft#common-issues" target="_blank" rel="noopener">Common issues
+</a>，裡面寫著：</p>
+<blockquote>
+<p>Can the multiple spaces between text be persisted?</p>
+<p>Add white-space: pre-wrap to a parent div, this way it will preserve spaces and wrap to new lines (as editor js does)</p>
+</blockquote>
+<p>看到這邊，答案已經很明顯了，就是前端顯示忘記加 <code>white-space: pre-wrap</code>，所以預設的行為會把換行當作是空格。</p>
+<p>真相大白的時候我在心裡暗罵了一聲髒話，但是是罵自己。因為這問題在前端其實滿常見的，我也用過這屬性很多次。可是在我看到這問題的時候我第一點居然是往後端去懷疑，完全沒想到有可能是前端的問題，更沒有想到原來是加一行 CSS 就可以搞定的事。</p>
+<p>接著就先發了一個 <a href="https://github.com/withspectrum/spectrum/issues/4885" target="_blank" rel="noopener">Issue</a> 記錄了一下調查的過程跟成因，然後發了個 <a href="https://github.com/withspectrum/spectrum/issues/4885" target="_blank" rel="noopener">PR</a>，雖然只是改這麼一行而已，但是對我意義重大。因為只要這個 bug 修好，這套就立刻海放其他現成的論壇系統。</p>
+<p>他們的速度很快，發 PR 之後隔天就被 merge 了，再隔個一週就被 deploy 到 production 了，真的很有效率。</p>
+<h2 id="意猶未盡，再修一個！"><a href="#意猶未盡，再修一個！" class="headerlink" title="意猶未盡，再修一個！"></a>意猶未盡，再修一個！</h2><p>雖然只有一行，但探索的過程獲益良多，而且 PR 能被 merge 就很開心。既然都修了一個，那來找找看有沒有其他容易修的好了，可以一起順手修掉。</p>
+<p>在官方的 Issues 翻一翻，找到一個看起來不難的：<a href="https://github.com/withspectrum/spectrum/issues/4812" target="_blank" rel="noopener">Weird image failed rendering in thread body</a>，這個 Issue 很簡單，就是不知道為什麼會出現下面的 bug：</p>
+<p><img src="/img/huli/spectrum/alt.png" alt></p>
+<p>文字覆蓋住了後面的圖片。</p>
+<p>Issue 裡面有附上原文網址，點進去以後用 devtool 看了一下，發現問題出在當瀏覽器無法載入 img 標籤的圖片時，就會變成這樣。</p>
+<p>我之前完全沒碰過這問題，但自己試了一下，發現 img 原本有 margin，可是在圖片沒辦法載入的時候會失效。直覺告訴我這可能是 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing" target="_blank" rel="noopener">margin collapsing</a> 有關的問題。</p>
+<p>後來我自己試了一下，問題出在當圖片無法載入，img 的高度就會變成 0，然後 margin 就會失效。因為一些排版跟 CSS 的元素，下面的文字就會蓋上來，變成下面的圖片那樣。</p>
+<p><img src="/img/huli/spectrum/height.png" alt></p>
+<p>那有什麼好解法嗎？</p>
+<p>我發現一個最簡單的解法就是加上 <code>alt</code> 屬性，當圖片無法載入時就會就會顯示這個文字，img 就能保有高度，margin 也能作用。</p>
+<p><img src="/img/huli/spectrum/height2.png" alt></p>
+<p>查到解法之後一樣先回在 <a href="https://github.com/withspectrum/spectrum/issues/4812" target="_blank" rel="noopener">Issue</a> 下面跟他們討論，看他們覺得如何。</p>
+<p>後來我發現原本上傳圖片時其實就有設定 alt，但可能在一些邊界條件下會是空的，或者是使用者手動把 alt 移除掉。</p>
+<p>所以最後的解法也很簡單，就是幫 alt 加一個預設值，<a href="https://github.com/withspectrum/spectrum/pull/4887" target="_blank" rel="noopener">PR: Add default alt text to img</a>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-  &lt;img key=&#123;key&#125; src=&#123;data.src&#125; alt=&#123;data.alt&#125; /&gt;,</span><br><span class="line">+  &lt;img key=&#123;key&#125; src=&#123;data.src&#125; alt=&#123;data.alt || &apos;Image&apos;&#125; /&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>雖然只有貢獻了兩行，但能看到自己的帳號出現在 release log 上面還是滿開心的：</p>
+<p><img src="/img/huli/spectrum/re.png" alt></p>
+<p>如果是以前的自己，我絕對不會幹這種事。絕對是發現 bug 之後就停住了，然後等著官方團隊來修 bug。</p>
+<p>但這幾年漸漸開始熟悉起看其他人的 code，工作的時候偶爾沒事就可以看一下 redux-form 或是 redux 的 source code 等等，看著看著覺得也沒那麼可怕。而且 GitHub 還有個超好用功能叫做「搜尋」，很多時候直接搜關鍵字就能找到相關的原始碼，節省超級多時間。</p>
+<p>在看其他人的專案時，我覺得最難的是定位問題，一但你定位問題之後其他都沒那麼難了，因為你已經知道是哪個檔案、哪段程式碼有問題，接著只要朝那邊去研究就好。至於該怎麼定位問題，有以下幾個建議：</p>
+<ol>
+<li>直接搜尋程式碼，看能不能找到相關段落</li>
+<li>利用 devtool 找出相關的元件</li>
+<li>看文件，看上面有沒有附一些架構</li>
+</ol>
+<p>當你要修 bug 的時候，方向是很明確的，沒有必要整個專案都看過，只要找到你要修的地方就好。這一篇希望能分享我的經驗給大家。</p>
+<p>最後，當個工程師真好，有開源專案真好，有 bug 都可以自己修掉。</p>
+<p>關於作者：<br><a href="http://huli.logdown.com/" target="_blank" rel="noopener">@huli</a> 野生工程師，相信分享與交流能讓世界變得更美好</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/04/20/spectrum-pull-request/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/04/20/spectrum-pull-request/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/04/20/spectrum-pull-request/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/04/20/spectrum-pull-request/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/04/22/elm-chrome-extension/">
+        ← 利用 Elm 製作 Chrome Extension
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/04/12/intro-to-human-adversarial-learning/">
+        一起來讀論文 - Robot Learning via Human Adversarial Games →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

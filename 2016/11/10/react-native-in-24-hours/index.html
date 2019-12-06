@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>React Native in 24 Hours | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-11-10T22:29:57.000Z" itemprop="datePublished">
+          2016-11-10
+      </time>
+    
+    
+    | 
+    <a href='/tags/react-react-native-android/'>react, react_native, android</a>
+    
+    
+</span>
+
+<meta name="generator" content="React Native in 24 Hours">
+<meta name="og:title" content="React Native in 24 Hours">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">React Native in 24 Hours</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <img src="/img/huli/rn/main.jpg" width="200" title="title">
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>上個禮拜的時候，我們公司舉辦了一年一度的黑客松，一隊有四個人。因為我才剛加入公司大概兩個禮拜而已，所以也沒認識什麼人。不過，剛好當初找我進來的同事問我要不要一起參加，就跟著報名了。</p>
+<p>黑客松的時間是禮拜五早上十一點到禮拜六同一時間，一共 24 個小時。我的三個隊友，一個是 PM、一個是資安部門、一個是 SA（System Admin） 部門。因此，在他們知道我現在是前端工程師，以前是 Android 工程師以後，理所當然地，Mobile App 的部分就由我負責了。</p>
+<p>這也是這篇標題的由來：React Native in 24 hours，想跟大家分享在 24 小時之內，可以用 React Native 做出什麼樣的作品，以及過程中碰到的困難及挑戰。</p>
+<h1 id="Idea"><a href="#Idea" class="headerlink" title="Idea"></a>Idea</h1><p>先簡單談一下我們這組那時候想做的東西，是一個 Password generator and manager。</p>
+<p>大家都知道，記憶密碼是一件很麻煩的事情，所以，很多人會在每個網站都用同一組密碼。而大家也知道，這樣的壞處就是，當你其中一個網站的密碼外洩以後，其他網站也會跟著遭殃，這是一件滿可怕的事情。</p>
+<p>因此有很多人會用密碼管理服務，只要記住這個服務的密碼，其他密碼都靠這個網站幫你儲存。可是，我的隊友覺得這樣依然會有問題，那就是這個網站仍然有安全性的風險。有沒有可能完全不儲存密碼呢？</p>
+<p>有！那就是不要用儲存的，而是用「產生」的，只要有一套邏輯負責產生密碼，保證輸入一樣，輸出也一樣，就可以利用這一套邏輯每一次都產生密碼。</p>
+<p>舉個例子，假設這套邏輯是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">password = sha_256(root_password + domain_name + &apos;I_AM_WEEK_SALT&apos;)</span><br></pre></td></tr></table></figure>
+<p>這樣你只要有你的主密碼（root_password）跟你要登入的網站，就能幫你產生出一組獨特的密碼。</p>
+<p>這就是這個產品的核心概念。</p>
+<p>不過，上面那套邏輯有個問題是：假如我某個網站密碼外洩了，我想換一個，怎麼換？<br>這時候又要引進一個新的參數叫做 changeID，是一個數字，把密碼產生的邏輯變成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">password = sha_256(root_password + domain_name + changeID + &apos;I_AM_WEEK_SALT&apos;)</span><br></pre></td></tr></table></figure>
+<p>就可以任意更換無限次密碼。不過其實這樣，也頂多就是一個密碼生成器。<br>當要加上「管理」的功能時，就比較麻煩了，例如說我們想要幫使用者儲存他的帳號，就可以自動填入。</p>
+<p>因此我們就要有後端的 DB 去記錄這些資料，並且要有登入機制，而且一旦引入登入機制，就違反了「不想儲存任何密碼」的這個初衷。<br>總之，在討論一些 feature 要不要做的時候，花了很多時間，討論了很久。</p>
+<p>因為這些內容其實有點瑣碎，因此我就不多提了，如果你對這個概念有興趣，可以參考 <a href="https://lesspass.com/#/" target="_blank" rel="noopener">LessPass</a>。這跟我隊友想的 idea 有 87% 像，而且做得很完整，可以參考看看。</p>
+<h1 id="說好的-React-Native-呢？"><a href="#說好的-React-Native-呢？" class="headerlink" title="說好的 React Native 呢？"></a>說好的 React Native 呢？</h1><p>好了，大概介紹完產品之後，終於要進入到 React Native 的部分。因為我之前有寫過 React + Redux 的網站，也有 run 過一次 React Native 的簡單範例（Hello World），所以對 React Native 不算陌生，至少能 build 的起來！</p>
+<p>就讓我們先從這個 App 的第一頁開始吧！</p>
+<img src="/img/huli/rn/main.jpg" width="200" title="title">
+<p>這一頁很簡單，就是一張大張背景圖，上面放 logo 跟一些字，再加兩個按鈕跟一個可以點的「Join Now」。其實以前在寫 Android 的時候，最麻煩的不是程式碼，而是版面！直到現在，我還是覺得自己跟 Android 的 Layout 很不熟，沒辦法排出自己想要的版面。</p>
+<p>但是現在我們有了 React Native，有了新的排版方式：flexbox。</p>
+<p>如果你不知道什麼是 flexbox，我可以很簡單的介紹一下，基本上就是你可以選擇你要直的排還是橫的排、要靠上靠下對齊還是置中、空隙應該怎麼分配、每個版面佔多少比例等等。我自己覺得是個滿直覺的排版方式。</p>
+<p>以上面那個版面為例，就可以用直的來排，然後按照比例分成四塊，按鈕那個區塊內部用橫的排，然後切對半：</p>
+<img src="/img/huli/rn/main-border.jpg" width="200" title="title">
+<p>其實這就很像 React 用 component 來切的概念，切成很多很多細小的組件再合在一起。</p>
+<p>我當初寫 code 的時候，都把<a href="http://www.weibo.com/1712131295/CoRnElNkZ?ref=collection&amp;type=comment#_rnd1478796364957" target="_blank" rel="noopener">這個分頁</a>開在旁邊，是很淺顯易懂的圖片說明，可以很方便的就找到自己想要的排版方式應該怎麼用。</p>
+<p>至於在按鈕的部分，我是用 <a href="https://github.com/APSL/react-native-button" target="_blank" rel="noopener">APSL/react-native-button</a> 這個第三方的套件，但詳細原因我也忘記了，可能是用原生的碰到什麼問題，所以去找了第三方的來用。</p>
+<p>這邊附上最後寫出來的部分程式碼：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;View style=&#123;styles.container&#125;&gt;</span><br><span class="line">      &lt;View style=&#123;styles.bgImageWrapper&#125;&gt;</span><br><span class="line">        &lt;Image source=&#123;<span class="built_in">require</span>(<span class="string">'../img/bg.png'</span>)&#125; style=&#123;styles.bg&#125; /&gt;</span><br><span class="line">      &lt;<span class="regexp">/View&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">      &lt;Image source=&#123;require('../img</span><span class="regexp">/logo-white.png')&#125; style=&#123;styles.image&#125;/</span>&gt;</span><br><span class="line">      &lt;Text style=&#123;styles.text&#125;&gt;Only you have your password&lt;<span class="regexp">/Text&gt;</span></span><br><span class="line"><span class="regexp">      &lt;View style=&#123;styles.btnGroup&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;Button style=&#123;styles.btnGuest&#125; textStyle=&#123;&#123;fontSize: 18, color: 'white'&#125;&#125; onPress=&#123;this.onGuestClick.bind(this)&#125;&gt;</span></span><br><span class="line"><span class="regexp">          Use as guest</span></span><br><span class="line"><span class="regexp">        &lt;/</span>Button&gt;</span><br><span class="line"></span><br><span class="line">        &lt;Button style=&#123;styles.btnSignIn&#125; textStyle=&#123;&#123;<span class="attr">fontSize</span>: <span class="number">18</span>, <span class="attr">color</span>: <span class="string">'white'</span>&#125;&#125; onPress=&#123;<span class="keyword">this</span>.onSignInClick.bind(<span class="keyword">this</span>)&#125;&gt;</span><br><span class="line">          Sign <span class="keyword">in</span></span><br><span class="line">        &lt;<span class="regexp">/Button&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>View&gt;</span><br><span class="line">      &lt;Text style=&#123;styles.textJoin&#125; onPress=&#123;<span class="keyword">this</span>.onJoinClick.bind(<span class="keyword">this</span>)&#125;&gt;Join now&lt;<span class="regexp">/Text&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    &lt;/</span>View&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>這邊有兩點要提一下，第一點是 <code>textStyle</code> 的部分最好也先宣告成變數再使用，但因為是黑客松所以比較少時間去做這些調整，就比較不好的直接這樣寫了。第二點是<code>this.onGuestClick.bind(this)</code>這樣的方式其實不好，但不知道為什麼，我沒辦法在<code>constructor</code>裡面先<code>bind</code>，所以只好這樣寫了。</p>
+<p>其實只要能把這個 <code>render</code> 的函式寫出來，這一頁就看起來有模有樣了，可是問題是，我們還有其他很多頁。要怎麼切換到別的畫面呢？</p>
+<h1 id="Navigator"><a href="#Navigator" class="headerlink" title="Navigator"></a>Navigator</h1><p>如果要在多個畫面之間切換，就要靠<code>Navigator</code>這個組件了。從<a href="https://facebook.github.io/react-native/docs/using-navigators.html" target="_blank" rel="noopener">官方文件</a>可以大致看出用法，或是可以參考<a href="https://facebook.github.io/react-native/docs/using-navigators.html" target="_blank" rel="noopener">別人寫的教學</a>。</p>
+<p>直接附上程式碼再來解釋</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  Navigator</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">'react-native'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> MainScene <span class="keyword">from</span> <span class="string">'./scenes/MainScene'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Zeropass</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">var</span> defaultName = <span class="string">"MainScene"</span>;</span><br><span class="line">    <span class="keyword">var</span> defaultComp = MainScene;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;Navigator</span><br><span class="line">        initialRoute=&#123;&#123;</span><br><span class="line">          name: defaultName,</span><br><span class="line">          component: defaultComp</span><br><span class="line">        &#125;&#125;</span><br><span class="line">        configureScene=&#123;(route) =&gt; &#123;</span><br><span class="line">          <span class="keyword">return</span> Navigator.SceneConfigs.PushFromRight;</span><br><span class="line">        &#125;&#125;</span><br><span class="line">        renderScene=&#123;(route, navigator) =&gt; &#123;</span><br><span class="line">          <span class="keyword">var</span> Component = route.component;</span><br><span class="line">          <span class="keyword">return</span> (</span><br><span class="line">            &lt;Component &#123;...route.params&#125; navigator=&#123;navigator&#125; /&gt;</span><br><span class="line">          );</span><br><span class="line">        &#125;&#125;</span><br><span class="line">      /&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>initialRoute</code>就是一開始的時候要給什麼參數，可以想成是 <code>defaultState</code> 的感覺，<code>configureScene</code>是跟換場動畫有關係的，這邊直接用內建的<code>PushFromRight</code>，會有一個還不錯的從右邊推進來的效果。</p>
+<p><code>renderScene</code>則是精華所在，就是<code>Navigator</code>的<code>render</code>函式，說明應該要渲染出什麼東西。</p>
+<p>這邊先取<code>route.component</code>，這個<code>component</code>對應到的就是我在<code>initialRoute</code>這邊給的<code>component</code>這個 key，之後如果要換頁的話也要用這個 key 帶東西進來。</p>
+<p>並且傳入<code>navigator</code>讓組件可以呼叫，以及加上<code>...route.params</code>，就可以帶額外的參數進來。</p>
+<p>這只是最基礎的架構而已，但實際上如果要換頁，應該要怎麼寫呢？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">toNext() &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; navigator &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">  <span class="keyword">if</span>(navigator) &#123;</span><br><span class="line">    navigator.push(&#123;</span><br><span class="line">      name: <span class="string">'GuestLoginScene'</span>,</span><br><span class="line">      component: GuestLoginScene,</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因為在<code>renderScene</code>的時候，我們有把<code>navigator</code>傳進去，所以在每一個 component 都可以用 <code>this.props</code> 取出來，想要換頁的話就只要 <code>push</code> 一個物件進去就好了。物件的格式自己決定好就行了。所以你會發現這邊的格式跟剛剛<code>initialRoute</code>傳進去的格式一模一樣。</p>
+<p>好了，所以第一頁完成了、換頁的問題也解決了。剩下的就是把其它頁面刻出來，好像就差不多了。前途真是一片光明璀璨，看來 24 小時太多了。</p>
+<h2 id="等等，可是我們還有-Tab-啊"><a href="#等等，可是我們還有-Tab-啊" class="headerlink" title="等等，可是我們還有 Tab 啊"></a>等等，可是我們還有 Tab 啊</h2><img src="/img/huli/rn/pwd.jpg" width="200" title="title">
+<p>當初在做這個頁面的時候，原本的設計是 DrawerLayout，就是 Android 風格的從左邊滑出來的列表。可是因為在做這個 App 時想要跨平台通吃，所以 Drawer 方案可見是行不通的。況且，我看了一下官方文件，實作上感覺也沒那麼簡單。</p>
+<p>因此，最後找了第三方套件的<a href="https://github.com/react-native-community/react-native-tab-view" target="_blank" rel="noopener">react-native-tab-view</a>來用。因為無論在 iOS 或是在 Android，都可以看到 Tab 的出現，所以會比 Drawer 更好一些。</p>
+<p>這個 Tabview 的用法相當簡單，客製化程度滿高的，只要自己實作幾個函式就好。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> icons = &#123;</span><br><span class="line">  account: <span class="built_in">require</span>(<span class="string">'../img/icon_account.png'</span>),</span><br><span class="line">  edit: <span class="built_in">require</span>(<span class="string">'../img/icon_edit.png'</span>),</span><br><span class="line">  setting: <span class="built_in">require</span>(<span class="string">'../img/icon_setting.png'</span>),</span><br><span class="line">  help: <span class="built_in">require</span>(<span class="string">'../img/icon_help.png'</span>),</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">TabViewExample</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  state = &#123;</span><br><span class="line">    index: <span class="number">0</span>,</span><br><span class="line">    routes: [</span><br><span class="line">      &#123; <span class="attr">key</span>: <span class="string">'account'</span>, <span class="attr">title</span>: <span class="string">'Account'</span>, <span class="attr">icon</span>: <span class="string">'account'</span>&#125;,</span><br><span class="line">      &#123; <span class="attr">key</span>: <span class="string">'new'</span>, <span class="attr">title</span>: <span class="string">'Create'</span>, <span class="attr">icon</span>: <span class="string">'edit'</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">key</span>: <span class="string">'setting'</span>, <span class="attr">title</span>: <span class="string">'Setting'</span>, <span class="attr">icon</span>: <span class="string">'setting'</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">key</span>: <span class="string">'help'</span>, <span class="attr">title</span>: <span class="string">'Help'</span>, <span class="attr">icon</span>: <span class="string">'help'</span> &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  _handleChangeTab = <span class="function">(<span class="params">index</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123; index &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  _renderIcon = <span class="function">(<span class="params">&#123; route &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;Image</span><br><span class="line">        source=&#123;icons[route.icon]&#125;</span><br><span class="line">        style=&#123;styles.icon&#125;</span><br><span class="line">        color=<span class="string">'white'</span></span><br><span class="line">      /&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  _renderHeader = <span class="function">(<span class="params">props</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;TabBar </span><br><span class="line">        renderIcon=&#123;<span class="keyword">this</span>._renderIcon&#125;</span><br><span class="line">        tabStyle=&#123;styles.tab&#125; </span><br><span class="line">        labelStyle=&#123;styles.label&#125;</span><br><span class="line">        &#123;...props&#125; /&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  _renderScene = <span class="function">(<span class="params">&#123; route &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(route.key);</span><br><span class="line">    <span class="keyword">switch</span> (route.key) &#123;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">case</span> <span class="string">'account'</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">AccountTab</span> /&gt;</span>;</span></span><br><span class="line"><span class="xml">      case 'new':</span></span><br><span class="line"><span class="xml">        return <span class="tag">&lt;<span class="name">CreateTab</span> /&gt;</span>;</span></span><br><span class="line"><span class="xml">      case 'help':</span></span><br><span class="line"><span class="xml">        return <span class="tag">&lt;<span class="name">HelpTab</span> /&gt;</span>;</span></span><br><span class="line"><span class="xml">      case 'setting':</span></span><br><span class="line"><span class="xml">        return <span class="tag">&lt;<span class="name">SettingTab</span> /&gt;</span>;</span></span><br><span class="line"><span class="xml">      default:</span></span><br><span class="line"><span class="xml">        return null;</span></span><br><span class="line"><span class="xml">    &#125;</span></span><br><span class="line"><span class="xml">  &#125;;</span></span><br><span class="line"></span><br><span class="line"><span class="xml">  render() &#123;</span></span><br><span class="line"><span class="xml">    return (</span></span><br><span class="line">        &lt;TabViewAnimated</span><br><span class="line">          style=&#123;styles.container&#125;</span><br><span class="line">          navigationState=&#123;this.state&#125;</span><br><span class="line">          renderScene=&#123;this._renderScene&#125;</span><br><span class="line">          renderFooter=&#123;this._renderHeader&#125;</span><br><span class="line">          onRequestChangeTab=&#123;this._handleChangeTab&#125;</span><br><span class="line">        /&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>跟<code>Navigator</code>其實有異曲同工之妙，都是靠<code>renderScene</code>這個函式去決定如何渲染出畫面。在這邊就很簡單的根據目前所選到的 key 去渲染出相對應的組件即可。</p>
+<p>可是，假如 Tab 的頁面也是巢狀的呢？例如說我第一個 Tab 可能是輸入密碼的畫面，輸入完按下確定之後話跳到下一個畫面，這個要怎麼做呢？</p>
+<p>我自己猜應該是也可以用<code>navigator</code>來做，在<code>renderScene</code>的時候渲染出<code>navigator</code>，其他的就跟我們剛開頭介紹的差不多。</p>
+<p>意思就是，每一個 Tab 其實都像是一個小的 App，有自己的<code>navigator</code>來管理自己的狀態。</p>
+<p>但是在黑客松的時候，我一時半刻沒有想到這樣的解法，於是就手刻了一個最直覺、最暴力的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> SiteScene <span class="keyword">from</span> <span class="string">'./SiteScene'</span>;</span><br><span class="line"><span class="keyword">import</span> PasswordScene <span class="keyword">from</span> <span class="string">'./PasswordScene'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">CreateTab</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2 page</span></span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      page: <span class="number">1</span>,</span><br><span class="line">      site: <span class="string">''</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  goBack() &#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      page: <span class="number">1</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  toNext(site) &#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">      ...this.state,</span><br><span class="line">      page: <span class="number">2</span>,</span><br><span class="line">      site</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> &#123; page, site &#125; = <span class="keyword">this</span>.state;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;View style=&#123;styles.container&#125;&gt;</span><br><span class="line">          &lt;View style=&#123;styles.top&#125;&gt;</span><br><span class="line">            &lt;Text style=&#123;styles.back&#125; onPress=&#123;<span class="keyword">this</span>.goBack.bind(<span class="keyword">this</span>)&#125;&gt;</span><br><span class="line">              &#123; page==<span class="number">2</span> ? <span class="string">' ← '</span> : <span class="string">' '</span> &#125;</span><br><span class="line">            &lt;<span class="regexp">/Text&gt;</span></span><br><span class="line"><span class="regexp">          &lt;/</span>View&gt;</span><br><span class="line">          &#123;page==<span class="number">1</span> &amp;&amp; <span class="xml"><span class="tag">&lt;<span class="name">SiteScene</span> <span class="attr">toNext</span>=<span class="string">&#123;this.toNext.bind(this)&#125;/</span>&gt;</span>&#125;</span></span><br><span class="line">          &#123;page==2 &amp;&amp; &lt;PasswordScene site=&#123;site&#125;/&gt;&#125;</span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">View</span>&gt;</span></span></span><br><span class="line"><span class="xml">    );</span></span><br><span class="line"><span class="xml">  &#125;</span></span><br><span class="line"><span class="xml">&#125;;</span></span><br></pre></td></tr></table></figure>
+<p>在 tab 裡面用 state 來管理目前的 index，因為只有兩個頁面所以還滿好做的，根據 index 渲染出相對應的頁面即可。然後還可以用一個簡單的 navbar 包起來，就可以點上面的箭頭回到上一頁。</p>
+<img src="/img/huli/rn/website.jpg" width="200" title="title">
+<img src="/img/huli/rn/pwd.jpg" width="200" title="title">
+<p>就這樣，tab 的問題也解決了。看起來一切都 work 的不錯，可以自由自在在各個頁面之間切換自如了。<br>接下來，好像就只剩下串 API 了。</p>
+<h1 id="API"><a href="#API" class="headerlink" title="API"></a>API</h1><p>因為有支援 async/await 語法，所以寫起來十分清爽。下面這一段程式碼是要去 server 抓取使用者儲存過資訊的 domain 回來。<br>為了方便起見，我把所有的 API call 都包在<code>API</code>這個檔案裡面，用<code>fetch</code>去拿資料。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> API_URL = &#123;</span><br><span class="line">    <span class="string">'getInfo'</span>: <span class="string">'http://api.com/api/v1/users'</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> API = &#123;</span><br><span class="line"></span><br><span class="line">  getInfo: <span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params">uid</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> response = <span class="keyword">await</span> fetch(<span class="string">`<span class="subst">$&#123;API_URL.getInfo&#125;</span>/<span class="subst">$&#123;uid&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">let</span> json = <span class="keyword">await</span> response.json();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> json;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> API;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> componentDidMount() &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> domains = [];</span><br><span class="line">  <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">    spinnerShow: <span class="literal">true</span></span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> response = <span class="keyword">await</span> API.getInfo(store.getId());</span><br><span class="line">    domains = response.domains;</span><br><span class="line">  &#125; <span class="keyword">catch</span>(err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(err);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">    dataSource: ds.cloneWithRows(domains),</span><br><span class="line">    spinnerShow: <span class="literal">false</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（不過我後來想一下，這樣子把<code>componentDidMount</code>直接包成 async 好像不太好，應該獨立成一個函式去呼叫）</p>
+<h1 id="體驗跨平台的威力"><a href="#體驗跨平台的威力" class="headerlink" title="體驗跨平台的威力"></a>體驗跨平台的威力</h1><p>因為我自己是用 Android 的，所以我在開發的時候都是直接用 Android 實機測試。不得不提已經被講到爛掉的，React Native 的 hot reload，用起來真的很爽快，只要儲存檔案之後就可以在 App 上看到新的畫面。（雖然原生的 Android 現在也支援了，但我還沒有機會體驗到就是了）</p>
+<p>其實原本我的隊友只有預期我開發出 Android 的版本（他們都用 iPhone），但殊不知 React Native 太過強大，當我把 App 開發到九成的時候，想說來試試看 build 到 iOS 上好了，發現跟我想像中的不一樣。</p>
+<p>我以為要 build 的時候應該會碰到很多錯誤然後要慢慢修，或者是沒有 Apple 的開發者帳號就沒辦法 build 到手機上之類的。</p>
+<p>但我完完全全錯了。React Native 就是那麼簡單，超級輕鬆就可以有一個 iOS 的版本。也根本不用什麼 Apple 開發者帳號，就可以安裝到手機上面測試（只是要開一些安全性設定就是了）。</p>
+<p>在 build 的時候是有碰到一點小問題，但拜過 Google 大神之後基本上就解決了。</p>
+<p>（不過會那麼輕鬆，也是因為我基本上沒用到 Native 的功能，排版也是兩個平台都長一模一樣，所以可以共用 100% 的程式碼。）</p>
+<p>除了 iOS 很輕鬆以外，Android 如果要產生可以上 Google play 的安裝包也很容易，官方教學寫的超級清楚，就參數填一填以後打個指令，剩下的全部都幫你做好。</p>
+<h1 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h1><p>這篇文章主要是想分享一下當初碰到的困難以及開發的歷程，花最久時間的是排版（因為對 flexbox 沒那麼熟，所以不知道排出來會是怎樣），還有 Tab 那一段也花了一點時間研究作法。但總體來說，我覺得 React Native 的開發效率是很高的。</p>
+<p>因為我中間有睡覺，所以實際上 coding 應該 18 個小時左右，就可以做出一個可以動、有接 API 又跨平台的 App。意思就是說如果你的 App 沒有很複雜的話，基本上是可以在兩三天之內就做出一個還不錯的 prototype。</p>
+<p>只要掌握幾個元素：<code>View</code>, <code>Button</code>, <code>Image</code>, <code>Navigator</code>, <code>ListView</code>, <code>TextInput</code>，差不多就可以完成 80% 的工作了。</p>
+<p>我最喜歡的還是它的排版方式，對前端工程師來說比較熟悉。開發環境的設置我覺得也比 Native 的簡單許多，而且可以用 JavaScript 我覺得也是一大好處。</p>
+<p>之前看了那麼多 React Native 的介紹文，我覺得最快速能認識的方式還是自己跳下去寫 code。如果大家假日有空的話，也可以試試看來場自己一個人的黑客松，挑戰在 24 小時以內用 React Native 做出一個簡單的 App，相信一定會很有收穫的。</p>
+<p>最後，附上這個 App 的 Github：<a href="https://github.com/aszx87410/zeropass-react-native" target="_blank" rel="noopener">zeropass-react-native</a><br>如果有興趣的話可以參考看看<br>（因為時間緊迫，所以很多東西都是只求能動就好，很多都是錯誤示範，真的只是「僅供參考」）</p>
+<p>關於作者：<br><a href="http://huli.logdown.com/" target="_blank" rel="noopener">@huli</a> 野生工程師，相信分享與交流能讓世界變得更美好</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2016/11/10/react-native-in-24-hours/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2016/11/10/react-native-in-24-hours/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2016/11/10/react-native-in-24-hours/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2016/11/10/react-native-in-24-hours/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2016/11/19/pebble-rocky-watchface/">
+        ← 一小時內製作自己的 Pebble 錶面
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/11/05/web-security-tutorial-introduction/">
+        Web 資訊安全（Security）簡明入門教學指南 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Web Component 實戰 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-03-04T13:34:49.000Z" itemprop="datePublished">
+          2017-03-04
+      </time>
+    
+    
+    | 
+    <a href='/tags/web-component-js-html/'>web component,js,html</a>
+    
+    
+</span>
+
+<meta name="generator" content="Web Component 實戰">
+<meta name="og:title" content="Web Component 實戰">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Web Component 實戰</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上個月我們介紹過 Web Component，大致上把 Web Component 的相關知識都介紹一輪了，也提供了一些範例，但是並沒有製作出一個完整可用的元件，<br>因此今天就好好的來實做一個簡易又實用的 Web Component（對我來說很實用啦…），並且將他發佈到 <a href="https://www.webcomponents.org" target="_blank" rel="noopener">Webcomponent.org</a> 上面。<br>最後也會說明一下我嘗試將我製作的 webcomponent 與 react 整合的心得。</p>
+<p>開始前還是先給大家看一下看完這篇文章後可以達到的成果，發佈到 Webcomponent.org 並有 inline demo：</p>
+<p><img src="/img/arvinh/webcomponent-published.png" alt="Fianl" title="Final Result"></p>
+<p><a href="https://www.webcomponents.org/element/ArvinH/format-num" target="_blank" rel="noopener">format-num webcomponent</a><br><a href="https://github.com/ArvinH/format-num" target="_blank" rel="noopener">repo</a></p>
+<h2 id="Idea"><a href="#Idea" class="headerlink" title="Idea"></a>Idea</h2><p>在一些活動頁面或是互動性較高的網站中，顯示參與人數是很常見的功能，而有些時候我們並不需要很確切的數目，反倒是希望能夠約分成以 K（千） 或 M（百萬） 為單位，<br>這時通常我會寫個類似下面這樣的小函式來作轉換，並在每個需要的 React Component 中去 require 這個函式使用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">formatNumber</span>(<span class="params">num</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num &gt; <span class="number">999</span> ? (num/<span class="number">1000</span>).toFixed(<span class="number">1</span>) + <span class="string">'k'</span> : num</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但就只是個很簡單的函示，卻每個需要的 Component 都要 require 一次，久了就會覺得怎麼 HTML 5 不出一個 tag 是可以幫我把數字直接做 format 的呢？<br>這樣我就只要用對 Tag，就會有我要的結果了，也不用特別去寫個小 function。</p>
+<p>想到這就覺得似乎是個好機會來練習一下 Web Comopnent 的實作，而且依照 React 的<a href="https://facebook.github.io/react/docs/web-components.html" target="_blank" rel="noopener">官方說法</a> Web Component 跟 React 是可以相互在對方的環境下使用的！<br>那還等什麼呢！</p>
+<h2 id="那就來實作吧"><a href="#那就來實作吧" class="headerlink" title="那就來實作吧"></a>那就來實作吧</h2><p>根據上一次的學習 <a href="http://blog.techbridge.cc/2017/01/06/web-components/">2017，讓我們再來看看 Web Components 吧！</a>，<br>很快的就能建立好基本的架構：</p>
+<figure class="highlight html"><figcaption><span>formatNum.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- template --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">"format-num-template"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">    <span class="selector-pseudo">:host</span> &#123;</span></span><br><span class="line">      position: relative;</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span>&gt;</span><span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- custom element --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="class"><span class="keyword">class</span> <span class="title">formatNum</span> <span class="keyword">extends</span> <span class="title">HTMLElement</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">constructor</span>() &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">super</span>();</span></span><br><span class="line"><span class="javascript">      <span class="keyword">let</span> shadowRoot = <span class="keyword">this</span>.attachShadow(&#123;<span class="attr">mode</span>: <span class="string">'open'</span>&#125;);</span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> t = <span class="built_in">document</span>.querySelector(<span class="string">'#format-num-template'</span>);</span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> instance = t.content.cloneNode(<span class="literal">true</span>);</span></span><br><span class="line">      shadowRoot.appendChild(instance);</span><br><span class="line"><span class="javascript">      <span class="keyword">this</span>.shadowDOM = shadowRoot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="javascript">  customElements.define(<span class="string">'format-num'</span>, formatNum);</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>接著我開始構想這個 tag 需要有哪些 attribute 可以設置，最基本我會需要能指定小數點後的位數，並且能指定轉換單位的型態，因為有時候可能會需要二進位的轉換，也就是以 1024 為單位，而有時需要計算人數時，則是以 K, M, B 來顯示。</p>
+<p>因此會需要設置兩個 attribute，<code>digits</code> 與 <code>si</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">get</span> observedAttributes() &#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="string">'digits'</span>, <span class="string">'si'</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">get</span> digits() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.hasAttribute(<span class="string">'digits'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> digits(val) &#123;</span><br><span class="line">    <span class="keyword">if</span> (val) &#123;</span><br><span class="line">    <span class="keyword">this</span>.setAttribute(<span class="string">'digits'</span>, val);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.removeAttribute(<span class="string">'digits'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">get</span> si() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.hasAttribute(<span class="string">'si'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> si(val) &#123;</span><br><span class="line">    <span class="keyword">if</span> (val) &#123;</span><br><span class="line">    <span class="keyword">this</span>.setAttribute(<span class="string">'si'</span>, val);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.removeAttribute(<span class="string">'si'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>記得要設置 <code>observedAttributes</code>，這樣使用者改變 tag 的 <code>digits</code> 與 <code>si</code> 時，我們才可以有對應動作，也就是重新 format 一次數字。</p>
+<p>接著加入下列兩個關鍵 method：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">attributeChangedCallback(name, oldValue, newValue) &#123;</span><br><span class="line">    <span class="keyword">this</span>.formatNum();</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line">formatNum() &#123;</span><br><span class="line">    <span class="keyword">const</span> num = <span class="keyword">this</span>.shadowDOM.querySelector(<span class="string">'slot'</span>).textContent;</span><br><span class="line">    <span class="keyword">const</span> digits = <span class="keyword">this</span>.getAttribute(<span class="string">'digits'</span>);</span><br><span class="line">    <span class="keyword">const</span> si = <span class="keyword">this</span>.hasAttribute(<span class="string">'si'</span>);</span><br><span class="line">    <span class="keyword">this</span>.shadowDOM.querySelector(<span class="string">'slot'</span>).textContent = <span class="keyword">this</span>.format(num, digits, si);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我們在 <code>observedAttributes</code> 中列舉的 attribute 只要有所變動都會觸發 <code>attributeChangedCallback</code>，並且執行 <code>formatNum()</code>，<br>而 <code>formatNum()</code> 就會從 shadowDOM 中抓出數字，並且從 attribute 中抓出小數點位數以及是哪種單位，經過 <code>format()</code> 的轉換後再將資料塞回 shadowDOM 中。<br>（ <code>format()</code> 就是類似最上方的數字單位轉換函示，不是重點就不列出，有興趣可以到我的 <a href="https://github.com/ArvinH/format-num" target="_blank" rel="noopener">git repo</a> 連結去看）</p>
+<p>寫到這邊看起來就大功告成了，嗯，我也這麼覺得。</p>
+<p>但是事情就是沒有憨人想得這麼簡單。</p>
+<p>當我在 html 裡面加上我新增的 element <code>&lt;format-num digits=&#39;1&#39;&gt;1234&lt;/format-num&gt;</code> 時，竟然毫無反應，就只是個 1234，而不是 1.2k。</p>
+<p>原因是我以為在執行 <code>formatNum()</code> 的時候，可以從 <code>this.shadowDOM.querySelector(&#39;slot&#39;).textContent</code> 裡面取得 slot 內的值的，<br>但似乎無法直接這樣做，就算能透過 shadowDOM 存取，當我們想要將 format 過的數字塞回 tag 內的時候，由於原先的 1234 屬於 light DOM，我們需要透過 <code>document.querySelect(&#39;format-num&#39;).innerHML</code> 的方式去改值，這樣變成由外部的 context（document) 來更改 light DOM，似乎有點不符 web component 的精神，應該要讓一切操作保持在內部才對。</p>
+<p>因此換個方式，我們不讓使用者將值寫在 slot 中，而是透過 attribute 來設置，而我們再將 parse 過的結果利用 shadowDOM 設置到 slot 中，這樣就能順利顯示了！</p>
+<p>修改程式如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 增加 num attribute</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">get</span> observedAttributes() &#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="string">'digits'</span>, <span class="string">'num'</span>, <span class="string">'si'</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">get</span> num() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.hasAttribute(<span class="string">'num'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> num(val) &#123;</span><br><span class="line">    <span class="keyword">if</span> (val) &#123;</span><br><span class="line">    <span class="keyword">this</span>.setAttribute(<span class="string">'num'</span>, val);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.removeAttribute(<span class="string">'num'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="comment">// 修改 formatNum()，從 attribute 中拿 num 的值，並透過 shadowDOM 塞進 slot 顯示</span></span><br><span class="line">attributeChangedCallback(name, oldValue, newValue) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.digits || <span class="keyword">this</span>.num) &#123;</span><br><span class="line">    <span class="keyword">this</span>.formatNum();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">formatNum() &#123;</span><br><span class="line">    <span class="keyword">const</span> num = <span class="keyword">this</span>.getAttribute(<span class="string">'num'</span>);</span><br><span class="line">    <span class="keyword">const</span> digits = <span class="keyword">this</span>.getAttribute(<span class="string">'digits'</span>);</span><br><span class="line">    <span class="keyword">const</span> si = <span class="keyword">this</span>.hasAttribute(<span class="string">'si'</span>);</span><br><span class="line">    <span class="keyword">this</span>.shadowDOM.querySelector(<span class="string">'slot'</span>).textContent = <span class="keyword">this</span>.format(num, digits, si);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>成果：</p>
+<p><a class="jsbin-embed" href="http://jsbin.com/xezujo/embed?html,js,output" target="_blank" rel="noopener">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?3.41.5"></script></p>
+<h2 id="讓別人-Import-你的-Webcomponent"><a href="#讓別人-Import-你的-Webcomponent" class="headerlink" title="讓別人 Import 你的 Webcomponent"></a>讓別人 Import 你的 Webcomponent</h2><p>本來想說做完了，準備要發佈的時候，發現需要準備 Demo page，<br>雖然我都直接在 jsbin 與 codepen 上方寫，還沒有真正在別的 page <code>Import</code> 過 webcomponent，但想說應該就很簡單啊，把我的 code 都放在一個 html 內，<br>然後透過 <code>&lt;link rel=&quot;import&quot; href=&quot;../src/formatNum.html&quot;&gt;</code> 不就得了？</p>
+<p>正當我這麼想的時候，卻發現我的 demo page 一直無法正常顯示，出現 “Uncaught TypeError: Cannot read property ‘content’ of null” 的 error，<br>是在 custom element constructor 的地方：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> t = <span class="built_in">document</span>.querySelector(<span class="string">'#format-num-template'</span>);</span><br><span class="line"><span class="keyword">const</span> instance = t.content.cloneNode(<span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+<p>竟然找不到我的 template ?!</p>
+<p>仔細研究了好一陣子後才發現到這篇文章 <a href="https://www.webcomponents.org/community/articles/introduction-to-html-imports" target="_blank" rel="noopener">introduction to html imports</a></p>
+<p>裡面有提到 html import 時的行為差異，舉例來說：</p>
+<p><em>index.html</em></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"import"</span> <span class="attr">href</span>=<span class="string">"formatNum.html"</span>&gt;</span> // 1.</span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>Import Example<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"script3.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>     // 4.</span><br></pre></td></tr></table></figure>
+<p><em>formatNum.html</em></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/script1.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>  // 2.</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/script2.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>  // 3.</span><br></pre></td></tr></table></figure>
+<p>以上面的例子來說明，index.html 載入 formatNum.html，其 script 的執行順序如上面標記，<br>但 <span style="color:red">index.html 與 formatNum.html 中的 document 物件卻都是指向 index.html。</span></p>
+<p>因此當我的 demo page 在執行存在於 formatNum.html 內的 script，也就是 constructor 時，document 就找不到存在於 formatNum.html 內的 template 了。</p>
+<p>所以該怎麼解決呢？</p>
+<p>為了要保存住 formatNum.html 自己的 document object，我們可以這樣做：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">documentCurrentScript = <span class="built_in">document</span>._currentScript || <span class="built_in">document</span>.currentScript;</span><br><span class="line"><span class="keyword">var</span> mainDoc = documentCurrentScript.ownerDocument;</span><br></pre></td></tr></table></figure>
+<p>currentScript 是只有在有支援 HTML import 的瀏覽器中才有的屬性，若是透過 webcomponent.js 等 polyfill，則是用 _currentScript</p>
+<h2 id="打包發佈"><a href="#打包發佈" class="headerlink" title="打包發佈"></a>打包發佈</h2><p>問題都解決以後當然就要發佈到 Webcomponent.org 上面去了</p>
+<p><img src="/img/arvinh/webcomponentIdx.png" alt="webcomponent.org" title="webcomponent.org"></p>
+<p>從網站上的步驟看來很簡單，只要你的 repository 滿足三個條件，並加上 badge 與 inline demo，就可以發佈了：</p>
+<p><img src="/img/arvinh/publishWebcomponent.png" alt="publish to webcomponent" style="width: 500px;"></p>
+<p>三個條件：</p>
+<ol>
+<li><p>有 Open source license，只要是被 <a href="https://opensource.org/licenses/alphabetical" target="_blank" rel="noopener">Open Source Initative</a> 認可的都可以。</p>
+</li>
+<li><p>Tagged release，這點很重要，他會依照你 repository 裡面的 tag 去抓檔案，如果你沒有設置的話，就算 repo 中有程式，也會發佈失敗，而且如果你有更新，也一定要有新版 Tag release，Webcomponent.org 這邊才會更新。我一開始因為有些設定沒做好，重新 push 後忘了 release tage，怎麼樣都是發佈失敗…</p>
+</li>
+<li><p>README，這當然也是很重要，你總得要介紹一下內容。此外，如果你想要放 inline demo 的話，也是要設置在 README.md 當中。</p>
+</li>
+</ol>
+<p>加上 badge：</p>
+<figure class="highlight md"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">![Published on webcomponents.org</span>][<span class="symbol">webcomponents-image</span>]][<span class="symbol">webcomponents-url</span>]</span><br><span class="line">[<span class="symbol">webcomponents-image</span>]: <span class="link">https://img.shields.io/badge/webcomponents.org-published-blue.svg</span></span><br><span class="line">[<span class="symbol">webcomponents-url</span>]: <span class="link">https://www.webcomponents.org/element/arvinh/format-num</span></span><br></pre></td></tr></table></figure>
+<p>Inline Demo：</p>
+<p>要製作 inline demo 很簡單，只要在你的 README.md 中加入：</p>
+<p><img src="/img/arvinh/inlineDemoscript.png" alt="Inline Demo" title="Inline Demo"></p>
+<p>你只需要在 <code>&lt;custom-element-demo&gt;</code> 中 import 你的 custom-element 即可，<code>html</code> block 內的就是你 demo 元件的地方了。</p>
+<p>以我的 README.md 來說，完成後會長這樣：</p>
+<p><img src="/img/arvinh/final-readme.png" alt="Final README" title="IFinal README"></p>
+<p>當你照著網站上所寫的，完成所有步驟後，可以到這邊去填寫 Repo 名稱並進行發佈。</p>
+<p><img src="/img/arvinh/readyToPublish.png" alt="Ready to publish" title="Ready to publish"></p>
+<p>然後你會發現發佈失敗，因為網站隱藏了一個步驟沒有寫到。</p>
+<p>他會要求你的 repo 中要含有 <code>bower.json</code>，但應該是沒有要你 register 到 bower 中，不過我有順手放上去就是了，<br>所以也能透過 <code>bower install format-num</code> 來下載這個 webcomponent。</p>
+<p>總之，加上 bower.json 以後應該就能順利發佈了！</p>
+<p>此外，你也可以到 <a href="https://www.webcomponents.org/preview" target="_blank" rel="noopener">https://www.webcomponents.org/preview</a> 輸入你的 git repo url，就可以在發佈前先進行 preview，<br>在這邊甚至能動態調整你的 inline demo！就由讀者自行玩玩吧！</p>
+<h2 id="Work-with-React-but-failed"><a href="#Work-with-React-but-failed" class="headerlink" title="Work with React but failed"></a>Work with React but failed</h2><p>製作這個 Web Component 的初衷是希望能夠透過它讓我輕鬆地放在 React 的 component 中當一般 tag 使用，因此我也嘗試了一下簡單的範例：</p>
+<p></p><p data-height="265" data-theme-id="dark" data-slug-hash="ZeOLRP" data-default-tab="html,result" data-user="arvin0731" data-embed-version="2" data-pen-title="web-component: <format-num> with React" class="codepen">See the Pen <a href="http://codepen.io/arvin0731/pen/ZeOLRP/" target="_blank" rel="noopener">web-component: <format-num> with React</format-num></a> by Arvin (<a href="http://codepen.io/arvin0731" target="_blank" rel="noopener">@arvin0731</a>) on <a href="http://codepen.io" target="_blank" rel="noopener">CodePen</a>.</p><p></p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+<p>但眼尖的讀者會發現，我在 html 內又再寫了一次 template…</p>
+<p>沒錯，因為再度遇到 document 存取不到 template 的 error，這次連使用 currentScript 都無法解決，我想是跟 Rect compile 的時間以及 Webcomponent script 載入執行的時間順序有關，導致存取不到正確的 document scope。</p>
+<p>當然這也只是我的猜測，若有讀者了解原因請不吝指教！</p>
+<p>在試著整合 React 的過程中也有發現，babel 在處理 extends HTMLElement 的元件上有些衝突，需要透過 <a href="https://github.com/github/babel-plugin-transform-custom-element-classes" target="_blank" rel="noopener">babel-plugin-transform-custom-element-classes</a> 來解，不過沒有真正試過，畢竟我會希望 webcomponent 是獨立的，<br>不需要跟 React 一起經過 babel 的 compile，而在支援 webcomponent 的 browser 上，理論上也不需要 babel 編譯 es6 的 code 才對…</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>雖然最後還是沒能順利整合進 React 當中，不過原先預期輕鬆完成的小玩具竟然還是卡了不少關，也有學習到，不過總是因為時間有限沒辦法很完整的將查到的資料認真讀完，<br>或許我的實作過程與觀念的理解有錯誤的地方，歡迎讀者留言指教，我會非常感激的！</p>
+<h2 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h2><ol>
+<li><a href="https://www.webcomponents.org/" target="_blank" rel="noopener">Web Components org</a></li>
+<li><a href="https://www.webcomponents.org/community/articles/introduction-to-html-imports" target="_blank" rel="noopener">Introduction to html import</a></li>
+<li><a href="http://staltz.com/react-could-love-web-components.html" target="_blank" rel="noopener">React could love web components</a></li>
+</ol>
+<p>關於作者：<br><a href="http://blog.arvinh.info/about/" target="_blank" rel="noopener">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/03/04/webcomopnent-practice/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/03/04/webcomopnent-practice/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/03/04/webcomopnent-practice/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/03/04/webcomopnent-practice/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/03/10/javascript-data-structure-algorithm-dictionary-hash-table/">
+        ← 用 JavaScript 學習資料結構和演算法：字典（Dictionary）和雜湊表（Hash Table）篇
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/02/25/csrf-introduction/">
+        讓我們來談談 CSRF →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

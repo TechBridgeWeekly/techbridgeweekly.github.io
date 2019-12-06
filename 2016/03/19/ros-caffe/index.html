@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Caffe &amp; GoogLeNet，怎麼幫助機器人更好地辨識物體 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-03-19T10:54:49.000Z" itemprop="datePublished">
+          2016-03-19
+      </time>
+    
+    
+    | 
+    <a href='/tags/機器人-深度學習-Deep-Learing-Robot-GoogLeNet-Caffe/'>機器人, 深度學習, Deep Learing, Robot, GoogLeNet, Caffe</a>
+    
+    
+</span>
+
+<meta name="generator" content="Caffe & GoogLeNet，怎麼幫助機器人更好地辨識物體">
+<meta name="og:title" content="Caffe & GoogLeNet，怎麼幫助機器人更好地辨識物體">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Caffe & GoogLeNet，怎麼幫助機器人更好地辨識物體</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="簡介"><a href="#簡介" class="headerlink" title="簡介"></a>簡介</h2><p>這次要談的內容，是使用深度學習(Deep Learing)的模型來讓機器人做物體辨識。深度學習在這幾年來變得很火紅，相關的框架也相當多，這次之所以想談caffe，是因為已經有現成的方法可以將它應用到機器人上面。（有位台灣的開發者弄了一個叫做<a href="https://github.com/tzutalin/ros_caffe" target="_blank" rel="noopener">ros_caffe</a>的package來串接ROS(機器人作業系統)跟Caffe，可以將Caffe辨識的結果丟到一個ROS的topic，其他的node就可以自己取用。這使得機器人辨識物體的能力得以大幅增加）</p>
+<h2 id="一點點幫助入門的細節"><a href="#一點點幫助入門的細節" class="headerlink" title="一點點幫助入門的細節"></a>一點點幫助入門的細節</h2><p>基本的安裝方法可以參考<a href="http://tzutalin.blogspot.tw/2015/06/setup-caffe.html" target="_blank" rel="noopener">這個連結</a>，假設已經裝成功，那至少就已經有基本的環境可以用(有一個caffe的資料夾被放在你安裝的路徑)，接下來需要下載<a href="https://github.com/BVLC/caffe/tree/master/models/bvlc_googlenet" target="_blank" rel="noopener">GoogLeNet的model</a>，只要用caffe/scripts資料夾裡的程式幫忙就行了:</p>
+<p><code>$./scripts/download_model_binary.py ./models/bvlc_googlenet</code></p>
+<p>上面這個指令會將GoogLeNet的model下載到caffe/models/bvlc_googlenet，假設已經下載好model，接下來就可以用一個小程式來跑跑看GoogLeNet了:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"> 	</span><br><span class="line"><span class="comment"># Make sure that caffe is on the python path:</span></span><br><span class="line">caffe_root = <span class="string">'../'</span> <span class="comment"># this file is expected to be in &#123;caffe_root&#125;/examples</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">sys.path.insert(<span class="number">0</span>, caffe_root + <span class="string">'python'</span>)</span><br><span class="line">sys.path.append(&amp;quot;/usr/lib/python2<span class="number">.7</span>/dist-packages/&amp;quot;)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> caffe</span><br><span class="line"></span><br><span class="line"><span class="comment"># Set the right path to your model definition file, pretrained model weights,</span></span><br><span class="line"><span class="comment"># and the image you would like to classify.</span></span><br><span class="line">MODEL_FILE = <span class="string">'../models/bvlc_googlenet/deploy.prototxt'</span></span><br><span class="line">PRETRAINED = <span class="string">'../models/bvlc_googlenet/bvlc_googlenet.caffemodel'</span></span><br><span class="line">IMAGE_FILE = <span class="string">'images/cat.jpg'</span></span><br><span class="line"> </span><br><span class="line">caffe.set_mode_cpu()</span><br><span class="line">net = caffe.Classifier(MODEL_FILE, PRETRAINED,</span><br><span class="line">mean=np.load(caffe_root + <span class="string">'python/caffe/imagenet/ilsvrc_2012_mean.npy'</span>).mean(<span class="number">1</span>).mean(<span class="number">1</span>),</span><br><span class="line">channel_swap=(<span class="number">2</span>,<span class="number">1</span>,<span class="number">0</span>),</span><br><span class="line">raw_scale=<span class="number">255</span>,</span><br><span class="line">image_dims=(<span class="number">256</span>, <span class="number">256</span>))</span><br><span class="line"> </span><br><span class="line">input_image = caffe.io.load_image(IMAGE_FILE)</span><br><span class="line">plt.imshow(input_image)</span><br><span class="line">plt.show()</span><br><span class="line"> </span><br><span class="line">prediction = net.predict([input_image])</span><br><span class="line">plt.plot(prediction[<span class="number">0</span>])</span><br><span class="line">plt.show()</span><br><span class="line"><span class="keyword">print</span> <span class="string">'predicted class:'</span>, prediction[<span class="number">0</span>].argmax()</span><br></pre></td></tr></table></figure>
+<p>接下來只要執行(因為程式放在examples資料夾底下):</p>
+<p><code>$python ./examples/googlenet_example.py</code></p>
+<p>就可以看到一隻貓的影像，關掉影像之後就會看到貓的類別:</p>
+<p><img src="/img/pojenlai/cat_class.png" alt="cat_class"></p>
+<h2 id="串接ros-caffe"><a href="#串接ros-caffe" class="headerlink" title="串接ros_caffe"></a>串接ros_caffe</h2><p>如果想往下跟ros_caffe的串接可以參考<a href="http://www.artificialhumancompanions.com/integrating-ros-caffe-opencv-on-the-autonomous-deep-learning-robot/" target="_blank" rel="noopener">外國鄉民的文章</a>，裡面有完整而詳細的步驟。如果你已經安裝過caffe，可以參考<a href="https://github.com/tzutalin/ros_caffe/issues/1" target="_blank" rel="noopener">這個issue</a>。</p>
+<p>需要注意的是，外國鄉民跑的只有global的結果，也就是一張影像中只有一個最顯著的物體會被辨識，如果要辨識一張影像中的各個物體，可能就要自己在中間串接一個負責做segmentation的node，再把各個切出來的區塊餵給ros_caffe來做辨識。</p>
+<p>關於作者：<br><a href="https://pojenlai.wordpress.com/" target="_blank" rel="noopener">@pojenlai</a> 演算法工程師，對機器人跟電腦視覺有少許研究，最近在鍛鍊自己的執行力</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2016/03/19/ros-caffe/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2016/03/19/ros-caffe/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2016/03/19/ros-caffe/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2016/03/19/ros-caffe/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2016/03/24/android-decompile-introduction/">
+        ← 人人都會的 Android Apk 反編譯
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/03/19/how-to-build-a-great-startup-culture/">
+        如何打造更好的科技新創 (Startup) 工作環境和組織文化？ →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

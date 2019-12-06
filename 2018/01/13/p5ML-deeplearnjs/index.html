@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>前端也能玩 Deep learning - 以 p5-deeplearn-js 為例 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-01-13T16:30:21.000Z" itemprop="datePublished">
+          2018-01-13
+      </time>
+    
+    
+    | 
+    <a href='/tags/deeplearnjs/'>deeplearnjs</a>,
+    
+    <a href='/tags/deeplearning/'>deeplearning</a>,
+    
+    <a href='/tags/p5ML/'>p5ML</a>,
+    
+    <a href='/tags/chrome-extension/'>chrome extension</a>
+    
+    
+</span>
+
+<meta name="generator" content="前端也能玩 Deep learning - 以 p5-deeplearn-js 為例">
+<meta name="og:title" content="前端也能玩 Deep learning - 以 p5-deeplearn-js 為例">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">前端也能玩 Deep learning - 以 p5-deeplearn-js 為例</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>還記得約莫是 2012 年我還在唸研究所的時候，有位清大教授（原諒我忘了是哪位…）來系上演講關於類神經網路的應用，當時的我聽得霧煞煞，覺得是離我很遙遠的一門學問，而如今 Machine Learning、Deep Learning 滿天飛，說你沒聽過 KNN 就像說你沒背過 99 乘法表一樣驚人。</p>
+<p>對於一個成天在網頁打滾的前端工程師，可能真的沒太多機會碰觸到相關實作或研究。<br>但小心了！AI 的觸角也慢慢伸到前端的領域 - <a href="(https://github.com/emilwallner/Screenshot-to-code-in-Keras">Screenshot to code in Keras</a>，從圖片就能轉成 HTML，以後該怎麼辦啊…</p>
+<p>你可能會想，身處於變化快速的前端領域，我們最擅長的不就是快速學習應對嗎？現在已經有很多 js 版本的機器學習函式庫啦，像是 Keras.js、Deeplearn.js 等等，讓你可以在 browser 上透過 WebGL 的幫助來使用 GPU 做運算。</p>
+<p>但是這些 Library 的宗旨比較是拓展機器學習的應用層面，對於沒接觸過 Deeplearning 的前端工程師來說，要做出 <a href="https://teachablemachine.withgoogle.com/" target="_blank" rel="noopener">teachablemachine</a> 這樣的東西，其實沒這麼簡單。</p>
+<p>而今天要介紹的這款 library 就是想提供一個 Higher level 的 js library，降低採用 Machine learning 實作產品的門檻。</p>
+<p>先來看個 Demo：</p>
+<p><img src="/img/arvinh/deeplearnjs-demo.gif" alt="p5ML-Deeplearnjs-demo"></p>
+<p>Demo 裡是一個簡單的 Chrome extension，透過 WebCam 擷取圖片來分析，利用 <a href="https://github.com/PAIR-code/deeplearnjs/tree/master/models/knn_image_classifier" target="_blank" rel="noopener">KNN image classifier model</a>，來判斷出不同動作，並對應到網頁上的互動，像是 scroll dow, scroll up 或是修改 DOM 元件（ Demo 中的開關燈效果 ）。主要參考自 <a href="https://github.com/cvalenzuela/deeplearn-chrome_extension" target="_blank" rel="noopener">deeplearn-chrome_extension</a>。</p>
+<p>沒有，我的另一隻手絕對沒有在下面控制滑鼠。</p>
+<p>這一切的實現都是依靠 <a href="https://github.com/ITPNYU/p5-deeplearn-js" target="_blank" rel="noopener">p5ML</a> 與 <a href="https://github.com/PAIR-code/deeplearnjs" target="_blank" rel="noopener">deeplearnjs</a> 的 knn image classifier。</p>
+<h1 id="p5ML"><a href="#p5ML" class="headerlink" title="p5ML"></a>p5ML</h1><p><a href="https://github.com/ITPNYU/p5-deeplearn-js" target="_blank" rel="noopener">p5ML</a> 還持續在開發中，主要是提供一系列的 API wrapper，讓你能忽略掉一些直接使用 deeplearn.js 需要知道的細節，像是 <code>NDArrayMath</code>, <code>Scalar</code>, <code>Array3D</code> 等 deeplearn 提供的物件。</p>
+<p>使用方式很簡單，直接在 html 中載入：</p>
+<p> <code>&lt;script src=&quot;p5ML.min.js&quot;&gt;&lt;/script&gt;</code></p>
+<p> 或是 <code>npm install p5ML --save</code> 下載皆可。</p>
+<p><code>p5ML.min.js</code> 會 expose 一個 <code>p5ml</code> 的全域變數，裡面提供以下幾種目前實作的 Modal 演算法：</p>
+<ul>
+<li><a href="https://github.com/ITPNYU/p5-deeplearn-js#lstm" target="_blank" rel="noopener">LSTM</a><ul>
+<li>沒研究過 LSTM 的讀者可以看看這篇介紹，<a href="http://x-algo.cn/index.php/2017/03/21/lstm-understanding/" target="_blank" rel="noopener">LSTM直觀理解</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/ITPNYU/p5-deeplearn-js#imagenet" target="_blank" rel="noopener">ImageNet</a> - 目前只支援 SqueezeNet Modal<ul>
+<li><a href="http://blog.csdn.net/xbinworld/article/details/50897870" target="_blank" rel="noopener">SqueezeNet 模型詳解</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/ITPNYU/p5-deeplearn-js#knn-image-classifier" target="_blank" rel="noopener">KNNImage</a><ul>
+<li>其中採用了 <a href="https://github.com/PAIR-code/deeplearnjs/blob/master/models/knn_image_classifier/knn_image_classifier.ts" target="_blank" rel="noopener">Deeplearn.js 的 knn models</a>，寫得很簡潔，又是 Typescript，對於理解這種演算法很有幫助。</li>
+</ul>
+</li>
+<li><a href="https://github.com/ITPNYU/p5-deeplearn-js#neural-network" target="_blank" rel="noopener">NeuralNetwork</a></li>
+</ul>
+<p>除了 Neura Network 外，上述其餘每個 Modal 在 p5ML 的 github 上都有對應的 Demo，以及簡短的使用方式。</p>
+<h1 id="實作範例"><a href="#實作範例" class="headerlink" title="實作範例"></a>實作範例</h1><p>以剛剛開頭看到的例子來說，我們使用到的是 <strong>KNNImgae</strong> 這個 API：</p>
+<p><code>let knn = new p5ml.KNNImageClassifier(callback);</code></p>
+<p>建立出 KNNImageClassifier 的物件 knn 後，我們可以透過 <code>knn.addImage(video, index);</code> 來加入 example（video 變數)，並告知其 class 類別（index 變數）。<br>當加入的 example 足夠多以後，就能透過 <code>knn.predict(input, callback)</code> 來預測 input 是屬於哪種類別：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">knn.predict(video, <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (data.classIndex == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// 屬於類別 1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>使用起來就是這麼簡單。</p>
+<h2 id="整合-Extension-popup-js"><a href="#整合-Extension-popup-js" class="headerlink" title="整合 Extension - popup.js"></a>整合 Extension - popup.js</h2><p>要整合到 Chrome extension 中的話，需要使用到的是 <code>popup.js</code>, <code>popup.html</code>, <code>content.js</code> 以及 <code>option.html</code>。</p>
+<p>疑？為什麼需要 <code>option.html</code>？這次的範例應該還用不著需要使用者設定什麼參數吧？</p>
+<p>原因是為了取得使用者的<strong>攝影機權限</strong>。</p>
+<p>一般 Web 上是呼叫 <code>navigator.mediaDevices.getUserMedia(options, callback)</code>來取得使用者 WebCam 權限：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">navigator.mediaDevices.getUserMedia(&#123; <span class="attr">audio</span>: <span class="literal">true</span>, <span class="attr">video</span>: <span class="literal">true</span> &#125;, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'ok'</span>);</span><br><span class="line">&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'webcam not ok'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>但要讓 Chrome extension 也拿到權限的話，你的這段程式碼，必須放置在由 extension 本身開啟的 html 內才可以，<code>popup.html</code> 不算。<br>因此，利用設置頁面 <code>option.html</code> 是最為適合的，只要在你的 <code>manifest.json</code> 中設定：</p>
+<figure class="highlight"><figcaption><span>manifest.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">"options_ui": &#123;</span><br><span class="line">    "page": "options.html",</span><br><span class="line">    "chrome_style": true,</span><br><span class="line">    "open_in_tab": true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>之後就能透過開啟 Extension 的設定頁面，來徵求使用者的攝影權限。</p>
+<p><img src="/img/arvinh/extension-option.png" style="width: 300px;height:200px"></p>
+<p>取得權限後，在我們的 <code>popup.html</code> 中要繪製一些頁面元件，以供之後我們在前端進行 Image 的分類：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;!doctype html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;meta charset=&quot;utf-8&quot;&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;video crossorigin=&quot;anonymous&quot; width=&quot;227&quot; height=&quot;227&quot; id=&quot;video&quot;&gt;&lt;/video&gt;</span><br><span class="line">  &lt;button id=&quot;still&quot;&gt;Do nothing&lt;/button&gt;</span><br><span class="line">  &lt;button id=&quot;up&quot;&gt;Up&lt;/button&gt;</span><br><span class="line">  &lt;button id=&quot;down&quot;&gt;Down&lt;/button&gt;</span><br><span class="line">  &lt;button id=&quot;turnoff&quot;&gt;Turn Off Light&lt;/button&gt;</span><br><span class="line">  &lt;script src=&quot;scripts/p5ml.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">  &lt;script src=&quot;scripts/popup.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>popup.js 中則是放入最主要的 knn 相關程式碼：</p>
+<figure class="highlight js"><figcaption><span>popup.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> knn = <span class="keyword">new</span> p5ml.KNNImageClassifier(modelLoaded);</span><br><span class="line"><span class="keyword">let</span> turnoffButton = <span class="built_in">document</span>.getElementById(<span class="string">'turnoff'</span>);</span><br><span class="line"><span class="comment">// turnoffButton</span></span><br><span class="line">turnoffButton.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    knn.addImage(video, <span class="number">4</span>);</span><br><span class="line">    times++;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (times &gt; <span class="number">10</span>) &#123;</span><br><span class="line">        knn.predict(video, <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (data.classIndex == <span class="number">1</span>) &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'response'</span>, <span class="string">'still'</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (data.classIndex == <span class="number">2</span>) &#123;</span><br><span class="line">                <span class="comment">// ...</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (data.classIndex == <span class="number">3</span>) &#123;</span><br><span class="line">                <span class="comment">// ...</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (data.classIndex == <span class="number">4</span>) &#123;</span><br><span class="line">                chrome.runtime.sendMessage(&#123; <span class="attr">direction</span>: <span class="string">"turn off"</span> &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'response'</span>, <span class="string">'turn off'</span>);</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="number">1500</span>);</span><br></pre></td></tr></table></figure>
+<p>Line 1 我們初始化 <code>p5ml.KNNImageClassifier</code> 物件 <code>knn</code>，接著在 <code>turnoffButton</code> 按下時加入範例 <code>knn.addImage(video, 4)</code>，並設定該範例類別為 4。</p>
+<p>接著在 Line 8 開始，利用 <code>setInterval()</code> 不斷的進行 <code>knn.predict()</code>，這樣就能盡量即時分辨 WebCam 傳來的資料。</p>
+<p>其他部分，像是如何讓 WebCam 的影像顯示在 <code>&lt;video&gt;</code> tag 中的程式碼也是在 <code>popup.js</code> 中實作。</p>
+<p>完整 popup.js 程式碼可以看 <a href="https://gist.github.com/ArvinH/f10ea345904d09f51aebb3f1e34e95e5" target="_blank" rel="noopener">這裏</a> 或是<a href="https://github.com/cvalenzuela/deeplearn-chrome_extension/blob/master/scripts/popup.js" target="_blank" rel="noopener">原作者的</a></p>
+<p>實作到這裡以後，基本上你就可以開啟 Extension 然後進行一些影片的分類，像是這樣：</p>
+<p><img src="/img/arvinh/deeplearn-demo-2.gif" alt="教育你的 extension"></p>
+<p>可以從上面的片段發現，你需要點擊對應分類的按鈕，並且做出你想要的動作來教導你的 extension，讓他認得你的手勢！<br>當你給予的 example 越多，就愈有機會判斷得更好。</p>
+<h2 id="整合-Extension-content-js"><a href="#整合-Extension-content-js" class="headerlink" title="整合 Extension - content.js"></a>整合 Extension - content.js</h2><p>這邊假定大家都知道 Extension 的實作方式（如果不知道可以從<a href="https://developer.chrome.com/extensions/overview" target="_blank" rel="noopener">這邊</a>學習）。</p>
+<p>在 Extension 中，可以透過 <code>chrome.runtime.sendMessage()</code> 與 <code>chrome.runtime.onMessage.addListener()</code> 來針對 Popup page 與 當前頁面的 content script 進行溝通，我們就是利用這點來將辨識完的手勢，轉換成頁面上的互動操作：</p>
+<figure class="highlight js"><figcaption><span>content.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">chrome.runtime.onMessage.addListener(gotMessage)</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">gotMessage</span>(<span class="params">message, sender, sendResponse</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> direction = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span>(message.direction == <span class="string">'up'</span>)&#123;</span><br><span class="line">    direction = <span class="number">-500</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span>(message.direction == <span class="string">'down'</span>)&#123;</span><br><span class="line">    direction = +<span class="number">500</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (message.direction == <span class="string">'turn off'</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> mask = <span class="built_in">document</span>.getElementById(<span class="string">'body-maskDiv'</span>);</span><br><span class="line">    <span class="keyword">if</span> (mask) &#123;</span><br><span class="line">      removeMask();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      addMask();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">window</span>.scrollBy(&#123; </span><br><span class="line">    top: direction,</span><br><span class="line">    left: <span class="number">0</span>, </span><br><span class="line">    behavior: <span class="string">'smooth'</span> </span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到這邊為止基本上就完成了範例的所有功能，對完整程式碼（或是遮罩實作方式 XD）有興趣的人可以從<a href="https://gist.github.com/ArvinH/96fa770dcd007c02a69f31676020cbe6" target="_blank" rel="noopener">這邊</a>取得。</p>
+<h1 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h1><p>這次算是初步嘗試在前端上應用 ML 相關的功能，介紹大家有像是 <a href="https://github.com/ITPNYU/p5-deeplearn-js" target="_blank" rel="noopener">p5-deeplearn-js</a> 這樣有趣的 library 可以使用，希望可以有多一點的前端高手來發揮創意，並分享作品出來，不然真的很難找到相關的經驗分享。<br>不過當然，這只是個非常粗淺的應用，更是用非常 High level 的 API 來實作，還是需要真正去了解 ML 相關的演算法，才是比較正確的學習方向，接下來我也會繼續學習，p5-deeplearn-js 會是一個不錯的起點，加上 deeplearn.js 的 KNN 演算法程式碼都算蠻簡潔的，以 Typescript 實作，閱讀起來比起純 JS 好理解一些（多了 Type 很有幫助啊！），推薦給各位！</p>
+<!-- 資料來源 -->
+<h2 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h2><ol>
+<li><a href="https://github.com/ITPNYU/p5-deeplearn-js" target="_blank" rel="noopener">p5-deeplearn-js</a></li>
+<li><a href="https://github.com/cvalenzuela/deeplearn-chrome_extension" target="_blank" rel="noopener">deeplearn-chrome_extension</a></li>
+<li><a href="https://github.com/PAIR-code/deeplearnjs" target="_blank" rel="noopener">deeplearnjs</a></li>
+</ol>
+<p>關於作者：<br><a href="http://blog.arvinh.info/about/" target="_blank" rel="noopener">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/01/13/p5ML-deeplearnjs/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/01/13/p5ML-deeplearnjs/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/01/13/p5ML-deeplearnjs/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/01/13/p5ML-deeplearnjs/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/01/17/learning-programming-and-coding-with-python-git-and-github-tutorial/">
+        ← Git 與 Github 版本控制基本指令與操作入門教學
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/01/05/react-render-optimization/">
+        React 性能優化大挑戰：一次理解 Immutable data 跟 shouldComponentUpdate →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

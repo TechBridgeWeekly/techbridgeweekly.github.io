@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>一看就懂的 React Server Rendering（Isomorphic JavaScript）入門教學 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-08-27T23:26:00.000Z" itemprop="datePublished">
+          2016-08-27
+      </time>
+    
+    
+    | 
+    <a href='/tags/React-Redux-Server-Rendering-Isomorphic-JavaScript-Node-Express-Universal-JavaScript-Isomorphic-JavaScript/'>React, Redux, Server Rendering, Isomorphic, JavaScript, Node, Express, Universal JavaScript, Isomorphic JavaScript</a>
+    
+    
+</span>
+
+<meta name="generator" content="一看就懂的 React Server Rendering（Isomorphic JavaScript）入門教學">
+<meta name="og:title" content="一看就懂的 React Server Rendering（Isomorphic JavaScript）入門教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">一看就懂的 React Server Rendering（Isomorphic JavaScript）入門教學</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/isomorphic-javascript.png" alt="React Redux Sever Rendering（Isomorphic）入門" title="React Redux Sever Rendering（Isomorphic）入門"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>由於可能有些讀者沒聽過 <a href="http://isomorphic.net/" target="_blank" rel="noopener">Isomorphic JavaScript</a> 。因此在進到開發 React Redux Sever Rendering 應用程式的主題之前我們先來聊聊 Isomorphic JavaScript 這個議題。</p>
+<p>根據 <a href="http://isomorphic.net/" target="_blank" rel="noopener">Isomorphic JavaScript</a> 這個網站的說明：</p>
+<blockquote>
+<p>Isomorphic JavaScript apps are JavaScript applications that can run both client-side and server-side.<br>The backend and frontend share the same code. </p>
+</blockquote>
+<p>Isomorphic JavaScript 係指瀏覽器端和伺服器端共用 JavaScript 的程式碼。</p>
+<p>另外，除了 Isomorphic JavaScript 外，讀者或許也有聽過 Universal JavaScript 這個用詞。那什麼是 Universal JavaScript 呢？它和 Isomorphic JavaScript 是指一樣的意思嗎？針對這個議題網路上有些開發者提出了自己的觀點： <a href="https://medium.com/@mjackson/universal-javascript-4761051b7ae9#.67xsay73m" target="_blank" rel="noopener">Universal JavaScript</a>、<a href="https://medium.com/@ghengeveld/isomorphism-vs-universal-javascript-4b47fb481beb#.qvggcp3v8" target="_blank" rel="noopener">Isomorphism vs Universal JavaScript</a>。其中 Isomorphism vs Universal JavaScript 這篇文章的作者 Gert Hengeveld 指出 <code>Isomorphic JavaScript</code> 主要是指前後端共用 JavaScript 的開發方式，而 <code>Universal JavaScript</code> 是指 JavaScript 程式碼可以在不同環境下運行，這當然包含瀏覽器端和伺服器端，甚至其他環境。也就是說 <code>Universal JavaScript</code> 在意義上可以涵蓋的比 <code>Isomorphic JavaScript</code> 更廣泛一些，然而在 Github 或是許多技術討論上通常會把兩者視為同一件事情，這部份也請讀者留意。</p>
+<h2 id="Isomorphic-JavaScript-的好處"><a href="#Isomorphic-JavaScript-的好處" class="headerlink" title="Isomorphic JavaScript 的好處"></a>Isomorphic JavaScript 的好處</h2><p>在開始真正撰寫 Isomorphic JavaScript 前我們在進一步探討使用 Isomorphic JavaScript 有哪些好處？在談好處之前，我們先看看最早 Web 開發是如何處理頁面渲染和 state 管理，還有遇到哪些挑戰。</p>
+<p>最早的時候我們談論 Web 很單純，都是由 Server 端進行模版的處理，你可以想成 template 是一個函數，我們傳送資料進去，template 最後產生一張 HTML 給瀏覽器顯示。例如：Node 使用的（<a href="http://ejs.co/" target="_blank" rel="noopener">EJS</a>、<a href="http://jade-lang.com/" target="_blank" rel="noopener">Jade</a>）、Python/Django 的 <a href="https://docs.djangoproject.com/el/1.10/ref/templates/" target="_blank" rel="noopener">Template</a> 或替代方案 <a href="https://github.com/pallets/jinja" target="_blank" rel="noopener">Jinja</a>、PHP 的 <a href="http://www.smarty.net/" target="_blank" rel="noopener">Smarty</a>、<a href="https://laravel.com/" target="_blank" rel="noopener">Laravel</a> 使用的 <a href="https://laravel.com/docs/5.0/templates" target="_blank" rel="noopener">Blade</a>，甚至是 Ruby on Rails 用的 <a href="http://guides.rubyonrails.org/layouts_and_rendering.html" target="_blank" rel="noopener">ERB</a>。都是由後端去 render 所有資料和頁面，前端處理相對單純。</p>
+<p>然而隨著前端工程的軟體工程化和使用者體驗的要求，開始出現各式前端框架的百花齊放，例如：<a href="http://backbonejs.org/" target="_blank" rel="noopener">Backbone.js</a>、<a href="http://emberjs.com/" target="_blank" rel="noopener">Ember.js</a> 和 <a href="https://angularjs.org/" target="_blank" rel="noopener">Angular.js</a> 等前端 MVC (Model-View-Controller) 或 MVVM (Model-View-ViewModel) 框架，將頁面於前端渲染的不刷頁單頁式應用程式（Single Page App）也因此開始流行。</p>
+<p>後端除了提供初始的 HTML 外，還提供 API Server 讓前端框架可以取得資料用於前端 template。複雜的邏輯由 ViewModel/Presenter 來處理，前端 template 只處理簡單的是否顯示或是元素迭代的狀況，如下圖所示：</p>
+<p><img src="/img/kdchang/client-mvc.png" alt="React Redux Sever Rendering（Isomorphic）入門" title="React Redux Sever Rendering（Isomorphic）入門"></p>
+<p>然而前端渲染 template 雖然有它的好處但也遇到一些問題包括效能、SEO 等議題。此時我們就開始思考 Isomorphic JavaScript 的可能性：為什麼我們不能前後端都使用 JavaScript 甚至是 React？</p>
+<p><img src="/img/kdchang/isomorphic-api.png" alt="React Redux Sever Rendering（Isomorphic）入門" title="React Redux Sever Rendering（Isomorphic）入門"></p>
+<p>事實上，React 的優勢就在於它可以很優雅地實現 Server Side Rendering 達到 Isomorphic JavaScript 的效果。在 <code>react-dom/server</code> 中有兩個方法 <code>renderToString</code> 和 <code>renderToStaticMarkup</code> 可以在 server 端渲染你的 components。其主要都是將 React Component 在 Server 端轉成 DOM String，也可以將 props 往下傳，然而事件處理會失效，要到 client-side 的 React 接收到後才會把它加上去（但要注意 server-side 和 client-side 的 checksum 要一致不然會出現錯誤），這樣一來可以提高渲染速度和 SEO 效果。<code>renderToString</code> 和 <code>renderToStaticMarkup</code> 最大的差異在於 <code>renderToStaticMarkup</code> 會少加一些 React 內部使用的 DOM 屬性，例如：<code>data-react-id</code>，因此可以節省一些資源。</p>
+<p>使用 <code>renderToString</code> 進行 Server 端渲染：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ReactDOMServer <span class="keyword">from</span> <span class="string">'react-dom/server'</span>;</span><br><span class="line"></span><br><span class="line">ReactDOMServer.renderToString(<span class="xml"><span class="tag">&lt;<span class="name">HelloButton</span> <span class="attr">name</span>=<span class="string">"Mark"</span> /&gt;</span>);</span></span><br></pre></td></tr></table></figure>
+<p>渲染出來的效果：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">data-reactid</span>=<span class="string">".7"</span> <span class="attr">data-react-checksum</span>=<span class="string">"762752829"</span>&gt;</span></span><br><span class="line">  Hello, Mark</span><br><span class="line"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>總的來說使用 Isomorphic JavaScript 會有以下的好處：</p>
+<ol>
+<li>有助於 SEO</li>
+<li>Rendering 速度較快，效能較佳</li>
+<li>放棄蹩腳的 Template 語法擁抱 Component 元件化思考，便於維護</li>
+<li>盡量前後端共用程式碼節省開發時間</li>
+</ol>
+<p>不過要注意的是如果有使用 Redux 在 Server Side Rendering 中，其流程相對複雜，不過大致流程如下：<br>由後端預先載入需要的 initialState，由於 Server 渲染必須全部都轉成 string，所以先將 state 先 dehydration（脫水），等到 client 端再 rehydration（覆水），重建 store 往下傳到前端的 React Component。</p>
+<p>而要把資料從伺服器端傳遞到客戶端，我們需要：</p>
+<ol>
+<li>把取得初始 state 當做參數並對每個請求建立一個全新的 Redux store 實體</li>
+<li>選擇性地 dispatch 一些 action </li>
+<li>把 state 從 store 取出來</li>
+<li>把 state 一起傳到客戶端</li>
+</ol>
+<p>接下來我們就開始動手實作一個簡單的 React Server Side Rendering Counter 應用程式。</p>
+<h2 id="專案成果截圖"><a href="#專案成果截圖" class="headerlink" title="專案成果截圖"></a>專案成果截圖</h2><p><img src="/img/kdchang/react-server-rendering-demo.png" alt="React Redux Sever Rendering（Isomorphic）入門" title="React Redux Sever Rendering（Isomorphic）入門"></p>
+<h2 id="環境安裝與設定"><a href="#環境安裝與設定" class="headerlink" title="環境安裝與設定"></a>環境安裝與設定</h2><ol>
+<li><p>安裝 Node 和 NPM</p>
+</li>
+<li><p>安裝所需套件</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save react react-dom redux react-redux react-router immutable redux-immutable redux-actions redux-thunk babel-polyfill babel-register body-parser express morgan qs</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save-dev babel-core babel-eslint babel-loader babel-preset-es2015 babel-preset-react babel-preset-stage-1 eslint eslint-config-airbnb eslint-loader eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react html-webpack-plugin webpack webpack-dev-server redux-logger</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>接下來我們先設定一下開發文檔。</p>
+<ol>
+<li><p>設定 Babel 的設定檔： <code>.babelrc</code></p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">true<span class="string">"presets"</span>: [</span><br><span class="line">  	<span class="string">"es2015"</span>,</span><br><span class="line">  	<span class="string">"react"</span>,</span><br><span class="line"> 	],</span><br><span class="line">true<span class="string">"plugins"</span>: []</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>設定 ESLint 的設定檔和規則： <code>.eslintrc</code></p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"extends"</span>: <span class="string">"airbnb"</span>,</span><br><span class="line">  <span class="string">"rules"</span>: &#123;</span><br><span class="line">    <span class="string">"react/jsx-filename-extension"</span>: [<span class="number">1</span>, &#123; <span class="string">"extensions"</span>: [<span class="string">".js"</span>, <span class="string">".jsx"</span>] &#125;],</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"env"</span> :&#123;</span><br><span class="line">    <span class="string">"browser"</span>: <span class="literal">true</span>,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>設定 Webpack 設定檔： <code>webpack.config.js</code></p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 讓你可以動態插入 bundle 好的 .js 檔到 .index.html</span></span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> HTMLWebpackPluginConfig = <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">  template: <span class="string">`<span class="subst">$&#123;__dirname&#125;</span>/src/index.html`</span>,</span><br><span class="line">  filename: <span class="string">'index.html'</span>,</span><br><span class="line">  inject: <span class="string">'body'</span>,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// entry 為進入點，output 為進行完 eslint、babel loader 轉譯後的檔案位置</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: [</span><br><span class="line">    <span class="string">'./src/index.js'</span>,</span><br><span class="line">  ],</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: <span class="string">`<span class="subst">$&#123;__dirname&#125;</span>/dist`</span>,</span><br><span class="line">    filename: <span class="string">'index_bundle.js'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    preLoaders: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.jsx$|\.js$/</span>,</span><br><span class="line">        loader: <span class="string">'eslint-loader'</span>,</span><br><span class="line">        include: <span class="string">`<span class="subst">$&#123;__dirname&#125;</span>/src`</span>,</span><br><span class="line">        exclude: <span class="regexp">/bundle\.js$/</span></span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    loaders: [&#123;</span><br><span class="line">      test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">      exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">      loader: <span class="string">'babel-loader'</span>,</span><br><span class="line">      query: &#123;</span><br><span class="line">        presets: [<span class="string">'es2015'</span>, <span class="string">'react'</span>],</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;],</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 啟動開發測試用 server 設定（不能用在 production）</span></span><br><span class="line">  devServer: &#123;</span><br><span class="line">    inline: <span class="literal">true</span>,</span><br><span class="line">    port: <span class="number">8008</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [HTMLWebpackPluginConfig],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>太好了！這樣我們就完成了開發環境的設定可以開始動手實作 <code>React Server Side Rendering Counter</code> 應用程式了！    </p>
+<p>先看一下我們整個專案的資料結構，我們把整個專案分成三個主要的資料夾（<code>client</code>、<code>server</code>，還有共用程式碼的 <code>common</code>）：</p>
+<p><img src="/img/kdchang/react-server-rendering-folder.png" alt="React Redux Sever Rendering（Isomorphic）入門" title="React Redux Sever Rendering（Isomorphic）入門"></p>
+<h2 id="動手實作"><a href="#動手實作" class="headerlink" title="動手實作"></a>動手實作</h2><p>首先，我們先定義了 <code>client</code> 的 <code>index.js</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 引用 babel-polyfill 避免瀏覽器不支援部分 ES6 用法</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'babel-polyfill'</span>;</span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Provider &#125; <span class="keyword">from</span> <span class="string">'react-redux'</span>;</span><br><span class="line"><span class="keyword">import</span> CounterContainer <span class="keyword">from</span> <span class="string">'../common/containers/CounterContainer'</span>;</span><br><span class="line"><span class="keyword">import</span> configureStore <span class="keyword">from</span> <span class="string">'../common/store/configureStore'</span></span><br><span class="line"><span class="keyword">import</span> &#123; fromJS &#125; <span class="keyword">from</span> <span class="string">'immutable'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 從 server 取得傳進來的 initialState。由於從字串轉回物件，又稱為 rehydration（覆水） </span></span><br><span class="line"><span class="keyword">const</span> initialState = <span class="built_in">window</span>.__PRELOADED_STATE__;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 由於我們使用 ImmutableJS，所以需要把在 server-side dehydration（脫水）又在前端 rehydration（覆水）的 initialState 轉成 ImmutableJS 資料型態，並傳進 configureStore 建立 store</span></span><br><span class="line"><span class="keyword">const</span> store = configureStore(fromJS(initialState));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 接下來就跟一般的 React App 一樣，把 store 透過 Provider 往下傳到 Component 中</span></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">    &lt;CounterContainer /&gt;</span><br><span class="line">  &lt;<span class="regexp">/Provider&gt;,</span></span><br><span class="line"><span class="regexp">  document.getElementById('app')</span></span><br><span class="line"><span class="regexp">);</span></span><br></pre></td></tr></table></figure>
+<p>由於 Node 端要到新版對於 ES6 支援較好，所以先用 <code>babel-register</code> 在 <code>src/server/index.js</code> 去即時轉譯 <code>server.js</code>，但目前不建議在 <code>production</code> 環境使用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// use babel-register to precompile ES6 syntax</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">'babel-register'</span>);</span><br><span class="line"><span class="built_in">require</span>(<span class="string">'./server'</span>);</span><br></pre></td></tr></table></figure>
+<p>接著是我們 <code>server</code> 端，也是這個範例最重要的一個部分。首先我們用 <code>express</code> 建立了一個 port 為 3000 的 server，並使用 webpack 去執行 <code>client</code> 的程式碼。這個範例中我們使用了 <code>handleRender</code> 當 request 進來時（直接拜訪頁面或重新整理）就會執行 fetchCounter() 進行處理：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Express <span class="keyword">from</span> <span class="string">'express'</span>;</span><br><span class="line"><span class="keyword">import</span> qs <span class="keyword">from</span> <span class="string">'qs'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> webpack <span class="keyword">from</span> <span class="string">'webpack'</span>;</span><br><span class="line"><span class="keyword">import</span> webpackDevMiddleware <span class="keyword">from</span> <span class="string">'webpack-dev-middleware'</span>;</span><br><span class="line"><span class="keyword">import</span> webpackHotMiddleware <span class="keyword">from</span> <span class="string">'webpack-hot-middleware'</span>;</span><br><span class="line"><span class="keyword">import</span> webpackConfig <span class="keyword">from</span> <span class="string">'../webpack.config'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; renderToString &#125; <span class="keyword">from</span> <span class="string">'react-dom/server'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Provider &#125; <span class="keyword">from</span> <span class="string">'react-redux'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; fromJS &#125; <span class="keyword">from</span> <span class="string">'immutable'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> configureStore <span class="keyword">from</span> <span class="string">'../common/store/configureStore'</span>;</span><br><span class="line"><span class="keyword">import</span> CounterContainer <span class="keyword">from</span> <span class="string">'../common/containers/CounterContainer'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; fetchCounter &#125; <span class="keyword">from</span> <span class="string">'../common/api/counter'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> Express();</span><br><span class="line"><span class="keyword">const</span> port = <span class="number">3000</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleRender</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 模仿實際非同步 api 處理情形</span></span><br><span class="line">  fetchCounter(<span class="function"><span class="params">apiResult</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 讀取 api 提供的資料（這邊我們 api 是用 setTimeout 進行模仿非同步狀況），若網址參數有值擇取值，若無則使用 api 提供的隨機值，若都沒有則取 0</span></span><br><span class="line">    <span class="keyword">const</span> params = qs.parse(req.query);</span><br><span class="line">    <span class="keyword">const</span> counter = <span class="built_in">parseInt</span>(params.counter, <span class="number">10</span>) || apiResult || <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 將 initialState 轉成 immutable 和符合 state 設計的格式 </span></span><br><span class="line">    <span class="keyword">const</span> initialState = fromJS(&#123;</span><br><span class="line">      counterReducers: &#123;</span><br><span class="line">        count: counter,</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">// 建立一個 redux store</span></span><br><span class="line">    <span class="keyword">const</span> store = configureStore(initialState);</span><br><span class="line">    <span class="comment">// 使用 renderToString 將 component 轉為 string</span></span><br><span class="line">    <span class="keyword">const</span> html = renderToString(</span><br><span class="line">      &lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">        &lt;CounterContainer /&gt;</span><br><span class="line">      &lt;<span class="regexp">/Provider&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">    /</span><span class="regexp">/ 從建立的 redux store 中取得 initialState</span></span><br><span class="line"><span class="regexp">    const finalState = store.getState();</span></span><br><span class="line"><span class="regexp">    /</span><span class="regexp">/ 將 HTML 和 initialState 傳到 client-side</span></span><br><span class="line"><span class="regexp">    res.send(renderFullPage(html, finalState));</span></span><br><span class="line"><span class="regexp">  &#125;)</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ HTML Markup，同時也把 preloadedState 轉成字串（stringify）傳到 client-side，又稱為 dehydration（脫水）</span></span><br><span class="line"><span class="regexp">function renderFullPage(html, preloadedState) &#123;</span></span><br><span class="line"><span class="regexp">  return `</span></span><br><span class="line"><span class="regexp">    &lt;!doctype html&gt;</span></span><br><span class="line"><span class="regexp">    &lt;html&gt;</span></span><br><span class="line"><span class="regexp">      &lt;head&gt;</span></span><br><span class="line"><span class="regexp">        &lt;title&gt;Redux Universal Example&lt;/</span>title&gt;</span><br><span class="line">      &lt;<span class="regexp">/head&gt;</span></span><br><span class="line"><span class="regexp">      &lt;body&gt;</span></span><br><span class="line"><span class="regexp">        &lt;div id="app"&gt;$&#123;html&#125;&lt;/</span>div&gt;</span><br><span class="line">        &lt;script&gt;</span><br><span class="line">          <span class="built_in">window</span>.__PRELOADED_STATE__ = $&#123;<span class="built_in">JSON</span>.stringify(preloadedState).replace(<span class="regexp">/&lt;/g</span>, <span class="string">'\\x3c'</span>)&#125;</span><br><span class="line">        &lt;<span class="regexp">/script&gt;</span></span><br><span class="line"><span class="regexp">        &lt;script src="/</span><span class="keyword">static</span>/bundle.js<span class="string">"&gt;&lt;/script&gt;</span></span><br><span class="line"><span class="string">      &lt;/body&gt;</span></span><br><span class="line"><span class="string">    &lt;/html&gt;</span></span><br><span class="line"><span class="string">    `</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 使用 middleware 於 webpack 去進行 hot module reloading </span></span><br><span class="line"><span class="string">const compiler = webpack(webpackConfig);</span></span><br><span class="line"><span class="string">app.use(webpackDevMiddleware(compiler, &#123; noInfo: true, publicPath: webpackConfig.output.publicPath &#125;));</span></span><br><span class="line"><span class="string">app.use(webpackHotMiddleware(compiler));</span></span><br><span class="line"><span class="string">// 每次 server 接到 request 都會呼叫 handleRender</span></span><br><span class="line"><span class="string">app.use(handleRender);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 監聽 server 狀況</span></span><br><span class="line"><span class="string">app.listen(port, (error) =&gt; &#123;</span></span><br><span class="line"><span class="string">  if (error) &#123;</span></span><br><span class="line"><span class="string">    console.error(error)</span></span><br><span class="line"><span class="string">  &#125; else &#123;</span></span><br><span class="line"><span class="string">    console.info(`==&gt; 🌎  Listening on port $&#123;port&#125;. Open up http://localhost:$&#123;port&#125;/ in your browser.`)</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#125;);</span></span><br></pre></td></tr></table></figure>
+<p>處理完 Server 的部份接下來我們來處理 actions 的部份，在這個範例中 actions 相對簡單，主要就是新增和減少兩個行為，以下為 <code>src/actions/counterActions.js</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createAction &#125; <span class="keyword">from</span> <span class="string">'redux-actions'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  INCREMENT_COUNT,</span><br><span class="line">  DECREMENT_COUNT,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">'../constants/actionTypes'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> incrementCount = createAction(INCREMENT_COUNT);</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> decrementCount = createAction(DECREMENT_COUNT);</span><br></pre></td></tr></table></figure>
+<p>以下為輸出常數 <code>src/constants/actionTypes.js</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> INCREMENT_COUNT = <span class="string">'INCREMENT_COUNT'</span>;  </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> DECREMENT_COUNT = <span class="string">'DECREMENT_COUNT'</span>;</span><br></pre></td></tr></table></figure>
+<p>在這個範例中我們使用 <code>setTimeout()</code> 來模擬非同步的產生資料讓 server 端在每次接收 request 時讀取隨機產生的值。實務上，我們會開 API 讓 Server 讀取初始要匯入的 initialState。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getRandomInt</span>(<span class="params">min, max</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * (max - min)) + min</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">fetchCounter</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    callback(getRandomInt(<span class="number">1</span>, <span class="number">100</span>))</span><br><span class="line">  &#125;, <span class="number">500</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>談完 actions 我們來看我們的 reducers，在這個範例中 reducers 也是相對簡單的，主要就是針對新增和減少兩個行為去 set 值，以下是 <code>src/reducers/counterReducers.js</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; fromJS &#125; <span class="keyword">from</span> <span class="string">'immutable'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; handleActions &#125; <span class="keyword">from</span> <span class="string">'redux-actions'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; CounterState &#125; <span class="keyword">from</span> <span class="string">'../constants/models'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  INCREMENT_COUNT,</span><br><span class="line">  DECREMENT_COUNT,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">'../constants/actionTypes'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> counterReducers = handleActions(&#123;</span><br><span class="line">  INCREMENT_COUNT: <span class="function">(<span class="params">state</span>) =&gt;</span> (</span><br><span class="line">    state.set(</span><br><span class="line">      <span class="string">'count'</span>,</span><br><span class="line">      state.get(<span class="string">'count'</span>) + <span class="number">1</span></span><br><span class="line">    )</span><br><span class="line">  ),</span><br><span class="line">  DECREMENT_COUNT: <span class="function">(<span class="params">state</span>) =&gt;</span> (</span><br><span class="line">    state.set(</span><br><span class="line">      <span class="string">'count'</span>,</span><br><span class="line">      state.get(<span class="string">'count'</span>) - <span class="number">1</span></span><br><span class="line">    )</span><br><span class="line">  ),</span><br><span class="line">&#125;, CounterState);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> counterReducers;</span><br></pre></td></tr></table></figure>
+<p>準備好了 <code>rootReducer</code> 就可以使用 <code>createStore</code> 來創建我們 store，值得注意的是由於 <code>configureStore</code> 需要被 client-side 和 server-side 使用，所以把它輸出成 function 方便傳入 initialState 使用。以下是 <code>src/store/configureStore.js</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createStore, applyMiddleware &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</span><br><span class="line"><span class="keyword">import</span> thunk <span class="keyword">from</span> <span class="string">'redux-thunk'</span>;</span><br><span class="line"><span class="keyword">import</span> createLogger <span class="keyword">from</span> <span class="string">'redux-logger'</span>;</span><br><span class="line"><span class="keyword">import</span> rootReducer <span class="keyword">from</span> <span class="string">'../reducers'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">configureStore</span>(<span class="params">preloadedState</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> store = createStore(</span><br><span class="line">    rootReducer,</span><br><span class="line">    preloadedState,</span><br><span class="line">    applyMiddleware(createLogger(&#123; <span class="attr">stateTransformer</span>: <span class="function"><span class="params">state</span> =&gt;</span> state.toJS() &#125;), thunk)</span><br><span class="line">  )</span><br><span class="line">  <span class="keyword">return</span> store</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最後來到了 <code>components</code> 和 <code>containers</code> 的時間，這次我們的 Component 主要有兩個按鈕讓使用者可以新增和減少數字並顯示目前數字。以下是 <code>src/components/Counter/Counter.js</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component, PropTypes &#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Counter = (&#123;</span><br><span class="line">  count,</span><br><span class="line">  onIncrement,</span><br><span class="line">  onDecrement,</span><br><span class="line">&#125;) =&gt; (</span><br><span class="line">  &lt;p&gt;</span><br><span class="line">    Clicked: &#123;count&#125; times</span><br><span class="line">    &#123;<span class="string">' '</span>&#125;</span><br><span class="line">    &lt;button onClick=&#123;onIncrement&#125;&gt;</span><br><span class="line">      +</span><br><span class="line">    &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">    &#123;' '&#125;</span></span><br><span class="line"><span class="regexp">    &lt;button onClick=&#123;onDecrement&#125;&gt;</span></span><br><span class="line"><span class="regexp">      -</span></span><br><span class="line"><span class="regexp">    &lt;/</span>button&gt;</span><br><span class="line">    &#123;<span class="string">' '</span>&#125;</span><br><span class="line">  &lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">);</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 注意要檢查 propTypes 和給定預設值</span></span><br><span class="line"><span class="regexp">Counter.propTypes = &#123;</span></span><br><span class="line"><span class="regexp">  count: PropTypes.number.isRequired,</span></span><br><span class="line"><span class="regexp">  onIncrement: PropTypes.func.isRequired,</span></span><br><span class="line"><span class="regexp">  onDecrement: PropTypes.func.isRequired</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">Counter.defaultProps = &#123;</span></span><br><span class="line"><span class="regexp">  count: 0,</span></span><br><span class="line"><span class="regexp">  onIncrement: () =&gt; &#123;&#125;,</span></span><br><span class="line"><span class="regexp">  onDecrement: () =&gt; &#123;&#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default Counter;</span></span><br></pre></td></tr></table></figure>
+<p>最後把取出的 <code>count</code> 和事件處理方法用 connect 傳到 <code>Counter</code> 就大功告成了！以下是 <code>src/containers/CounterContainer/CounterContainer.js</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'babel-polyfill'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; connect &#125; <span class="keyword">from</span> <span class="string">'react-redux'</span>;</span><br><span class="line"><span class="keyword">import</span> Counter <span class="keyword">from</span> <span class="string">'../../components/Counter'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  incrementCount,</span><br><span class="line">  decrementCount,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">'../../actions'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> connect(</span><br><span class="line">  (state) =&gt; (&#123;</span><br><span class="line">    count: state.get(<span class="string">'counterReducers'</span>).get(<span class="string">'count'</span>),</span><br><span class="line">  &#125;),</span><br><span class="line">  (dispatch) =&gt; (&#123; </span><br><span class="line">    onIncrement: <span class="function"><span class="params">()</span> =&gt;</span> (</span><br><span class="line">      dispatch(incrementCount())</span><br><span class="line">    ),</span><br><span class="line">    onDecrement: <span class="function"><span class="params">()</span> =&gt;</span> (</span><br><span class="line">      dispatch(decrementCount())</span><br><span class="line">    ),</span><br><span class="line">  &#125;)</span><br><span class="line">)(Counter);</span><br></pre></td></tr></table></figure>
+<p>若一切順利，在終端機打上 <code>$ npm start</code>，你將可以在瀏覽器的 <code>http://localhost:3000</code> 看到自己的成果！</p>
+<p><img src="/img/kdchang/react-server-rendering-demo.png" alt="React Redux Sever Rendering（Isomorphic）入門" title="React Redux Sever Rendering（Isomorphic）入門"></p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>本章闡述了 Web 頁面瀏覽的進程和 Isomorphic JavaScript 的優勢，並介紹了如何使用 React Redux 進行 Server Side Rendering 的應用程式設計。若想參考更進一步資料可以參考筆者撰寫的 React 入門教學書 <a href="https://github.com/kdchang/reactjs101" target="_blank" rel="noopener">《從零開始學 ReactJS》</a>，相關範例程式碼可以<a href="https://github.com/kdchang/reactjs101/tree/master/Ch10/react-redux-server-rendering" target="_blank" rel="noopener">參考這裡</a>，若有任何問題或建議歡迎一起學習討論：）</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a href="https://github.com/DavidWells/isomorphic-react-example" target="_blank" rel="noopener">DavidWells/isomorphic-react-example</a></li>
+<li><a href="https://github.com/RickWong/react-isomorphic-starterkit" target="_blank" rel="noopener">RickWong/react-isomorphic-starterkit</a></li>
+<li><a href="https://www.bensmithett.com/server-rendered-react-components-in-rails/" target="_blank" rel="noopener">Server-rendered React components in Rails</a></li>
+<li><a href="http://nerds.airbnb.com/weve-launched-our-first-nodejs-app-to-product/" target="_blank" rel="noopener">Our First Node.js App: Backbone on the Client and Server</a></li>
+<li><a href="https://bensmithett.github.io/going-isomorphic-with-react/#/" target="_blank" rel="noopener">Going Isomorphic with React</a></li>
+<li><a href="https://github.com/airbnb/hypernova" target="_blank" rel="noopener">A service for server-side rendering your JavaScript views</a></li>
+<li><a href="http://nerds.airbnb.com/isomorphic-javascript-future-web-apps/" target="_blank" rel="noopener">Isomorphic JavaScript: The Future of Web Apps</a></li>
+<li><a href="https://github.com/reactjs/react-router-tutorial/tree/master/lessons/13-server-rendering" target="_blank" rel="noopener">React Router Server Rendering</a></li>
+</ol>
+<p>（image via <a href="http://nerds.airbnb.com/wp-content/uploads/2013/11/Screen-Shot-2013-11-06-at-5.21.00-PM.png" target="_blank" rel="noopener">airbnb</a>）</p>
+<p>關於作者：<br><a href="http://blog.kdchang.cc" target="_blank" rel="noopener">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校，目前專注在 Mobile 和 IoT 應用開發。A Starter &amp; Maker. JavaScript, Python &amp; Arduino/Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2016/08/27/react-redux-immutablejs-node-server-isomorphic-tutorial/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2016/08/27/react-redux-immutablejs-node-server-isomorphic-tutorial/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2016/08/27/react-redux-immutablejs-node-server-isomorphic-tutorial/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2016/08/27/react-redux-immutablejs-node-server-isomorphic-tutorial/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2016/09/03/how-to-control-bot-motion-by-ROSTopic/">
+        ← 如何用 ROS Topic 控制機器人移動
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/08/20/d3v4-pokemon-weaknesses/">
+        用 D3.js v4 看 Pokemon 屬性表 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

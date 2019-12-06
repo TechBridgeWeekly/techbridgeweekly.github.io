@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>淺談二分搜尋法 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-09-24T01:07:13.000Z" itemprop="datePublished">
+          2016-09-24
+      </time>
+    
+    
+    | 
+    <a href='/tags/search/'>search</a>,
+    
+    <a href='/tags/binary-search/'>binary_search</a>,
+    
+    <a href='/tags/algorithm/'>algorithm</a>
+    
+    
+</span>
+
+<meta name="generator" content="淺談二分搜尋法">
+<meta name="og:title" content="淺談二分搜尋法">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">淺談二分搜尋法</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在寫程式的時候，其實會滿常用到「搜尋」的功能。<br>最簡單的搜尋就是在一串數字裡面找出你想要的數字，而這也是我們今天的主題。  </p>
+<p>這一篇大致上會分成三個部分，第一部分會先介紹線性搜尋法，第二部分介紹二分搜尋法，最後一部分談談二分搜尋法在不同條件底下的實作方式會有什麼不同。</p>
+<h1 id="線性搜尋法"><a href="#線性搜尋法" class="headerlink" title="線性搜尋法"></a>線性搜尋法</h1><p>為了由淺入深，我們從最基礎的線性搜尋法（Linear search）開始談起。<br>就如同它的名字一樣，線性搜尋法就是「從頭到尾一個一個找」，時間複雜度為 O(n)，很容易理解也很好實作  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">linear_search</span>(<span class="params">array, target</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;array.length; i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(array[i]==target) <span class="keyword">return</span> i;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">-1</span>; <span class="comment">//找不到</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>或是可以參考這個簡單的動畫，錄自<a href="https://www.cs.usfca.edu/~galles/visualization/Search.html" target="_blank" rel="noopener">Algorithm Visualizations</a><br><img src="/img/huli/linear_search.gif" alt="線性搜尋法動畫" title="linear_search"></p>
+<h1 id="二分搜尋法"><a href="#二分搜尋法" class="headerlink" title="二分搜尋法"></a>二分搜尋法</h1><p>假如今天要搜尋的數列是有序的，我們便可以把線性搜尋法再做優化，使時間複雜度再更低一點  </p>
+<p>二分搜尋法的原理跟小時候大家玩「終極密碼」的流程十分類似<br>就是那個 1~99 要你猜數字的遊戲  </p>
+<p>為了快點猜到（或是讓敵人快點猜到），有些人第一個數字會喊 50，為什麼呢？<br>因為無論數字是小於或是大於 50，剩下的數字一定會砍一半，變成原本的 1/2<br>假設下一次也繼續這樣砍對半，大概猜個七八次，就能「保證」一定猜得到  </p>
+<p>這邊可以做個簡單的小驗證：<br>如果只有 1 個數字，猜 1 次必定猜得到<br>如果只有 2 個數字，猜 2 次必定猜得到<br>如果只有 3 個數字，猜 2 次必定猜得到<br>如果只有 4 個數字，假設是 1 2 3 4 好了<br>切半猜 2，結果範圍變成 3 4，剩兩個數字，要猜 2 次<br>所以 4 個數字的話，猜 1 + 2 = 3 次一定猜得到  </p>
+<p>如果有 8 個數字，切半剩下 4 個，所以要猜 1 + 3 = 4 次<br>…<br>這樣繼續推廣下去，就會發現保證能猜到的次數與以 2 為底取 log 有關<br>詳細數學公式就不再贅述  </p>
+<p>瞭解原理之後，會發現二分搜尋法的流程也非常簡單：</p>
+<ol>
+<li>決定好左邊界 L，右邊界 R</li>
+<li>取 M = (L+R)/2，作為中間的 index</li>
+<li>如果 array[M] == 要找的數，return M</li>
+<li>如果 array[M]&gt;要找的數，表示 M~R 這一段數字都是不可能的，所以讓 R = M - 1</li>
+<li>如果 array[M]&lt;要找的數，表示 L~M 這一段數字都是不可能的，所以讓 L = M + 1</li>
+<li>如果 R&gt;=L，持續第 2 步，否則回傳 -1（代表找不到）</li>
+</ol>
+<p>這邊的停止條件是「當L&gt;R」的時候，就代表找不到了<br>因為 L 代表：最左邊的有可能的值。換句話說，假如有答案，一定在 &gt;=L 的位置<br>R 代表的是：最右邊有可能的值，假如有答案，一定在 &lt;=R 的位置<br>所以當L &gt; R 的時候，&gt;=L 跟 &lt;=R 已經是空集合了，代表不可能有答案  </p>
+<p>這邊還有一個要特別注意的點是<code>(L+R)/2</code>這句，當值很大的時候可能會造成 overflow。為了避免這種情形，可以改寫成<code>(R-L)/2 + L</code>  </p>
+<p>可以參考一樣從 <a href="https://www.cs.usfca.edu/~galles/visualization/Search.html" target="_blank" rel="noopener">Algorithm Visualizations</a> 錄製的簡單動畫</p>
+<p>（藍色是 L，黃色是 R，綠色是 M，要找的數字是 180）<br><img src="/img/huli/binary_search.gif" alt="二分搜尋法動畫" title="binary_search"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">binary_search</span>(<span class="params">array, target</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> L = <span class="number">0</span>, R = array.length - <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">while</span>(L&lt;=R) &#123;</span><br><span class="line">    <span class="keyword">var</span> M = <span class="built_in">Math</span>.floor((L+R)/<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">if</span>(array[M]==target)&#123;</span><br><span class="line">      <span class="keyword">return</span> M;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span>(array[M]&gt;target) &#123;</span><br><span class="line">      R = M - <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      L = M + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="不同條件的二分搜尋法"><a href="#不同條件的二分搜尋法" class="headerlink" title="不同條件的二分搜尋法"></a>不同條件的二分搜尋法</h1><p>剛剛所介紹的二分搜尋法，就只是要求在一連串數列裡面回答說有沒有找到，有的話在第幾個位置有<br>如果數列裡有重複的數字，而且條件變更成：回傳「第一個」出現的位置<br>例如說 1 2 2 2 2 2 3 3 要找 2，就回傳：1，因為第一個 2 出現在 index 為 1 的地方  </p>
+<p>或者，改成回傳「最後一個」出現的位置<br>同樣以上面那個例子來說，要回傳：5，因為 index 5 是最後一個 2  </p>
+<p>甚至還有稍微更複雜一點的，例如說以下四種：</p>
+<ol>
+<li>回傳第一個 &gt;=target 的位置</li>
+<li>回傳第一個 &gt;target 的位置</li>
+<li>回傳最後一個 &lt;=target 的位置</li>
+<li>回傳最後一個 &lt;target 的位置</li>
+</ol>
+<p>（可參考：<a href="http://www.cplusplus.com/reference/algorithm/lower_bound/" target="_blank" rel="noopener">lower_bound</a>）<br>再搭配上剛剛所說的找等於 target 的第一個與最後一個的位置<br>可以知道這樣的變形總共有 6 種，那該怎麼辦呢？  </p>
+<p>其實原理都很類似，一樣是用二分搜尋去排除最多的數字，但是在一些條件判斷上會有些微差異<br>如果弄得不好的話，很容易會造成無窮迴圈，例如說找最後一個小於target 的數：  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">search</span>(<span class="params">array, target</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> L = <span class="number">0</span>, R = array.length - <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">while</span>(L&lt;=R) &#123;</span><br><span class="line">    <span class="keyword">var</span> M = <span class="built_in">Math</span>.floor((L+R)/<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">if</span>(array[M]&lt;target)&#123;</span><br><span class="line">      L = M;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      R = M - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> M;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我們拿這一組範例去跑：<code>search([1,2,3,4,5],2)</code><br>剛開始 L=0, R=4, M=2<br>array[2] = 3 &gt; 2，所以 R = 2-1 = 1  </p>
+<p>接著 L=0, R = 1, M = 0<br>array[0] = 1 &lt; target，L = M = 0  </p>
+<p>然後就會再重複一樣的步驟，陷入無窮迴圈<br>這個就是寫二分搜的時候最常碰到的情況之一<br>一些條件沒有設定好，或許只是差一個等號或者是+1 -1，但就是搞不定  </p>
+<p>網路上可以找到許多文章，都是在講解應該要怎麼設定這些條件：  </p>
+<ol>
+<li><a href="http://www.cnblogs.com/ider/archive/2012/04/01/binary_search.html" target="_blank" rel="noopener">二分查找法的实现和应用汇总</a></li>
+<li><a href="http://duanple.blog.163.com/blog/static/709717672009049528185/" target="_blank" rel="noopener">漫谈二分查找-Binary Search </a></li>
+<li><a href="http://zhengboyang.com/2016/03/18/%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%E6%B3%95%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90%E4%B8%8E%E6%80%BB%E7%BB%93/" target="_blank" rel="noopener">二分搜索法简单分析与总结</a></li>
+</ol>
+<p>或是這篇知乎上的問答也有很多討論可以參考：<a href="https://www.zhihu.com/question/36132386" target="_blank" rel="noopener">二分查找有几种写法？它们的区别是什么？</a><br>其中我最喜歡的是<a href="https://www.zhihu.com/question/36132386/answer/97729337" target="_blank" rel="noopener">這個回答</a>：  </p>
+<blockquote>
+<p>说到面试，其实这题的难点在于最后边界条件，那么我们根本不用判断那个边界，二分到区间小到一定程度，比如5个元素以下，就顺序查找好了，反正也是O(lgN)的，而且最后5个元素顺序查找平均也只需要比较两三次而已，跟你二分差不多，我本人也很推荐在实际工程中这样写，可以规避很多麻烦的bug，用最稳妥的办法解决问题</p>
+</blockquote>
+<p>這個思路我之前也有想過<br>既然+-1或者要不要加等號這麼麻煩，那乾脆就不要加了吧！</p>
+<p>只要把終止條件改一下，判斷邏輯也改一下就好<br>一樣舉上面那個：找最後一個小於target 的數為例子  </p>
+<p>基本上的原則就是：  </p>
+<ol>
+<li>保證答案一定在閉區間 [L, R] 裡面</li>
+<li>當這區間剩下的數很少時，改用線性搜尋</li>
+</ol>
+<p>這樣就不用怕碰到無窮迴圈的問題了，下面附上程式碼：  </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 傳回最後一個 &lt; target 的數</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">lower_bound</span>(<span class="params">array, target</span>) </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 先看看是否沒答案</span></span><br><span class="line">  <span class="comment">// 如果第一個數還是沒有 &lt; target，代表沒答案</span></span><br><span class="line">  <span class="keyword">if</span>(array[<span class="number">0</span>]&gt;=target) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 結束條件是區間內剩兩個以下數字的時候</span></span><br><span class="line">  <span class="keyword">var</span> L = <span class="number">0</span>, R = array.length<span class="number">-1</span>;</span><br><span class="line">  <span class="keyword">while</span>((R-L+<span class="number">1</span>)&gt;<span class="number">2</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> M = <span class="built_in">Math</span>.floor((L+R)/<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">if</span>(array[M]&lt;target)&#123;</span><br><span class="line">      L = M;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      R = M - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 在答案範圍內用線性搜尋</span></span><br><span class="line">  <span class="comment">// 其實到這邊只會剩下兩個元素以內，不一定要用迴圈</span></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">var</span> i=R; i&gt;=L; i--)&#123;</span><br><span class="line">    <span class="keyword">if</span>(array[i]&lt;target)&#123;</span><br><span class="line">      <span class="keyword">return</span> i;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>就算條件變得不一樣，例如說要找：<code>&gt;=target</code>, <code>&lt;target</code> 等等的，只要改一下條件，用差不多的架構就可以得到解答</p>
+<h1 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h1><p>其實原本我是想好好研究一下在不同狀況下的二分搜，那些條件到底要怎麼訂，有沒有什麼統一的規則可以參考<br>但最後覺得還是文末給出的解法最方便，不但好想，而且還好寫<br>不用去顧慮那些&lt;&gt;=的符號跟+1-1的問題，在執行效率上也差不多  </p>
+<p>在演算法這一塊我沒有很專業<br>若是文章之中有哪部分有錯的話，還麻煩各位前輩不吝指正 &lt;(_ _)&gt;  </p>
+<p>最後附上不嚴謹的測試與各種二分搜版本的 <a href="https://repl.it/DgDU/1" target="_blank" rel="noopener">JavaScript 程式碼</a>  </p>
+<p>關於作者：<br><a href="http://huli.logdown.com/" target="_blank" rel="noopener">@huli</a> 野生工程師，相信分享與交流能讓世界變得更美好</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2016/09/24/binary-search-introduction/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2016/09/24/binary-search-introduction/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2016/09/24/binary-search-introduction/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2016/09/24/binary-search-introduction/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2016/09/28/ros-collision-avoiding-robot/">
+        ← 使用 ROS 與 Gazebo 模擬一個自動避障機器人
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/09/17/create-react-pwa/">
+        當 React web app 遇上 Progressive web app →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

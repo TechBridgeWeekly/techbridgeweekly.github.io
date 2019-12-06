@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>人人都會的 Android Apk 反編譯 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-03-24T23:30:00.000Z" itemprop="datePublished">
+          2016-03-24
+      </time>
+    
+    
+    | 
+    <a href='/tags/Mobile/'>Mobile</a>,
+    
+    <a href='/tags/Android/'>Android</a>,
+    
+    <a href='/tags/Decompile/'>Decompile</a>,
+    
+    <a href='/tags/Apktool/'>Apktool</a>,
+    
+    <a href='/tags/Smali/'>Smali</a>,
+    
+    <a href='/tags/Dex2jar/'>Dex2jar</a>,
+    
+    <a href='/tags/行動網路/'>行動網路</a>,
+    
+    <a href='/tags/反編譯/'>反編譯</a>,
+    
+    <a href='/tags/APK/'>APK</a>
+    
+    
+</span>
+
+<meta name="generator" content="人人都會的 Android Apk 反編譯">
+<meta name="og:title" content="人人都會的 Android Apk 反編譯">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">人人都會的 Android Apk 反編譯</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p>對於 Android 工程師來說，了解如何反編譯可以增進自己對 Android 底層的理解，也可以思考如何保護自己的 apk 不被反編譯。</p>
+<p>對於一般人來說，許多現成的工具可以幫助我們非常輕鬆的、只要打打幾個指令就可以反編譯 apk，看到 java source code，滿足自己的好奇心。</p>
+<p>本篇文章只介紹一些工具的使用，適合初學者觀看。若是想了解更底層的知識，可以參考文末附上的延伸閱讀。</p>
+<h2 id="事前準備"><a href="#事前準備" class="headerlink" title="事前準備"></a>事前準備</h2><p>首先，我們需要一個用來被破解的 apk，簡單用任何你平常熟悉的工具自己 build 一個就好了。基本架構很簡單，只要一個 <code>MainActivity</code> 跟兩個<code>TextView</code>就好：</p>
+<figure class="highlight java"><figcaption><span>MainActivity.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        TextView text = (TextView)findViewById(R.id.text);</span><br><span class="line">        text.setText(<span class="string">"Taiwan No1"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><figcaption><span>activity_main.xml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"@string/hello_world"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/text"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>安裝到手機上之後，會看到這樣的畫面：</p>
+<p><img src="http://user-image.logdown.io/user/7013/blog/6977/post/661513/uVN5gnA0QC6PEdujMIZg_device-2016-03-20-152510.png" alt="device-2016-03-20-152510.png"></p>
+<h2 id="實際動手"><a href="#實際動手" class="headerlink" title="實際動手"></a>實際動手</h2><p>好，這個就是我們要拿來測試的 apk 了！<br>接著你需要一些非常好用的工具：</p>
+<ol>
+<li><a href="http://ibotpeaches.github.io/Apktool/" target="_blank" rel="noopener">apktool</a></li>
+<li><a href="http://jd.benow.ca/" target="_blank" rel="noopener">jd-gui</a></li>
+<li><a href="https://sourceforge.net/projects/dex2jar/" target="_blank" rel="noopener">dex2jar</a></li>
+</ol>
+<p>如何安裝就不再贅述了，讀者們可以參考看看文件或是上網搜尋一下就會有一堆解答～<br><code>apktool</code>是拿來把 apk 拆開用的，可以反編譯 apk 之後，看到 <code>smali</code> 檔案跟 <code>resource</code><br><code>dex2jar</code>可以把 apk 轉成 jar，再用<code>jd-gui</code>檢視 java code</p>
+<p>接著我們開啟 terminal，到剛剛那個示範 apk 的目錄底下，執行<code>apktool d APKNAME.apk</code><br><img src="http://user-image.logdown.io/user/7013/blog/6977/post/661513/Ahk6ZkFOQm7ECISEyxMI_%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202016-03-20%20%E4%B8%8B%E5%8D%883.32.47.png" alt="螢幕快照 2016-03-20 下午3.32.47.png"></p>
+<p>執行以後，會自動生成一個<code>APKNAME</code>的資料夾，裡面就是反編譯出來的東西了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── AndroidManifest.xml</span><br><span class="line">├── apktool.yml</span><br><span class="line">├── original</span><br><span class="line">├── res</span><br><span class="line">└── smali</span><br></pre></td></tr></table></figure>
+<p>其中比較值得講的是<code>smali</code>這個資料夾，其實這裡面就是你的 source code，只是格式不太一樣。<br>你可以在<code>smali</code>這資料夾裡面找到你的<code>MainActivity.java</code>，內容如下：<br>（覺得長得很奇怪是很正常的事，但是認真多看幾眼，你會發現其實沒那麼難懂）</p>
+<figure class="highlight java"><figcaption><span>MainActivity.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="class">.<span class="keyword">class</span> <span class="title">public</span> <span class="title">Lapktest</span>/<span class="title">huli</span>/<span class="title">com</span>/<span class="title">apkdecompile</span>/<span class="title">MainActivity</span></span>;</span><br><span class="line">.<span class="keyword">super</span> Landroid/app/Activity;</span><br><span class="line">.source <span class="string">"MainActivity.java"</span></span><br><span class="line"></span><br><span class="line"># direct methods</span><br><span class="line">.method <span class="keyword">public</span> constructor &lt;init&gt;()V</span><br><span class="line">    .locals <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    .prologue</span><br><span class="line">    .line <span class="number">8</span></span><br><span class="line">    invoke-direct &#123;p0&#125;, Landroid/app/Activity;-&gt;&lt;init&gt;()V</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>-<span class="keyword">void</span></span><br><span class="line">.end method</span><br><span class="line"></span><br><span class="line"># virtual methods</span><br><span class="line">.<span class="function">method <span class="keyword">protected</span> <span class="title">onCreate</span><span class="params">(Landroid/os/Bundle;)</span>V</span></span><br><span class="line"><span class="function">    .locals 2</span></span><br><span class="line"><span class="function">    .param p1, "savedInstanceState"    # Landroid/os/Bundle</span>;</span><br><span class="line"></span><br><span class="line">    .prologue</span><br><span class="line">    .line <span class="number">12</span></span><br><span class="line">    invoke-<span class="keyword">super</span> &#123;p0, p1&#125;, Landroid/app/Activity;-&gt;onCreate(Landroid/os/Bundle;)V</span><br><span class="line"></span><br><span class="line">    .line <span class="number">13</span></span><br><span class="line">    <span class="keyword">const</span> v1, <span class="number">0x7f040019</span></span><br><span class="line"></span><br><span class="line">    invoke-virtual &#123;p0, v1&#125;, Lapktest/huli/com/apkdecompile/MainActivity;-&gt;setContentView(I)V</span><br><span class="line"></span><br><span class="line">    .line <span class="number">14</span></span><br><span class="line">    <span class="keyword">const</span> v1, <span class="number">0x7f0c0050</span></span><br><span class="line"></span><br><span class="line">    invoke-virtual &#123;p0, v1&#125;, Lapktest/huli/com/apkdecompile/MainActivity;-&gt;findViewById(I)Landroid/view/View;</span><br><span class="line"></span><br><span class="line">    move-result-object v0</span><br><span class="line"></span><br><span class="line">    check-cast v0, Landroid/widget/TextView;</span><br><span class="line"></span><br><span class="line">    .line <span class="number">15</span></span><br><span class="line">    .local v0, <span class="string">"text"</span>:Landroid/widget/TextView;</span><br><span class="line">    <span class="keyword">const</span>-string v1, <span class="string">"Taiwan No1"</span></span><br><span class="line"></span><br><span class="line">    invoke-virtual &#123;v0, v1&#125;, Landroid/widget/TextView;-&gt;setText(Ljava/lang/CharSequence;)V</span><br><span class="line"></span><br><span class="line">    .line <span class="number">16</span></span><br><span class="line">    <span class="keyword">return</span>-<span class="keyword">void</span></span><br><span class="line">.end method</span><br></pre></td></tr></table></figure>
+<p>你可以仔細對照一下剛剛自己寫的 java code，會發現只是換了種格式而已：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setContentView(R.layout.activity_main);</span><br></pre></td></tr></table></figure>
+<p>其實就等於</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.line <span class="number">13</span></span><br><span class="line"><span class="keyword">const</span> v1, <span class="number">0x7f040019</span></span><br><span class="line">invoke-virtual &#123;p0, v1&#125;, Lapktest/huli/com/apkdecompile/MainActivity;-&gt;setContentView(I)V</span><br></pre></td></tr></table></figure>
+<p>你可能會好奇，這個<code>0x7f040019</code>是哪來的？<br>事實上，你可以在<code>res/values/public.xml</code>這個檔案裡面找到答案：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">public</span> <span class="attr">type</span>=<span class="string">"layout"</span> <span class="attr">name</span>=<span class="string">"activity_main"</span> <span class="attr">id</span>=<span class="string">"0x7f040019"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>到這裡，應該就可以大概猜出 Android 在編譯時候的流程：</p>
+<ol>
+<li>把所有資源檔壓縮、處理並且包在一起，產生<code>id與記憶體位置對照表</code></li>
+<li>把程式碼裡面所有的<code>R.xx.xxx</code>透過剛剛產生的表，換成實際的記憶體位置</li>
+<li>把 java code 變成 smali code（有點像把 C 變成組合語言的程式碼那樣）</li>
+</ol>
+<h2 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h2><p>在剛剛的<code>smali</code>裡面，有這麼一段：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.line <span class="number">15</span></span><br><span class="line">.local v0, <span class="string">"text"</span>:Landroid/widget/TextView;</span><br><span class="line"><span class="keyword">const</span>-string v1, <span class="string">"Taiwan No1"</span></span><br><span class="line"></span><br><span class="line">invoke-virtual &#123;v0, v1&#125;, Landroid/widget/TextView;-&gt;setText(Ljava/lang/CharSequence;)V</span><br></pre></td></tr></table></figure>
+<p>讓我們把<code>Taiwan No1</code>換成<code>T@iw@n n0!</code>。<br>還記得另一個<code>TextView</code>有用到<code>R.string.hello_world</code>嗎？<br>在<code>res/values/strings.xml</code>裡面，可以找到這一串的定義：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"hello_world"</span>&gt;</span>Hello world!<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>改成：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"hello_world"</span>&gt;</span>HELLO WORLD<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>確定都有改完以後，就可以把這些程式碼再度「組裝」回去。<br>還記得剛剛反編譯的指令嗎？<code>apktool d APK_NAME.apk</code><br>這邊的<code>d</code>就是<code>decompile</code>的意思，所以如果要逆向組裝回去，就是<code>b</code>，<code>build</code>。</p>
+<p><code>apktool b APK_NAME</code></p>
+<p>執行完之後可以在<code>APK_NAME/dist</code>下面找到一個 apk。<br>但要注意的是這個 apk 還沒有被 sign 過，因此無法安裝。<br>可以隨便生成一個 keystore 或是找現成的來簽署。<br><code>jarsigner -verbose -digestalg SHA1 -keystore ~/KEY.keystore APK_NAME.apk KEY_ALIAS</code></p>
+<p>安裝完以後就會看到這樣的畫面：</p>
+<p><img src="http://user-image.logdown.io/user/7013/blog/6977/post/661513/RNKaPElHQA2BJ02proFr_device-2016-03-20-160501.png" alt="device-2016-03-20-160501.png"></p>
+<p>沒錯！就是這麼簡單，一個 apk 就這樣被修改了！</p>
+<p>可是<code>smali</code>的程式碼不好懂，能不能直接看到 java code呢？<br>這時候剛剛推薦的工具<code>dex2jar</code>與<code>jd-gui</code>就派上用場了<br>前者可以把 apk 變成 jar，後者可以開啟一個 jar 並且顯示 java code<br>兩個組合在一起，就可以直接看到原本的程式碼了</p>
+<p><code>dex2jar</code>下載下來之後會有一堆的 shell script，<code>dex2jar</code>就是我們想要的那個<br><code>./d2j-dex2jar.sh app.apk</code><br>執行完之後會有一個 jar，用 jd-gui 打開，會看到你的程式碼一覽無遺：</p>
+<p><img src="http://user-image.logdown.io/user/7013/blog/6977/post/661513/zrnTKCQgT0OeIPbkkfp8_%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202016-03-20%20%E4%B8%8B%E5%8D%884.10.15.png" alt="螢幕快照 2016-03-20 下午4.10.15.png"></p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>沒接觸過反編譯的人可能會很驚訝：什麼！要改掉一個 apk 居然這麼簡單！<br>沒錯，就是這麼簡單，而且這只是一個很基本的範例而已。事實上，你想要加入新的程式碼、加入新的資源（圖片、聲音等等）也是可以的。<br>也就是說，你不只可以修改，還可以擴充原本的 apk！</p>
+<p>但也有些方法可以防止不肖人士反編譯 apk，例如說加殼、混淆、動態載入等，關於這些方法我們下次有機會再介紹給大家囉！</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a href="https://magiclen.org/android-decompiler/" target="_blank" rel="noopener">Android 反編譯與防止被反編譯</a></li>
+<li><a href="http://aiur3908.blogspot.tw/2015/07/android-proguard.html" target="_blank" rel="noopener">[Android] 程式碼混淆(ProGuard)與反組譯</a></li>
+<li><a href="http://blog.davidou.org/archives/553" target="_blank" rel="noopener">[Android] 反組譯 破解Android的apk安裝檔</a></li>
+<li><a href="http://www.wangchenlong.org/2016/03/19/reverse-analyze-apk/" target="_blank" rel="noopener">反编译的常用工具与使用方法</a></li>
+<li><a href="http://blog.csdn.net/wdaming1986/article/details/8299996" target="_blank" rel="noopener">Smali–Dalvik虚拟机指令语言–&gt;【android_smali语法学习一】</a></li>
+<li><a href="http://blog.isming.me/2015/01/14/android-decompile-smali/" target="_blank" rel="noopener">android反编译-smali语法</a></li>
+</ol>
+<p>關於作者：<br><a href="http://huli.logdown.com/" target="_blank" rel="noopener">@huli</a> 野生工程師，相信分享與交流能讓世界變得更美好</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2016/03/24/android-decompile-introduction/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2016/03/24/android-decompile-introduction/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2016/03/24/android-decompile-introduction/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2016/03/24/android-decompile-introduction/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2016/04/02/Browser-Rendering-Optimization/">
+        ← Browser Rendering Optimization
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/03/19/ros-caffe/">
+        Caffe & GoogLeNet，怎麼幫助機器人更好地辨識物體 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

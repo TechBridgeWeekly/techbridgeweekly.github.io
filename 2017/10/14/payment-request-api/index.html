@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>統一網頁支付介面：Payment Request API | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-10-14T15:43:00.000Z" itemprop="datePublished">
+          2017-10-14
+      </time>
+    
+    
+    | 
+    <a href='/tags/payment-request/'>payment request</a>
+    
+    
+</span>
+
+<meta name="generator" content="統一網頁支付介面：Payment Request API">
+<meta name="og:title" content="統一網頁支付介面：Payment Request API">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">統一網頁支付介面：Payment Request API</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>之前在 <a href="https://news.ycombinator.com/item?id=15272374" target="_blank" rel="noopener">Hacker News</a> 上面看到了這一篇文章：<a href="https://www.w3.org/blog/wpwg/2017/09/14/payment-request-api-now-being-implemented-in-all-major-browsers-advances-on-the-recommendation-track/" target="_blank" rel="noopener">Payment Request API — Now Being Implemented in All Major Browsers</a>，大意就是 <code>Payment Request API</code> 這一個東西將會在主流瀏覽器上面被實作出來。</p>
+<p>在這之前，我完全沒有聽過這個東西，完全不知道它在做什麼。但經過我稍微研究之後，發現這個原來是網頁支付介面的未來。</p>
+<h1 id="Payment-Request-API-簡介"><a href="#Payment-Request-API-簡介" class="headerlink" title="Payment Request API 簡介"></a>Payment Request API 簡介</h1><p>在瞭解一項新事物以前，我習慣先從「目的」下手，如果你知道這個東西是為了解決什麼問題而誕生，就能對它有最基本的了解。</p>
+<p>而 Payment Request API 誕生的原因很簡單，就是為了解決支付問題，尤其是在手機上的支付。</p>
+<p>先不要談手機，我們先來談電腦端的支付就好。</p>
+<p>現在每個購物網站都有不同的支付介面，串接著不同的金流廠商。假設我今天在蝦皮買了《純粹理性批判》，填了信用卡號碼與收貨地址，蝦皮貼心的幫我記住，於是下一次我再購物時，就不必再填收貨地址了。</p>
+<p>可是，如果今天 PChome 商家砸錢放送各種優惠，我決定轉到 PChome 上面購物，我買了一本《夢的解析》，就要再填了一次信用卡號碼跟收貨地址。</p>
+<p>問題是什麼？</p>
+<p>問題是每一間公司、每一個網站的結帳流程跟介面都不一樣，雖然大同小異，可是那些資料都是沒有辦法共用的。就算我在 100 個網站都填了收貨地址，我在第 101 個網站還是要重新填一次，因為他沒有我的資料。</p>
+<p>上面講的是每一個網站有差異的地方，那有任何相同的地方嗎？</p>
+<p>有，那就是你都用同一個瀏覽器購物。</p>
+<h1 id="瀏覽器的初次嘗試：自動填入"><a href="#瀏覽器的初次嘗試：自動填入" class="headerlink" title="瀏覽器的初次嘗試：自動填入"></a>瀏覽器的初次嘗試：自動填入</h1><p>上面說的情景其實不太準確，因為你應該會發現其實瀏覽器會自動幫你記憶地址跟信用卡，就可以很方便地使用自動填入的功能。</p>
+<p>例如說刷卡的時候只要刷過一次，就可以讓 Chrome 把這一張的卡的資訊記在瀏覽器裡面，下次再到別的網站刷卡時，你只要點一下輸入卡號的輸入框，Chrome 就會提示你說可以用之前的那張卡來付費。</p>
+<p>地址也是如此，都有瀏覽器幫你記憶起來，這樣你就只要填一次之後，之後都可以由 Chrome 幫你自動填入。</p>
+<p>可是，這樣還有一個問題，那就是結帳的流程跟介面還是不統一，大家都有自己不同的實作，有的支付介面簡直慘不忍睹，尤其是在手機上！</p>
+<p>根據 Google 的<a href="https://developers.google.com/web/fundamentals/payments/payment-request-ux-considerations" target="_blank" rel="noopener">統計</a>，有 65.9% 的使用者在手機上購物時，還沒完成所有流程就離開了。這已經超過一半的用戶了，代表許多網站在手機的支付介面這一塊還有很大的努力空間。</p>
+<p>而這一次，瀏覽器決定自己跳下來解決這個問題。</p>
+<h1 id="瀏覽器：都交給我吧！"><a href="#瀏覽器：都交給我吧！" class="headerlink" title="瀏覽器：都交給我吧！"></a>瀏覽器：都交給我吧！</h1><p>瀏覽器要怎麼解決這個痛點？</p>
+<p>簡單！只要由瀏覽器提供一個統一的結帳介面就好，連流程都一併統一。商家的網頁可以根據需求的不同，帶入不同的參數，但最終都是呼叫瀏覽器提供的 API（也就是我們今天的主角：Payment Request API），叫出瀏覽器原生的介面。</p>
+<p>當這個 API 普及並且大家都發現比較好用的時候，所有的網頁都會跟進，都會採取一樣的方式。這樣就能夠確保所有網站的支付流程都統一了。</p>
+<h1 id="所以-Payment-Request-API-到底是什麼？"><a href="#所以-Payment-Request-API-到底是什麼？" class="headerlink" title="所以 Payment Request API 到底是什麼？"></a>所以 Payment Request API 到底是什麼？</h1><blockquote>
+<p>簡單來說，就是瀏覽器提供的 API，當網頁端以 JavaScript 呼叫以後，就會出現瀏覽器原生的結帳介面，用來取代原有的商家自有的結帳流程。</p>
+</blockquote>
+<p>直接讓你看一張圖就會理解了：</p>
+<p><img src="/img/huli/payment/intro.png" alt></p>
+<p>這個就是呼叫 API 之後的樣子。</p>
+<p>要特別注意的一點是 Payment Request API 跟後端「完全無關」，你後端就跟以前一樣接收資料即可。有變動的地方是前端，原本你在前端需要寫的那些結帳頁面，都可以交由瀏覽器來 render 原生的 UI，你只要負責呼叫 Payment Request API 即可。</p>
+<p>呼叫以後可以拿到使用者填入的那些資料，把那些資料像以前一樣發送到 Server 端就好。</p>
+<p>但要注意的是這個 API 還不普及，根據 <a href="https://caniuse.com/#feat=payment-request" target="_blank" rel="noopener">caniuse.com</a> 的資料，只有 Chrome 61 版、Edge 15 跟 Opera 48 以上才支援，其他的瀏覽器還要再等等。</p>
+<h1 id="使用流程"><a href="#使用流程" class="headerlink" title="使用流程"></a>使用流程</h1><p>說了這麼多，現在就來實際跑一次流程吧！</p>
+<p>我們先建立一個簡單的 <a href="https://aszx87410.github.io/payment-request-demo/" target="_blank" rel="noopener">demo 頁面</a>，偵測是否支援 Payment Request 以及放置購買按鈕跟回傳的結果：</p>
+<p><img src="/img/huli/payment/interface.png" alt></p>
+<h2 id="第一步：創造-Payment-Request-物件"><a href="#第一步：創造-Payment-Request-物件" class="headerlink" title="第一步：創造 Payment Request 物件"></a>第一步：創造 Payment Request 物件</h2><p><code>PaymentRequest</code>接受三個參數，付款方式、交易資訊跟其他。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> request = <span class="keyword">new</span> PaymentRequest(</span><br><span class="line">  methodData, <span class="comment">// 支援的付款方式</span></span><br><span class="line">  details,    <span class="comment">// 交易相關的詳細資訊</span></span><br><span class="line">  options     <span class="comment">// 其他，例如說運送方式等等</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>我們先實作一個簡單的 function 回傳建立好的 PaymentRequest：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createPaymentRequest</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> methodData = [&#123;</span><br><span class="line">    supportedMethods: [<span class="string">'basic-card'</span>], <span class="comment">// 支援信用卡</span></span><br><span class="line">    data: &#123; <span class="comment">// 指定更詳細的資訊</span></span><br><span class="line">      supportedNetworks: [<span class="string">'jcb'</span>, <span class="string">'mastercard'</span>, <span class="string">'visa'</span>], </span><br><span class="line">      supportedTypes: [<span class="string">'debit'</span>, <span class="string">'credit'</span>, <span class="string">'prepaid'</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;];</span><br><span class="line">  <span class="keyword">var</span> details = &#123;</span><br><span class="line">    displayItems: [ <span class="comment">// 購買的品項</span></span><br><span class="line">      &#123;</span><br><span class="line">        label: <span class="string">"TechBridge Weekly 專業版一年份"</span>,</span><br><span class="line">        amount: &#123; <span class="attr">currency</span>: <span class="string">"TWD"</span>, <span class="attr">value</span> : <span class="string">"3000.00"</span> &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        label: <span class="string">"早鳥優惠"</span>,</span><br><span class="line">        amount: &#123; <span class="attr">currency</span>: <span class="string">"TWD"</span>, <span class="attr">value</span> : <span class="string">"-300.00"</span> &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    total:  &#123;</span><br><span class="line">      label: <span class="string">"總額"</span>,</span><br><span class="line">      amount: &#123; <span class="attr">currency</span>: <span class="string">"TWD"</span>, <span class="attr">value</span> : <span class="string">"2700.00"</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> PaymentRequest(methodData, details);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>這邊有一點要特別注意，那就是<code>total</code>那邊的總額，系統「不會幫你自己算好」，所以儘管上面總和是 2700，你要輸入其他數字也可以。</p>
+<p>還有另一個條件是這個 API 不支援退款，所以總和必須是正數。但是每一個品項可以是負數，這樣就可以放一些折扣相關的東西。</p>
+<h2 id="第二步：呼叫-API，顯示結帳頁面"><a href="#第二步：呼叫-API，顯示結帳頁面" class="headerlink" title="第二步：呼叫 API，顯示結帳頁面"></a>第二步：呼叫 API，顯示結帳頁面</h2><p>建立完 PaymentRequest 之後，可以用<code>.show()</code>顯示結帳 UI，會回傳一個 Promise，使用過後可以拿到使用者的相關資料。我們在購買按鈕按下去之後來進行結帳流程。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onClick</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> request = createPaymentRequest();</span><br><span class="line">  request.show().then(<span class="function"><span class="keyword">function</span>(<span class="params">PaymentResponse</span>) </span>&#123;</span><br><span class="line">    handleResponse(PaymentResponse);</span><br><span class="line">  &#125;).catch(<span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(err);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="第三步：處理資料及回傳結果"><a href="#第三步：處理資料及回傳結果" class="headerlink" title="第三步：處理資料及回傳結果"></a>第三步：處理資料及回傳結果</h2><p>最後一步就是處理上一步拿到的資料，把那些資訊發送到 Server 去完成結帳流程，並且傳回結果，讓 UI 顯示成功或是失敗。我們在這邊只是範例，所以就省略上述步驟，並且直接把上一步拿到的資料轉成 JSON 顯示出來。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showResponse</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">  $res.innerHTML = <span class="built_in">JSON</span>.stringify(response, <span class="literal">undefined</span>, <span class="number">2</span>);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleResponse</span> (<span class="params">paymentResponse</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 可以在這裡把結果回傳 server</span></span><br><span class="line">  <span class="comment">// 只是示範，所以我們直接將資料顯示出來</span></span><br><span class="line">  showResponse(paymentResponse);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 模擬 API 的延遲</span></span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 結帳成功</span></span><br><span class="line">    paymentResponse.complete(<span class="string">"success"</span>);</span><br><span class="line">  &#125;, <span class="number">2000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/img/huli/payment/result.png" alt></p>
+<p>（這邊的卡號是我在 <a href="http://www.getcreditcardnumbers.com/" target="_blank" rel="noopener">http://www.getcreditcardnumbers.com/</a> 隨便產生的）</p>
+<p>只要上面簡單的三個步驟，就能夠取得使用者的資料並且完成結帳。比起原先每個網站建立的自有結帳流程，使用 Payment Request API 的好處就是可以帶給使用者原生的結帳體驗，進而增加轉換率。</p>
+<p>而上面的三個步驟，最重要的就是第一個帶入參數的部分，這邊還有很多細節可以調整，例如說貨幣種類、要求運送地址，並且可以根據使用者選擇的地址判斷接受或是不接受（例如說不接受送貨到國外，就能在那邊判斷）。</p>
+<p>支付方式也可以指定某幾間的信用卡，或甚至是決定要不要支援 debit card。</p>
+<p>如果你對這些細項有興趣，可以參考 Google 提供的非常詳細的教學：<a href="https://developers.google.com/web/fundamentals/payments/deep-dive-into-payment-request" target="_blank" rel="noopener">Deep Dive into the Payment Request API</a>。</p>
+<h1 id="原生結帳-UI"><a href="#原生結帳-UI" class="headerlink" title="原生結帳 UI"></a>原生結帳 UI</h1><p>如果你想自己跑一遍結帳流程，可以直接去 <a href="https://aszx87410.github.io/payment-request-demo/" target="_blank" rel="noopener">demo 網頁</a> 試試看。</p>
+<p>在這邊我直接截圖給大家看在電腦以及手機上面的結帳流程。</p>
+<h2 id="電腦"><a href="#電腦" class="headerlink" title="電腦"></a>電腦</h2><p>按下按鈕之後的畫面：<br><img src="/img/huli/payment/intro.png" alt></p>
+<p>點進訂單摘要：<br><img src="/img/huli/payment/intro-details.png" alt></p>
+<p>新增信用卡：<br><img src="/img/huli/payment/add-credit-card.png" alt></p>
+<p>新增地址：<br><img src="/img/huli/payment/add-address-done.png" alt></p>
+<p>按下支付之後，要求輸入末三碼：<br><img src="/img/huli/payment/code.png" alt></p>
+<p>結帳失敗：<br><img src="/img/huli/payment/fail.png" alt></p>
+<h2 id="手機"><a href="#手機" class="headerlink" title="手機"></a>手機</h2><p>按下按鈕之後的畫面：<br><img src="/img/huli/payment/mobile-intro.png" alt></p>
+<p>點進訂單摘要：<br><img src="/img/huli/payment/mobile-intro-details.png" alt></p>
+<p>新增信用卡：<br><img src="/img/huli/payment/mobile-add-card.png" alt></p>
+<p>新增地址：<br><img src="/img/huli/payment/mobile-add-address.png" alt></p>
+<p>結帳失敗：<br><img src="/img/huli/payment/mobile-fail.png" alt></p>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>Payment Request API 正在被其他瀏覽器（例如說 Safari）實作，可以預期到將來必定會被廣泛支援。</p>
+<p>其實國外的金流廠商 Stripe <a href="https://stripe.com/docs/payment-request-api" target="_blank" rel="noopener">已經支援</a>使用 Payment Request API 了。而 <a href="https://googlechrome.github.io/samples/paymentrequest/" target="_blank" rel="noopener">PaymentRequest Sample</a> 這個網站也可以看到更多樣化的範例。</p>
+<p>這篇文章主要目的是把這項新的標準帶到大家面前，如果覺得很有興趣想要深入研究，底下有附上許多相關資源。</p>
+<p>參考資料：</p>
+<ol>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Payment_Request_API" target="_blank" rel="noopener">MDN - Payment Request API</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/payments/deep-dive-into-payment-request" target="_blank" rel="noopener">Deep Dive into the Payment Request API</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/payments/" target="_blank" rel="noopener">Introducing the Payment Request API</a></li>
+<li><a href="https://googlechrome.github.io/samples/paymentrequest/credit-cards/" target="_blank" rel="noopener">PaymentRequest Credit Cards Sample</a></li>
+<li><a href="https://github.com/w3c/payment-request-info/wiki/FAQ" target="_blank" rel="noopener">w3c/payment-request-info FAQ</a></li>
+</ol>
+<p>關於作者：<br><a href="http://huli.logdown.com/" target="_blank" rel="noopener">@huli</a> 野生工程師，相信分享與交流能讓世界變得更美好</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/10/14/payment-request-api/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/10/14/payment-request-api/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/10/14/payment-request-api/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/10/14/payment-request-api/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/10/21/d3v4-sketchy-plugin/">
+        ← D3v4 工作坊 - 製作 D3 plugin 來繪製草圖風格長條圖
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/10/05/learning-programming-and-coding-with-python-introduction/">
+        用 Python 自學程式設計：程式設計思維入門 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

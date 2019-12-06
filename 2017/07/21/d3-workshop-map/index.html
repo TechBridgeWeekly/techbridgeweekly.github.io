@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>D3v4 工作坊 - React + D3 繪製 svg 動態路線地圖 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-07-21T00:25:01.000Z" itemprop="datePublished">
+          2017-07-21
+      </time>
+    
+    
+    | 
+    <a href='/tags/d3/'>d3</a>,
+    
+    <a href='/tags/map/'>map</a>,
+    
+    <a href='/tags/animation/'>animation</a>,
+    
+    <a href='/tags/svg/'>svg</a>
+    
+    
+</span>
+
+<meta name="generator" content="D3v4 工作坊 - React + D3 繪製 svg 動態路線地圖">
+<meta name="og:title" content="D3v4 工作坊 - React + D3 繪製 svg 動態路線地圖">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">D3v4 工作坊 - React + D3 繪製 svg 動態路線地圖</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>以前在做一些跟地圖有關的應用時，第一個出現在腦海的不外乎是 Google Map 和 OpenStreetMap，然後搭配 Leaflet 與 Mapbox 等工具來對 map tile 做各種加工渲染，然而到了工作上需要時就會發現這些工具在不付費、遵守授權的狀況下，就出現了各種限制，像是需要自己架設 tile server 來轉換 OpenStreetMap 的圖資，或是 request 的次數限制等等。</p>
+<p>想了想發現最好的替代方案就是直接用 svg 來繪製，雖然沒有辦法像 Google Map 那般詳細，但在某些應用上來說就非常足夠，效果也很好，因此今天就來紀錄一下該如何使用 D3.js 與 svg 來繪製出有動態路線功能的地圖，讓大家可以做出類似中央氣象局的颱風路線預覽圖的作品！</p>
+<p>先看一下成品：(P.S. 最近發現 <a href="https://codesandbox.io" target="_blank" rel="noopener">codesandbox</a> 這個服務，比起在 jsbin 或是 jsfiddle 上寫 React 來說好用一些，缺點是 mobile 體驗較差)</p>
+<iframe src="https://codesandbox.io/embed/Wv9kBrJW?hidenavigation=1&view=preview" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+<h2 id="地圖資料搜集"><a href="#地圖資料搜集" class="headerlink" title="地圖資料搜集"></a>地圖資料搜集</h2><p>要自己畫地圖，當然就必須自己準備好圖資，看你想要台灣地圖或是世界地圖，基本上在網路上都能找得到，但是在使用網路資料的時候都需要小心授權條款，以世界地圖為例，目前我看到最能自由運用的就是 <a href="http://www.naturalearthdata.com/" target="_blank" rel="noopener">Natural Earth</a> 的資料了，基本上有分三種比例的圖資，1:10m、1:50m 與 1:100m:</p>
+<p><img src="/img/arvinh/naturalearth.png" alt="Natural Earth Dataset"></p>
+<p>從 Natural Earth 載下來的會是 Vector data，無法直接使用在 D3.js 上，好在 D3.js 的作者 Mike Bostock 製作的另一套工具 <a href="ttps://github.com/topojson" target="_blank" rel="noopener">topojson</a> 中已經有 parse 過後的 TopoJSON 檔案，可以直接透過 <code>https://unpkg.com/world-atlas@1/world/110m.json</code> 取得，<code>50m</code> 的也有，就換一下後面的檔名即可。</p>
+<p>如果你想要其他 Natural Earth 上的資料，其實也可以修改 <a href="https://github.com/topojson/world-atlas" target="_blank" rel="noopener">world-atlas</a> 裡面的 script 來自己轉換成 TopoJSON，可以參考我 fork 過來修改的這份檔案 <a href="https://github.com/ArvinH/world-atlas/blob/master/prepublish-populor-place.sh" target="_blank" rel="noopener">prepublish-populor-place.sh</a>，用來 parse Natural Earth 上的 popular_place data。</p>
+<h2 id="繪製基本的-svg-地圖"><a href="#繪製基本的-svg-地圖" class="headerlink" title="繪製基本的 svg 地圖"></a>繪製基本的 svg 地圖</h2><p>已經有了資料來源，就可以開始動手將地圖繪製出來了！</p>
+<p>首先，React component 的起手式先準備好：</p>
+<figure class="highlight js"><figcaption><span>WorldMap.jsx</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; render &#125; <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WorldMap</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">super</span>()</span><br><span class="line">    <span class="keyword">this</span>.state = &#123;</span><br><span class="line">      worlddata: [],</span><br><span class="line">      typhoonPath: [],</span><br><span class="line">      marker: &#123;&#125;,</span><br><span class="line">      graticule: geoGraticule10(),</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">     fetch(<span class="string">"https://unpkg.com/world-atlas@1/world/50m.json"</span>)</span><br><span class="line">      .then(<span class="function"><span class="params">response</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (response.status !== <span class="number">200</span>) &#123;</span><br><span class="line">          <span class="built_in">console</span>.log(<span class="string">`There was a problem: <span class="subst">$&#123;response.status&#125;</span>`</span>)</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        response.json().then(<span class="function"><span class="params">worlddata</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">            worlddata: feature(worlddata, worlddata.objects.countries).features,</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;svg className=<span class="string">"map-svg"</span> width=&#123; <span class="number">800</span> &#125; height=&#123; <span class="number">600</span> &#125; viewBox=<span class="string">"0 0 800 600"</span>&gt;</span><br><span class="line">      &lt;<span class="regexp">/svg&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">render(&lt;WorldMap /</span>&gt;, <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>));</span><br></pre></td></tr></table></figure>
+<p>我在 <code>componentDidMount</code> 的時候去抓取地圖資料，接著才 <code>setState()</code>，但實際上你的專案可以先把資料存起來，這樣一來在 render 的地方就可以直接先 render 出 svg 地圖，這對於採用 Server-side rendering 的專案來說會方便很多，因為如果全部用 D3.js 的話，會需要先 select 到 DOM object 才能進行繪製，會麻煩一些。</p>
+<h3 id="利用-svg-path-繪製世界地圖"><a href="#利用-svg-path-繪製世界地圖" class="headerlink" title="利用 svg path 繪製世界地圖"></a>利用 svg path 繪製世界地圖</h3><p>在 svg 底下 append 一個 group，然後 iterate state 中的世界地圖資料，加上每個區塊的 svg path：</p>
+<figure class="highlight js"><figcaption><span>world_map_path.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;g className=<span class="string">"countries"</span>&gt;</span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">this</span>.state.worlddata.map(<span class="function">(<span class="params">d,i</span>) =&gt;</span> (</span><br><span class="line">        &lt;path</span><br><span class="line">        key=&#123; <span class="string">`path-<span class="subst">$&#123; i &#125;</span>`</span> &#125;</span><br><span class="line">        d=&#123; geoPath().projection(<span class="keyword">this</span>.projection())(d) &#125;</span><br><span class="line">        className=<span class="string">"country"</span></span><br><span class="line">        fill=&#123; <span class="string">`rgba(219, 163, 43,<span class="subst">$&#123; <span class="number">1</span> <span class="regexp">/ this.state.worlddata.length * i&#125;)` &#125;</span></span></span></span><br><span class="line"><span class="string"><span class="subst"><span class="regexp">        stroke="#FFFFFF"</span></span></span></span><br><span class="line"><span class="string"><span class="subst"><span class="regexp">        strokeWidth=&#123; 0.5 &#125;</span></span></span></span><br><span class="line"><span class="string"><span class="subst"><span class="regexp">        /</span>&gt;</span></span></span><br><span class="line"><span class="string"><span class="subst">    ))</span></span></span><br><span class="line"><span class="string"><span class="subst">    &#125;</span></span></span><br><span class="line"><span class="string">&lt;/g&gt;</span></span><br></pre></td></tr></table></figure>
+<p>這邊先看一下我們 state 中的 worlddata 到底是什麼東西：</p>
+<p><img src="/img/arvinh/worldtopojson.png" alt="World Map topojson"></p>
+<p>這是一個 TopoJSON 的格式，TopoJSON 簡單來說可以當作效能更好的 GeoJSON，詳細介紹可以看 <a href="https://github.com/topojson/topojson" target="_blank" rel="noopener">這裡</a>。Array 裡面的每一個 object 都是 type 為 Feature 的物件，其中的 geometry 包含了實際的地理資訊，可能是一個 Polygon，以及此 Polygon 每個點的座標。</p>
+<p>接著我們需要使用 <code>d3-geo</code> 中的 <code>geoPath</code>，其中有 <code>projection()</code> method 能讓我們把剛剛的座標投影（project）到我們繪製的地圖上。</p>
+<p>投影在地圖的繪製中扮演著極為重要的角色，透過投影，我們才能將真實世界的經緯度映射到我們網頁上小小的 svg 中。</p>
+<p><code>d3-geo</code> 中的 <code>geoPath.projection()</code> 會回傳一個 function，讓你傳地理資訊進去，接著回傳映射過後的 svg path，基本上就是一連串的 svg mini language，就是下列程式碼中的 <code>d</code> 的內容：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;path d=<span class="string">"M 10 25</span></span><br><span class="line"><span class="string">         L 10 75</span></span><br><span class="line"><span class="string">         L 60 75</span></span><br><span class="line"><span class="string">         L 10 25"</span></span><br></pre></td></tr></table></figure>
+<p>M 代表將 筆 移動到 (10, 25)，接著 L 畫一條線到 (10, 75)，以此類推。詳細介紹可看 <a href="https://www.dashingd3js.com/svg-paths-and-d3js" target="_blank" rel="noopener">這裡</a>。</p>
+<p>當然，你必須傳入一個參數，告訴 <code>geoPath.projection()</code> 你想要映射的範圍為何，也就是 <code>world_map_path.js</code> 中 <code>#L6</code> 所傳入的 <code>this.projection()</code>：</p>
+<figure class="highlight js"><figcaption><span>projection</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">projection() &#123;</span><br><span class="line">    <span class="keyword">return</span> geoMercator()</span><br><span class="line">        .scale(<span class="number">1000</span>)</span><br><span class="line">        .center([<span class="number">125.9605</span>, <span class="number">26.6978</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也是回傳一個 Function，利用到 <code>d3-geo</code> 的 <code>geoMercator</code>，可以定義好你要映射的 scale 是多大，中心位置在哪。</p>
+<p>最後為了讓每個國家的區塊有明顯區分，我們在 <code>fill</code> 的地方，隨機給他不同的顏色，<code>fill={ rgba(219, 163, 43,${ 1 / this.state.worlddata.length * i}) }</code></p>
+<p>到這個步驟你已經可以畫出下面這樣的地圖了：</p>
+<iframe src="https://codesandbox.io/embed/0RKnYZMAL?hidenavigation=1&view=preview" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+<h2 id="繪製動態路線-資料準備"><a href="#繪製動態路線-資料準備" class="headerlink" title="繪製動態路線 - 資料準備"></a>繪製動態路線 - 資料準備</h2><p>接著進行重頭戲，我們要在地圖上繪製出動態的路徑圖。</p>
+<p>第一個步驟也是先準備好資料，以文章開頭的成品來說，是我修改某年的颱風路徑資料而成的，如果想要串接目前的颱風路徑圖，可以到 <a href="http://opendata.cwb.gov.tw/" target="_blank" rel="noopener">氣象資料開放平臺</a> 申請會員，就可以拿到 API Key 去索取資料，格式會是 xml。</p>
+<p>API 範例：<code>http://opendata.cwb.gov.tw/opendataapi?dataid=W-C0034-004&amp;authorizationkey={你的 API key}</code><br>其中 <code>W-C0034-004</code> 是颱風路徑圖資料的 data id。</p>
+<p>資料中會有三個個主要部分，分別是過去的路徑資料 (past)、現在的位置 (curr) 與 未來預測的位置 (fcst)，簡單的 parser 可以參考我的 <a href="https://gist.github.com/ArvinH/66d1f9cedfc96deb956031502362202b" target="_blank" rel="noopener">gist</a></p>
+<p>出來的結果格式如下，主要包含經緯度座標與颱風半徑：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"pastData"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">"status"</span>: <span class="string">"past"</span>,</span><br><span class="line">            <span class="string">"time"</span>: <span class="string">"2017-07-02T08:00:00+08:00"</span>,</span><br><span class="line">            <span class="string">"coordinates"</span>: [</span><br><span class="line">                <span class="number">126.8</span>,</span><br><span class="line">                <span class="number">20.9</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="string">"radius"</span>: <span class="number">80</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">// ... 過往資料通常很多</span></span><br><span class="line">    ]</span><br><span class="line">    <span class="string">"currData"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">"status"</span>: <span class="string">"curr"</span>,</span><br><span class="line">            <span class="string">"time"</span>: <span class="string">"2017-07-05T02:00:00+08:00"</span>,</span><br><span class="line">            <span class="string">"coordinates"</span>: [</span><br><span class="line">                <span class="number">142.5</span>,</span><br><span class="line">                <span class="number">35.1</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="string">"radius"</span>: <span class="number">120</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">"fcstData"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">"status"</span>: <span class="string">"fcst"</span>,</span><br><span class="line">            <span class="string">"time"</span>: <span class="string">"2017-07-05T14:00:00+08:00"</span>,</span><br><span class="line">            <span class="string">"coordinates"</span>: [</span><br><span class="line">                <span class="number">150.5</span>,</span><br><span class="line">                <span class="number">36.7</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="string">"radius"</span>: <span class="number">120</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="繪製動態路線-路徑繪製"><a href="#繪製動態路線-路徑繪製" class="headerlink" title="繪製動態路線 - 路徑繪製"></a>繪製動態路線 - 路徑繪製</h2><p>資料產生後，記得先放到 state 當中：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; pastData, currData, fcstData &#125; = <span class="built_in">require</span>(<span class="string">'./parsedWeatherData.json'</span>);</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="keyword">constructor</span>() &#123;</span><br><span class="line">   <span class="keyword">super</span>()</span><br><span class="line">   <span class="keyword">this</span>.state = &#123;</span><br><span class="line">     worlddata: [],</span><br><span class="line">     typhoonPath: [...pastData, ...currData, ...fcstData],</span><br><span class="line">     marker: &#123; <span class="attr">name</span>: <span class="string">"201701"</span>, <span class="attr">coordinates</span>: pastData[<span class="number">0</span>].coordinates &#125;,</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>順便加上一個 marker，用來代表颱風本體，以路徑圖的第一個位置為其座標起始點。</p>
+<p>接著我們另外寫一個 <code>renderLine()</code> function 來處理路徑繪製的部分，因為待會還會需要加上動畫效果，會複雜一些：</p>
+<figure class="highlight js"><figcaption><span>renderLine</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">renderLine() &#123;</span><br><span class="line">    <span class="comment">// 座標映射</span></span><br><span class="line">    <span class="keyword">const</span> pathCoordinates = [];</span><br><span class="line">    <span class="keyword">this</span>.state.typhoonPath.forEach(<span class="function">(<span class="params">path, i</span>) =&gt;</span> &#123;</span><br><span class="line">      pathCoordinates.push(&#123;</span><br><span class="line">        x: <span class="keyword">this</span>.projection()(path.coordinates)[<span class="number">0</span>],</span><br><span class="line">        y: <span class="keyword">this</span>.projection()(path.coordinates)[<span class="number">1</span>]</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 線段繪製函數</span></span><br><span class="line">    <span class="keyword">const</span> lineFunction = d3Line()</span><br><span class="line">      .x(<span class="function">(<span class="params">d</span>) =&gt;</span> d.x)</span><br><span class="line">      .y(<span class="function">(<span class="params">d</span>) =&gt;</span> d.y)</span><br><span class="line">      .curve(curveCatmullRom);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 增加 svg 元素</span></span><br><span class="line">    <span class="comment">// add path</span></span><br><span class="line">    d3Select(<span class="string">'svg'</span>)</span><br><span class="line">      .append(<span class="string">'g'</span>)</span><br><span class="line">      .append(<span class="string">'path'</span>)</span><br><span class="line">      .attr(<span class="string">'class'</span>, <span class="string">'typhoonPath'</span>)</span><br><span class="line">      .attr(<span class="string">'d'</span>, lineFunction(pathCoordinates))</span><br><span class="line">      .attr(<span class="string">'fill'</span>, <span class="string">'none'</span>)</span><br><span class="line">      .attr(<span class="string">'stroke'</span>, <span class="string">'red'</span>)</span><br><span class="line">      .attr(<span class="string">'stroke-width'</span>, <span class="string">'5px'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// add marker</span></span><br><span class="line">    d3Select(<span class="string">'svg'</span>)</span><br><span class="line">      .append(<span class="string">'g'</span>)</span><br><span class="line">      .append(<span class="string">'circle'</span>)</span><br><span class="line">        .attr(<span class="string">"transform"</span>, () =&gt; &#123;</span><br><span class="line">            <span class="keyword">const</span> x = <span class="keyword">this</span>.projection()(<span class="keyword">this</span>.state.marker.coordinates)[<span class="number">0</span>]</span><br><span class="line">            <span class="keyword">const</span> y = <span class="keyword">this</span>.projection()(<span class="keyword">this</span>.state.marker.coordinates)[<span class="number">1</span>]</span><br><span class="line">            <span class="keyword">return</span> <span class="string">`translate(<span class="subst">$&#123;x&#125;</span>, <span class="subst">$&#123;y&#125;</span>)`</span>;</span><br><span class="line">        &#125;)</span><br><span class="line">        .attr(<span class="string">'r'</span>, <span class="number">10</span>)</span><br><span class="line">        .attr(<span class="string">'fill'</span>, <span class="string">'yellow'</span>)</span><br><span class="line">        .attr(<span class="string">'opacity'</span>, <span class="number">0.7</span>)</span><br><span class="line">        .attr(<span class="string">'class'</span>, <span class="string">'typhoonMarker'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> linePath = d3SelectAll(<span class="string">'path.typhoonPath'</span>);</span><br><span class="line">    </span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>繪製路線的 <code>renderLine()</code> 可以拆成三部分來說明：</p>
+<ol>
+<li><p>座標映射：<br> 由於我們自己 parse 的路徑資料並非 TopoJSON，而且還區分成不同時間的資料，所以我們先個別將路徑映射好座標點，再串接到一個 Array 中，方便後續繪製。<br> 我們先前提到的 <code>projection()</code> 非常好用，只要傳入一個含有 x, y 經緯度的物件，就能幫我們在設定的 scale 中映射出對應位置：<code>this.projection()(path.coordinates)</code>，會回還一個 Array，分別為經度和緯度。</p>
+</li>
+<li><p>線段繪製函數：<br> 在 D3.js 中，attribute 可以傳入 function，這邊我們利用 <code>d3-shape</code> 中的 <code>line</code>（ code 裡面的 d3Line 是我 import 後的變數名稱)來幫忙將映射後的座標 x, y 轉換成 svg path 的 d value。<br> 其中 <code>curve</code> 是 <code>d3-shape.line</code> 的補間函數，簡單來說就是決定線段中，每個 <strong>點</strong> 與 <strong>點</strong> 之間該怎麼 <strong>連接</strong>，看過這個對照應該會比較能了解：<br> <a href="https://bl.ocks.org/d3noob/ced1b9b18bd8192d2c898884033b5529" target="_blank" rel="noopener">v4 curve interpolation comparison</a><br> <img src="/img/arvinh/linecurve-comparsion.png" alt="curve interpolation comparison"></p>
+</li>
+<li><p>增加 svg 元素：<br> 這就是最基本的步驟囉，<code>d3-select</code> 出 svg 後，再 append 上我們要的 line path 與 marker，有寫過 D3.js 的勢必不陌生。</p>
+</li>
+</ol>
+<p>在 <code>componentDidMount()</code> 的地方加上 <code>renderLine()</code> 函數，就可以看到如下結果：</p>
+<iframe src="https://codesandbox.io/embed/ERPYl4q94?hidenavigation=1&view=preview" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+<h2 id="繪製動態路線-加上動態路徑效果"><a href="#繪製動態路線-加上動態路徑效果" class="headerlink" title="繪製動態路線 - 加上動態路徑效果"></a>繪製動態路線 - 加上動態路徑效果</h2><p>接著我們要讓這個路徑 <strong>活起來</strong>！</p>
+<p>要讓 svg 線段有動畫般的效果其實很簡單，利用 svg 的 <code>stroke-dasharray</code> 這個屬性即可，詳細的實作原理可以看 css-tricks 上的這篇文章 <a href="https://css-tricks.com/svg-line-animation-works/" target="_blank" rel="noopener">How SVG Line Animation Works</a>，解釋的非常清楚，只是裡面說的做法是透過 CSS 的 animation，跟我們這邊有些微差異，但是原理是相同的。</p>
+<p><span style="color: red"><br>重點就在於，將原始的 <strong>直線</strong> 轉換為 <strong>虛線</strong>，透過改變該虛線的 <strong>dasharray</strong> 區間，來做出動態的效果。<br></span></p>
+<p>stroke-dasharray 的參數是 ( dash 的長度, gap 的長度 ))，我們只要固定 gap 的長度為線段長，然後讓 dash 的長度從零慢慢轉換成線段長即可達到動畫效果！</p>
+<p>所以我們加上一個 <code>transition</code> 函數：</p>
+<figure class="highlight js"><figcaption><span>transition</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">transition(linePath) &#123;</span><br><span class="line">    <span class="keyword">const</span> self = <span class="keyword">this</span>;</span><br><span class="line">    linePath.transition()</span><br><span class="line">      .duration(<span class="number">15000</span>)</span><br><span class="line">      .attrTween(<span class="string">"stroke-dasharray"</span>, <span class="keyword">this</span>.translateFn.bind(<span class="keyword">this</span>, linePath))</span><br><span class="line">      .on(<span class="string">'end'</span>, () =&gt; &#123;</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">           d3Select(<span class="keyword">this</span>).call(self.transition.bind(self, linePath)); <span class="comment">// infinite loop</span></span><br><span class="line">        &#125;, <span class="number">1500</span>);</span><br><span class="line">      &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>linePath</code> 是 <code>d3-select</code> 到的路徑 path 元件。透過 <code>transition()</code> 與 <code>attrTween()</code> 來動態調整 <code>stroke-dasharray</code> 的值，並且在最後監聽一個 <code>end</code> 事件，也就是當每次動畫結束以後，我們隔個 1.5 秒再重新呼叫一次 <code>transition()</code>，進行 loop。</p>
+<p><strong>[Note]</strong><br>這邊要注意的是，<code>linePath</code> 雖然是透過 <code>d3-select</code> 取得的元件，要呼叫他的 <code>transition()</code> 函式的話，會需要額外加入 <code>d3-transition</code> 的 lib 才行，他會將 <code>transition</code> bind 到元件中：<br><code>import { transition as d3Transition } from &#39;d3-transition&#39;;</code></p>
+<p><code>attrTween</code> 會將 <code>transition</code> 過程中的<strong>時間</strong>當作參數丟進去給它的 <strong>value</strong>，而該 <strong>value</strong> 扮演著處理 <strong>補間動畫</strong> 的角色，是一個 input 為時間的補間函式，我們這邊執行一個<code>translateFn()</code>，用來處理我們補間動畫過程中需要做的事情，以及定義補間動畫函式的內容：</p>
+<figure class="highlight js"><figcaption><span>translateFn</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">translateFn(linePath) &#123;</span><br><span class="line">    <span class="keyword">const</span> self = <span class="keyword">this</span>;</span><br><span class="line">    <span class="comment">// 回傳 input 為 time 的補間函式</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function">(<span class="params">t</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> l = linePath.node().getTotalLength();</span><br><span class="line">        <span class="keyword">const</span> p = linePath.node().getPointAtLength(t * l);</span><br><span class="line">        <span class="keyword">const</span> marker = d3Select(<span class="string">'.typhoonMarker'</span>);</span><br><span class="line">        marker.attr(<span class="string">"transform"</span>, <span class="string">`translate(<span class="subst">$&#123;p.x&#125;</span>, <span class="subst">$&#123;p.y&#125;</span>)`</span>);</span><br><span class="line">        marker.style(<span class="string">"transition"</span>, <span class="string">'r 1.5s'</span>);</span><br><span class="line">        marker.attr(<span class="string">"r"</span>, <span class="number">10</span>);</span><br><span class="line">        <span class="keyword">const</span> interpolate = d3Interpolate(<span class="string">`0,<span class="subst">$&#123;l&#125;</span>`</span>, <span class="string">`<span class="subst">$&#123;l&#125;</span>,<span class="subst">$&#123;l&#125;</span>`</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> interpolate(t);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如同先前提到的，我們要改變 <code>stroke-dasharray</code> 的區間，也就是要讓第一個參數，dash 的長度遞增為線段長，線段長度可以從 <code>linePath.node().getTotalLength()</code> 取得，透過 <code>d3-interpolate</code> 幫助我們產生一個補間函式 <code>interpolate(t)</code>，補完 <code>0, 線段長</code> -&gt; <code>線段長, 線段長</code> 這段參數的變化，並且回傳出去給 <code>attrTween</code>。</p>
+<p><code>d3</code> 的文件都顯得蠻詳細的，<a href="https://github.com/d3/d3-interpolate#interpolate" target="_blank" rel="noopener">d3-interpolate</a> 這邊有說明不同的 input type 會採用不同的補間函式來處理，例如字串、時間、數字等等。</p>
+<p>加上了這個 <code>tranlsateFn</code> 後，線段就活起來了！</p>
+<iframe src="https://codesandbox.io/embed/Q1KBD2WLZ?hidenavigation=1&view=preview" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+<p>在剛剛的 <code>translateFn</code> 中我們其實還做了一件事情，就是讓 Marker 跟著線段移動，透過 <code>const p = linePath.node().getPointAtLength(t * l);</code> 取得線段在該時間的 point 位置，並 transform 過去。</p>
+<p>但這樣還不夠，既然是想要有颱風路徑的效果，怎麼可以缺少了暴風半徑的資訊呢？</p>
+<p>記得我們原本 parse 出來的資料中有個 <code>radius</code> 的值嗎？我們可以在 <code>translateFn</code> 中抓出目前資料的半徑值，然後放到 marker 的 <code>r</code> attribute 中：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">self.state.typhoonPath.forEach(<span class="function">(<span class="params">path</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> pixelLocSource = self.projection()(path.coordinates);</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">Math</span>.floor(p.x) === <span class="built_in">Math</span>.floor(pixelLocSource[<span class="number">0</span>])) &#123;</span><br><span class="line">          <span class="keyword">const</span> radius = <span class="keyword">this</span>.distanceCalculate(pixelLocSource, path.coordinates, path.radius);</span><br><span class="line">          marker.attr(<span class="string">"r"</span>, radius);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br></pre></td></tr></table></figure>
+<p>但這邊還有個小問題，資料中，半徑的單位是 km，我要怎麼讓它轉換成 svg 中的距離呢？！我們之前的投影函式 <code>projection()</code> 只能接受座標參數，沒辦法直接轉換距離啊！</p>
+<p>別慌張，那我們就先計算出中心點到這段半徑後的座標，在轉換成地圖上的點，接著利用國高中數學計算出距離即可！</p>
+<figure class="highlight js"><figcaption><span>distanceCalculate</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">distanceCalculate(pixelLocSource, [longitude, latitude], distance)&#123;	</span><br><span class="line">    <span class="comment">// Latitude: 1 deg = 110.574 km</span></span><br><span class="line">    <span class="comment">// Longitude: 1 deg = 111.320*cos(latitude) km</span></span><br><span class="line">    <span class="keyword">const</span> lat_diff = distance / <span class="number">110.574</span>;</span><br><span class="line">    <span class="keyword">const</span> lon_distance = <span class="number">111.320</span> * <span class="built_in">Math</span>.cos(latitude * <span class="built_in">Math</span>.PI / <span class="number">180</span>);</span><br><span class="line">    <span class="keyword">const</span> lon_diff = distance / lon_distance;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">const</span> E = longitude + <span class="built_in">Math</span>.abs(lon_diff);</span><br><span class="line">    <span class="keyword">const</span> pixelLoc = <span class="keyword">this</span>.projection()([E, latitude]);</span><br><span class="line">    <span class="comment">// distance calculate</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.sqrt(<span class="built_in">Math</span>.pow(pixelLocSource[<span class="number">0</span>] - pixelLoc[<span class="number">0</span>], <span class="number">2</span>)</span><br><span class="line">        + <span class="built_in">Math</span>.pow(pixelLocSource[<span class="number">1</span>] - pixelLoc[<span class="number">1</span>], <span class="number">2</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>取巧的點是，利用已知的經緯度距離來做運算：<br>    Latitude: 1 deg = 110.574 km<br>    Longitude: 1 deg = 111.320*cos(latitude) km // 該緯度上每一個經度的距離算法</p>
+<p><code>pixelLocSource</code> 是映射過後的中心點位置，<code>[longitude, latitude]</code> 則是中心點的原始經緯度，而 <code>distance</code> 就是我們要算的暴風半徑。<br>由於我們並不需要算出真正半徑內每個點的經緯度，所以這邊我只抓該緯度上的精度來做投影計算，找出該半徑後的精度，再套用普通的兩點距離公式。</p>
+<p>（其實這是我想出來比較暴力的解法啦，歡迎知道有更簡單更好的方式映射距離的朋友告知我！非常感謝）</p>
+<p>最後的成果（將 scale 調大比較看得出來半徑變化）：</p>
+<iframe src="https://codesandbox.io/embed/Xo0gjl6qA?hidenavigation=1&view=preview" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+<p>結論：</p>
+<p>要讓路徑在地圖上動起來並不困難，而且透過 D3.js 的補間函式也能讓你在補間過程中偷做許多手腳，像是我最一開始的範例中還有多判斷資料的時間，針對不同時間留下颱風半徑範圍圖等等。<br>本篇的重點在於如何單純透過 D3.js v4 與 svg 的操作來製作出地圖上的動態線段，其他像是基本的經緯度線段 (graticule) 礙於篇幅關係就不細談，相信大家可以從我最一開始的範例中看出是如何製作的。希望本文能對想用 svg 繪製動態路線圖的讀者有所幫助，若文中有任何錯誤也歡迎指正！</p>
+<h2 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h2><ol>
+<li><a href="http://www.naturalearthdata.com/" target="_blank" rel="noopener">Natural Earth</a></li>
+<li><a href="ttps://github.com/topojson" target="_blank" rel="noopener">topojson</a></li>
+<li><a href="https://css-tricks.com/svg-line-animation-works/" target="_blank" rel="noopener">How SVG Line Animation Works</a></li>
+<li><a href="https://www.dashingd3js.com/svg-paths-and-d3js" target="_blank" rel="noopener">SVG Paths and D3.js</a></li>
+<li><a href="http://andyshora.com/tweening-shapes-paths-d3-js.html" target="_blank" rel="noopener">TWEENING CUSTOM SHAPES AND PATHS IN D3.JS</a></li>
+<li><a href="http://www.oxxostudio.tw/articles/201411/svg-d3-02-line.html" target="_blank" rel="noopener">SVG D3.js - 繪製線段</a></li>
+<li><a href="https://bl.ocks.org/dimitardanailov/6f0a451d4457b9fa7bf6e0dddcd0f468" target="_blank" rel="noopener">D3.js Path Data Generator Line Example</a></li>
+<li><a href="https://bl.ocks.org/d3noob/ced1b9b18bd8192d2c898884033b5529" target="_blank" rel="noopener">v4 curve interpolation comparison</a></li>
+</ol>
+<p>關於作者：<br><a href="http://blog.arvinh.info/about/" target="_blank" rel="noopener">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/07/21/d3-workshop-map/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/07/21/d3-workshop-map/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/07/21/d3-workshop-map/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/07/21/d3-workshop-map/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/07/28/data-science-101-numpy-tutorial/">
+        ← 從零開始學資料科學：Numpy 基礎入門
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/07/15/javascript-event-propagation/">
+        DOM 的事件傳遞機制：捕獲與冒泡 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

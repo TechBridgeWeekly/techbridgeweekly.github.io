@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Python 101 快速入門教學 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-12-17T22:00:00.000Z" itemprop="datePublished">
+          2016-12-17
+      </time>
+    
+    
+    | 
+    <a href='/tags/Python-Django-MVC-Web-MTV-Web-Backend-Web-Framework-教學-Flask-框架/'>Python, Django, MVC, Web, MTV, Web Backend, Web Framework, 教學, Flask, 框架</a>
+    
+    
+</span>
+
+<meta name="generator" content="Python 101 快速入門教學">
+<meta name="og:title" content="Python 101 快速入門教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Python 101 快速入門教學</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/python-logo.png" alt="Python 101 快速入門教學 "> </p>
+<h1 id="什麼是-Python？"><a href="#什麼是-Python？" class="headerlink" title="什麼是 Python？"></a>什麼是 Python？</h1><p><a href="https://zh.wikipedia.org/wiki/Python" target="_blank" rel="noopener">Python</a> 是一種物件導向、直譯式的跨平台電腦程式語言，它包含了一組功能完備的標準庫和豐富套件生態系，可以輕鬆完成很多常見的任務（例如：讀寫檔案、自然語言處理、網路爬蟲、網站開發、機器學習等），因為它可以很輕易整合其他底層語言，所以又稱為膠水語言。它的語法簡單，與其它大多數程式設計語言使用大括弧不一樣，它使用縮進來定義語句塊。由於具備簡潔易學等特性，許多開發者推薦 Python 為初學者第一個學習的程式語言。由於版本更迭，我們接下來討論的主要是以 Python3 為主，若電腦沒有安裝的話，你可以在<a href="https://www.python.org/" target="_blank" rel="noopener">官方網站下載</a>，若你不是安裝 <a href="https://www.continuum.io/downloads" target="_blank" rel="noopener">Anaconda</a> 這個 all-in-one 版本的話（自帶許多套件和科學運算工具），記得要安裝 <a href="https://pypi.python.org/pypi/pip" target="_blank" rel="noopener">pip</a>、<a href="https://ipython.org/" target="_blank" rel="noopener">IPython</a>。 </p>
+<h1 id="Python-設計風格"><a href="#Python-設計風格" class="headerlink" title="Python 設計風格"></a>Python 設計風格</h1><p>Python 主要設計的原則和特色就在於簡潔：應該會有一種明顯的作法（最好也只有一種），可以完成工作。</p>
+<p>更多有關 Python 設計風格可以在終端機進入 python3 互動模式後輸入 <code>import this</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> python3</span></span><br><span class="line">Python 3.5.2 (default, Oct 11 2016, 05:00:16)</span><br><span class="line">[GCC 4.2.1 Compatible Apple LLVM 7.0.2 (clang-700.1.81)] on darwin</span><br><span class="line">Type "help", "copyright", "credits" or "license" for more information.</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; import this</span></span><br><span class="line"></span><br><span class="line">The Zen of Python, by Tim Peters</span><br><span class="line"></span><br><span class="line">Beautiful is better than ugly.</span><br><span class="line">Explicit is better than implicit.</span><br><span class="line">Simple is better than complex.</span><br><span class="line">Complex is better than complicated.</span><br><span class="line">Flat is better than nested.</span><br><span class="line">Sparse is better than dense.</span><br><span class="line">Readability counts.</span><br><span class="line">Special cases aren't special enough to break the rules.</span><br><span class="line">Although practicality beats purity.</span><br><span class="line">Errors should never pass silently.</span><br><span class="line">Unless explicitly silenced.</span><br><span class="line">In the face of ambiguity, refuse the temptation to guess.</span><br><span class="line">There should be one-- and preferably only one --obvious way to do it.</span><br><span class="line">Although that way may not be obvious at first unless you're Dutch.</span><br><span class="line">Now is better than never.</span><br><span class="line">Although never is often better than *right* now.</span><br><span class="line">If the implementation is hard to explain, it's a bad idea.</span><br><span class="line">If the implementation is easy to explain, it may be a good idea.</span><br><span class="line">Namespaces are one honking great idea -- let's do more of those!</span><br></pre></td></tr></table></figure>
+<h1 id="空白格式"><a href="#空白格式" class="headerlink" title="空白格式"></a>空白格式</h1><p>首先，我們要了解 Python 和其他語言最大的不同就是使用縮排來切分程式碼，這和其他語言使用 {} 不同。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]:</span><br><span class="line">trueprint(i)</span><br><span class="line">true<span class="keyword">for</span> j <span class="keyword">in</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]:</span><br><span class="line">truetrueprint(j + i)</span><br><span class="line"></span><br><span class="line">print(<span class="string">'finish'</span>)</span><br></pre></td></tr></table></figure>
+<p>不過初學者很容易在縮排遇到問題，若是出現以下訊息就可以檢視是否哪裡縮排有問題：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IndentationError: expected an indented block</span><br></pre></td></tr></table></figure>
+<h1 id="模組"><a href="#模組" class="headerlink" title="模組"></a>模組</h1><p>在 Python 生態系中有豐富的模組和工具。一般情況預設不會載入任何模組，但當你有特定開發需求可以使用第三方工具將模組匯入（import）。若是當模組名稱很長時通常我們會使用別名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import re as regex</span><br><span class="line"></span><br><span class="line">my_regex = regex.compile(&apos;[0-9]+&apos;, regex.I)</span><br></pre></td></tr></table></figure>
+<p>若是只是需要模組中的特定功能，也可以使用比較精準的引入方式 <code>from import</code>，引入到整個命名空間中，使用時前面就不用寫模組名（但要注意有可能覆寫）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from collections import defaultdict, Counter</span><br><span class="line">lookup = defaultdict(int)</span><br><span class="line">my_counter = Counter()</span><br></pre></td></tr></table></figure>
+<h1 id="資料型別"><a href="#資料型別" class="headerlink" title="資料型別"></a>資料型別</h1><p>在 Python 有以下幾種內建的資料型別，基本資料型別有 Number、String、Boolean</p>
+<ol>
+<li><p>數字（Number）</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">num1 = <span class="number">3</span></span><br><span class="line">num2 = <span class="number">2</span></span><br><span class="line">num3 = num1 / num2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字串（String）<br> 字串使用上會使用單引號或雙引號成對包起（’, “）</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">str = &apos;data engineer&apos;</span><br><span class="line"># 字串長度</span><br><span class="line">len(str)</span><br><span class="line"># 原始字元</span><br><span class="line">es_str = r&apos;\t&apos;</span><br><span class="line"># 2</span><br><span class="line">len(es_str)</span><br></pre></td></tr></table></figure>
+<p> 若是多行的情形：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">multi_line_str = &quot;&quot;&quot;</span><br><span class="line">多行</span><br><span class="line">多行</span><br><span class="line">&quot;&quot;&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>布林值（Boolean）<br> 決定邏輯判斷，<code>True</code> 或 <code>False</code>。注意在 Python 中布林值首字是大寫</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">is_num_bigger_than_one = <span class="number">1</span> &lt; <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p> 在 Python 中 <code>None</code> 地位類似於 <code>null</code></p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = <span class="literal">None</span></span><br><span class="line">print(x == <span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
+<p> 以下為 Python 的 Falsy 值：</p>
+<ul>
+<li>False </li>
+<li>None</li>
+<li>[]</li>
+<li>{}</li>
+<li>“”</li>
+<li>set()</li>
+<li>0</li>
+<li><p>0.0</p>
+<p>可以搭配 and, or, not 使用</p>
+</li>
+</ul>
+</li>
+<li><p>列表（List）<br> 列表可以說是 Python 中最基礎的一種資料結構。所謂列表指的就是一群按照順序排序的元素（類似於其他程式語言的 array，但多一些額外功能）。</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">list_num = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">list = [<span class="string">'string'</span>, <span class="number">1</span>, [], list_num]</span><br><span class="line">list_length = len(list_num)	</span><br><span class="line">num_sum = sum(list_num)</span><br><span class="line"></span><br><span class="line">print(list_length)</span><br><span class="line">print(num_sum)</span><br></pre></td></tr></table></figure>
+<p> 運用 [] 取值（index 從 0 開始）：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x = range(<span class="number">10</span>) <span class="comment"># [0, 1, 2, ..., 9]</span></span><br><span class="line">zero = x[<span class="number">0</span>] <span class="comment"># 0</span></span><br><span class="line">nine = x[<span class="number">-1</span>] <span class="comment"># 9</span></span><br><span class="line">x[<span class="number">0</span>] = <span class="number">-1</span></span><br></pre></td></tr></table></figure>
+<p> 切割（[起始 index, 結束 index 但不包含]）：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">print(x[:<span class="number">3</span>]) <span class="comment"># [-1, 1, 2]</span></span><br><span class="line">print(x[<span class="number">3</span>:]) <span class="comment"># [3, 4, 5,..., 9]</span></span><br><span class="line">print(x[<span class="number">1</span>:<span class="number">5</span>]) <span class="comment"># [1, 2, 3, 4]</span></span><br><span class="line">print(x[<span class="number">0</span>:<span class="number">-1</span>]) <span class="comment"># [1, 2, ..., 8]</span></span><br><span class="line">print(x[<span class="number">-1</span>:<span class="number">-1</span>]) <span class="comment"># [-1, 1, ..., 9]</span></span><br></pre></td></tr></table></figure>
+<p> 檢查元素是否在列表中（逐一檢查，效率較差）：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="keyword">in</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>] <span class="comment"># True</span></span><br></pre></td></tr></table></figure>
+<p> 串接列表：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">x.extend([<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])</span><br></pre></td></tr></table></figure>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">y = x + [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br></pre></td></tr></table></figure>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">x.append(<span class="number">0</span>) <span class="comment"># [1, 2, 3, 0]</span></span><br></pre></td></tr></table></figure>
+<p> 賦值方式：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x, y = [<span class="number">1</span>, <span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_, y = [<span class="number">1</span>, <span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>元組（Tuple）<br> Tuple 類似於 List 的兄弟，比較大差別在於 Tuple 是 immutable，也就是說宣告後不能修改。列表使用 []，而元組使用 ()</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">my_tuple = (<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">my_list[<span class="number">1</span>] = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">truemy_tuple[<span class="number">1</span>] = <span class="number">4</span></span><br><span class="line"><span class="keyword">except</span> TypeError:</span><br><span class="line">trueprint(<span class="string">'cannot modify a tuple'</span>)</span><br></pre></td></tr></table></figure>
+<p> 多重賦值</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x, y = 1, 2</span><br><span class="line">x, y = y, x # x == 2, y == 1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字典（Dictionary）</p>
+<p> 字典類似 map，包含鍵值與對應的值，可以快速取出對應值：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dict1 = &#123;&#125; <span class="comment"># 建議寫法</span></span><br><span class="line">dirct2 = dict()</span><br><span class="line">grades = &#123; <span class="string">'Mark'</span>: <span class="number">70</span>, <span class="string">'Jack'</span>: <span class="number">40</span> &#125;</span><br><span class="line"></span><br><span class="line">grades[<span class="string">'Mark'</span>]</span><br></pre></td></tr></table></figure>
+<p> 給定值：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grades[<span class="string">'KD'</span>] = <span class="number">100</span></span><br><span class="line">len(grades) <span class="comment"># 3</span></span><br></pre></td></tr></table></figure>
+<p> 使用事先檢驗鍵或是使用 get 方法：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">truegrade = grades[<span class="string">'XD'</span>]</span><br><span class="line"><span class="keyword">except</span> KeyError:</span><br><span class="line">trueprint(<span class="string">'no grade for XD'</span>)</span><br><span class="line"></span><br><span class="line">grades.get(<span class="string">'XD'</span>, <span class="number">40</span>) <span class="comment"># 若無則使用 default 值</span></span><br></pre></td></tr></table></figure>
+<p> 取出所有值：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">grades = &#123; &apos;Mark&apos;: 70, &apos;Jack&apos;: 40 &#125;</span><br><span class="line">grades.keys() # 所有鍵值組成的 list</span><br><span class="line">grades.values() # 所有值組成的 list</span><br><span class="line">grades.items() # 所有鍵值組成的 tuple of list [(&apos;Mark&apos;, 70)]</span><br></pre></td></tr></table></figure>
+<p> <code>defaultdict</code>：</p>
+<p> 當你檢查一個不存在的鍵值時，會用零參數函式添加一個事先設定的新值，這是一種比較優雅的作法</p>
+<p> 在介紹 defaultdict 之前先介紹一般作法</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 例外處理</span></span><br><span class="line">word_counts = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> word <span class="keyword">in</span> document:</span><br><span class="line">true<span class="keyword">try</span>:</span><br><span class="line">truetrueword_counts[word] += <span class="number">1</span></span><br><span class="line">true<span class="keyword">except</span> KeyError:</span><br><span class="line">truetrueword_counts[word] = <span class="number">1</span></span><br><span class="line"><span class="comment"># 使用 get</span></span><br><span class="line">word_counts = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> word <span class="keyword">in</span> document:</span><br><span class="line">trueprevious = word_counts.get(word, <span class="number">0</span>)</span><br><span class="line">trueword_counts[word] = previous_count + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p> defaultdict 作法（不用每次檢查鍵直視否存在）</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 匯入 defaultdict</span></span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line"></span><br><span class="line">word_counts = defaultdict(int) <span class="comment"># 會生成 0</span></span><br><span class="line"><span class="keyword">for</span> word <span class="keyword">in</span> document:</span><br><span class="line">trueword_counts[word] += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p> 也可以使用 list 或 dict 甚至是自己定義的函式來做為 defaultdict 的零參數函式：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">dd_list = defaultdict(list)</span><br><span class="line">dd_list[<span class="number">1</span>].append(<span class="number">2</span>) <span class="comment"># &#123; 1: [2] &#125;</span></span><br><span class="line"></span><br><span class="line">dd_list = defaultdict(list)</span><br><span class="line">dd_list[<span class="string">'Mark'</span>][<span class="string">'City'</span>] = <span class="string">'Bay Area'</span> <span class="comment"># &#123; 'Mark': &#123; 'City': 'Bay Area'&#125; &#125;</span></span><br><span class="line"></span><br><span class="line">dd_list = defaultdict(<span class="keyword">lambda</span>: [<span class="number">0</span>, <span class="number">0</span>])</span><br><span class="line">dd_pair[<span class="number">2</span>][<span class="number">1</span>] = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p> Counter：可以把一系列值轉成類似 defaultdict(int) 的東西，裡面每個值都對應到相應的數量，主要會使用來建立直方圖 </p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line"></span><br><span class="line">c = Counter([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>]) <span class="comment"># &#123; 0: 2, 1: 1, 2: 1 &#125; </span></span><br><span class="line">word_counts = Counter(document)</span><br></pre></td></tr></table></figure>
+<p> 每個 Counter 實例都有個 most_common 的方法</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> word, count <span class="keyword">in</span> word_counts.most_common(<span class="number">10</span>):</span><br><span class="line">trueprint(word, count)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>集合（Set）<br> 集合類似數學中的集合，裡面包含不重複的元素值</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">s = set()</span><br><span class="line">s.add(<span class="number">1</span>) <span class="comment"># &#123; 1 &#125;</span></span><br><span class="line">s.add(<span class="number">2</span>) <span class="comment"># &#123; 1, 2 &#125;</span></span><br><span class="line">s.add(<span class="number">2</span>) <span class="comment"># &#123; 1, 2 &#125;</span></span><br><span class="line">len(s) <span class="comment"># 2 </span></span><br><span class="line"><span class="number">1</span> <span class="keyword">in</span> s <span class="comment"># True</span></span><br></pre></td></tr></table></figure>
+<p> 集合在判斷元素是否存在的效率相對較好，此外，對於判斷不重複值也很方便</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">list_item = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">set_item = set(list_item) <span class="comment"># &#123;1, 2, 3&#125;</span></span><br><span class="line">lsit(set_item) <span class="comment"># [1, 2, 3]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="解析式列表（comprehensive-list）"><a href="#解析式列表（comprehensive-list）" class="headerlink" title="解析式列表（comprehensive list）"></a>解析式列表（comprehensive list）</h1><p>在 Python 我們通常會需要把某個 list 轉換成另外一個 list，比如只挑選其中幾個元素，或是對期中某些元素進行轉換。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">even_numbers = [x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">5</span>) <span class="keyword">if</span> x % <span class="number">2</span> == <span class="number">0</span>]</span><br><span class="line">squares = [x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">5</span>) <span class="keyword">if</span> x % <span class="number">2</span> == <span class="number">0</span>]</span><br><span class="line">even_squares = [x * x <span class="keyword">for</span> x even_numbers]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不操作值的話</span></span><br><span class="line">zeros = [<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> even_numbers] <span class="comment"># 和 even_numbers 長度一樣值都為 0 的串列</span></span><br></pre></td></tr></table></figure>
+<p>建立 set 和 dict</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">square_dict = &#123; x : x * x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">5</span>) &#125;</span><br><span class="line">square_set = &#123; x * x <span class="keyword">for</span> x <span class="keyword">in</span> [<span class="number">1</span>, <span class="number">-1</span>] &#125; <span class="comment"># &#123; 1 &#125;</span></span><br><span class="line"></span><br><span class="line">pairs = [(x, y) <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">10</span>) <span class="keyword">for</span> y <span class="keyword">in</span> range(<span class="number">10</span>)] <span class="comment"># (0, 0), (0, 1)</span></span><br><span class="line">p = [(x, y) <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">3</span>) <span class="keyword">for</span> y <span class="keyword">in</span> range( x + <span class="number">1</span>, <span class="number">10</span>)]</span><br></pre></td></tr></table></figure>
+<h1 id="函式"><a href="#函式" class="headerlink" title="函式"></a>函式</h1><p>函式（function）是重複使用的程式區塊，有輸入輸出。在 Python 中我們會使用 def 來定義函式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(x, y)</span>:</span></span><br><span class="line">true<span class="keyword">return</span> x + y</span><br></pre></td></tr></table></figure>
+<p>Python 的函數和 JavaScript 一樣，屬於一級函式（first-class）。我們可以將函數指定給某個變數，然後把它傳給某個函數中，就像是平常把參數傳入函式一樣。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">apply_f</span><span class="params">(fun)</span>:</span></span><br><span class="line">true<span class="keyword">return</span> fun(<span class="number">3</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(x, y)</span>:</span></span><br><span class="line">true<span class="keyword">return</span> x + y </span><br><span class="line"></span><br><span class="line">sum_fun = sum</span><br><span class="line">num = apply_f(sum)</span><br><span class="line">print(num) // <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p>匿名函數使用方式（類似 ES6 arrow function 簡化寫法，前面是參數後面是操作）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y = apply_f(<span class="keyword">lambda</span> x: x + <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<p>函式參數預設值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_print</span><span class="params">(message=<span class="string">"default"</span>)</span>:</span></span><br><span class="line">trueprint(message)</span><br><span class="line"></span><br><span class="line">my_print(<span class="string">"hello python"</span>)</span><br><span class="line">my_print()</span><br></pre></td></tr></table></figure>
+<h1 id="args-與-kwargs"><a href="#args-與-kwargs" class="headerlink" title="args 與 kwargs"></a>args 與 kwargs</h1><p>若我們希望函式可以接受任意參數，我們可以使用 <code>args</code>（由無名稱參數組成的元組） 和 <code>kwargs</code>（由無名稱參數組成的字典）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">magic</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">trueprint(<span class="string">'unnamed args:'</span>, args)</span><br><span class="line">trueprint(<span class="string">'keywords args:'</span>, kwargs)</span><br><span class="line">magic(<span class="number">1</span>, <span class="number">2</span>, key=<span class="string">'word'</span>, key2=<span class="string">'word2'</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment"># unnamed args: (1, 2)</span></span><br><span class="line"><span class="comment"># keywords args: &#123;'key': 'word', 'key2': 'word2'&#125;</span></span><br></pre></td></tr></table></figure>
+<p>可以用來協助建立以函式當做參數的高階函式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">double</span><span class="params">(f)</span>:</span></span><br><span class="line">true<span class="function"><span class="keyword">def</span> <span class="title">g</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">truetrue<span class="keyword">return</span> <span class="number">2</span> * f(*args, **kwargs)</span><br><span class="line">true<span class="keyword">return</span> g</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f2</span><span class="params">(x, y)</span>:</span></span><br><span class="line">true<span class="keyword">return</span> x + y</span><br><span class="line"></span><br><span class="line">g = doubler_correct(f2)</span><br><span class="line">print(g(<span class="number">1</span>, <span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+<h1 id="常見內建函式"><a href="#常見內建函式" class="headerlink" title="常見內建函式"></a>常見內建函式</h1><p>除了自己可以建立函式外，Python 本身也提供許多好用的內建函式：</p>
+<ul>
+<li><p>all：列表中所有元素為真</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">all([<span class="literal">True</span>, <span class="number">1</span>, &#123; <span class="number">3</span> &#125;]) <span class="comment"># True</span></span><br><span class="line">all([<span class="literal">True</span>, <span class="number">1</span>, &#123; &#125;]) <span class="comment"># False</span></span><br><span class="line">all([]) <span class="comment"># True，沒有元素為假</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>any：列表中只要有任何元素為真</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">any([<span class="literal">True</span>, <span class="number">1</span>, &#123;&#125;]) <span class="comment"># True</span></span><br><span class="line">any([]) <span class="comment"># False，沒有元素為真</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>enumerate：列舉</p>
+<p>  我們常需要反覆取得列表中每個元素及其索引值</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># choice 1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(documents)):</span><br><span class="line">truedocument = documents[i]</span><br><span class="line">truedo_something(i, document)</span><br><span class="line"></span><br><span class="line"><span class="comment"># choice 2</span></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> document <span class="keyword">in</span> documents:</span><br><span class="line">truedo_something(i, document)</span><br><span class="line">truei += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>  使用 enumerate：</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i, document <span class="keyword">in</span> enumerate(documents):</span><br><span class="line">truedo_something(i, document)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 僅需要 index</span></span><br><span class="line"><span class="keyword">for</span> i, _ <span class="keyword">in</span> enumerate(documents): do_something(i)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>zip：合併將多個 list 合併成 tuple of list</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">list1 = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]</span><br><span class="line">list2 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">zip(list1, list2) <span class="comment"># [('a', 1), ('b', 2)]</span></span><br><span class="line"></span><br><span class="line">zip(*[(<span class="string">'a'</span>, <span class="number">1</span>), (<span class="string">'b'</span>, <span class="number">2</span>), (<span class="string">'c'</span>, <span class="number">3</span>)]) == zip((<span class="string">'a'</span>, <span class="number">1</span>), (<span class="string">'b'</span>, <span class="number">2</span>), (<span class="string">'c'</span>, <span class="number">3</span>)) <span class="comment"># [('a', 'b', 'c'), ('1', '2', '3')]</span></span><br></pre></td></tr></table></figure>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># * 可以參數拆分</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(a, b)</span>:</span> <span class="keyword">return</span> a + b</span><br><span class="line">add(<span class="number">1</span>, <span class="number">3</span>) <span class="comment"># 4</span></span><br><span class="line">add([<span class="number">1</span>, <span class="number">3</span>]) <span class="comment"># TypeError</span></span><br><span class="line">add(*[<span class="number">1</span>, <span class="number">3</span>]) <span class="comment"># 4</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>range：取得一序列</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">range(<span class="number">0</span>, <span class="number">10</span>) <span class="comment"># 0, 1, 2, ... 9</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>random：生成隨機數字</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">randoms = [random.random() <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">4</span>)] <span class="comment"># 生成長度為 4 內涵值為 0 - 1 不含 0 的 list</span></span><br></pre></td></tr></table></figure>
+<p>  事實上，random 產生的是偽隨機數字，透過 seed 設定可以取得同樣值</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line">random.seed(<span class="number">10</span>) <span class="comment"># 把 seed 設為 10</span></span><br><span class="line">print(random.random()) <span class="comment"># 0.5714025946899135</span></span><br><span class="line">random.seed(<span class="number">10</span>) <span class="comment"># 把 seed 設為 10</span></span><br><span class="line">print(random.random()) <span class="comment"># 0.5714025946899135</span></span><br></pre></td></tr></table></figure>
+<p>  隨機產生範圍內數字：</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">random.randrange(<span class="number">10</span>)</span><br><span class="line">random.randrange(<span class="number">3</span>, <span class="number">6</span>)</span><br></pre></td></tr></table></figure>
+<p>  針對列表隨機排列：</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">num = range(<span class="number">10</span>)</span><br><span class="line">random.shuffle(num)</span><br></pre></td></tr></table></figure>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">random.choice([<span class="string">'Mark'</span>, <span class="string">'Bob'</span>, <span class="string">'Jack'</span>])</span><br></pre></td></tr></table></figure>
+<p>  隨機取樣不放回：</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nums = range(<span class="number">10</span>)</span><br><span class="line">random.sample(nums, <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p>  隨機取樣放回：</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nums = range(<span class="number">10</span>)</span><br><span class="line">random.choice(nums, <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>sort：針對 list 進行排序（由小到大），會改變原來的 list。sorted 不會改變原來 list</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x = [<span class="number">4</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">y = sorted(x) <span class="comment"># [1, 2, 3, 4] 不會改變到 x</span></span><br><span class="line">x.sort() <span class="comment"># x 變成 [1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
+<p>  若想改成由大到小排序</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = sorted([<span class="number">-4</span>, <span class="number">1</span>, <span class="number">-2</span>, <span class="number">3</span>, key=abs, reverse=<span class="literal">True</span>]) <span class="comment"># [-4, 3, -3, 2] 絕對值由大到小</span></span><br></pre></td></tr></table></figure>
+<p>  若是在 key 指定一個函數，就會用這個函數結果去做排序</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wc = sorted(word_counts.items(), key=<span class="keyword">lambda</span> (word, count): count, reverse=<span class="literal">True</span>) <span class="comment"># 針對單字數量多到小排序</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>partial：使用函式工具創建另一個函式</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> partial</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">exp</span><span class="params">(base, power)</span>:</span></span><br><span class="line">true<span class="keyword">return</span> base ** power</span><br><span class="line">two_to_the = partial(exp, <span class="number">2</span>)</span><br><span class="line">print_two_the(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>map：</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multiply</span><span class="params">(x, y)</span>:</span></span><br><span class="line">true<span class="keyword">return</span> x * y</span><br><span class="line">map(multiply, [<span class="number">1</span>, <span class="number">2</span>], [<span class="number">1</span>, <span class="number">2</span>]) <span class="comment"># [1, 4]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>filter：</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_even</span><span class="params">(x)</span>:</span></span><br><span class="line">true<span class="keyword">return</span> x % <span class="number">2</span> == <span class="number">0</span></span><br><span class="line">filter(is_even, [<span class="number">2</span>, <span class="number">5</span>, <span class="number">6</span>]) <span class="comment"># [2, 6]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>reduce：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def multiply(x, y):</span><br><span class="line">truereturn x * y</span><br><span class="line">reduce(multiply, [1, 2, 3]) # 1 * 2 * 3</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="控制流程"><a href="#控制流程" class="headerlink" title="控制流程"></a>控制流程</h1><ol>
+<li><p>if…elif…else</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="number">1</span> &gt; <span class="number">2</span>:</span><br><span class="line">truemessage = <span class="string">'if onlt 1 were greater than two'</span></span><br><span class="line"><span class="keyword">elif</span> <span class="number">1</span> &gt; <span class="number">3</span>: </span><br><span class="line">truemessage = <span class="string">'elif == else if'</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">truemessage = <span class="string">'else'</span></span><br></pre></td></tr></table></figure>
+<p> 三元運算子：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parity = <span class="string">'even'</span> <span class="keyword">if</span> x % <span class="number">2</span> == <span class="number">0</span> <span class="keyword">else</span> <span class="string">'odd'</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>for…in </p>
+<p> 較複雜情況我們會搭配 continue 和 break 使用：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">10</span>): <span class="comment"># 0...9 不含 10</span></span><br><span class="line">true<span class="keyword">if</span> x == <span class="number">3</span>:</span><br><span class="line">truetrue<span class="keyword">continue</span></span><br><span class="line">true<span class="keyword">if</span> x == <span class="number">5</span>:</span><br><span class="line">truetrue<span class="keyword">break</span></span><br><span class="line">trueprint(x)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>while</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> x &lt; <span class="number">10</span>:</span><br><span class="line">trueprint(<span class="string">'x is less than 10'</span>)</span><br><span class="line">truex += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="生成器（generator）與迭代操作"><a href="#生成器（generator）與迭代操作" class="headerlink" title="生成器（generator）與迭代操作"></a>生成器（generator）與迭代操作</h1><p>事實上，list 有個問題就是很容易變得很大。例如：range(1000000) 就會製造出一個包含一百萬的元素的 list。若是想要使用其中幾個元素，效能就會變得很差。此時使用生成器（generator）就是一個每次只生成所需數值的一種 lazy 作法。</p>
+<p>使用函式和 yield</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lazy_range</span><span class="params">(n)</span>:</span></span><br><span class="line">truei = <span class="number">0</span></span><br><span class="line">true<span class="keyword">while</span> i &lt; n:</span><br><span class="line">truetrue<span class="keyword">yield</span> i</span><br><span class="line">truetruei += i</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> lazy_range(<span class="number">10</span>):</span><br><span class="line">truedo_something(i)</span><br></pre></td></tr></table></figure>
+<p>或是在小括號使用運算解析式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lazy_evens_below_20 = (i <span class="keyword">for</span> i <span class="keyword">in</span> lazy_range(<span class="number">20</span>) <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">另外，每個 dict 都有一個叫做 items() 的方法</span><br><span class="line"></span><br><span class="line">iteritems() <span class="comment"># 可以一次生成一個鍵值對</span></span><br></pre></td></tr></table></figure>
+<h1 id="裝飾器（decorator）"><a href="#裝飾器（decorator）" class="headerlink" title="裝飾器（decorator）"></a>裝飾器（decorator）</h1><p>裝飾器本身是一個函式，主要是借助閉包力量產生一個可以修飾函式的函式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@print_fun(title='title:')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(*tup)</span>:</span></span><br><span class="line">true<span class="keyword">return</span> sum(tup)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 以下兩者相同</span></span><br><span class="line">add(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">add = print_fun(title=<span class="string">'title:'</span>)(add)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 裝飾器撰寫</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_fun</span><span class="params">(title)</span>:</span></span><br><span class="line">true<span class="function"><span class="keyword">def</span> <span class="title">decorator</span><span class="params">(func)</span>:</span></span><br><span class="line">truetrue<span class="function"><span class="keyword">def</span> <span class="title">modified_func</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">truetruetrueresult = func(*args, ** kwargs)</span><br><span class="line">truetruetrueprint(title, result)</span><br><span class="line">truetrue<span class="keyword">return</span> modified_func</span><br><span class="line">true<span class="keyword">return</span> decorator</span><br></pre></td></tr></table></figure>
+<h1 id="正規表達式"><a href="#正規表達式" class="headerlink" title="正規表達式"></a>正規表達式</h1><p>與許多程式語言一樣，Python 同樣提供正規表達式的用法，可以方便擷取文字。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span>.all([</span><br><span class="line">re.match(<span class="string">'a'</span>, <span class="string">'cat'</span>),</span><br><span class="line">re.search(<span class="string">'a'</span>, <span class="string">'cat'</span>)])</span><br></pre></td></tr></table></figure>
+<h1 id="物件導向程式設計（OOP）"><a href="#物件導向程式設計（OOP）" class="headerlink" title="物件導向程式設計（OOP）"></a>物件導向程式設計（OOP）</h1><p>Python 也是物件導向程式語言：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Set</span>:</span></span><br><span class="line">true<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, values=None)</span>:</span></span><br><span class="line">truetrue<span class="comment"># 建構函數</span></span><br><span class="line">truetrues1 = Set()</span><br><span class="line">truetrues2 = Set([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">truetrueself.dict = &#123;&#125; </span><br><span class="line">truetrue<span class="keyword">if</span> values <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">truetruetrue<span class="keyword">for</span> value <span class="keyword">in</span> values:</span><br><span class="line">truetruetruetrueself.add(value)</span><br><span class="line">true<span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">truetrue<span class="keyword">return</span> <span class="string">"Set"</span> + str(self.dict.keys())</span><br><span class="line">true<span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(self, value)</span>:</span></span><br><span class="line">truetrueself.dict[value] = <span class="literal">True</span></span><br><span class="line">true<span class="function"><span class="keyword">def</span> <span class="title">contains</span><span class="params">(self, value)</span>:</span></span><br><span class="line">truetrue<span class="keyword">return</span> value <span class="keyword">in</span> self.dict</span><br><span class="line">true<span class="function"><span class="keyword">def</span> <span class="title">remove</span><span class="params">(self, value)</span>:</span></span><br><span class="line">truetrue<span class="keyword">del</span> self.dict[value]</span><br><span class="line"><span class="comment"># 使用物件</span></span><br><span class="line">s = Set([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"></span><br><span class="line">s.add(<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">print(s.contains(<span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+<h1 id="例外狀況"><a href="#例外狀況" class="headerlink" title="例外狀況"></a>例外狀況</h1><p>若是程式出現錯誤的話會送出 exception，若不妥善處理的話程式很有可能會掛掉，在 Python 中例外處理可以使用 try…except：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">trueprint(<span class="number">1</span>/<span class="number">0</span>)</span><br><span class="line"><span class="keyword">except</span> ZeroDivisionError:  </span><br><span class="line">trueprint(<span class="string">'cannot divide by zero'</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>本文快速介紹了 Python 的基礎概念，當讀者學會了 Python 後，事實上可以嘗試使用 Python 開發不同的網路應用程式或是資料科學，甚至是自然語言處理的應用。</p>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><ol>
+<li><a href="https://www.codementor.io/python/tutorial/essential-python-interview-questions" target="_blank" rel="noopener">15 Essential Python Interview Questions</a></li>
+<li><a href="https://www.toptal.com/python/interview-questions" target="_blank" rel="noopener">8 Essential Python Interview Questions*</a></li>
+<li><a href="https://www.tutorialspoint.com/python/python_interview_questions.htm" target="_blank" rel="noopener">Python Interview Questions</a></li>
+<li><a href="https://www.quora.com/What-are-good-Python-interview-questions" target="_blank" rel="noopener">What are good Python interview questions?</a></li>
+<li><a href="http://career.guru99.com/top-25-python-interview-questions/" target="_blank" rel="noopener">Top 40 Python Interview Questions &amp; Answers </a></li>
+<li><a href="https://intellipaat.com/interview-question/python-interview-questions/" target="_blank" rel="noopener">Top Python Interview Questions And Answers</a></li>
+<li><a href="https://www.interviewcake.com/python-interview-questions" target="_blank" rel="noopener">Python Interview Questions</a></li>
+<li><a href="http://foofish.net/python-decorator.html" target="_blank" rel="noopener">12步教你理解Python装饰器</a></li>
+</ol>
+<p>（image via <a href="https://cdn.fedoramagazine.org/wp-content/uploads/2015/11/Python_logo.png" target="_blank" rel="noopener">fedoramagazine</a>）</p>
+<p>關於作者：<br><a href="http://blog.kdchang.cc" target="_blank" rel="noopener">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino/Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2016/12/17/python101-tutorial/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2016/12/17/python101-tutorial/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2016/12/17/python101-tutorial/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2016/12/17/python101-tutorial/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2016/12/24/object-recognition-kitchen/">
+        ← Object Recognition Kitchen 透明物體辨識(演算法概念)
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/12/10/javascript-data-structure-algorithm-queue/">
+        用 JavaScript 學習資料結構和演算法：佇列（Queue）篇 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

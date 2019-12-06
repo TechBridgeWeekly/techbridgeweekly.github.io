@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Leetcode 刷題 pattern - Two Pointer | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-08-30T16:51:34.000Z" itemprop="datePublished">
+          2019-08-30
+      </time>
+    
+    
+    | 
+    <a href='/tags/Algorithm/'>Algorithm</a>,
+    
+    <a href='/tags/Leetcode/'>Leetcode</a>,
+    
+    <a href='/tags/Software-Engineer/'>Software Engineer</a>
+    
+    
+</span>
+
+<meta name="generator" content="Leetcode 刷題 pattern - Two Pointer">
+<meta name="og:title" content="Leetcode 刷題 pattern - Two Pointer">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Leetcode 刷題 pattern - Two Pointer</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>身在大 CS 時代，有越來越多人投入刷題的行列，在眼花撩亂的題海中，要想有效率地刷題，掌握並通達題目解法背後，可以不斷被拿來使用的觀念，才能做到以簡禦繁。</p>
+<p>今天就要跟大家介紹一種演算法的 pattern - Two Pointer。</p>
+<h2 id="Two-Pointer-的第一個範例-Leetcode-167-Two-Sum-II"><a href="#Two-Pointer-的第一個範例-Leetcode-167-Two-Sum-II" class="headerlink" title="Two Pointer 的第一個範例 - Leetcode #167 Two Sum II"></a>Two Pointer 的第一個範例 - Leetcode #167 Two Sum II</h2><h3 id="題目"><a href="#題目" class="headerlink" title="題目"></a>題目</h3><p>我們先看一下題目的敘述：</p>
+<p><img src="https://i.imgur.com/tg7FO52.png" alt="img"></p>
+<p>輸入是一個 array，裡面是已經排好序的 int，剩下就是要找到加總起來等於 target 的一組 index。</p>
+<h3 id="暴力法"><a href="#暴力法" class="headerlink" title="暴力法"></a>暴力法</h3><p>最最最直覺的暴力法，就是每一組搭配都試試看，所以 pseudo code 會像下面這樣：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">For every i in numbers start from index 0:</span><br><span class="line">  For every j in numbers start from index i+1:</span><br><span class="line">    If(numbers[i]+numbers[j] equals to target)</span><br><span class="line">      Return i&amp;j</span><br><span class="line">    Endif</span><br><span class="line">  Endfor</span><br><span class="line">Endfor</span><br></pre></td></tr></table></figure>
+<p>如果 array 的長度是 n，那時間複雜度就是 $O(n^2)$。也就是說，如果你的字串長度是 1,000，最糟得跑這個迴圈 1,000,000 次(這邊是粗算，當然不用那麼多，因為 j 是從 i+1 開始，只是抓個大概)！</p>
+<h3 id="好一點的解法-Hash-Table"><a href="#好一點的解法-Hash-Table" class="headerlink" title="好一點的解法 - Hash Table"></a>好一點的解法 - Hash Table</h3><p>有寫過 Leetcode 天字第一題 Two Sum 的朋友一定很直覺想到，要避免 $O(n^2)$ 還不簡單，用個 Hash Table 就好了嘛。（如果你不知道在說什麼，可以看看 <a href="https://blog.techbridge.cc/2017/01/21/simple-hash-table-intro/">之前寫過的這篇文章</a>）</p>
+<p>沒錯！如果用 Hash Table，確實可以讓時間複雜度降到 $O(n)$，如此一來，如果你的 array 長度是 1,000，你只需要跑 1,000 個迴圈，假設你自己是電腦裡面的 CPU 小精靈（?），要負責跑迴圈，你從需要跑 1,000,000 圈到變成只要跑 1,000 圈，是不是會謝天謝地謝上帝ＸＤ</p>
+<p>不過如果你是記憶體小精靈（?），你可能會覺得很煩，剛剛明明只有 CPU 小精靈要跑 1,000,000 圈，你正想說趁他在跑，你要去跑 <del>UberEats</del>，結果現在你也多了 1,000 個東西（最多）要管理。你可能想說，能不能再想想！不要因你的懶惰叫我多做事！</p>
+<h3 id="Two-Pointer-解法"><a href="#Two-Pointer-解法" class="headerlink" title="Two Pointer 解法"></a>Two Pointer 解法</h3><p>聽到了記憶體小精靈的呼喚，Two Pointer 演算法出來救援了。在這題中有個很巧妙的性質，就是 array 裡面的東西是排好序的，如果只能用跟 Two Sum 一樣的解法，幹嘛要多給排序好的這個大特惠？</p>
+<p>我們來看一下範例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">numbers = [2,7,11,15]</span><br><span class="line">target = 9</span><br></pre></td></tr></table></figure>
+<p>先想想，如果我用左右手兩根食指，左手指向 2，右手指向 15，這時兩根手指的數字加起來是 17，比 9 還大，這表示什麼？是左手指的數字有問題嗎？</p>
+<p>肯定不是啊，因為 array 已經排過序了，左手指向的 2 是最小的，我們希望兩根手指加起來的數字等於 9，也就是說右手指的數字太大了！</p>
+<p>所以接下來我們會：</p>
+<ul>
+<li>把右手往左移，指向 11; 這時 2+11 == 13 還是比 9 大</li>
+<li>把右手再往左移，指向 7; 這時 2+7 == 9，找到了！</li>
+</ul>
+<p>想不到動兩根手指就可以這麼快找到！這就是 Two Pointer 的魅力，這個演算法的時間複雜度是 $O(n)$，空間複雜度是 $O(1)$（不管字串有多長，我都只需要兩根手指啦！）。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; twoSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">    <span class="keyword">if</span>(nums.size() &lt; <span class="number">2</span>) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">    <span class="keyword">int</span> l = <span class="number">0</span>, r = nums.size()<span class="number">-1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(l &lt;= r) &#123;</span><br><span class="line">      <span class="keyword">if</span>(nums[l] + nums[r] == target) &#123;</span><br><span class="line">        <span class="comment">// index start from 1, so we need to add 1</span></span><br><span class="line">        <span class="keyword">return</span> &#123;l+<span class="number">1</span>, r+<span class="number">1</span>&#125;;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span>(nums[l] + nums[r] &gt; target) r--;</span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span>(nums[l] + nums[r] &lt; target) l++;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>看到這邊是不是初步體驗到 Two Pointer 的厲害了呢，不過這個 pattern 如果只有一題適用，那就不用特別講了，讓我們繼續看下去。</p>
+<h2 id="Two-Pointer-的第二個範例-Leetcode-977-Squares-of-a-Sorted-Array"><a href="#Two-Pointer-的第二個範例-Leetcode-977-Squares-of-a-Sorted-Array" class="headerlink" title="Two Pointer 的第二個範例 - Leetcode #977 Squares of a Sorted Array"></a>Two Pointer 的第二個範例 - Leetcode #977 Squares of a Sorted Array</h2><h3 id="題目-1"><a href="#題目-1" class="headerlink" title="題目"></a>題目</h3><p>這一題的敘述在這：</p>
+<p><img src="https://i.imgur.com/bYqtsYb.png" alt="img"></p>
+<h3 id="暴力法-1"><a href="#暴力法-1" class="headerlink" title="暴力法"></a>暴力法</h3><p>這題的暴力法應該很直觀，我們先把每一個 element 的平方數都算出來，存在原本的 array，然後 sort 這個 array 就好。這樣子的時間複雜度是 $O(nlogn)$，但這時我們要問 - Can we do better？</p>
+<p>答案是 Yes, <del>I do</del> we can！</p>
+<h3 id="Two-Pointer-解法-1"><a href="#Two-Pointer-解法-1" class="headerlink" title="Two Pointer 解法"></a>Two Pointer 解法</h3><p>Two Pointer 的解法跟上一題的精神有異曲同工之妙，首先，我們要注意到這題的輸入是一個 non-decreasing array，也就是等於已經排好序啦！所以，我們一樣可以用左右手兩根食指，左手指到最前面，右手指到最後面，然後開始比較。</p>
+<p>唯一一個不一樣的地方是，原本的 array 中有負數，但既然已經排好序，我們只要比較兩邊的平方數就好，看個範例吧：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">numbers = [-4,-1,0,3,10]</span><br></pre></td></tr></table></figure>
+<p>初始化，拿出你的手指，左手指向 -4，右手指向 10，這時兩根手指的平方數分別是 16 跟 100，因為 100 比較大，所以我們把它放到答案 array 的尾端。</p>
+<p>然後接下來大家大概都會了：</p>
+<ul>
+<li>把右手往左移，指向 3; 這時 16 &gt; 9，把 16 放到答案 array 的尾端 - 1 的位置</li>
+<li>把左手往右移，指向 -1; 這時 9 &gt; 1，把 9 放到答案 array 的尾端 - 2 的位置</li>
+<li>把右手往左移，指向 0; 這時 1 &gt; 0，把 1 放到答案 array 的尾端 - 3 的位置</li>
+<li>把左手往右移，指向 0；這時兩邊指的都一樣，直接把 0 放到答案 array 的尾端 - 4 的位置</li>
+</ul>
+<p>是不是也很簡單呢？而且時間複雜度就降到 $O(n)$ 了。</p>
+<p>這時再看個 code，覺得棒：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; sortedSquares(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; arr) &#123;</span><br><span class="line">    <span class="keyword">int</span> n = arr.size();</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; squares(n);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> highestIdx = n<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">int</span> l=<span class="number">0</span>, r=n<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(l &lt;= r) &#123;</span><br><span class="line">      <span class="keyword">int</span> leftSquare = <span class="built_in">pow</span>(arr[l], <span class="number">2</span>);</span><br><span class="line">      <span class="keyword">int</span> rightSquare = <span class="built_in">pow</span>(arr[r], <span class="number">2</span>);</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">if</span>(leftSquare &gt;= rightSquare) &#123;</span><br><span class="line">        squares[highestIdx--] = leftSquare;</span><br><span class="line">        l++;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span> &#123;</span><br><span class="line">        squares[highestIdx--] = rightSquare;</span><br><span class="line">        r--;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> squares;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="Two-Pointer-的第三個範例-Leetcode-15-3Sum"><a href="#Two-Pointer-的第三個範例-Leetcode-15-3Sum" class="headerlink" title="Two Pointer 的第三個範例 - Leetcode #15 3Sum"></a>Two Pointer 的第三個範例 - Leetcode #15 3Sum</h2><h3 id="題目-2"><a href="#題目-2" class="headerlink" title="題目"></a>題目</h3><p><img src="https://i.imgur.com/i7HNwPI.png" alt="img"></p>
+<h3 id="暴力法-2"><a href="#暴力法-2" class="headerlink" title="暴力法"></a>暴力法</h3><p>一樣，我們先上最直覺的暴力法，也就是每一組搭配都試試看，pseudo code 會像下面這樣：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ans = empty array</span><br><span class="line"></span><br><span class="line">For every i in nums start from index 0:</span><br><span class="line">  For every j in nums start from index i+1:</span><br><span class="line">    For every k in nums start from index j+1:</span><br><span class="line">      If(nums[i]+nums[j]+nums equals to 0)</span><br><span class="line">        Add &#123;nums[i], nums[j], nums[k]&#125; to the ans</span><br><span class="line">      Endif</span><br><span class="line">    Endfor</span><br><span class="line">  Endfor</span><br><span class="line">Endfor</span><br><span class="line"></span><br><span class="line">return ans</span><br></pre></td></tr></table></figure>
+<p>如果 array 的長度是 n，那時間複雜度就是 $O(n^3)$。</p>
+<h3 id="Two-Pointer-解法-2"><a href="#Two-Pointer-解法-2" class="headerlink" title="Two Pointer 解法"></a>Two Pointer 解法</h3><p>寫到這邊，廢話就不多說，我們就來看看怎麼優化。首先仔細觀察一下題目，這題的輸入是一個沒有 sort 過的 array，這時心裏可能會想說 GG 思密達，看來應該是沒 Two Pointer 的戲了。</p>
+<p>但，我們是程式設計師，輸入沒有 sort 難道我們不能自己 sort 嗎？當然可以，可是要注意一件事，如果我們要輸出的答案是 index，那就麻煩了。不過很幸運地，我們要輸出的是數值！（這邊就發現題目設計者可能，就是，偷偷地想要讓你可以 sort）</p>
+<p>所以我們可以先把輸入的 array sort 完，然後依序把每個 element 當作 nums[i]，剩下就是尋找 nums[j]+nums[k] == -nums[i]。恭喜恭喜，變回剛剛學過的 #167 了。</p>
+<p>讓我們實作出下面的程式碼：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; threeSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; triplets;</span><br><span class="line">    <span class="keyword">int</span> n = nums.size();</span><br><span class="line">    </span><br><span class="line">    sort(nums.begin(), nums.end());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Note:</span></span><br><span class="line">    <span class="comment">// 1. Iterate to n-2 only</span></span><br><span class="line">    <span class="comment">// 2. Need to skip same element to avoid duplicate triplets</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;n<span class="number">-2</span>; i++) &#123;</span><br><span class="line">      <span class="comment">// skip same element to avoid duplicate triplets</span></span><br><span class="line">      <span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; nums[i] == nums[i - <span class="number">1</span>]) &#123;</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      searchPair(nums, -nums[i], i+<span class="number">1</span>, triplets);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> triplets;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">searchPair</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target, <span class="keyword">int</span> start, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; triplets)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> l=start, r=nums.size()<span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(l&lt;r) &#123;</span><br><span class="line">      <span class="keyword">if</span>(nums[l]+nums[r] == target) &#123;</span><br><span class="line">        triplets.push_back(&#123;-target, nums[l], nums[r]&#125;);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// Intuitively, we should only do l++ or r--</span></span><br><span class="line">        <span class="comment">// so that we won't miss the case of nums[l]+nums[r-1] or nums[l+1]+nums[r]</span></span><br><span class="line">        <span class="comment">// But think deeper, if we only do r--</span></span><br><span class="line">        <span class="comment">// After preventing duplicates, we know that</span></span><br><span class="line">        <span class="comment">// nums[l] and nums[new r] cannot fulfill sum==target</span></span><br><span class="line">        <span class="comment">// So we won't miss anything even we do l++ and r--</span></span><br><span class="line">        l++;</span><br><span class="line">        r--;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[l] == nums[l<span class="number">-1</span>]) &#123;</span><br><span class="line">          l++; <span class="comment">// skip same element to avoid duplicate triplets</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[r] == nums[r+<span class="number">1</span>]) &#123;</span><br><span class="line">          r--; <span class="comment">// skip same element to avoid duplicate triplets</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span>(nums[l]+nums[r] &gt; target) r--;</span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span>(nums[l]+nums[r] &lt; target) l++;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在實作到程式階段會有比較多的小細節要注意，不過整體思想其實相當簡單。</p>
+<h3 id="3Sum-的小延伸"><a href="#3Sum-的小延伸" class="headerlink" title="3Sum 的小延伸"></a>3Sum 的小延伸</h3><p>如果這題你懂了，也可以再去寫一寫 #16 - 3Sum Closest、# 259 - 3Sum Smaller，每次寫也可以想想如果你用暴力解，演算法的效率會差多少，你就會越來越欣賞 Two Pointer 囉！</p>
+<p>而且，學會一個技巧就可以打掉 3 題 leetcode 題是不是有點開心ＸＤ</p>
+<h2 id="Two-Pointer-的第四個範例-Leetcode-713-Subarray-Product-Less-Than-K"><a href="#Two-Pointer-的第四個範例-Leetcode-713-Subarray-Product-Less-Than-K" class="headerlink" title="Two Pointer 的第四個範例 - Leetcode #713 Subarray Product Less Than K"></a>Two Pointer 的第四個範例 - Leetcode #713 Subarray Product Less Than K</h2><h3 id="題目-3"><a href="#題目-3" class="headerlink" title="題目"></a>題目</h3><p><img src="https://i.imgur.com/w0Qb2Ph.png" alt="img"></p>
+<h3 id="暴力法-3"><a href="#暴力法-3" class="headerlink" title="暴力法"></a>暴力法</h3><p>這題的暴力法也很直覺，列舉出所有的 subarray 就對了！列舉出每個 subarray 後，都把那個 subarray 的 element 乘起來，看會不會比 k 大。不過這樣做的時間複雜度是 $O(n^3)$，因為要搜尋每個起終點位置的組合就已經要花 $O(n^2)$ 時間，然後每一個 subarray 要花 $O(n)$ 的時間計算乘積，整個就非常拖。</p>
+<h3 id="Two-Pointer-解法-3"><a href="#Two-Pointer-解法-3" class="headerlink" title="Two Pointer 解法"></a>Two Pointer 解法</h3><p>如果我們使用 Two Pointer 來形成一個 sliding window，就能夠進一步地節省時間，基本的想法是要避免：</p>
+<ol>
+<li>每次都得重新取 Window</li>
+<li>每次都得重新乘積</li>
+</ol>
+<p>讓我們先看一個例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nums = [10, 5, 2, 6]</span><br><span class="line">k = 100</span><br></pre></td></tr></table></figure>
+<ol start="0">
+<li><strong>product</strong> 一開始是 1，<strong>ans</strong> 一開始是 0。</li>
+<li>假設一開始左手指向 10，右手也指向 10，這時候 <strong>product</strong> *= 10 == 10，所以我們知道可以把 <strong>ans</strong> += 1 == 1。</li>
+<li>把右手指往右移，右手指向 5，這時候 <strong>product</strong> *= 5 == 50，因為依然小於 k，所以我們知道 [10, 5] 跟 [5] 這兩個 subarray 的乘積都小於 k。 所以可以把 <strong>ans</strong> += (r-l+1) == 1 + (1-0+1) == 3。（r 表示右手指位置，l 則表示左手指位置）</li>
+</ol>
+<p>依此類推，接著把右手往右移，如果 <strong>product</strong> &gt; k，那就得把 <strong>product</strong> /= 左手指向的值，並把左手往右移，直到 <strong>product</strong> &lt; k，這時就又可以再把 <strong>ans</strong> += (r-l+1)。當右手指超過 array 範圍就算完了。</p>
+<p>所以要避免暴力法冗餘部分的方法就是：</p>
+<ol>
+<li>避免每次都得重新取 Window：當發現某個 subwindow 的乘積比 k 小時，就知道可以直接加上 r-l+1 個 subarray</li>
+<li>避免每次都得重新乘積：移動右手指時，<code>product *= nums[r]</code>；移動左手指時，<code>product \= nums[l]</code></li>
+</ol>
+<p>程式碼非常簡潔：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">int</span> <span class="title">numSubarrayProductLessThanK</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(k &lt;= <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> n=nums.size();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>, product = <span class="number">1</span>, l = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> r=<span class="number">0</span>; r&lt;n; r++) &#123;</span><br><span class="line">      product *= nums[r];</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">while</span>(product &gt;= k) &#123;</span><br><span class="line">        product /= nums[l];</span><br><span class="line">        l++;</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      count += r-l+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>用 Two Pointer 構成一個 Sliding window 的話，就只需要 $O(n)$ 的時間囉！差超多！</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>當我們在處理 sorted array 或 sorted linked list，而且需要找到一組滿足特定條件的 element 時，就很可能可以使用 Two pointer 來加快速度。</p>
+<p>一組 element 可以是：</p>
+<ol>
+<li>一個 pair</li>
+<li>3 個 element</li>
+<li>一個 subarray</li>
+</ol>
+<p>上面的幾個例子分別對應到</p>
+<ol>
+<li>一個 pair：#167</li>
+<li>3 個 element：#15</li>
+<li>一個 subarray：#713</li>
+</ol>
+<p>希望大家看完之後，可以感受到 Two Pointer 的方便和效率。體驗到這個演算法好用、厲害，才會在該用的時候，自然而然地使用，比起用背的（例如看到…，就要用…），我覺得去體驗通達各種解法，覺得酷到不自覺笑出來、感受到讚讚讚，可能就是讓演算法功力進到下一個境界的現象。</p>
+<p>上面提供的四題是讓大家初步體會一下 Two Pointer 的威力，如果你對這個 pattern 有興趣，可以再去看看延伸閱讀的筆記，裡面記錄了 12 題 Two Pointer 的題目，而且從簡單到越來越難，如果把這些題目一次寫完，對於 Two Pointer 的掌握度應該就大大提升了！</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a href="https://po-jen.gitbooks.io/coding-practice-advanced-topics/content/two-pointer.html" target="_blank" rel="noopener">我的 Leetcode 刷題筆記 - Two Pointer pattern</a></li>
+</ol>
+<p>關於作者：<br><a href="https://pojenlai.wordpress.com/" target="_blank" rel="noopener">@pojenlai</a> 演算法工程師，對機器人、電腦視覺和人工智慧有少許研究，正在學習<a href="https://buzzorange.com/techorange/2017/07/10/elon-musk-first-principle/" target="_blank" rel="noopener">用心體會事物的本質</a>跟<a href="https://www.ted.com/talks/eduardo_briceno_how_to_get_better_at_the_things_you_care_about" target="_blank" rel="noopener">不斷進入學生心態改進</a>。</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/08/30/leetcode-pattern-two-pointer/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/08/30/leetcode-pattern-two-pointer/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/08/30/leetcode-pattern-two-pointer/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/08/30/leetcode-pattern-two-pointer/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/09/07/session-and-cookie-implementation/">
+        ← 深入 Session 與 Cookie：Express、PHP 與 Rails 的實作
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/08/26/how-to-use-prometheus-grafana-in-flask-app/">
+        使用 Prometheus 和 Grafana 打造 Flask Web App 監控預警系統 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

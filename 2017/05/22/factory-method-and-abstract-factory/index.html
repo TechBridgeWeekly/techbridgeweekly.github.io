@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>設計模式 - 工廠方法及抽象工廠 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-05-22T07:12:25.000Z" itemprop="datePublished">
+          2017-05-22
+      </time>
+    
+    
+    | 
+    <a href='/tags/design-pattern/'>design pattern</a>
+    
+    
+</span>
+
+<meta name="generator" content="設計模式 - 工廠方法及抽象工廠">
+<meta name="og:title" content="設計模式 - 工廠方法及抽象工廠">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">設計模式 - 工廠方法及抽象工廠</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p>以下文章是閱讀 <a href="http://www.oreilly.com.tw/product_java.php?id=a163" target="_blank" rel="noopener">深入淺出 Design Pattern</a>，還有 <a href="https://www.amazon.com/Design-Patterns-Elements-Reusable-Object-Oriented/dp/0201633612" target="_blank" rel="noopener">聖經</a>的筆記，要更深入的理解一定要去看這兩本書。圖片截圖自 lynda.com 的<a href="https://www.lynda.com/Developer-Programming-Foundations-tutorials/Foundations-Programming-Design-Patterns/135365-2.html" target="_blank" rel="noopener">Foundations of Programming: Design Patterns</a>，這是學習設計模式非常好的課程。</p>
+<h3 id="來點個-Pizza-吧"><a href="#來點個-Pizza-吧" class="headerlink" title="來點個 Pizza 吧"></a>來點個 Pizza 吧</h3><p>今天想設計一個PizzaStore，裡面可以點 Pizza。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PizzaStore</span> </span>&#123;</span><br><span class="line">    <span class="function">Pizza <span class="title">orderPizza</span><span class="params">(String type)</span></span>&#123;</span><br><span class="line">    	Pizza pizza;</span><br><span class="line">    	<span class="keyword">if</span>(type.equals(<span class="string">"cheese"</span>))&#123;</span><br><span class="line">true    pizza = <span class="keyword">new</span> CheesePizza();</span><br><span class="line">    	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(type.equals(<span class="string">"greek"</span>))&#123;</span><br><span class="line">true    pizza = <span class="keyword">new</span> GreekPizza();</span><br><span class="line">    	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(type.equals(<span class="string">"pepperoni"</span>))&#123;</span><br><span class="line">true    pizza = <span class="keyword">new</span> PepperoniPizza();</span><br><span class="line">    	&#125;</span><br><span class="line">    	pizza.prepare();</span><br><span class="line">    	pizza.cook();</span><br><span class="line">    	<span class="keyword">return</span> pizza</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看起來不差。compile-time 的時候 pizza.prepare() 跟 pizza.cook() 是哪一種 pizza 我不用知道 ，我只要保證各個 Pizza 的 subclass 有實作 prepare() 和 cook() 就可以 。</p>
+<p>Polymorphism Rocks!</p>
+<p>但只要有新的 Pizza 推出或是有舊的要拿掉，需要改這裡的 if-else 有點麻煩。</p>
+<h3 id="簡單工廠模式"><a href="#簡單工廠模式" class="headerlink" title="簡單工廠模式"></a>簡單工廠模式</h3><p>別忘了 <strong>Design Pattern rule #1: Encapsulate what varies</strong></p>
+<p>把剛剛 orderPizza() 裡面的所有 if-else 拉出來到一個工廠裡，這個工廠專門製作 pizza。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimplePizzaFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Pizza <span class="title">createPizza</span><span class="params">(String type)</span> </span>&#123;</span><br><span class="line">truePizza pizza = <span class="keyword">null</span>;</span><br><span class="line">true<span class="keyword">if</span>(type.equals(<span class="string">"cheese"</span>))&#123;</span><br><span class="line">true    pizza = <span class="keyword">new</span> CheesePizza();</span><br><span class="line">    	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(type.equals(<span class="string">"greek"</span>))&#123;</span><br><span class="line">true    pizza = <span class="keyword">new</span> GreekPizza();</span><br><span class="line">    	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(type.equals(<span class="string">"pepperoni"</span>))&#123;</span><br><span class="line">true    pizza = <span class="keyword">new</span> PepperoniPizza();</span><br><span class="line">    	&#125;</span><br><span class="line">    	<span class="keyword">return</span> pizza;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>就這麼簡單，這就是簡單工廠 。</p>
+<p><strong>簡單工廠管理物件的創造，如果 client 要取得物件，只要給簡單工廠正確的參數就可以。</strong></p>
+<p>然後 pizza 店的 constructor 要丟一個工廠進去。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PizzaStore</span> </span>&#123;</span><br><span class="line">    SimplePizzaFactory factory;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PizzaStore</span><span class="params">(SimplePizzaFactory factory)</span> </span>&#123; </span><br><span class="line">true<span class="keyword">this</span>.factory = factory;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Pizza <span class="title">orderPizza</span><span class="params">(String type)</span> </span>&#123;</span><br><span class="line">truePizza pizza;</span><br><span class="line">truepizza = factory.createPizza(type);</span><br><span class="line">truepizza.prepare();</span><br><span class="line">truepizza.cook();</span><br><span class="line">true<span class="keyword">return</span> pizza;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>簡單工廠模式，讓我們把 pizza 的<strong><em>創造</em></strong>和 pizza 的<strong><em>使用</em></strong>分開了，減少了 client 對於實作的依賴。</p>
+<p>我們成功的判斷出 orderPizza 這個函數裡面會變動的部分，分離出一個工廠，去處理他。如果你今天要改變處理方式，你去改那個工廠或是給我一個新工廠就可以。我不管你怎麼創造的，我只在乎你回傳給我的 object 的 class 是 Pizza 的 subclass。</p>
+<p><img src="/img/jyt0532/factory1.png" alt="Alt text"></p>
+<p>簡單工廠模式的優點就是分離了物件的使用和創造。client 不管你怎麼生成的，但缺點也很明確，每當有新的 class 出來工廠就要改，複雜度上升得很快。</p>
+<p>適用情況是需要創建的種類比較少，而且客戶對於怎麼創建對象的方法不關心。</p>
+<h3 id="生意不錯-開個分店"><a href="#生意不錯-開個分店" class="headerlink" title="生意不錯 開個分店"></a>生意不錯 開個分店</h3><p>實作了簡單工廠模式之後，同樣是 cheese pizza，紐約跟芝加哥的做法就完全不一樣。<br>我們可以修改 SimplePizzaFactory 讓 createPizza 多吃一個參數 style。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimplePizzaFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Pizza <span class="title">createPizza</span><span class="params">(String style, String type)</span> </span>&#123;</span><br><span class="line">truePizza pizza = <span class="keyword">null</span>;</span><br><span class="line">true<span class="keyword">if</span>(style.equals(<span class="string">"NY"</span>))&#123;</span><br><span class="line">true    <span class="keyword">if</span>(type.equals(<span class="string">"cheese"</span>))&#123;</span><br><span class="line">true    	pizza = <span class="keyword">new</span> NYStyleCheesePizza();</span><br><span class="line">    	    &#125;<span class="keyword">else</span>...</span><br><span class="line">true    ...</span><br><span class="line">true&#125;<span class="keyword">else</span> <span class="keyword">if</span>(style.equals(<span class="string">"chicago"</span>))&#123;</span><br><span class="line">true    <span class="keyword">if</span>(type.equals(<span class="string">"cheese"</span>))&#123;</span><br><span class="line">                pizza = <span class="keyword">new</span> ChicagoStyleCheesePizza();</span><br><span class="line">            &#125;<span class="keyword">else</span>...    </span><br><span class="line">            ...</span><br><span class="line">true&#125;</span><br><span class="line">    	<span class="keyword">return</span> pizza;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/img/jyt0532/conan4.gif" alt="Alt text"><br>好啦我們都那麼熟了，再演就不像了，我們在這裡應該用繼承。</p>
+<p>ChicagoPizzaFactory 跟 NYPizzaFactory 都繼承自 SimplePizzaFactory。<br>現在我們需要為不同 style 的 PizzaStore 建立不同的工廠。</p>
+<p>如果今天我要點 NY 風味的起司 pizza。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NYPizzaFactory nyFactory = <span class="keyword">new</span> NYPizzaFactory();</span><br><span class="line">PizzaStore nyStore = <span class="keyword">new</span> PizzaStore(nyFactory);</span><br><span class="line">nyStore.orderPizza(<span class="string">"cheese"</span>);</span><br></pre></td></tr></table></figure>
+<p>明天我想點芝加哥風味的起司 pizza<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ChicagoPizzaFactory chicagoFactory = <span class="keyword">new</span> ChicagoPizzaFactory()</span><br><span class="line">PizzaStore chicagoStore = <span class="keyword">new</span> PizzaStore(chicagoFactory);</span><br><span class="line">chicagoStore.orderPizza(<span class="string">"cheese"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>看似沒啥問題，我們現在其實進入了見山不是山見水不是水的境界。</p>
+<p><img src="/img/jyt0532/spin.gif" alt="Alt text"></p>
+<p>為什麼這麼說呢？我們為了decouple<strong>物件的創造</strong>和<strong>物件的使用</strong>，製造了一個工廠。<br>可是為了 reuse 工廠的 code，我們使用了繼承。<br><img src="/img/jyt0532/factory3.png" alt="Alt text"></p>
+<p>現在我的 SimplePizzaFactory 其實只是一個介面，我定義了所有繼承了我的 class 應該要做什麼事（返回 customized defined pizza），真正實際創造物件的地方是子類別的實體工廠。</p>
+<p>這兩種功能（decouple + hierarchy）同時需要的時候，我們就可以用上今天的主角。</p>
+<h3 id="工廠方法模式"><a href="#工廠方法模式" class="headerlink" title="工廠方法模式"></a>工廠方法模式</h3><p><strong>工廠方法模式定義了一個建立物件的介面，但由子類決定要實例化的類別為何。工廠方法讓類別把</strong> <em><strong>實例化</strong></em> <strong>的動作推遲到了子類</strong>。</p>
+<p>我們現在把 createPizza 拉回來 PizzaStore 裡，<strong>讓子類別來決定怎麼 createPizza</strong>。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">PizzaStore</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> Pizza <span class="title">createPizza</span><span class="params">(String type)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Pizza <span class="title">orderPizza</span><span class="params">(String type)</span> </span>&#123;</span><br><span class="line">truePizza pizza = createPizza(type);</span><br><span class="line">truepizza.prepare();</span><br><span class="line">truepizza.cook();</span><br><span class="line">true<span class="keyword">return</span> pizza;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>createPizza是抽象方法，留給子類別繼承。</p>
+<p>讓 NYPizzaStore 去繼承 PizzaStore，實作 createPizza。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NYPizzaStore</span> <span class="keyword">extends</span> <span class="title">PizzaStore</span> </span>&#123;</span><br><span class="line">    <span class="function">Pizza <span class="title">createPizza</span><span class="params">(String item)</span> </span>&#123;</span><br><span class="line">true<span class="keyword">if</span> (item.equals(<span class="string">"cheese"</span>)) &#123;</span><br><span class="line">   	    <span class="keyword">return</span> <span class="keyword">new</span> NYStyleCheesePizza();</span><br><span class="line">true&#125; <span class="keyword">else</span> <span class="keyword">if</span> (item.equals(<span class="string">"veggie"</span>)) &#123;</span><br><span class="line">true    <span class="keyword">return</span> <span class="keyword">new</span> NYStyleVeggiePizza();</span><br><span class="line">true&#125; <span class="keyword">else</span> <span class="keyword">if</span> (item.equals(<span class="string">"clam"</span>)) &#123;</span><br><span class="line">true    <span class="keyword">return</span> <span class="keyword">new</span> NYStyleClamPizza();</span><br><span class="line">true&#125; <span class="keyword">else</span> <span class="keyword">if</span> (item.equals(<span class="string">"pepperoni"</span>)) &#123;</span><br><span class="line">true    <span class="keyword">return</span> <span class="keyword">new</span> NYStylePepperoniPizza();</span><br><span class="line">true&#125; <span class="keyword">else</span> <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>原本我物件的建立，交給一個外來的工廠處理，現在我把它交給我的子類別處理，而且父類別還可以 call子類別實作的函數。<br><img src="/img/jyt0532/factory2.png" alt="Alt text"><br>這種會互 call 的 function 通常依賴性都很高，但我們利用工廠模式讓父類別跟子類別的依賴鬆綁（decouple）了。</p>
+<p>套用了工廠方法模式之後，怎麼點 pizza 呢？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PizzaStore nyStore = <span class="keyword">new</span> NYPizzaStore();</span><br><span class="line">Pizza pizza = nyStore.orderPizza(<span class="string">"cheese"</span>);</span><br></pre></td></tr></table></figure>
+<p>輕鬆！</p>
+<h3 id="結構"><a href="#結構" class="headerlink" title="結構"></a>結構</h3><p><img src="/img/jyt0532/factory4.png" alt="Alt text"></p>
+<ul>
+<li><p>Product（Pizza）: 定義 factoryMethod（createPizza） 所造物件的介面。</p>
+</li>
+<li><p>ConcreteProduct（NYStyleCheesePizza）: 實作 Product。</p>
+</li>
+<li><p>Creator（PizzaStore）: 宣告 factoryMethod（必須傳回Product），和其他 client 可以 call 的 API。</p>
+</li>
+<li><p>ConcreteCreator（NYPizzaStore）: 實作 factoryMethod，回傳 ConcreteProduct 的 instance。</p>
+</li>
+</ul>
+<p>有個小細節，其實工廠方法不一定是 abstract。也可以 Creator 就先偷偷實作 factoryMethod，回傳 Product，subclass 可以選擇要不要 override 工廠方法。</p>
+<h3 id="優缺點"><a href="#優缺點" class="headerlink" title="優缺點"></a>優缺點</h3><p>優點除了跟簡單工廠一樣，隱藏了創建物件的細節，最重要的是加入新產品不需要改動 Creator，你直接繼承 Creator 就好了 。</p>
+<p>Client 的用法都是一樣不需要改，完全符合<a href="https://www.jyt0532.com/2017/04/18/decorator/#開放封閉守則" target="_blank" rel="noopener">開放封閉守則</a>。</p>
+<p>缺點就是 ConcreteCreator 跟 ConcreteProduct 會成對的增加。比如你今天想做加州披薩，你在定義完加州 pizza之後，還要再定義一個加州 pizza 工廠。</p>
+<p><img src="/img/jyt0532/problemFactory.jpg" alt="Alt text"></p>
+<h3 id="工廠方法的限制"><a href="#工廠方法的限制" class="headerlink" title="工廠方法的限制"></a>工廠方法的限制</h3><p>工廠方法的 factoryMethod，只能創建一個對象，比如說 Pizza 。</p>
+<p>但如果我們想要更加細分想創建的東西，比如說 Pizza 的所需原料（麵團、醬料、起司、蛤蠣）。如果我們用工廠方法的話，我們需要為每一個原料都創一個工廠。</p>
+<p>在這個例子就是 NY 麵團工廠、NY 醬料工廠、NY 起司工廠、NY 蛤蠣工廠、Chicago 麵團工廠、Chicago 醬料工廠、Chicago 起司工廠、Chicago 蛤蠣工廠。</p>
+<p><strong>因為每個工廠方法只能生產一個產品</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NYPizzaStore</span> <span class="keyword">extends</span> <span class="title">PizzaStore</span> </span>&#123;</span><br><span class="line">    <span class="function">Pizza <span class="title">createPizza</span><span class="params">(String item)</span> </span>&#123;</span><br><span class="line">trueDoughFactory doughFactory = <span class="keyword">new</span> NYDoughFactory();</span><br><span class="line">trueSauceFactory sauceFactory = <span class="keyword">new</span> NYSauceFactory();</span><br><span class="line">trueCheeseFactory cheeseFactory = <span class="keyword">new</span> NYCheeseFactory();</span><br><span class="line">trueClamFactory clamFactory = <span class="keyword">new</span> NYClamFactory();</span><br><span class="line">true<span class="keyword">if</span> (item.equals(<span class="string">"cheese"</span>)) &#123;</span><br><span class="line">    	    <span class="keyword">return</span> <span class="keyword">new</span> NYStyleCheesePizza(doughFactory, </span><br><span class="line">truetruesauceFactory, cheeseFactory);</span><br><span class="line">true&#125; <span class="keyword">else</span> <span class="keyword">if</span> (item.equals(<span class="string">"veggie"</span>)) &#123;</span><br><span class="line">true    <span class="keyword">return</span> <span class="keyword">new</span> NYStyleVeggiePizza(doughFactory, </span><br><span class="line">truetruesauceFactory, cheeseFactory);</span><br><span class="line">true&#125; <span class="keyword">else</span> <span class="keyword">if</span> (item.equals(<span class="string">"clam"</span>)) &#123;</span><br><span class="line">true    <span class="keyword">return</span> <span class="keyword">new</span> NYStyleClamPizza(doughFactory, </span><br><span class="line">truetruesauceFactory, cheeseFactory, clamFactory);</span><br><span class="line">true&#125; <span class="keyword">else</span> <span class="keyword">if</span> (item.equals(<span class="string">"pepperoni"</span>)) &#123;</span><br><span class="line">true    <span class="keyword">return</span> <span class="keyword">new</span> NYStylePepperoniPizza(doughFactory, </span><br><span class="line">truetruesauceFactory, cheeseFactory);</span><br><span class="line">true&#125; <span class="keyword">else</span> <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>這樣實在是太難 maintain 了。<strong>所以我們把相關的產品（NY 麵團工廠、NY 醬料工廠、NY 起司工廠、NY 蛤蠣工廠）組成一個產品族，交給同一個工廠來生產</strong>，鼎鼎大名的抽象工廠就誕生了。</p>
+<p><img src="/img/jyt0532/abstractfactory1.png" alt="Alt text"></p>
+<p>抽象的 Pizza 原料工廠定義了每個原料工廠要創建的東西的介面。<br>每個繼承了 Pizza 原料工廠的具體原料工廠乖乖 implement <strong>所有</strong>需要創建的東西。</p>
+<p>再來些例子，如果工廠方法生產的是房子，抽象工廠可以生產一個房子的所有家具（沙發電視電風扇）。<br>如果工廠方法生產的是武士，抽象工廠可以生產一個武士的所有配備（盔甲、鞋子、手套）。</p>
+<p>第一眼看起來很可怕，但其實只是把工廠的責任從生產一個產品，變成生產一個產品族。</p>
+<h3 id="產品族和產品等級結構"><a href="#產品族和產品等級結構" class="headerlink" title="產品族和產品等級結構"></a>產品族和產品等級結構</h3><p>先解釋兩個名詞。</p>
+<p>產品等級結構：產品的繼承結構。比如一個抽象類是麵糰，子類別有 Chicago 麵團跟 NY 麵團，這三個形成了一個產品等級結構。</p>
+<p>產品族：同一個工廠生產的所有產品，其中的每個產品都是座落在不同的產品等級結構中的其中一個產品。</p>
+<p>一圖勝過千言萬語。<br><img src="/img/jyt0532/abstractfactory2.png" alt="Alt text"></p>
+<h3 id="套用抽象工廠後"><a href="#套用抽象工廠後" class="headerlink" title="套用抽象工廠後"></a>套用抽象工廠後</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CheesePizza</span> <span class="keyword">extends</span> <span class="title">Pizza</span> </span>&#123;</span><br><span class="line">    PizzaIngredientFactory = ingredientFactory;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CheesePizza</span><span class="params">(PizzaIngredientFactory ingredientFactory)</span></span>&#123;</span><br><span class="line">true<span class="keyword">this</span>.ingredientFactory = ingredientFactory;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">prepare</span><span class="params">()</span></span>&#123;</span><br><span class="line">truedough = ingredientFactory.createDough();</span><br><span class="line">truesauce = ingredientFactory.createSauce();</span><br><span class="line">truecheese = ingredientFactory.createCheese();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至於 PizzaStore 跟他的子類，概念跟工廠方法一樣，由子類決定要實例化的類別為何。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NYPizzaStore</span> <span class="keyword">extends</span> <span class="title">PizzaStore</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Pizza <span class="title">createPizza</span><span class="params">(String item)</span> </span>&#123;</span><br><span class="line">truePizza pizza = <span class="keyword">null</span>;</span><br><span class="line">truePizzaIngredientFactory ingredientFactory = <span class="keyword">new</span> NYPizzaIngredientFactory();</span><br><span class="line">true<span class="keyword">if</span> (item.equals(<span class="string">"cheese"</span>)) &#123; </span><br><span class="line">  	    pizza = <span class="keyword">new</span> CheesePizza(ingredientFactory);</span><br><span class="line">true&#125; <span class="keyword">else</span> <span class="keyword">if</span> (item.equals(<span class="string">"veggie"</span>)) &#123;</span><br><span class="line">  	    pizza = <span class="keyword">new</span> VeggiePizza(ingredientFactory);</span><br><span class="line">true&#125; <span class="keyword">else</span> <span class="keyword">if</span> (item.equals(<span class="string">"clam"</span>)) &#123;</span><br><span class="line">true    pizza = <span class="keyword">new</span> ClamPizza(ingredientFactory);</span><br><span class="line">true&#125; <span class="keyword">else</span> <span class="keyword">if</span> (item.equals(<span class="string">"pepperoni"</span>)) &#123;</span><br><span class="line">true    pizza = <span class="keyword">new</span> PepperoniPizza(ingredientFactory);			</span><br><span class="line">true&#125; </span><br><span class="line">true<span class="keyword">return</span> pizza;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>點 pizza 的方法就跟工廠方法一樣。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PizzaStore nyStore = <span class="keyword">new</span> NYPizzaStore();</span><br><span class="line">Pizza pizza = nyStore.orderPizza(<span class="string">"cheese"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>對 client 來說用法一樣，client 並不知道裡面的產品已經變成產品族。</p>
+<h3 id="抽象工廠"><a href="#抽象工廠" class="headerlink" title="抽象工廠"></a>抽象工廠</h3><p><strong>用一個抽象工廠來定義一個創建</strong> <em><strong>產品族</strong></em> <strong>的介面，產品族裡面每個產品的具體類別由繼承抽象工廠的實體工廠決定</strong>。</p>
+<p>上面那句話請務必讀懂他</p>
+<h3 id="結構-1"><a href="#結構-1" class="headerlink" title="結構"></a>結構</h3><p><img src="/img/jyt0532/abstractfactory3.png" alt="Alt text"></p>
+<ul>
+<li><p>AbstractFactory（PizzaIngredientFactory）: 宣告出各個創建同一產品族產品的介面。</p>
+</li>
+<li><p>ConcreteFactory（NYPizzaIngredientFactory）: 實作 AbstractFactory。</p>
+</li>
+<li><p>AbstractProduct（Dough）: 宣告產品等級結構的物品介面。</p>
+</li>
+<li><p>Product（ThickCrustDough）: ConcreteFactory 所建構的成品，需要實作 AbstractProduct。</p>
+</li>
+</ul>
+<h3 id="優缺點-1"><a href="#優缺點-1" class="headerlink" title="優缺點"></a>優缺點</h3><p>1.一樣區隔了每個產品的生成和使用，client 被隔離在產品的 class 之外。client 甚至不知道什麼產品被創建了。他只要知道那個產品有哪些函數可以給他 call，這個特點使得抽換具體工廠這件事變得非常容易。</p>
+<p>2.性質類似的產品集中管理（所有 NY 的原料一起管理，或是所有日式的傢俱一起管理）。今天有新的工廠要進來，他需要 implement 的 method 非常明確，照著 AbstractFactory 定義的介面實作就對了。某種程度而言也算是給 client 方便，我保證他只會用到同一個產品族的對象。</p>
+<p>3.缺點非常致命，就是當<strong>我想在產品族加一個產品</strong>非常困難。因為我所有子工廠要跟著改，這被稱為開閉原則的傾斜性：<strong>新增產品族容易，但新增產品結構困難</strong>。</p>
+<h3 id="使用時機"><a href="#使用時機" class="headerlink" title="使用時機"></a>使用時機</h3><p>1.一個系統必須和產品的生成/組合，保持獨立。</p>
+<p>2.許多類似的產品可以組成產品族，方便集中管理，<strong>而且多於一個的產品族</strong>。</p>
+<p>3.只想公開產品 interface 不想公開實作細節。</p>
+<h3 id="細說抽象工廠"><a href="#細說抽象工廠" class="headerlink" title="細說抽象工廠"></a>細說抽象工廠</h3><p>準備好豐收融會貫通的果實了嗎？Go！</p>
+<p>1.抽象工廠定義了需要創建的產品族，由 concreteFactory 去實作抽象工廠，所以通常抽象工廠裡的每一個創建 product 的抽象方法，都是用<strong>工廠方法</strong>，由繼承的具體工廠來實現，這也是這兩個名詞常被搞混的原因。</p>
+<p>2 . </p>
+<p><img src="/img/jyt0532/abstractfactory7.png" alt="Alt text"></p>
+<p>由此圖可以看得出來，如果我們用抽象工廠來實作 pizza 店，我們只需要實作2個工廠（ChicagoPizzaIngredientFactory、NYPizzaIngredientFactory），但如果我們用工廠方法來實作，我們需要實作8個工廠。</p>
+<p>所以當你發現你的工廠方法們，遵循著一個產品族的 pattern，試著把這產品族分離出來寫稱抽象工廠的 interface，然後用具體工廠實現。<br>這就是 <strong>Design Pattern rule #2: Program to an interface, not an implementation</strong>。</p>
+<p>3.退化成工廠模式</p>
+<p>如果你的抽象工廠裡定義的創建方法只有一個（只有一個產品等級結構），那你的抽象工廠就退化成工廠方法。<br><img src="/img/jyt0532/abstractfactory5.png" alt="Alt text"><br>你把上圖的 Dough 改成 Pizza，就是前半段工廠方法在說的東西</p>
+<p>4.退化成簡單工廠模式</p>
+<p>如果你只有一個具體工廠<br><img src="/img/jyt0532/abstractfactory9.png" alt="Alt text"><br>因為每個配料只有一個實作，所以沒有使用 interface 的必要，你把上圖的各個配料改成各個 pizza，就是上一篇的簡單工廠模式的例子。</p>
+<h3 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h3><p>只有簡單工廠跟抽象工廠，真的需要實作工廠。</p>
+<p>工廠方法指的是一個方法，這個方法負責創造東西，且交由子類別負責繼承。</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a href="https://www.jyt0532.com/2017/04/18/decorator/" target="_blank" rel="noopener">Design Pattern(3) - 裝飾者模式</a></li>
+<li><a href="https://www.jyt0532.com/2017/04/12/observer/" target="_blank" rel="noopener">Design Pattern(2) - 觀察者模式</a></li>
+<li><a href="https://www.jyt0532.com/2017/04/07/strategy/" target="_blank" rel="noopener">Design Pattern(1) - 策略模式</a></li>
+</ol>
+<p>關於作者：<br><a href="https://www.jyt0532.com/" target="_blank" rel="noopener">@jyt0532</a> 後端工程師，喜歡學習新知挑戰新事物，最近覺得 Anti pattern 比 Design pattern 有趣。</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/05/22/factory-method-and-abstract-factory/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/05/22/factory-method-and-abstract-factory/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/05/22/factory-method-and-abstract-factory/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/05/22/factory-method-and-abstract-factory/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/05/23/css-houdini/">
+        ← CSS 魔術師 Houdini API 介紹
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/05/20/api-ajax-cors-and-jsonp/">
+        輕鬆理解 Ajax 與跨來源請求 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

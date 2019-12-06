@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Archives: 2016 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="home-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+<main class="content" role="main">
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2016-08-12T23:20:38.000Z" itemprop="datePublished">
+          2016-08-12
+      </time>
+    
+    
+    | 
+    <a href='/tags/DDoS/'>DDoS</a>,
+    
+    <a href='/tags/nginx/'>nginx</a>,
+    
+    <a href='/tags/iptable/'>iptable</a>,
+    
+    <a href='/tags/fail2ban/'>fail2ban</a>
+    
+    
+</span>
+
+<meta name="generator" content="與 DDoS 奮戰：nginx, iptables 與 fail2ban">
+<meta name="og:title" content="與 DDoS 奮戰：nginx, iptables 與 fail2ban">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2016/08/12/defend-against-ddos-with-nginx-iptable-and-fail2ban/">與 DDoS 奮戰：nginx, iptables 與 fail2ban</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言最近發生主機被大量 request 攻擊的事件，而且慘的是這台主機放的是論壇服務假設攻擊的點是論壇首頁，每次 request 都會去 query DB，而且有一堆 join其中還有些是 POST 的指令會讓 db update就這樣一直瘋狂又 select 又 update 導致 DB lock，cpu 飆高掛掉  
+如果論壇是自己寫的，還可以在 DB 跟 application 之間加上 redis 之類的快取但偏偏這個論壇系統是
+      
+      </p>
+      
+      <p>
+          <a href="/2016/08/12/defend-against-ddos-with-nginx-iptable-and-fail2ban/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2016-08-06T22:18:57.000Z" itemprop="datePublished">
+          2016-08-06
+      </time>
+    
+    
+    | 
+    <a href='/tags/機器人/'>機器人</a>,
+    
+    <a href='/tags/Robot/'>Robot</a>,
+    
+    <a href='/tags/ROS/'>ROS</a>,
+    
+    <a href='/tags/Gazebo/'>Gazebo</a>
+    
+    
+</span>
+
+<meta name="generator" content="使用 Gazebo 模擬器控制機器人建立 2D 地圖">
+<meta name="og:title" content="使用 Gazebo 模擬器控制機器人建立 2D 地圖">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2016/08/06/gazebo-robot-2d-map/">使用 Gazebo 模擬器控制機器人建立 2D 地圖</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言ROS 很吸引人的一個地方在於，他跟模擬器 Gazebo 很好地結合在一起，讓使用者可以使用一台筆記型電腦就開始撰寫機器人程式，而且可以在筆電上看到程式執行的結果。模擬器裡的機器人不會撞壞、不會沒電，所以就算在程式設計過程中有錯誤，也不會有任何硬體成本的損失 (時間當然是會損失)，而且很容易大量測試演算法，因為可以在模擬器中設置各種場景，而不需要一個很大的空間和昂貴的機器人。這篇文章會簡單介紹怎麼在 Gazebo 裡面啟動 PR2，
+      
+      </p>
+      
+      <p>
+          <a href="/2016/08/06/gazebo-robot-2d-map/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2016-07-30T23:26:00.000Z" itemprop="datePublished">
+          2016-07-30
+      </time>
+    
+    
+    | 
+    <a href='/tags/React-React-Native-ES5-ES6-ES7-JavaScript-ECMAScript2015-Webpack-Browserify-CommonJS-UMD-ES6-Module-CMD/'>React, React Native, ES5, ES6, ES7, JavaScript, ECMAScript2015, Webpack, Browserify, CommonJS, UMD, ES6 Module, CMD</a>
+    
+    
+</span>
+
+<meta name="generator" content="一看就懂的 React 開發環境建置與 Webpack 入門教學">
+<meta name="og:title" content="一看就懂的 React 開發環境建置與 Webpack 入門教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2016/07/30/react-dev-enviroment-webpack-browserify/">一看就懂的 React 開發環境建置與 Webpack 入門教學</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        
+前言俗話說工欲善其事，必先利其器。寫程式也是一樣，搭建好開發環境後可以讓自己在後續開發上更加順利。因此本篇接下來將討論 React 開發環境的三種主要方式：CDN-based、browserify 和 webpack（這邊我們就先不討論 TypeScript 的開發方式），讓讀者閱讀完本章後可以開始 React 開發之旅！
+JavaScript 模組化隨著網站開發的複雜度提昇，許多現代化的網站已不是單純的網站而已，更像是個富有互動性的
+      
+      </p>
+      
+      <p>
+          <a href="/2016/07/30/react-dev-enviroment-webpack-browserify/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2016-07-23T21:32:34.000Z" itemprop="datePublished">
+          2016-07-23
+      </time>
+    
+    
+    | 
+    <a href='/tags/pwa/'>pwa</a>,
+    
+    <a href='/tags/web-app/'>web app</a>
+    
+    
+</span>
+
+<meta name="generator" content="Progressive Web App 會是未來趨勢嗎？">
+<meta name="og:title" content="Progressive Web App 會是未來趨勢嗎？">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2016/07/23/progressive-web-app/">Progressive Web App 會是未來趨勢嗎？</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        距離今年 Google I/O 2016 轉眼間也過了兩個多月，議程中提及的 Progressive Web App (PWA) 似乎討論不多，我當時隨便掃過 Google Developers 上的資料後的念頭是：“怎麼有點像當年 Firefox OS 上跑 web app的長相？”
+其實我覺得是蠻雷同的，差別在於 Progressive Web App 是想能夠直接利用目前的 Browser 來支援其運作。實際上 Mozilla 一
+      
+      </p>
+      
+      <p>
+          <a href="/2016/07/23/progressive-web-app/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2016-07-16T10:44:42.000Z" itemprop="datePublished">
+          2016-07-16
+      </time>
+    
+    
+    | 
+    <a href='/tags/JavaScript/'>JavaScript</a>,
+    
+    <a href='/tags/jsfuck/'>jsfuck</a>,
+    
+    <a href='/tags/aaencode/'>aaencode</a>
+    
+    
+</span>
+
+<meta name="generator" content="讓 JavaSript 難以閱讀：jsfuck 與 aaencode">
+<meta name="og:title" content="讓 JavaSript 難以閱讀：jsfuck 與 aaencode">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2016/07/16/javascript-jsfuck-and-aaencode/">讓 JavaSript 難以閱讀：jsfuck 與 aaencode</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言在進入今天的主題之前，先推薦大家看一個影片 WAT：A lightning talk by Gary Bernhardt from CodeMash 2012。在這個影片裡面，講者會為大家示範 JavaScript 到底有多「神奇」。而這些神奇的特性，也會跟我們之後所要介紹的兩個東西有關。
+先從 Brainfuck 開始大家有聽過 Brainfuck 嗎？顧名思義，就是會讓你超級頭痛的一個程式語言，只用下面這八個字元就可以寫出一個完
+      
+      </p>
+      
+      <p>
+          <a href="/2016/07/16/javascript-jsfuck-and-aaencode/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2016-07-09T09:34:49.000Z" itemprop="datePublished">
+          2016-07-09
+      </time>
+    
+    
+    | 
+    <a href='/tags/ROS-ecto/'>ROS, ecto</a>
+    
+    
+</span>
+
+<meta name="generator" content="ecto 簡介 (2) – tendrils 與 scheduler">
+<meta name="og:title" content="ecto 簡介 (2) – tendrils 與 scheduler">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2016/07/09/ros-ecto-second/">ecto 簡介 (2) – tendrils 與 scheduler</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言上次的文章介紹了 ecto 的基本機制 – cell 與 plasm，讓大家對於這個函式庫的基本功能有了一個認識，但你可能會感到疑惑，如果只是可以用來建立一個如 DAG 方式來執行的 pipeline ，寫在 main 函式裡不就好了，何苦使用 ecto，還得把一個 class 寫成一個又臭又長的 cell。這篇文章就會帶出 tendril 和 scheduler 的機制，讓大家了解到事情並不像我們想得那麼簡單。
+tendril 是
+      
+      </p>
+      
+      <p>
+          <a href="/2016/07/09/ros-ecto-second/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2016-07-02T19:32:59.000Z" itemprop="datePublished">
+          2016-07-02
+      </time>
+    
+    
+    | 
+    <a href='/tags/Messenger/'>Messenger</a>,
+    
+    <a href='/tags/Wit-ai/'>Wit.ai</a>,
+    
+    <a href='/tags/Bot/'>Bot</a>
+    
+    
+</span>
+
+<meta name="generator" content="利用 Wit.ai 讓你的 Messenger Bot 更聰明！">
+<meta name="og:title" content="利用 Wit.ai 讓你的 Messenger Bot 更聰明！">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2016/07/02/ChatBot-with-Wit/">利用 Wit.ai 讓你的 Messenger Bot 更聰明！</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        今天我們要讓我們的 Chat Bot 更加聰明，利用被 Facebook 收購的 Wit.ai 所提供之 API，可以很方便的讓 Chat Bot 有了 NLP 的支援，讓他/她更加聰明！
+實際上 Wit.ai 的介面並沒有我想像中的好用，需要很有耐心地把官網上的教學一步步做完，並且了解他所定義的名詞代表之含義，雖然寫得很詳細，但畢竟是英文，因此就記錄一下整個過程，並跟大家分享。
+
+Step 1 註冊 Wit.ai 帳號先到 Wit.a
+      
+      </p>
+      
+      <p>
+          <a href="/2016/07/02/ChatBot-with-Wit/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2016-06-24T22:00:00.000Z" itemprop="datePublished">
+          2016-06-24
+      </time>
+    
+    
+    | 
+    <a href='/tags/JavaScript/'>JavaScript</a>,
+    
+    <a href='/tags/Algorithm/'>Algorithm</a>,
+    
+    <a href='/tags/演算法/'>演算法</a>,
+    
+    <a href='/tags/ECMAScript2015/'>ECMAScript2015</a>,
+    
+    <a href='/tags/ES6/'>ES6</a>,
+    
+    <a href='/tags/Data-Structure/'>Data Structure</a>,
+    
+    <a href='/tags/Queue/'>Queue</a>,
+    
+    <a href='/tags/資料結構/'>資料結構</a>,
+    
+    <a href='/tags/陣列/'>陣列</a>,
+    
+    <a href='/tags/Dictionary/'>Dictionary</a>,
+    
+    <a href='/tags/Hash-Table/'>Hash Table</a>,
+    
+    <a href='/tags/雜湊表/'>雜湊表</a>,
+    
+    <a href='/tags/字典/'>字典</a>,
+    
+    <a href='/tags/佇列/'>佇列</a>,
+    
+    <a href='/tags/set/'>set</a>,
+    
+    <a href='/tags/集合/'>集合</a>,
+    
+    <a href='/tags/堆疊/'>堆疊</a>,
+    
+    <a href='/tags/stack/'>stack</a>,
+    
+    <a href='/tags/棧/'>棧</a>
+    
+    
+</span>
+
+<meta name="generator" content="用 JavaScript 學習資料結構和演算法：堆疊（Stack）篇">
+<meta name="og:title" content="用 JavaScript 學習資料結構和演算法：堆疊（Stack）篇">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2016/06/24/javascript-data-structure-algorithm-stack/">用 JavaScript 學習資料結構和演算法：堆疊（Stack）篇</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        
+前言在 CS 江湖上曾傳言：程式設計 = 資料結構 + 演算法。在一般的大專院校裡，資料結構（Data Structure）與演算法（Algorithm）幾乎都是電腦科學（Computer Science）和資訊相關科系的基礎必修課，在這些課堂中多半是使用 C/C++ 或是 Java 進行教學，許多初學學生也因為對於這些語言的掌握度不夠，反而迷失在資料結構和演算法的世界裡，然而本系列文章將透過 JavaScript 去學習一些經典的資
+      
+      </p>
+      
+      <p>
+          <a href="/2016/06/24/javascript-data-structure-algorithm-stack/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2016-06-18T10:40:38.000Z" itemprop="datePublished">
+          2016-06-18
+      </time>
+    
+    
+    | 
+    <a href='/tags/Redis-Database-Cache/'>Redis, Database, Cache</a>
+    
+    
+</span>
+
+<meta name="generator" content="資料庫的好夥伴：Redis">
+<meta name="og:title" content="資料庫的好夥伴：Redis">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2016/06/18/redis-introduction/">資料庫的好夥伴：Redis</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言Redis 是一個 in-memory 的 key-value database，因此常常被用在需要快取（Cache）一些資料的場合，可以減輕許多後端資料庫的壓力。這篇就來簡單介紹一下 Redis 提供哪些好用的東西，以及可以應用在什麼地方。
+常用指令Redis 的官網列出了支援的每一條指令，我們先來看看最簡單的：
+SET, GET123redis&gt; SET mykey &quot;Hello&quot;redis&gt; G
+      
+      </p>
+      
+      <p>
+          <a href="/2016/06/18/redis-introduction/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2016-06-08T20:30:13.000Z" itemprop="datePublished">
+          2016-06-08
+      </time>
+    
+    
+    | 
+    <a href='/tags/ROS-ecto/'>ROS, ecto</a>
+    
+    
+</span>
+
+<meta name="generator" content="ecto 簡介 (1) – cell 與 plasm">
+<meta name="og:title" content="ecto 簡介 (1) – cell 與 plasm">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2016/06/08/ros-ecto-first/">ecto 簡介 (1) – cell 與 plasm</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言這次想要跟大家介紹 ROS ORK (Object Recognition Kitchen) 這個函式庫實作物體辨識 pipeline 的機制，其背後運用到的一個重要的函式庫叫做 ecto ，接下來會介紹 ecto 的基本觀念和用法。但因為我想把內容講解得比較詳細，所以不會只花一篇文章的篇幅就介紹完這個工具，這一篇會講到最基本的 cell 與 plasm，讓大家先有初步的認識，更進階的用法甚至是實例會在之後的文章介紹。
+ecto 是
+      
+      </p>
+      
+      <p>
+          <a href="/2016/06/08/ros-ecto-first/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <nav class="pagination" role="pagination">
+    <a class="newer-posts" href="/archives/2016/page/2/">← Newer Posts</a>
+    <span class="page-number">Page 3 of 5</span>
+    <a class="older-posts" href="/archives/2016/page/4/">Older Posts →</a>
+  </nav>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

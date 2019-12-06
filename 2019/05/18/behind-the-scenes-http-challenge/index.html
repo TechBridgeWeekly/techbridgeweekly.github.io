@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>幕後花絮：Lidemy HTTP Challenge 的設計以及彩蛋 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-05-18T08:29:03.000Z" itemprop="datePublished">
+          2019-05-18
+      </time>
+    
+    
+    | 
+    <a href='/tags/http/'>http</a>
+    
+    
+</span>
+
+<meta name="generator" content="幕後花絮：Lidemy HTTP Challenge 的設計以及彩蛋">
+<meta name="og:title" content="幕後花絮：Lidemy HTTP Challenge 的設計以及彩蛋">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">幕後花絮：Lidemy HTTP Challenge 的設計以及彩蛋</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前陣子我為了幫自己的學生們更熟悉 HTTP 以及 API 的串接，寫出了一個小遊戲：<a href="https://lidemy-http-challenge.herokuapp.com/start" target="_blank" rel="noopener">Lidemy HTTP Challenge</a>，需要根據每一關的說明取得正確的 token，一共有十五關，前十關基本，後五關進階。</p>
+<p>經過了一些朋友的測試之後，慢慢調整、改善，最後讓學生測試發現反應都不錯，於是就在<a href="https://www.facebook.com/groups/f2e.tw/permalink/2153812321322788/" target="_blank" rel="noopener">前端社群</a>正式對外公開這個遊戲，讓大家也能一起參與。</p>
+<p>如果你還沒玩過，那強烈建議你不要看這篇文章，因為這篇文章會破壞你遊玩的興致（大概就跟電影爆雷一樣）。建議可以先去玩一下，等全破了再回來看這篇文章，會得到一些不同的收穫。</p>
+<p>接下來我會講一下這個遊戲誕生的歷程以及每個關卡的設計。</p>
+<h2 id="前人種樹，後人乘涼"><a href="#前人種樹，後人乘涼" class="headerlink" title="前人種樹，後人乘涼"></a>前人種樹，後人乘涼</h2><p>這種以遊戲當做外殼，內容卻是滿滿技術的手法大家應該並不陌生，至少我很不陌生。</p>
+<p>最一開始有想要做成遊戲的這個想法，其實是因為一個學生傳給我這個：<a href="https://pretapousser.fr/devtest/" target="_blank" rel="noopener">devtest</a>，這是法國某一間公司的面試考題，如果你看到畫面一片白，那絕對不是網頁壞掉，不用擔心。</p>
+<p>破完了上面這個遊戲之後，我才想起自己對這種模式其實很不陌生。小時候玩過<a href="https://www.csie.ntu.edu.tw/~b94102/game/game.htm" target="_blank" rel="noopener">高手過招</a>，也玩過類似 <a href="https://www.hackthissite.org/" target="_blank" rel="noopener">Hack This Site!
+</a> 的遊戲。</p>
+<p>或是以前有一陣子解謎遊戲正夯（跟程式無關的那種），我也曾經自己做了一個，那時候是用 PIXNET 文章鎖密碼的方式來做關卡，現在想想真是個非常方便的方法。</p>
+<p>總之呢，雖然小時候都玩過，但長大之後卻慢慢忘記還有這種模式。這種模式的好處就在於它是遊戲。遊戲做得好，每個人都會愛上它。而且會比一般的你問我答或是簡答題有趣多了，所以遊戲是個很好的切入點。</p>
+<p>想起遊戲的好處以後，我就決定要自己來做一個了，而主題就是之前我的學生們最不熟悉的串接 Web API！</p>
+<h2 id="最初的構想"><a href="#最初的構想" class="headerlink" title="最初的構想"></a>最初的構想</h2><p>最一開始的想法是：</p>
+<blockquote>
+<p>我希望這是一個你用 curl 也可以玩的遊戲</p>
+</blockquote>
+<p>因為我覺得這樣很 cool，你用 terminal 搭配指令就可以玩這個遊戲，甚至連瀏覽器都不需要開！</p>
+<p>因此，在畫面的呈現上從最初我就打算是純文字的，沒有任何連結或是花花綠綠的東西，它就是個純文字檔！如果有連結也不會有 <code>&lt;a&gt;</code>，就只會是個 URL 而已。</p>
+<p>形式的話，就是比照其他遊戲用闖關的。</p>
+<p>大致上都定好之後，就是要來決定關卡的內容要有哪些。在一開始我原本想做二十關，後來列一列想要出現的題目，發現大概只能做個六七關左右。</p>
+<p>原本的構想如下：</p>
+<ol>
+<li>CURD 一定要有，要讓學生會串 API 的這四種基本操作</li>
+<li>custom header 一定要有</li>
+<li>origin 相關的題目一定要有</li>
+<li>user agent 相關的題目一定要有</li>
+</ol>
+<p>後三個一定要有是因為我覺得這在理解 HTTP 跟串 API 上面也很重要。</p>
+<p>custom header 常常會來帶一些額外資訊，或是最常做的就是驗證。origin 的話想讓學生理解 same origin policy 只跟瀏覽器有關，脫離了瀏覽器就完全沒有這個限制。user agent 則是工作上滿實用的，會需要判斷使用者的瀏覽器或是偵測是不是搜尋引擎來做相對應的處理。</p>
+<p>要出現的東西大致上有想法了，最後就是實際的內容跟 token 的設計。遊戲的內容如果只有：「請你 POST 一筆資料去 XXX」太無聊了，所以我把場景設定在玩家是一個去圖書館幫忙的新手，要幫助老爺爺解決一些圖書資訊系統的問題。</p>
+<p>至於書籍資料我就很快去某網站爬了一下然後稍微做處理，資料的部分就這樣很快搞定了。</p>
+<p>有了故事之後，還想要藏幾個彩蛋在裡面。與其說是彩蛋，不如說是一些我覺得比較有趣的小東西，看看有沒有人會發現。因此在關卡的內容跟 token 上面其實都有藏一些東西。</p>
+<p>我記得最初的版本我大概花了兩天就做完了。一天想關卡另外一天寫 code，想關卡的部分花比較久，因為程式碼實做的部分滿簡單的。</p>
+<p>接著就讓我們先來看看前十關每一關的內容吧！</p>
+<p>再次強調，如果你還沒破完，強烈建議不要觀看！趕快先去玩：<a href="https://lidemy-http-challenge.herokuapp.com/start" target="_blank" rel="noopener">Lidemy HTTP Challenge</a>。</p>
+<h2 id="第一關"><a href="#第一關" class="headerlink" title="第一關"></a>第一關</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">啊...好久沒有看到年輕人到我這個圖書館了，我叫做 lib，是這個圖書館的管理員</span><br><span class="line">很開心看到有年輕人願意來幫忙，最近圖書館剛換了資訊系統，我都搞不清楚怎麼用了...</span><br><span class="line">  </span><br><span class="line">這是他們提供給我的文件，我一個字都看不懂，但對你可能會有幫助</span><br><span class="line">先把這文件放一旁吧，這個待會才會用到</span><br><span class="line">你叫做什麼名字呢？用 GET 方法跟我說你的 name 叫做什麼吧！</span><br><span class="line">除了 token 以外順便把 name 一起帶上來就可以了</span><br></pre></td></tr></table></figure>
+<p>第一關只是想讓大家先拿到 API 文件，然後熟悉一下有些關卡會需要直接把資訊帶在網址上，因此第一關就只是讓大家熟悉環境而已。</p>
+<p>傳入 name 以後，就可以拿到第二關的 token。</p>
+<p>其實這邊剛開始的時候有不少人卡住，因為題目說明不清楚，所以有些人會以為是不是要去 call API 之類的。後來我就改了一下題目說明，盡可能講清楚，之後也新增了提示的功能。</p>
+<h2 id="第二關"><a href="#第二關" class="headerlink" title="第二關"></a>第二關</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">我前陣子在整理書籍的時候看到了一本我很喜歡的書，可是現在卻怎麼想都想不起來是哪一本...</span><br><span class="line">我只記得那本書的 id 是兩位數，介於 54~58 之間，你可以幫幫我嗎？</span><br><span class="line">找到是哪一本之後把書的 id 用 GET 傳給我就行了。</span><br></pre></td></tr></table></figure>
+<p>這關的 id 範圍是 54~58，其實原本就是想讓大家一個一個試，沒有其他方法。</p>
+<p>這邊藏的小彩蛋是 id 56 的書籍就是 5566 的書：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;id&quot;:56,&quot;name&quot;:&quot;5566－認真&quot;,&quot;author&quot;:&quot;鄭佩芬&quot;,&quot;ISBN&quot;:&quot;0614361311&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>所以下一關的 token 才會是 <code>5566NO1</code></p>
+<h2 id="第三關"><a href="#第三關" class="headerlink" title="第三關"></a>第三關</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">真是太感謝你幫我找到這本書了！</span><br><span class="line">  </span><br><span class="line">剛剛在你找書的時候有一批新的書籍送來了，是這次圖書館根據讀者的推薦買的新書，其中有一本我特別喜歡，想要優先上架。</span><br><span class="line">書名是《大腦喜歡這樣學》，ISBN 為 9789863594475。</span><br><span class="line">  </span><br><span class="line">就拜託你了。</span><br><span class="line">新增完之後幫我把書籍的 id 用 GET 告訴我。</span><br></pre></td></tr></table></figure>
+<p>這關就只是在測驗會不會用 POST 而已。</p>
+<p>有一個小地方是原本 API 文件沒有寫清楚要怎樣 POST，content type 是 form 還是 JSON？所以後來把這塊補上去了，避免產生歧義。</p>
+<h2 id="第四關"><a href="#第四關" class="headerlink" title="第四關"></a>第四關</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">我翻了一下你之前幫我找的那本書，發現我記錯了...這不是我朝思暮想的那一本。</span><br><span class="line">我之前跟你講的線索好像都是錯的，我記到別本書去了，真是抱歉啊。</span><br><span class="line">我記得我想找的那本書，書名有：「世界」兩字，而且是村上春樹寫的，可以幫我找到書的 id 並傳給我嗎？</span><br></pre></td></tr></table></figure>
+<p>這關測驗會不會使用 API 的參數來查詢書籍，但要作弊直接在 local 搜尋其實也可以。</p>
+<p>我自己滿愛村上春樹，而我有個朋友酷愛《世界末日與冷酷異境》這本書，所以就把它放進來了。為了讓搜尋「世界」的時候不要只出現一個結果，我還去找了其他幾本也有這個關鍵字的書放進去。</p>
+<p>而下一關的 token <code>HarukiMurakami</code> 就是村上春樹的名字。 </p>
+<h2 id="第五關"><a href="#第五關" class="headerlink" title="第五關"></a>第五關</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">昨天有個人匆匆忙忙跑過來說他不小心捐錯書了，想要來問可不可以把書拿回去。</span><br><span class="line">跟他溝通過後，我就把他捐過來的書還他了，所以現在要把這本書從系統裡面刪掉才行。</span><br><span class="line">那本書的 id 是 23，你可以幫我刪掉嗎？</span><br></pre></td></tr></table></figure>
+<p>這關考 DELETE 的使用而已，沒什麼難度。</p>
+<p>這邊藏的小彩蛋是他捐錯的書是雞排妹寫真集，所以想趕快拿回去。這也對應到了下一關的 token：<code>CHICKENCUTLET</code>。</p>
+<h2 id="第六關"><a href="#第六關" class="headerlink" title="第六關"></a>第六關</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">我終於知道上次哪裡怪怪的了！</span><br><span class="line">照理來說要進入系統應該要先登入才對，怎麼沒有登入就可以新增刪除...</span><br><span class="line">這太奇怪了，我已經回報給那邊的工程師了，他們給了我一份新的文件：</span><br><span class="line">這邊是帳號密碼，你先登入試試看吧，可以呼叫一個 /me 的 endpoint，裡面會給你一個 email。</span><br><span class="line">把 email 放在 query string 上面帶過來，我看看是不是對的。</span><br><span class="line">帳號：admin</span><br><span class="line">密碼：admin123</span><br></pre></td></tr></table></figure>
+<p>對新手來說其實算是比較有挑戰性的一關。</p>
+<p>這關考的是知不知道怎麼樣在 header 裡面放內容，以及根據資料去找出怎麼用 http basic authorization。主要是想讓大家知道 HTTP 的其中一種驗證方式。</p>
+<h2 id="第七關"><a href="#第七關" class="headerlink" title="第七關"></a>第七關</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">那邊的工程師說系統整個修復完成了，剛好昨天我們發現有一本書被偷走了...</span><br><span class="line">這本書我們已經買第五次了，每次都被偷走，看來這本書很熱門啊。</span><br><span class="line">我們要把這本書從系統裡面刪掉，就拜託你了。</span><br><span class="line">對了！記得要用新的系統喔，舊的已經完全廢棄不用了。</span><br><span class="line">書的 id 是 89。</span><br></pre></td></tr></table></figure>
+<p>其實只是沒梗了所以又加一個刪除資料的關卡，這邊的一個小插曲是原本沒有「對了！記得要用新的系統喔，舊的已經完全廢棄不用了。」這句，導致有些人還是用舊版 API，因此才加上去，避免大家搞混。</p>
+<p>這本很熱門的書你實際上去看的話，會發現是《跟著月亮走：韓國瑜的夜襲精神與奮進人生》，對應到了下一關的 token：<code>HsifnAerok</code>，倒過來就變 KoreanFish。</p>
+<h2 id="第八關"><a href="#第八關" class="headerlink" title="第八關"></a>第八關</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">我昨天在整理書籍的時候發現有一本書的 ISBN 編號跟系統內的對不上，仔細看了一下發現我當時輸入系統時 key 錯了。</span><br><span class="line">哎呀，人老了就是這樣，老是會看錯。</span><br><span class="line">  </span><br><span class="line">那本書的名字裡面有個「我」，作者的名字是四個字，key 錯的 ISBN 最後一碼為 7，只要把最後一碼改成 3 就行了。</span><br><span class="line">對了！記得要用新的系統喔，舊的已經完全廢棄不用了。</span><br></pre></td></tr></table></figure>
+<p>這關就考找資料跟修改資料而已，沒什麼特別的。</p>
+<p>下一關也就是第九關的 token 是<code>NeuN</code>，德文中的九。</p>
+<h2 id="第九關"><a href="#第九關" class="headerlink" title="第九關"></a>第九關</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">API 文件裡面有個獲取系統資訊的 endpoint 你記得嗎？</span><br><span class="line">工程師跟我說這個網址不太一樣，用一般的方法是沒辦法成功拿到回傳值的。</span><br><span class="line">  </span><br><span class="line">想要存取的話要符合兩個條件：</span><br><span class="line">1. 帶上一個 X-Library-Number 的 header，我們圖書館的編號是 20</span><br><span class="line">2. 伺服器會用 user agent 檢查是否是從 IE6 送出的 Request，不是的話會擋掉</span><br><span class="line">  </span><br><span class="line">順利拿到系統資訊之後應該會有個叫做 version 的欄位，把裡面的值放在 query string 給我吧。</span><br></pre></td></tr></table></figure>
+<p>這關考兩個東西：</p>
+<ol>
+<li>會不會傳 custom header</li>
+<li>知不知道怎麼改 user agent，以及是否知道 user agent 代表的意義</li>
+</ol>
+<p>這兩個就是前面有說過我一定要放進來的元素，因為我覺得很重要。</p>
+<p>我想讓學生們知道說 user agent 其實有滿多作用，其中一個就包含讓 server 知道你的瀏覽器跟作業系統之類的；也想讓他們知道這些東西都可以偽造。</p>
+<p>原本其實是設定 Server 會檢查是不是從 Safari 送出的 Request，但用 mac 的人就可以開 Safari 過關，因此後來才改成用 IE6。如果你要去裝 IE6 的 VM 那我也就算了XD</p>
+<p>下一關的 token 是<code>duZDsG3tvoA</code>，其實是 YouTube 的影片 ID，對應到的是周杰倫的<a href="https://www.youtube.com/watch?v=duZDsG3tvoA" target="_blank" rel="noopener">半島鐵盒</a>。因為我滿喜歡這首歌，而且這首歌跟書也有點關係。</p>
+<h2 id="第十關"><a href="#第十關" class="headerlink" title="第十關"></a>第十關</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">時間過得真快啊，今天是你在這邊幫忙的最後一天了。</span><br><span class="line">  </span><br><span class="line">我們來玩個遊戲吧？你有玩過猜數字嗎？</span><br><span class="line">  </span><br><span class="line">出題者會出一個四位數不重複的數字，例如說 9487。</span><br><span class="line">你如果猜 9876，我會跟你說 1A2B，1A 代表 9 位置對數字也對，2B 代表 8 跟 7 你猜對了但位置錯了。</span><br><span class="line">  </span><br><span class="line">開始吧，把你要猜的數字放在 query string 用 num 當作 key 傳給我。</span><br></pre></td></tr></table></figure>
+<p>原本是想讓大家真的來玩猜數字，預計猜個五六次就可以破關。但判斷邏輯我沒寫好，所以你傳一個數字或是重複數字我都沒擋掉，或者是你要直接暴力嘗試 9999 種組合也沒人攔你，所以這題的解法就很多種。</p>
+<p>到這邊為止，就是前十關的內容。</p>
+<h2 id="第一次優化"><a href="#第一次優化" class="headerlink" title="第一次優化"></a>第一次優化</h2><p>做完前十關之後讓一些朋友先試玩，得到的反應都還不錯，但也發現一些問題，其中有些我上面已經提過了，例如說：</p>
+<ol>
+<li>第一關說明不清楚，不知道 name 要傳到哪裡</li>
+<li>沒有提示要用新版 API，以為可以用舊的</li>
+<li>如果瀏覽器那關限制 Safari，對 Mac 使用者毫無難度</li>
+</ol>
+<p>上述問題基本上都可以透過加強文字敘述來改善，但還發現一個更大的問題：</p>
+<blockquote>
+<p>卡關</p>
+</blockquote>
+<p>雖然說卡關是人之常情，但其實我不希望大家一直卡關。畢竟這個遊戲的最終目的其實是學習，好玩對我來說只是附加價值。可是我又不能破壞遊戲體驗，直接講解答，因此我必須提供一個方法讓他們可以看到提示。</p>
+<p>你可能會問我那提示幹嘛不用白色文字就好，還要加 <code>&amp;hint=1</code> 這麼麻煩。你可能忘了，我開頭有說初衷是想讓 curl 也可以玩這個遊戲，所以白色文字是沒有用的。</p>
+<p>總之呢，最後加上了提示的功能，讓遊戲變得更完整了，體驗也變得更好。</p>
+<p>原本遊戲就到這邊結束了，但剛好我又有了一些靈感，所以繼續往下做了一些關卡，下面來講講進階關卡。</p>
+<h2 id="第十一關"><a href="#第十一關" class="headerlink" title="第十一關"></a>第十一關</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">嘿！很開心看到你願意回來繼續幫忙，這次我們接到一個新的任務，要跟在菲律賓的一個中文圖書館資訊系統做串連</span><br><span class="line">這邊是他們的 API 文件，你之後一定會用到。</span><br><span class="line">  </span><br><span class="line">現在就讓我們先跟他們打個招呼吧，只是我記得他們的 API 好像會限制一些東西就是了...</span><br></pre></td></tr></table></figure>
+<p>這關是開頭所提到的，一定要做的 origin 相關關卡。會放在進階關是因為怕對我學生來說有些太難，所以才放這裡。</p>
+<p>總之是想讓大家理解就算 Server 檢查 origin，Client 也可以輕易偽造。然後這跟瀏覽器的 CORS 一點關係都沒有，大家要很清楚 Request 從瀏覽器發出來以及自己發 Request 是兩件很不一樣的事，前者會有許多限制，後者沒有。</p>
+<p>下一關的 token<code>r3d1r3c7</code>其實是 <a href="https://zh.wikipedia.org/zh-hant/Leet" target="_blank" rel="noopener">leet</a> 的<code>redirect</code>，已經暗示了下一關的解法。</p>
+<h2 id="第十二關"><a href="#第十二關" class="headerlink" title="第十二關"></a>第十二關</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">打完招呼之後我們要開始送一些書過去了，不過其實運送沒有你想像中的簡單，不是單純的 A 到 B 而已</span><br><span class="line">而是像轉機那樣，A 到 C，C 才到 B，中間會經過一些轉運點才會到達目的地...算了，我跟你說那麼多幹嘛</span><br><span class="line">  </span><br><span class="line">現在請你幫我把運送要用的 token 給拿回來吧，要有這個 token 我們才能繼續往下一步走</span><br></pre></td></tr></table></figure>
+<p>這一關也是後期我很想放的一關，覺得這樣的概念滿有趣的。透過在 redirect 過程的途中塞東西，強迫大家去理解 server side redirect 的原理是什麼（301 跟 302 status code）。</p>
+<p>若是你不懂為什麼可以轉址以及轉址背後的原理，你就解不開這題。</p>
+<p>下一關的 token 為<code>qspyz</code>，往左平移一個字元之後變成<code>proxy</code>，一樣暗示著下一關的解法。</p>
+<h2 id="第十三關"><a href="#第十三關" class="headerlink" title="第十三關"></a>第十三關</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">太好了！自從你上次把運送用的 token 拿回來以後，我們就密切地與菲律賓在交換書籍</span><br><span class="line">可是最近碰到了一些小問題，不知道為什麼有時候會傳送失敗</span><br><span class="line">我跟他們反映過後，他們叫我們自己去拿 log 來看，你可以幫我去看看嗎？</span><br><span class="line">從系統日誌裡面應該可以找到一些端倪。</span><br></pre></td></tr></table></figure>
+<p>這關是在考 proxy 的使用，因為 Server 會檢查使用者的 IP 是否來自於菲律賓。</p>
+<p>檢查的方法是用 <a href="https://github.com/bluesmoon/node-geoip" target="_blank" rel="noopener">node-geoip</a>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">advancedRouter.get(<span class="string">'/logs'</span>, (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> ip = req.ip || <span class="string">''</span></span><br><span class="line">  <span class="keyword">const</span> info = geoip.lookup(ip) || &#123;&#125;</span><br><span class="line">  <span class="keyword">if</span> (info.country === <span class="string">'PH'</span>) &#123;</span><br><span class="line">    res.end(text.lv13.reply)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    res.end(text.lv13.wa)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>所以只要隨便找一個在菲律賓的 proxy 來送 request 就可以過關了。</p>
+<p>不過這關有兩件出乎意料的事，第一件事是滿多人都會嘗試偽造<code>Accept-Language</code>這個 header，這我當初完全沒想到（不過也沒用就是了）。</p>
+<p>第二件事是這題還有另一個解答，就是偽造<code>X-Forwarded-For</code>，這也是我當初完全沒想到的事。</p>
+<p>我在 Express 裡面有開<code>app.set(&#39;trust proxy&#39;, true)</code>，所以在拿使用者 IP 的時候如果有<code>X-Forwarded-For</code>這個 header，會以這邊的資訊為準。</p>
+<p>剛好前陣子讀到一篇類似的文章：<a href="https://xxgblog.com/2018/10/12/x-forwarded-for-header-trick/index.html" target="_blank" rel="noopener">利用X-Forwarded-For伪造客户端IP漏洞成因及防范</a>。</p>
+<p>雖然不是我預設的解法，但我覺得這個解法更有趣，所以就沒有特地修掉了。</p>
+<h2 id="第十四關"><a href="#第十四關" class="headerlink" title="第十四關"></a>第十四關</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">跟那邊的溝通差不多都搞定了，真是太謝謝你了，關於這方面沒什麼問題了！</span><br><span class="line">不過我老大昨天給了我一個任務，他希望我去研究那邊的首頁內容到底是怎麼做的</span><br><span class="line">為什麼用 Google 一搜尋關鍵字就可以排在第一頁，真是太不合理了</span><br><span class="line">  </span><br><span class="line">他們的網站明明就什麼都沒有，怎麼會排在那麼前面？</span><br><span class="line">難道說他們偷偷動了一些手腳？讓 Google 搜尋引擎看到的內容跟我們看到的不一樣？</span><br><span class="line">  </span><br><span class="line">算了，還是不要瞎猜好了，你幫我們研究一下吧！</span><br></pre></td></tr></table></figure>
+<p>這關想讓大家知道的事情是不只瀏覽器，各家爬蟲也會帶特定的 User-Agent，所以 Server 一樣可以針對不同的 UA 來輸出不同的資訊（雖然不被推薦就是了）。</p>
+<p>舉例來說，一個 SPA 可以只針對 Google 搜尋引擎跟 Facebook 啟用 Server side render 來輸出內容，對一般用戶還是 Client side render。</p>
+<p>或是像 HTTP Challenge 這個網站，本身就有針對不同的 UA 做處理（因為網站都是純文字，但我希望在臉書上被分享時有自訂標題跟敘述）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// base on UA return differect result</span></span><br><span class="line">router.get(<span class="string">'/start'</span>, (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> UA = req.header(<span class="string">'User-Agent'</span>) || <span class="string">''</span></span><br><span class="line">  <span class="keyword">if</span> (UA.indexOf(<span class="string">'facebookexternalhit'</span>) &gt;= <span class="number">0</span> || UA.indexOf(<span class="string">'Googlebot'</span>) &gt;= <span class="number">0</span> )&#123;</span><br><span class="line">    res.end(text.seo)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    res.end(text.start.intro)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>不過好像弄得怪怪的，不知道有沒有成功就是了。</p>
+<p>這就是最後一關囉，第十五關是結語。</p>
+<h2 id="第二次優化"><a href="#第二次優化" class="headerlink" title="第二次優化"></a>第二次優化</h2><p>做完進階關卡之後，敘述的部分其實也有改一點，例如說第十四關就有學生以為跟 Chrome 有關（想到 Google 就只想到 Chrome XD），所以我特地強調說「Google 搜尋引擎」，要往這方向找才是正確的。</p>
+<p>而其中最讓我驚訝的還是第十三關那個我沒有想到的解法<code>X-Forwarded-For</code>。</p>
+<p>在對外公開之後，一個朋友跟我說最後應該放一個 gist 讓大家留言。我內心一驚：對欸，可以放 gist。</p>
+<p>因為我原本就有想說要不要放個排行榜或者是留言板之類的，讓破完的人可以留個言當作紀念，可是要做這功能挺麻煩的，我懶得做。被朋友提醒才突然發現 gist 本來就有內建留言功能，那就直接放一個 gist 就好了！</p>
+<p>所以前期破關的朋友是沒有 gist 可以留言的，是到後面才新增的。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>這次很開心可以把這些知識包裝成游戲跟大家分享，迴響似乎也挺不錯的。雖然有些人期待會再加新關卡，但我目前完全沒靈感就是了。</p>
+<p>之後比較有可能的是做個 HTML、CSS 跟 JavaScript 的版本，類型差不多，但就是每關的解法跟知識點不一樣，到時候再來跟大家分享。</p>
+<p>感謝早期幫我測試的朋友們，也感謝跟我一起享受遊戲的大家。底下是一些相關的闖關心得，有興趣的話也可以看看：</p>
+<ol>
+<li><a href="https://github.com/jijigo/notes/issues/24" target="_blank" rel="noopener">一日圖書館管理員：HTTP Challenge</a></li>
+<li><a href="https://pvt5r486.github.io/note/20190513/2430981100/" target="_blank" rel="noopener">HTTP_Game攻略(一)</a></li>
+<li><a href="http://enter3017sky.tw/article.php?id=124" target="_blank" rel="noopener">Lidemy HTTP 圖書館小弟加班(V2)</a></li>
+<li><a href="https://medium.com/@hugh_Program_learning_diary_Js/%E5%B0%8F%E6%8C%91%E6%88%B0-http-game-%E8%A7%A3%E9%A1%8C%E6%80%9D%E8%B7%AF%E5%BF%83%E5%BE%97%E6%83%B3%E6%B3%95-8007cb7d2e81" target="_blank" rel="noopener">小挑戰 http game 解題思路心得想法</a></li>
+</ol>
+<p>關於作者：<br><a href="https://medium.com/@hulitw" target="_blank" rel="noopener">@huli</a> 野生工程師，相信分享與交流能讓世界變得更美好</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/05/18/behind-the-scenes-http-challenge/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/05/18/behind-the-scenes-http-challenge/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/05/18/behind-the-scenes-http-challenge/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/05/18/behind-the-scenes-http-challenge/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/05/25/pure-css-tic-tac-toe-analyze/">
+        ← 解析：純 CSS 的圈圈叉叉
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/05/10/intro-nengo/">
+        Nengo AI 入門 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

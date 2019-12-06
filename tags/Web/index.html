@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Tag: Web | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="home-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+<main class="content" role="main">
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2019-11-30T19:49:03.000Z" itemprop="datePublished">
+          2019-11-30
+      </time>
+    
+    
+    | 
+    <a href='/tags/Web/'>Web</a>
+    
+    
+</span>
+
+<meta name="generator" content="Don’t break the Web：以 SmooshGate 以及 keygen 為例">
+<meta name="og:title" content="Don’t break the Web：以 SmooshGate 以及 keygen 為例">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2019/11/30/smooshgate-and-keygen/">Don’t break the Web：以 SmooshGate 以及 keygen 為例</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近 YDKJS（You Don’t Know JS 的縮寫，中譯版翻成：你所不知道的JS）有了第二版，名叫 <a href="https://twitter.com/ydkjsy" target="_blank" rel="noopener">YDKJSY</a>，Y 是 Yet 的意思（中文版可能可以翻叫：你還是不知道的 JS）。這個第二版還沒全部完成，但在 <a href="https://github.com/getify/You-Dont-Know-JS" target="_blank" rel="noopener">GitHub</a> 上面已經公開了最前面的一些章節。</p>
+<p>搶先讀了一下第一章，在講與 JS 相關的歷史，其中提到一段讓我很感興趣的議題：</p>
+<blockquote>
+<p> As such, sometimes the JS engines will refuse to conform to a specification-dictated change because it would break that web content.</p>
+</blockquote>
+<blockquote>
+<p>In these cases, often TC39 will backtrack and simply choose to conform the specification to the reality of the web. For example, TC39 planned to add a contains(..) method for Arrays, but it was found that this name conflicted with old JS frameworks still in use on some sites, so they changed the name to a non-conflicting includes(..). The same happened with a comedic/tragic JS community crisis dubbed “smooshgate”, where the planned flatten(..) method was eventually renamed flat(..).</p>
+</blockquote>
+<p>大意是在說有時候 JS 的規格必須跟現實（已經存在的那些舊的實作）妥協。例如說原本 Array 要加上一個叫做 contains 的 method，但因為會有問題所以改叫 includes，flatten 也改名叫做 flat。</p>
+<p>還有一個上面特別標起來的詞「smooshgate」，用這個當關鍵字去找才發現是去年三月左右發生的事件，至於發生了什麼，底下會詳述，跟上面提的 flatten 有關。看到有這件事的時候我第一個反應是：「咦，我怎麼什麼都不知道？」，查了一下繁體中文的資料，大概也只有這篇有提到：<a href="https://blog.othree.net/log/2018/05/28/smooshgate/" target="_blank" rel="noopener">SmooshGate</a>，以及<a href="https://medium.com/@liuderchi/%E7%AD%86%E8%A8%98-3-%E7%A8%AE-javascript-%E7%89%A9%E4%BB%B6%E5%B1%AC%E6%80%A7%E7%9A%84%E7%89%B9%E6%80%A7-3b982f4c5695" target="_blank" rel="noopener">[筆記] 3 種 JavaScript 物件屬性的特性</a>這篇有擦到邊而已。</p>
+<p>在仔細研究了一下事情的來龍去脈之後，覺得是個滿有趣的議題，因此寫了這篇跟大家分享。</p>
+      
+      </p>
+      
+      <p>
+          <a href="/2019/11/30/smooshgate-and-keygen/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2019-10-04T17:03:44.000Z" itemprop="datePublished">
+          2019-10-04
+      </time>
+    
+    
+    | 
+    <a href='/tags/Web/'>Web</a>,
+    
+    <a href='/tags/Backend/'>Backend</a>,
+    
+    <a href='/tags/Interview/'>Interview</a>
+    
+    
+</span>
+
+<meta name="generator" content="2019 Web Backend 面試總結">
+<meta name="og:title" content="2019 Web Backend 面試總結">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2019/10/04/web-backend-interview-in-2019/">2019 Web Backend 面試總結</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言會想分享這篇整理，主要是因為今年是我第一次面試工作，在準備期間我曾無比焦慮，看過一篇又一篇的面經，總覺得怎麼還是這麼多不懂的，而且看了也未必在面試中回答得出來，後來我發現，原來是對於面試會考哪些類別的問題沒有概念，所以才感到焦慮。希望透過這篇後端面試總結，讓即將上路或是正在途中的人，可以有個方向，知道如何準備！
+我會將後端面試分為六大類：
+
+演算法（Algorithm）
+程式語言（Programming Language）
+作業系統
+      
+      </p>
+      
+      <p>
+          <a href="/2019/10/04/web-backend-interview-in-2019/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2018-04-14T20:23:23.000Z" itemprop="datePublished">
+          2018-04-14
+      </time>
+    
+    
+    | 
+    <a href='/tags/Web/'>Web</a>,
+    
+    <a href='/tags/Python/'>Python</a>,
+    
+    <a href='/tags/程式設計/'>程式設計</a>,
+    
+    <a href='/tags/coding/'>coding</a>,
+    
+    <a href='/tags/自學程式設計/'>自學程式設計</a>,
+    
+    <a href='/tags/code/'>code</a>,
+    
+    <a href='/tags/Django/'>Django</a>,
+    
+    <a href='/tags/MVC/'>MVC</a>,
+    
+    <a href='/tags/MTV/'>MTV</a>,
+    
+    <a href='/tags/Web-Backend/'>Web Backend</a>,
+    
+    <a href='/tags/Web-Framework/'>Web Framework</a>,
+    
+    <a href='/tags/教學/'>教學</a>,
+    
+    <a href='/tags/Flask/'>Flask</a>,
+    
+    <a href='/tags/框架/'>框架</a>,
+    
+    <a href='/tags/CS/'>CS</a>,
+    
+    <a href='/tags/Computer/'>Computer</a>,
+    
+    <a href='/tags/Computer-Science/'>Computer Science</a>
+    
+    
+</span>
+
+<meta name="generator" content="如何在 Windows 打造 Python 開發環境設定基礎入門教學">
+<meta name="og:title" content="如何在 Windows 打造 Python 開發環境設定基礎入門教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2018/04/14/how-to-setup-python-development-environment-in-windows/">如何在 Windows 打造 Python 開發環境設定基礎入門教學</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言如何設定開發環境應該是每個初學程式設計者的痛（即便是老手有時也會覺得苦惱），尤其當你需要在終端機（terminal）輸入指令（command）來操控你的指令時（好吧，若你完全只走圖形化介面，習慣 GUI 操作就另當別論，但若你有志於往程式設計領域發展，建議還是熟悉一下指令碼）。
+要在 Linux、Mac OS 這種屬於類 Unix 系統（指各種 Unix 的衍生系統，而 Unix 指的是一種電腦作業系統，具有多工、多使用者的特色，是
+      
+      </p>
+      
+      <p>
+          <a href="/2018/04/14/how-to-setup-python-development-environment-in-windows/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2017-10-05T22:00:00.000Z" itemprop="datePublished">
+          2017-10-05
+      </time>
+    
+    
+    | 
+    <a href='/tags/Web/'>Web</a>,
+    
+    <a href='/tags/Python/'>Python</a>,
+    
+    <a href='/tags/Django/'>Django</a>,
+    
+    <a href='/tags/MVC/'>MVC</a>
+    
+    
+</span>
+
+<meta name="generator" content="用 Python 自學程式設計：程式設計思維入門">
+<meta name="og:title" content="用 Python 自學程式設計：程式設計思維入門">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2017/10/05/learning-programming-and-coding-with-python-introduction/">用 Python 自學程式設計：程式設計思維入門</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+         
+什麼是程式設計思維？最近幾年全球刮起了一股爭相學習電腦科學（Computer Science）和程式設計（Programming）的風氣，上至總統、首相下至升斗小民都爭相開始學寫程式。事實上，學寫程式最重要的是學習電腦科學背後思考方式和邏輯，學習如何透過科技解決生活上的問題。更進一步說，程式設計與其說是一種科學，更偏向一種藝術人文的創作與科學的混合體。以前畫家或是作家是拿紙筆創作，現在只要有一部電腦，連上網路，就可以透過敲打鍵盤將自
+      
+      </p>
+      
+      <p>
+          <a href="/2017/10/05/learning-programming-and-coding-with-python-introduction/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2017-05-06T23:00:00.000Z" itemprop="datePublished">
+          2017-05-06
+      </time>
+    
+    
+    | 
+    <a href='/tags/Web/'>Web</a>,
+    
+    <a href='/tags/Python/'>Python</a>,
+    
+    <a href='/tags/PHP/'>PHP</a>,
+    
+    <a href='/tags/Back-End/'>Back End</a>,
+    
+    <a href='/tags/Back-End-Development/'>Back End Development</a>,
+    
+    <a href='/tags/Back-End-Engineer/'>Back End Engineer</a>,
+    
+    <a href='/tags/TCP/'>TCP</a>,
+    
+    <a href='/tags/HTTP/'>HTTP</a>,
+    
+    <a href='/tags/UDP/'>UDP</a>
+    
+    
+</span>
+
+<meta name="generator" content="後端軟體工程工具箱：資料庫/SQL/ORM篇">
+<meta name="og:title" content="後端軟體工程工具箱：資料庫/SQL/ORM篇">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2017/05/06/back-end-engineer-toolbox-database-sql-orm/">後端軟體工程工具箱：資料庫/SQL/ORM篇</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言事實上，要成為一個好的後端軟體工程師除了必須對於後端工程的程式語言的部份有所了解外，也需要了解系統設計的原理和伺服器規劃（Server 規劃、Load Balance、Memory Cache、DB Scaling、Cloud Server、後端框架、TCP/IP/UDP 網路通訊協定、HTTP 超文字傳輸協定、設計模式、資料庫操作、SQL/ORM、資訊安全、性能優化等）。接下來我們將來探討資料庫/SQL/ORM 相關議題。
+資料庫
+      
+      </p>
+      
+      <p>
+          <a href="/2017/05/06/back-end-engineer-toolbox-database-sql-orm/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2016-03-19T06:54:49.000Z" itemprop="datePublished">
+          2016-03-19
+      </time>
+    
+    
+    | 
+    <a href='/tags/IoT/'>IoT</a>,
+    
+    <a href='/tags/Mobile/'>Mobile</a>,
+    
+    <a href='/tags/Web/'>Web</a>,
+    
+    <a href='/tags/Startup/'>Startup</a>,
+    
+    <a href='/tags/Data/'>Data</a>,
+    
+    <a href='/tags/Robotics/'>Robotics</a>,
+    
+    <a href='/tags/Maker/'>Maker</a>,
+    
+    <a href='/tags/UI-UX/'>UI/UX</a>,
+    
+    <a href='/tags/Product/'>Product</a>
+    
+    
+</span>
+
+<meta name="generator" content="關於這個技術共筆部落格">
+<meta name="og:title" content="關於這個技術共筆部落格">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2016/03/19/about/">關於這個技術共筆部落格</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等正體中文技術原創文章或國外好文翻譯分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, data analytics technology sha
+      
+      </p>
+      
+      <p>
+          <a href="/2016/03/19/about/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <nav class="pagination" role="pagination">
+    
+    <span class="page-number">Page 1 of 1</span>
+    
+  </nav>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

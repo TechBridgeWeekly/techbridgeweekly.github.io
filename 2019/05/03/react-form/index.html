@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>React Form: Redux Form vs React Final Form vs Formik and Yup | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-05-03T18:28:23.000Z" itemprop="datePublished">
+          2019-05-03
+      </time>
+    
+    
+    | 
+    <a href='/tags/react/'>react</a>
+    
+    
+</span>
+
+<meta name="generator" content="React Form: Redux Form vs React Final Form vs Formik and Yup">
+<meta name="og:title" content="React Form: Redux Form vs React Final Form vs Formik and Yup">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">React Form: Redux Form vs React Final Form vs Formik and Yup</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="https://cythilya.github.io/assets/react-form/hacking-4154618_1280.jpg" alt="React Form: Redux Form vs React Final Form vs Formik &amp; Yup"></p>
+<p>本文會先從為何要做表單狀態管理說起，接著看目前市面上有哪些好的表單函式庫和條列挑選原則，並探討三個表單函式庫 Redux Form、React Final Form、Formik &amp; Yup，最後做比較和總結。</p>
+<h2 id="為何需要做表單狀態管理？"><a href="#為何需要做表單狀態管理？" class="headerlink" title="為何需要做表單狀態管理？"></a>為何需要做表單狀態管理？</h2><p>為什麼需要做表單狀態管理呢？這就要從 controlled component 和 uncontrolled component 開始談起。</p>
+<p>在一般 HTML 的世界裡面，表單的狀態是由元件本身來做儲存和更新的，稱之為「uncontrolled component」；而在 React 的世界裡，表單的狀態和值的更新是由開發者處理，如下圖所示，表單欄位的值可從 props 或 state 取得，在這裡是 state，並且當使用者打字等行為時觸發事件來做值的更新，在這裡是觸發 onChange 事件，這樣的元件稱為「controlled component」。這樣值的儲存與更新的管理方式，就是表單簡易的狀態管理的例子，表單還有其他狀態要管理，例如：表單是否合法（valid）、各欄位的錯誤訊息（validation、error）、欄位值是否被更改過（dirty）、初始值的設定（initial value）、各種 callback 的設定等。</p>
+<p><img src="https://cythilya.github.io/assets/react-form/react-form-controlled-vs-uncontrolled-component-1.png" alt="Controlled vs uncontrolled component"></p>
+<p>也因為由開發者來管理表單的狀態，所以我們可能需要自己刻一套管理工具，或是使用市面上大師們已經實作好的函式庫就好了，不管是自已刻還是用別人刻好的，在專案的開發上，都可以達到兩個效果…</p>
+<ul>
+<li>不用重造輪子，節省開發時間，若每次實作表單都要重做一次表單狀態管理機制就太辛苦了 XD</li>
+<li>若是多人開發專案，就能統一彼此的實作方式，減少維護的難度。</li>
+</ul>
+<h2 id="當紅的表單函式庫"><a href="#當紅的表單函式庫" class="headerlink" title="當紅的表單函式庫"></a>當紅的表單函式庫</h2><p>先不要談自己刻這件事，來看看大師們幫我們刻好的表單函式庫有哪些…</p>
+<p><img src="https://cythilya.github.io/assets/react-form/popular-react-form-lib.png" alt="Popular form libraries in React"></p>
+<p>由上圖可知，可選擇的表單函式庫真的很多，大致上可分類為功能完整、輕量或內建驗證工具等共三種，另外還有一些是進入維護狀態、不再開發新功能的，就不納入評選。</p>
+<ul>
+<li>功能完整是指 API 開得很充足的函式庫，可讓開發者實作細緻的表單元件，當然也能減少撰寫程式碼，例如：Redux Form（功能真是包山包海）、React Final Form、Formik、Informed。</li>
+<li>強調輕量亦即打包後的檔案很小，適合對體積大小有顧慮的專案，例如：Final Form、React Final Form、Formsy React。</li>
+<li>內建驗證工具的函式庫讓開發者能很方便的撰寫驗證規則，例如：Formik、Informed、React Forms。</li>
+</ul>
+<p>接下來我選擇 Redux Form、React Final Form 和 Formik &amp; Yup 來做討論。</p>
+<h2 id="如何選擇好的表單函示庫？"><a href="#如何選擇好的表單函示庫？" class="headerlink" title="如何選擇好的表單函示庫？"></a>如何選擇好的表單函示庫？</h2><p>先綜觀來看怎麼選擇好的表單函示庫。一般來說，這些函式庫主要都是做狀態管理，而它們都做得很好，只是有些差異，因此歸納了一些挑選原則…</p>
+<ul>
+<li>這個函式庫是怎麼做狀態管理的？會不會有效能問題？</li>
+<li>API 充足嗎？能為開發者減少撰寫多少程式碼？通常 API 充足的函式庫，打包後的檔案體機會比較大，只能取捨一下了。</li>
+<li>如何撰寫驗證邏輯？</li>
+<li>擴充性如何？是否能輕易新增和移除功能以符合未來的需求？</li>
+<li>文件是否詳細？範例是否充足？之後若遇到問題是否能很快被解決？</li>
+<li>打包後的檔案大小。</li>
+<li>Github 星星數 and NPM 下載數。這是比較不重要的考量點，畢竟過去火紅的專案，目前可能已不符合需求，但已長時間累積了很多的星星數和下載數；而新出來的專案可能因起步較晚而沒有很多的星星數和下載數，但做得卻非常好。</li>
+<li>函式庫提供的特點是否能解決專案的需求？</li>
+</ul>
+<h2 id="Redux-Form"><a href="#Redux-Form" class="headerlink" title="Redux Form"></a>Redux Form</h2><p><img src="https://cythilya.github.io/assets/react-form/redux-form.png" alt="Redux Form"></p>
+<p>Redux Form 利用 Redux 來儲存整個 app 的表單狀態，再根據當前所需提取特定表單資料。也就是說，先在 Redux store 建立表單的 reducer，經由 <a href="https://reactjs.org/docs/higher-order-components.html" target="_blank" rel="noopener">HOC</a> 的方式連接表單和 store，再由 props 帶入資料。</p>
+<h3 id="Workflow"><a href="#Workflow" class="headerlink" title="Workflow"></a>Workflow</h3><p><img src="https://cythilya.github.io/assets/react-form/redux-form-diagram.png" alt="Redux Form Workflow"></p>
+<p>圖片來源：<a href="https://redux-form.com/8.2.0/docs/gettingstarted.md/" target="_blank" rel="noopener">Redux Form - Getting Started</a></p>
+<p>Redux Form 的工作流程是這樣的…</p>
+<p>當使用者對表單元件輸入資料時會發出 action 去更新 store，當狀態被更新，就會重新渲染元件，使用者就能看到剛才輸入的資料。</p>
+<h3 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h3><h4 id="範例-1"><a href="#範例-1" class="headerlink" title="範例 1"></a>範例 1</h4><p>這是一個簡易的表單範例，並且使用 redux-form-validators 作為驗證的工具。</p>
+<p><img src="https://cythilya.github.io/assets/react-form/redux-form-example-1.png" alt="Redux Form 範例"></p>
+<p>在這個範例中有兩個欄位 Name 和 Email，初始值就不是合法的了，所以若在此時按下按鈕 Submit 提交表單，會看到 Name 下方紅色的錯誤訊息「Length must exceed 3 characters.」</p>
+<p><img src="https://cythilya.github.io/assets/react-form/redux-form-example-2.png" alt="Redux Form 範例"></p>
+<p>在修正欄位值後，就可以順利提交了。</p>
+<p><img src="https://cythilya.github.io/assets/react-form/redux-form-example-3.png" alt="Redux Form 範例"></p>
+<p>來看原始碼，如果想得到特定表單的資訊，必須從 reducer 中使用 selector 提取出來，然後再用 props 帶進表單，例如：formData、formValues 和 formErrors。formData 會取得目前表單所有欄位的狀態，例如這個欄位是否被 touched、dirty 或目前 focus 在哪個欄位等；formValues 取得目前表單各欄位的值；formErrors 取得目前表單各欄位的錯誤訊息。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Form = connect(<span class="function">(<span class="params">state</span>) =&gt;</span> (&#123;</span><br><span class="line">  formMeta: getFormMeta(<span class="string">'register'</span>)(state), <span class="comment">// get form data by using selectors</span></span><br><span class="line">  formValues: getFormValues(<span class="string">'register'</span>)(state),</span><br><span class="line">  formErrors: getFormSyncErrors(<span class="string">'register'</span>)(state),</span><br><span class="line">&#125;))(Form);</span><br></pre></td></tr></table></figure>
+<p>在 selector 這裡要輸入唯一的表單名稱「register」，我常常不是打錯字就是輸入重複的名稱，感到困擾和麻煩 XD</p>
+<p>另外，在這裡搭配 <a href="https://www.npmjs.com/package/redux-form-validators" target="_blank" rel="noopener">redux-form-validators</a> 作為驗證工具，它提供一些簡易的 field-level validation 驗證規則，並且可自訂錯誤訊息，也可經由 addValidator 加入驗證規則。</p>
+<p>簡易使用方式如下，將 name 這個欄位加上驗證規則必填（required）和字數限制（length，必須超過 4 個字），並自訂報錯訊息。</p>
+<p><a href="https://726wprxw3q.codesandbox.io/redux-form/register" target="_blank" rel="noopener">Demo</a>，<a href="https://codesandbox.io/s/726wprxw3q" target="_blank" rel="noopener">原始碼</a>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;Field</span><br><span class="line">  name=<span class="string">'name'</span></span><br><span class="line">  validate=&#123;[</span><br><span class="line">    required(&#123; <span class="attr">message</span>: <span class="string">'Required.'</span> &#125;),</span><br><span class="line">    length(&#123; <span class="attr">min</span>: <span class="number">4</span>, <span class="attr">message</span>: <span class="string">'Length must exceed 3 characters.'</span> &#125;),</span><br><span class="line">  ]&#125;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="範例-2"><a href="#範例-2" class="headerlink" title="範例 2"></a>範例 2</h4><p>這是一個混合同步和非同步驗證的範例，同步驗證像是名稱是否必填、字數限制至少 4 個字，email 是否合法；非同步驗證像是詢問使用者的名稱是否已被使用，輸入「paul」表示已被別人使用了，這是模擬從伺服器端回傳驗證結果，再顯示錯誤訊息的範例。</p>
+<p><img src="https://cythilya.github.io/assets/react-form/redux-form-example-4.png" alt="Redux Form 範例"></p>
+<p><a href="https://726wprxw3q.codesandbox.io/redux-form/feedback" target="_blank" rel="noopener">Demo</a>，<a href="https://codesandbox.io/s/726wprxw3q" target="_blank" rel="noopener">原始碼</a>，其他範例還有<a href="https://726wprxw3q.codesandbox.io/redux-form/contact" target="_blank" rel="noopener">建立動態欄位</a>。</p>
+<h3 id="優點"><a href="#優點" class="headerlink" title="優點"></a>優點</h3><ul>
+<li>提供充足的 API 能實作細緻的元件。</li>
+<li>可混合同步與非同步驗證。</li>
+<li>由於 Redux Form 本身並沒有提供驗證工具，但可自行實作驗證的部份或搭配他人寫好的工具，例如：<a href="https://www.npmjs.com/package/redux-form-validators" target="_blank" rel="noopener">redux-form-validators</a> 或 <a href="https://www.npmjs.com/package/redux-form-yup" target="_blank" rel="noopener">redux-form-yup</a>，相對是很有彈性的。</li>
+</ul>
+<h3 id="缺點"><a href="#缺點" class="headerlink" title="缺點"></a>缺點</h3><ul>
+<li>表單狀態不需要存在全域的 store 裡面，畢竟表單狀態與其他原件無關。</li>
+<li>每當表單更新狀態就會更新 store，亦即使用者每打一個字都會做更新，整個表單就會重新渲染，造成不需要更新的欄位也被重新渲染，影響效能（備註），這在表單很大的時候，延遲狀況尤其明顯。之後我們會看到兩個效能較佳的表單函式庫-React Final Form 和 Formik。React Final Form 有訂閱表單和欄位狀態的機制；而 Formik 有 Fastfield 元件，利用實作 shouldComponentUpdate 的機制決定要不要重新渲染該欄位，都能有效限制渲染的次數。</li>
+<li>必須使用 Redux。若 app 很小，不需使用 Redux 做狀態管理，卻必須因為表單而使用 Redux 才能用 Redux Form；又或者是 app 並非使用 Redux 做狀態管理就不能使用 Redux Form。</li>
+<li>壓縮後的打包大小較大，超過 26.7KB。React Final Form + Final Form 是 7.7KB，而 Formik 是 12KB。</li>
+<li>非同步驗證只支援 form-level 的驗證，在實作上來說，若能在欄位設定驗證規則是比較直覺和方便的。</li>
+<li>文件和範例不夠充足、不夠詳細。</li>
+<li>缺少擴充性。</li>
+</ul>
+<p>關於以上的缺點，不管是表單狀態的儲存、打包大小、文件與範例、擴充性等，接下來我們會看到兩個做得更好的函式庫-React Final Form 和 Formik。</p>
+<p><strong>備註</strong>：減少不必要的渲染是指在 React 做 virtaul dom 的比對而決定是否要渲染前，可利用元件實作的機制而省下這複雜計算過程，因此能減少延遲效果。</p>
+<h2 id="Final-Form"><a href="#Final-Form" class="headerlink" title="Final Form"></a>Final Form</h2><p><img src="https://cythilya.github.io/assets/react-form/final-form-cover.png" alt="Final Form"></p>
+<p>在看 React Final Form 之前，先來看它的狀態管理引擎 Final Form。由於 Final Form 是表單狀態管理的引擎，因此與框架無關，並且可以獨立使用或實作 React 或 Vue 的 wrapper 包裝後來使用它。</p>
+<p>Final Form 的特點如下</p>
+<ul>
+<li>由於是狀態管理引擎，因此與框架無關，可以獨立使用或實作 React 或 Vue 的 wrapper 包裝後來使用它。</li>
+<li>Final Form 利用訂閱的機制來選擇要追蹤的狀態，若追蹤的狀態有更新再通知更新元件。</li>
+<li>表單的狀態是存在 Final Form 的 form instance 的 state，不像 Redux Form 是存在全域的 store 裡面，因此與任何類似 flux 狀態管理工具完全無相依關係。</li>
+<li>擴充性高，可利用 decorator 的方式輕易的新增或移除功能以符合未來的需求。</li>
+<li>沒有和其他函式庫相依。</li>
+<li>打包後的檔案很小，壓縮後只有 4.7KB。</li>
+</ul>
+<h3 id="Demo-1"><a href="#Demo-1" class="headerlink" title="Demo"></a>Demo</h3><h4 id="範例-1-1"><a href="#範例-1-1" class="headerlink" title="範例 1"></a>範例 1</h4><p>這是一個簡單的範例，示範如何使用 Final Form。</p>
+<p>如下圖所示，同樣也是填寫 Name 和 Email 的簡易表單，由於 Name 必須超過 3 個字，因此提交按鈕是 disabled 狀態，無法送出。</p>
+<p><img src="https://cythilya.github.io/assets/react-form/final-form-example-1.png" alt="Final Form 範例"></p>
+<p>blur 欄位 Name 後可看到錯誤訊息。</p>
+<p><img src="https://cythilya.github.io/assets/react-form/final-form-example-2.png" alt="Final Form 範例"></p>
+<p>修正欄位後，提交按鈕變成 enabled 狀態，即可送出。</p>
+<p><img src="https://cythilya.github.io/assets/react-form/final-form-example-3.png" alt="Final Form 範例"></p>
+<p>從實際程式碼來看 Final Form 的使用方式。</p>
+<p>利用 createForm 建立表單，並指定三個參數 initialValues、onSubmit、validate，分別是表單的初始值、提交時呼叫的 callback 和驗證規則，其中 onSubmit 必填。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createForm &#125; <span class="keyword">from</span> <span class="string">'final-form'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> form = createForm(&#123; initialValues, onSubmit, validate &#125;);</span><br></pre></td></tr></table></figure>
+<p>訂閱表單要監聽的屬性，例如：表單是否合法（valid）、目前在哪個欄位（active）、目前表單所有欄位的值（values）、哪些欄位已被修改過（dirty）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Subscribe to form state updates</span></span><br><span class="line"><span class="keyword">const</span> unsubscribe = form.subscribe(</span><br><span class="line">  formState =&gt; &#123;</span><br><span class="line">    <span class="comment">// Update UI</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123; <span class="comment">// FormSubscription: the list of values you want to be updated about</span></span><br><span class="line">    active: <span class="literal">true</span>,</span><br><span class="line">    dirty: <span class="literal">true</span>,</span><br><span class="line">    valid: <span class="literal">true</span>,</span><br><span class="line">    values: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>訂閱欄位要監聽的屬性，例如：錯誤訊息（error）、是否被觸碰（touched）、目前的值（value）等。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Subscribe to field state updates</span></span><br><span class="line"><span class="keyword">const</span> unregisterField = form.registerField(</span><br><span class="line">  <span class="string">'name'</span>,</span><br><span class="line">  (fieldState) =&gt; &#123;</span><br><span class="line">    <span class="comment">// Update field UI</span></span><br><span class="line">    <span class="keyword">const</span> &#123; blur, change, focus, ...rest &#125; = fieldState;</span><br><span class="line">    <span class="comment">// In addition to the values you subscribe to, field state also includes functions that your inputs need to update their state.</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="comment">// FieldSubscription: the list of values you want to be updated about</span></span><br><span class="line">    error: <span class="literal">true</span>,</span><br><span class="line">    touched: <span class="literal">true</span>,</span><br><span class="line">    value: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p><a href="https://726wprxw3q.codesandbox.io/final-form/register/" target="_blank" rel="noopener">Demo</a>，<a href="https://codesandbox.io/s/726wprxw3q" target="_blank" rel="noopener">原始碼</a>。</p>
+<h4 id="範例-2：React-wrapper-for-Final-Form"><a href="#範例-2：React-wrapper-for-Final-Form" class="headerlink" title="範例 2：React wrapper for Final Form"></a>範例 2：React wrapper for Final Form</h4><p>簡單實作 React wrapper 來使用 Final Form。同樣也是填寫 Name 和 Email 的簡易表單，由於 Name 必須超過 3 個字，因此提交按鈕是 disabled 狀態，無法送出。</p>
+<p><img src="https://cythilya.github.io/assets/react-form/final-form-wrapper-example.png?1234" alt="Final Form 範例"></p>
+<p>程式碼範例如下，這裡用一個 Form wapper 把 Final Form 包起來，開發者只要依舊指定 initialValues、onSubmit、validate，並且設定欄位要顯示的名稱和屬性 name。表單指定要監聽四個屬性 valid、pristine、submitting、values，欄位則是沒有指定就是監聽全部屬性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;Form <span class="comment">// (1) create form</span></span><br><span class="line">  initialValues=&#123;&#123;</span><br><span class="line">    name: <span class="string">'Ann'</span>,</span><br><span class="line">    email: <span class="string">'sample@test.com'</span>,</span><br><span class="line">  &#125;&#125;</span><br><span class="line">  onSubmit=&#123;(values) =&gt; &#123;</span><br><span class="line">    alert(<span class="built_in">JSON</span>.stringify(values, <span class="number">0</span>, <span class="number">2</span>));</span><br><span class="line">  &#125;&#125;</span><br><span class="line">  validate=&#123;validate&#125;</span><br><span class="line">  <span class="comment">// (2) subscribe form state</span></span><br><span class="line">  subscription=&#123;[<span class="string">'valid'</span>, <span class="string">'pristine'</span>, <span class="string">'submitting'</span>, <span class="string">'values'</span>]&#125;</span><br><span class="line">&gt;</span><br><span class="line">  &#123;<span class="comment">/* (3) subscribe all field state */</span>&#125;</span><br><span class="line">  &lt;Form.Field label=<span class="string">'Name'</span> name=<span class="string">'name'</span> /&gt;</span><br><span class="line">  &lt;Form.Field label=<span class="string">'Email'</span> name=<span class="string">'email'</span> /&gt;</span><br><span class="line">&lt;<span class="regexp">/Form&gt;</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://726wprxw3q.codesandbox.io/final-form/contact/" target="_blank" rel="noopener">Demo</a>，<a href="https://codesandbox.io/s/726wprxw3q" target="_blank" rel="noopener">原始碼</a>。</p>
+<h2 id="React-Final-Form"><a href="#React-Final-Form" class="headerlink" title="React Final Form"></a>React Final Form</h2><p><img src="https://cythilya.github.io/assets/react-form/react-final-form-cover.png" alt="Reacg Final Form"></p>
+<ul>
+<li>React Final Form 將 Final Form 包裝起來，這樣就能在 React 的環境中使用。也就是說，由 Final Form 保存狀態，React Final Form 只是一層 wrapper。</li>
+<li>由剛剛提到的 Final Form 可知，Final Form 只提供訂閱的狀態，這是因為使用者每個輸入或任何動作都會造成重新渲染，改善方式是表單可訂閱想要被通知的狀態，當被訂閱的狀態有更新時才做通知。注意，如果不指定訂閱的狀態就是訂閱全部的狀態，也無法啟動欄位的狀態訂閱了。</li>
+<li>非常輕量，壓縮後的打包檔案只有 3KB。</li>
+</ul>
+<h3 id="Workflow-1"><a href="#Workflow-1" class="headerlink" title="Workflow"></a>Workflow</h3><p><img src="https://cythilya.github.io/assets/react-form/react-final-form-workflow.png" alt="Workflow"></p>
+<p>說明</p>
+<ul>
+<li>React Final Form 的工作流程如這張圖所示，React Final Form 將表單的狀態存在 React Final Form 的 form instance 裡面。</li>
+<li>當使用者對某個 input 打字，這時候就會去更新表單的中有訂閱的狀態。</li>
+<li>接著，由於狀態被修改，因此重新渲染有訂閱且更新狀態的欄位，使用者就能看到剛才輸入的值和更新後的表單狀態。</li>
+</ul>
+<h3 id="Demo-2"><a href="#Demo-2" class="headerlink" title="Demo"></a>Demo</h3><h4 id="範例-1：Decorators"><a href="#範例-1：Decorators" class="headerlink" title="範例 1：Decorators"></a>範例 1：Decorators</h4><p>React Final Form 的擴充性高，可利用 decorator 的方式輕易的新增或移除功能以符合未來的需求，並且也能保持 React Final Form 的體積很小。</p>
+<p>例如，我們希望在提交表單後，能 foucs 在第一個有錯的欄位上，那就可以裝上 final-form-focus 這個 decorator 協助達成。</p>
+<p>如下圖所示，表單的兩個欄位 Name 與 Password 皆為必填但未填，因此按下提交按鈕後，都顯示錯誤訊息，並因為裝了 final-form-focus 而能將游標停在第一個欄位，也就是欄位 Name 當中。</p>
+<p><img src="https://cythilya.github.io/assets/react-form/react-final-form-example-1.png" alt="React Final Form: Decorators"></p>
+<p><a href="https://726wprxw3q.codesandbox.io/react-final-form/login" target="_blank" rel="noopener">Demo</a>，<a href="https://codesandbox.io/s/726wprxw3q" target="_blank" rel="noopener">原始碼</a>。</p>
+<h4 id="範例-2：利用訂閱機制改善效能問題"><a href="#範例-2：利用訂閱機制改善效能問題" class="headerlink" title="範例 2：利用訂閱機制改善效能問題"></a>範例 2：利用訂閱機制改善效能問題</h4><p>一開始這個表單的欄位全部都沒有通過驗證規則，例如：name 為必填但是目前沒有值，email 不合規則，此時表單訂閱的狀態中 valid 值為 false。</p>
+<p><img src="https://cythilya.github.io/assets/react-form/react-final-form-example-2.png" alt="React Final Form: 利用訂閱機制改善效能問題"></p>
+<p>name 和 email 彼此不會影響渲染，只有自己狀態改變，例如因打字輸入而改變 value 時才會重新渲染。</p>
+<p><img src="https://cythilya.github.io/assets/react-form/react-final-form-example-3.png" alt="React Final Form: 利用訂閱機制改善效能問題"></p>
+<p>由於表單有訂閱狀態 valid，因此只有當全部欄位都通過驗證，也就是 valid 由 false 變成 true 時，表單才會重新渲染，可以看到渲染次數由 2 變成 3。</p>
+<p><img src="https://cythilya.github.io/assets/react-form/react-final-form-example-4.png" alt="React Final Form: 利用訂閱機制改善效能問題"></p>
+<h3 id="優點-1"><a href="#優點-1" class="headerlink" title="優點"></a>優點</h3><ul>
+<li>有足夠的 API 能實作細緻的 UI，這樣開發者就不需要重新實作取得表單狀態的方法，而能減少撰寫的程式碼。</li>
+<li>API 和 Redux Form 相似，如果之前用 Redux Form 就不用重新學習。</li>
+<li>將狀態存在 Final Form instance state，而非存在全域的 store。</li>
+<li>針對效能的改善，React Final Form 提供訂閱機制來減少不必要的渲染。也就是說，當內部狀態有改變時才去呼叫 <code>setState()</code> 來做重新渲染的動作。</li>
+<li>打包後的檔案很小，壓縮後只有 7.7KB。</li>
+<li>表單和欄位層級都支援同步與非同步驗證。</li>
+<li>擴充性高，可利用 decorator 的方式輕易的新增或移除功能以符合未來的需求，而因為這樣而能保持打包後的體積很小。</li>
+</ul>
+<h3 id="缺點-1"><a href="#缺點-1" class="headerlink" title="缺點"></a>缺點</h3><ul>
+<li>無內建驗證工具，目前也沒有好的可搭配的驗證工具，驗證部份要自己開發。</li>
+</ul>
+<h2 id="Formik-amp-Yup"><a href="#Formik-amp-Yup" class="headerlink" title="Formik &amp; Yup"></a>Formik &amp; Yup</h2><p><img src="https://cythilya.github.io/assets/react-form/formik-cover.png" alt="Formik"></p>
+<ul>
+<li>React 官方推薦，據說是可以無痛建立表單。</li>
+<li><a href="https://github.com/jaredpalmer/formik" target="_blank" rel="noopener">Formik</a> 是表單函式庫，<a href="https://github.com/jquense/yup" target="_blank" rel="noopener">Yup</a> 是驗證工具，Formik 有個 config「validationSchema」可和 Yup 互相搭配，有設定 validationSchema 這個 config 時，就能將 Yup 回傳的錯誤訊息自動轉換成一個物件，其 key 是欄位的 name，而 value 就是錯誤訊息。</li>
+</ul>
+<h3 id="Workflow-2"><a href="#Workflow-2" class="headerlink" title="Workflow"></a>Workflow</h3><p>Formik 的工作流程是這樣的…</p>
+<p><img src="https://cythilya.github.io/assets/react-form/formik-workflow.png" alt="Workflow"></p>
+<p>說明</p>
+<ul>
+<li>Formik 將表單的狀態存在 form instance 的 state 裡面。</li>
+<li>當使用者對某個 input 打字時就會去更新表單的狀態。</li>
+<li>接著，由於狀態被修改，因此重新渲染表單，使用者看到剛才輸入的值和更新後的元件。</li>
+</ul>
+<h3 id="Yup-好在哪裡？"><a href="#Yup-好在哪裡？" class="headerlink" title="Yup 好在哪裡？"></a>Yup 好在哪裡？</h3><h4 id="不需再看到-if-else-判斷句"><a href="#不需再看到-if-else-判斷句" class="headerlink" title="不需再看到 if/else 判斷句"></a>不需再看到 if/else 判斷句</h4><p>傳統的寫法是用 if/else 根據條件判斷要用哪些規則，雜亂且難以維護。如下範例，表單欄位中有 name 這個欄位，若 name 沒填則顯示錯誤訊息「Required.」（必填），若 name 的字數小於 4 個字，則報錯「Length must exceed 3 characters.」（字數需要超過 3 個字）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!values.name) &#123;</span><br><span class="line">  errors.name = <span class="string">'Required.'</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (values.name.length &lt; <span class="number">4</span>) &#123;</span><br><span class="line">  errors.name = <span class="string">'Length must exceed 3 characters.'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>利用 Yup 改寫後，簡單清楚易懂。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> schema = Yup.object().shape(&#123;</span><br><span class="line">  name: yup</span><br><span class="line">    .string()</span><br><span class="line">    .required(<span class="string">'Required.'</span>)</span><br><span class="line">    .min(<span class="number">4</span>, <span class="string">'Length must exceed 3 characters.'</span>),</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="Cross-validation"><a href="#Cross-validation" class="headerlink" title="Cross-validation"></a>Cross-validation</h4><p>下圖是一個簡單的電子報訂閱表單的範例，驗證規則是如果沒有勾選要訂閱電子報（subscribe）的話，填完名稱（name）就可以送出；若要訂閱電子報，勾選「訂閱電子報」之後，信箱（email）欄位成為必填，因此就必須填寫。</p>
+<p><img src="https://cythilya.github.io/assets/react-form/formik-example-1.png" alt="Formik: Cross-validation"></p>
+<p>利用 Yup 可以很輕易地做到根據條件動態決定驗證規則，如下程式碼所示，email 的規則是根據 subscribe 的值而決定的，<code>when</code> 後接要觀察的欄位名稱，在此觀察 subscribe 這個 checkbox 是否被勾選，若有勾選（亦即 <code>is</code> 為 true），則做 <code>then</code> 後所接的事情，否則做 <code>otherwise</code> 後所接的事情，因為這裡沒有「否則」要做什麼，所以程式碼中就沒有示範了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">email: yup.string().when(<span class="string">'subscribe'</span>, &#123;</span><br><span class="line">  is: <span class="literal">true</span>,</span><br><span class="line">  then: <span class="function"><span class="params">fieldSchema</span> =&gt;</span> fieldSchema</span><br><span class="line">    .required(<span class="string">'Required.'</span>)</span><br><span class="line">    .isEmail(<span class="string">'Invalid email address.'</span>),</span><br><span class="line">&#125;),</span><br><span class="line">subscribe: yup.boolean(),</span><br></pre></td></tr></table></figure>
+<p><a href="https://726wprxw3q.codesandbox.io/formik/subscribe" target="_blank" rel="noopener">Demo</a>，<a href="https://codesandbox.io/s/726wprxw3q" target="_blank" rel="noopener">原始碼</a>。</p>
+<h4 id="可混合同步和非同步的驗證"><a href="#可混合同步和非同步的驗證" class="headerlink" title="可混合同步和非同步的驗證"></a>可混合同步和非同步的驗證</h4><p>可混合同步和非同步的驗證，而且可以用這樣的方式撰寫 <code>.sync().async().sync().async()</code>…簡潔易懂。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">validationSchema: yup.object().shape(&#123;</span><br><span class="line">  name: yup</span><br><span class="line">    .string()</span><br><span class="line">    .required(<span class="string">'Required.'</span>)</span><br><span class="line">    .isNameAvailable(<span class="string">'Name is taken!'</span>) <span class="comment">// 非同步</span></span><br><span class="line">    .min(<span class="number">4</span>, <span class="string">'Length must exceed 3 characters.'</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><a href="https://726wprxw3q.codesandbox.io/formik/contact" target="_blank" rel="noopener">Demo</a>，<a href="https://codesandbox.io/s/726wprxw3q" target="_blank" rel="noopener">原始碼</a>。</p>
+<h4 id="有用的小工具"><a href="#有用的小工具" class="headerlink" title="有用的小工具"></a>有用的小工具</h4><p>Yup 提供一些有用的工具，像是去除前後空白、將字串轉為全部大寫或小寫等。</p>
+<p>如下範例所示，當使用者輸入字串時，可能前後都有空白，這時候 Yup 可先將字串去除前後空白後再做驗證，而不會造成空白也是一個字元的狀況。</p>
+<p>例如，在以下程式碼的狀況下，輸入五個空白或字串「Alice」，都是可以通過驗證的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name: yup.string().required(<span class="string">'Required.'</span>);</span><br></pre></td></tr></table></figure>
+<p>若加上 <code>trim()</code>，則五個空白會被去除，而顯示錯誤訊息；字串「Alice」依然可以通過驗證。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">name: yup</span><br><span class="line">  .string()</span><br><span class="line">  .required(<span class="string">'Required.'</span>)</span><br><span class="line">  .trim();</span><br></pre></td></tr></table></figure>
+<p><a href="https://726wprxw3q.codesandbox.io/formik/subscribe" target="_blank" rel="noopener">Demo</a>，<a href="https://codesandbox.io/s/726wprxw3q" target="_blank" rel="noopener">原始碼</a>。</p>
+<h3 id="FastField"><a href="#FastField" class="headerlink" title="FastField"></a>FastField</h3><p>若只是使用一般的<code>&lt;Field&gt;</code>，則每次欄位更新時，其他欄位都會一同重新渲染；但若改成 <code>&lt;FastField&gt;</code> 則沒有相依關係的欄位就不會重新渲染。這是由於 <code>&lt;FastField&gt;</code> 內部實作 <code>shouldComponentUpdate()</code> 來決定是否要重新渲染的緣故。</p>
+<p>下圖是 Formik 的 <code>&lt;FastField&gt;</code> 的流程圖，只有需要被更新的欄位（direct update）才會重新渲染，否則就 block 住。</p>
+<p><img src="https://cythilya.github.io/assets/react-form/formik-workflow-with-fastfield.png" alt="Workflow"></p>
+<p>來看一個範例，如下圖所示，這是一個簡易的表單，包含兩個欄位 Name 和 Password，右邊灰色圓圈內的數字表示元件的渲染數，由上而下依序是 Name 欄位（FastField）、Password 欄位（FastField），一開始數字都是 1。</p>
+<p><img src="https://cythilya.github.io/assets/react-form/formik-example-3.png" alt="Formik FastField Example"></p>
+<p>當對 Name 欄位輸入資料「Summer」時，由於只有 Name 欄位是會被直接更新的，因此旁邊只有 Name 欄位旁邊的灰色小圈圈數字會增加。</p>
+<p><img src="https://cythilya.github.io/assets/react-form/formik-example-2.png" alt="Formik FastField Example"></p>
+<p><a href="https://726wprxw3q.codesandbox.io/formik/signup" target="_blank" rel="noopener">Demo</a>，<a href="https://codesandbox.io/s/726wprxw3q" target="_blank" rel="noopener">原始碼</a>。</p>
+<h3 id="優點-2"><a href="#優點-2" class="headerlink" title="優點"></a>優點</h3><ul>
+<li>有足夠的 API 能實作細緻的 UI，這樣開發者就不需要重新實作取得表單狀態的方法，而能減少撰寫的程式碼。</li>
+<li>將狀態存在 Formik instance state，而非全域。</li>
+<li>針對效能的改善，Formik 提供 FastField 來減少渲染數。</li>
+<li>打包後的檔案很小，壓縮後只有 12.7KB。</li>
+<li>Formik 的表單和欄位都支援同步與非同步驗證，相較 Redux Form 來說方便許多，也有多一個選擇。</li>
+<li>Yup 能將驗證規則撰寫得清楚易懂。</li>
+</ul>
+<h3 id="缺點-2"><a href="#缺點-2" class="headerlink" title="缺點"></a>缺點</h3><p>雖然功能包山包海，功能齊全，但相較 Final Form 可用 decorator 來擴充功能，彈性較小。</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><h3 id="如何選擇好的表單函示庫？-1"><a href="#如何選擇好的表單函示庫？-1" class="headerlink" title="如何選擇好的表單函示庫？"></a>如何選擇好的表單函示庫？</h3><p>再次回顧本文一開始提到的，要怎麼選擇好的表單函式庫呢？我們可以考慮以下幾點…</p>
+<ul>
+<li>這個函式庫是怎麼做狀態管理的？會不會有效能問題？</li>
+<li>API 充足嗎？能為開發者減少撰寫多少程式碼？通常 API 充足的函式庫，打包後的檔案體機會比較大，只能取捨一下了。</li>
+<li>如何撰寫驗證邏輯？</li>
+<li>擴充性如何？是否能輕易新增和移除功能以符合未來的需求？</li>
+<li>文件是否詳細？範例是否充足？之後若遇到問題是否能很快被解決？</li>
+<li>打包後的檔案大小。</li>
+<li>Github 星星數 and NPM 下載數。這是比較不重要的考量點，畢竟過去火紅的專案，目前可能已不符合需求，但已長時間累積了很多的星星數和下載數；而新出來的專案可能因起步較晚而沒有很多的星星數和下載數，但做得卻非常好。</li>
+<li>函式庫提供的特點是否能解決專案的需求？</li>
+</ul>
+<p>…</p>
+<p>以下一一說明。</p>
+<h3 id="狀態管理"><a href="#狀態管理" class="headerlink" title="狀態管理"></a>狀態管理</h3><ul>
+<li>Redux Form：使用 Redux 儲存所有表單的狀態，並且對於多餘的渲染並無改善方法。</li>
+<li>React Final Form：存在表單實體的狀態中，並使用訂閱狀態的方式做效能優化。</li>
+<li>Formik：存在表單實體的狀態中，經由實作 <code>&lt;Fastfield&gt;</code> 元件內的 <code>shouldComponentUpdate()</code> 做效能優化。</li>
+</ul>
+<h3 id="程式碼撰寫"><a href="#程式碼撰寫" class="headerlink" title="程式碼撰寫"></a>程式碼撰寫</h3><p>Redux Form、React Final Form 和 Formik 皆提供足夠的 API 以實作細緻的表單，因此節省開發人員不少時間。</p>
+<h3 id="驗證"><a href="#驗證" class="headerlink" title="驗證"></a>驗證</h3><ul>
+<li>Redux Form<ul>
+<li>無內建驗證工具，但可搭配其他驗證工具。</li>
+<li>非同步驗證只支援表單層級的驗證。</li>
+</ul>
+</li>
+<li>React Final Form<ul>
+<li>無內建驗證工具，目前也沒有好的可搭配的驗證工具，驗證部份要自己開發。</li>
+<li>表單和欄位都支援同步與非同步驗證。</li>
+</ul>
+</li>
+<li>Formik<ul>
+<li>Yup 是很棒的驗證工具，寫起來清楚簡潔，好懂好維護。</li>
+<li>表單和欄位都支援同步與非同步驗證。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Extensibility"><a href="#Extensibility" class="headerlink" title="Extensibility"></a>Extensibility</h3><ul>
+<li>Redux Form 和 Formik：無擴充性。</li>
+<li>React Final Form：擴充性高，可利用 decorator 的方式輕易的新增或移除功能以符合未來的需求，也因此能保持打包後的體積很小。</li>
+</ul>
+<h3 id="Examples-and-documents"><a href="#Examples-and-documents" class="headerlink" title="Examples and documents"></a>Examples and documents</h3><ul>
+<li>Redux Form：文件和範例不夠清楚詳細。</li>
+<li>React Final Form 和 Formik 的文件和範例都很充足詳細。</li>
+</ul>
+<h3 id="Bundle-size"><a href="#Bundle-size" class="headerlink" title="Bundle size"></a>Bundle size</h3><p><img src="https://cythilya.github.io/assets/react-form/bundle-size.png" alt="Bundle size"></p>
+<ul>
+<li>Redux Form：檔案體積大，壓縮後約 26.7KB。</li>
+<li>React Final Form + Final Form：壓縮後約 7.7KB。</li>
+<li>Formik：Formik 壓縮後是 12KB，Yup 是 21.6KB.</li>
+</ul>
+<h3 id="Github-stars-and-NPM-downloads"><a href="#Github-stars-and-NPM-downloads" class="headerlink" title="Github stars and NPM downloads"></a>Github stars and NPM downloads</h3><p><img src="https://cythilya.github.io/assets/react-form/github-stars-npm-downloads.png" alt="Github stars and NPM downloads"></p>
+<ul>
+<li>Redux Form：每週下載數約 <strong>三十七萬</strong> 次，累積星星數約 <strong>一萬</strong> 顆。</li>
+<li>React Final Form：每週下載數約 <strong>六萬五</strong> 次，累積星星數約 <strong>三千九</strong> 顆。</li>
+<li>Formik：每週下載數約 <strong>三十二萬</strong> 次，累積星星數約 <strong>一萬四千</strong> 顆。</li>
+</ul>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>在經過以上探索與討論後，做個總結…</p>
+<p>在目前我所經手的專案上，由於 (1) 對表單功能有強烈需求，必須顧慮開發上的便捷，並且 (2) 專案很老了，常常需要重構，要能有效整理程式碼，因此 Formik &amp; Yup 對我而言就是很好的選擇；而也有些專案對體積大小斤斤計較、並且不需要這麼多功能，或必須維持高彈性、因應需求端的快速變化，那就很適合使用 React Final Form。</p>
+<p>話說這麼多，就是希望大家在茫茫大海中，都能找到適合自己的表單函式庫摟！👍 👍 👍</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a href="https://codebrahma.com/form-libraries-in-react/" target="_blank" rel="noopener">Comparison of form libraries in react</a></li>
+<li><a href="https://www.youtube.com/watch?v=fxEW4jgoX-4" target="_blank" rel="noopener">Erik Rasmussen — 🏁Final Form: Form state management via Observers</a></li>
+<li><a href="https://codeburst.io/final-form-the-road-to-the-checkered-flag-cd9b75c25fe" target="_blank" rel="noopener">Final Form: The road to the checkered flag</a></li>
+<li><a href="https://github.com/jaredpalmer/formik/issues/533" target="_blank" rel="noopener">Formik vs Final Form</a></li>
+</ul>
+<p>關於作者：<br><a href="https://cythilya.github.io/" target="_blank" rel="noopener">@cythilya</a> 前端工程師，喜歡交換明信片、設計簡單的小物、旅遊和看電影。</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/05/03/react-form/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/05/03/react-form/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/05/03/react-form/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/05/03/react-form/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/05/03/how-to-use-python-string-format-method/">
+        ← 如何使用 Python 進行字串格式化
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/04/22/elm-chrome-extension/">
+        利用 Elm 製作 Chrome Extension →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

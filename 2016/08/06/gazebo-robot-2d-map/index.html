@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>使用 Gazebo 模擬器控制機器人建立 2D 地圖 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY">
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style">
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-08-06T22:18:57.000Z" itemprop="datePublished">
+          2016-08-06
+      </time>
+    
+    
+    | 
+    <a href='/tags/機器人/'>機器人</a>,
+    
+    <a href='/tags/Robot/'>Robot</a>,
+    
+    <a href='/tags/ROS/'>ROS</a>,
+    
+    <a href='/tags/Gazebo/'>Gazebo</a>
+    
+    
+</span>
+
+<meta name="generator" content="使用 Gazebo 模擬器控制機器人建立 2D 地圖">
+<meta name="og:title" content="使用 Gazebo 模擬器控制機器人建立 2D 地圖">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">使用 Gazebo 模擬器控制機器人建立 2D 地圖</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>ROS 很吸引人的一個地方在於，他跟模擬器 Gazebo 很好地結合在一起，讓使用者可以使用一台筆記型電腦就開始撰寫機器人程式，而且可以在筆電上看到程式執行的結果。模擬器裡的機器人不會撞壞、不會沒電，所以就算在程式設計過程中有錯誤，也不會有任何硬體成本的損失 (時間當然是會損失)，而且很容易大量測試演算法，因為可以在模擬器中設置各種場景，而不需要一個很大的空間和昂貴的機器人。這篇文章會簡單介紹怎麼在 Gazebo 裡面啟動 PR2，並遙控他來建立一個 2D 的地圖。</p>
+<h1 id="啟動-Gazebo-跟-PR2"><a href="#啟動-Gazebo-跟-PR2" class="headerlink" title="啟動 Gazebo 跟 PR2"></a>啟動 Gazebo 跟 PR2</h1><p>我的測試環境是 Ubuntu 14.04 + ROS Indigo，不過使用的指令都很 general，即便你使用其他版本，應該也不會有什麼問題。</p>
+<p>首先我們確定已經安裝所需要的套件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ros-indigo-gazebo-*</span><br></pre></td></tr></table></figure>
+<p>接下來在終端機輸入 gazebo 應該就可以成功啟動 Gazebo 模擬器。然後我們可以用現成的 package 啟動一個有 PR2 的空白模擬環境。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roslaunch pr2_gazebo pr2_empty_world.launch</span><br></pre></td></tr></table></figure>
+<p>Gazebo 裡面已經有很多現成的模型，選擇左邊的 Insert 頁籤，裡面就可以找到一些現成的模型，在這邊我先加入了 Cube 跟 Dumpster 的模型，加入後的結果如下圖：</p>
+<p><img src="/img/pojenlai/gazebo1.png" alt="gazebo"></p>
+<p>對於機器人來說，最重要的第一個環節就是感知功能，他必須要可以感知環境中的資訊，才能做出相對應的動作。所以我們會先關心的就是 Gazebo 裡面的 PR2 機器人可不可以接收到環境中的資訊。</p>
+<p>答案當然是可以的，我們可以透過 ROS 提供的 visualizer Rviz 來觀看 PR2 接收到的資訊，如果是已經熟悉 ROS 的讀者，想必對 Rviz 不陌生，只要開一個新的終端機，輸入 rviz 就可以啟動了。啟動之後，可以 Add 一個 Image 的顯示框，然後選擇現在可以看到的 topic，就可以看到 Gazebo 裡面的 PR2 看到的畫面。</p>
+<p><img src="/img/pojenlai/gazebo2.png" alt="gazebo"></p>
+<h1 id="啟動-gmapping-package-建地圖"><a href="#啟動-gmapping-package-建地圖" class="headerlink" title="啟動 gmapping package 建地圖"></a>啟動 gmapping package 建地圖</h1><p>環境都已經啟動了，接下來就要開始建地圖啦! 這邊我們使用的工具是 gmapping ，首先我們在隨便一個路徑新增一個 launch 檔 –  vim pr2_build_map.launch 。</p>
+<p>然後輸入這一串文字，儲存檔案後離開。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;launch&gt;</span><br><span class="line"></span><br><span class="line">  &lt;!-- dynamic map generation --&gt;</span><br><span class="line">  &lt;node name=&quot;gmapping_node&quot; pkg=&quot;gmapping&quot; type=&quot;slam_gmapping&quot; respawn=&quot;false&quot; &gt;</span><br><span class="line">    &lt;remap to=&quot;base_scan&quot; from=&quot;scan&quot;/&gt;</span><br><span class="line">    &lt;param name=&quot;odom_frame&quot; value=&quot;odom_combined&quot; /&gt;</span><br><span class="line">  &lt;/node&gt;</span><br><span class="line"></span><br><span class="line">&lt;/launch&gt;</span><br></pre></td></tr></table></figure>
+<p>然後可以用 roslaunch pr2_build_map.launch啟動。<br>啟動 gmapping 之後，我們還是透過 Rviz 來觀看地圖建立的狀態，這邊需要加入 Map 的顯示，然後 topic 選擇 /map 就好。地圖中的黑色線就是障礙物，淺灰色區域表示是可以走的無障礙物區域，深灰色則是未知區域。</p>
+<p><img src="/img/pojenlai/gazebo3.png" alt="gazebo"></p>
+<p>讓我們近看一下 map 的 topic 要怎麼選：</p>
+<p><img src="/img/pojenlai/gazebo4.png" alt="gazebo"></p>
+<p>但如果機器人不能移動的話，就只能顯示眼前看到的這一塊地圖。所以我們先使用簡單的遙控程式來控制 Gazebo 裡面的 PR2 移動。</p>
+<p>這邊只要啟動 teleop_keyborad 就可以用鍵盤控制機器人移動：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">roslaunch pr2_teleop teleop_keyboard.launch</span><br></pre></td></tr></table></figure>
+<p>WASD 四個按鍵分別代表前左後右四個方向的平移、QE兩個按鍵是原地旋轉，這邊要注意必須選到啟動 teleop_keyboard的視窗，按按鍵才有用。使用 teleop 來控制 PR2 走一走之後，就可以看得出我們已經使用 gmapping 建立了一個看起來有模有樣的地圖了。</p>
+<p><img src="/img/pojenlai/gazebo5.png" alt="gazebo"></p>
+<p>如果你想要把地圖存起來，提供未來要做 Navigation 使用，或只是單純想留個紀念，可以用一個指令把地圖存起來 – rosrun map_server map_saver 。</p>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>這篇文章跟大家簡單介紹怎麼使用 Gazebo 模擬器來模擬機器人，並利用他實際操作了一個小小的 SLAM 功能，也建出了自己的一張地圖。我們能利用 Gazebo 來做的事情當然遠不止於此，不過時間有限，我們下次見。</p>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><ol>
+<li><a href="https://people.eecs.berkeley.edu/~pabbeel/cs287-fa11/slides/gmapping.pdf" target="_blank" rel="noopener">gmapping 演算法原理簡介</a></li>
+<li><a href="http://sdformat.cn/" target="_blank" rel="noopener">SDF 網站中文版</a></li>
+</ol>
+<p>關於作者：<br><a href="https://pojenlai.wordpress.com/" target="_blank" rel="noopener">@pojenlai</a> 演算法工程師，對機器人跟電腦視覺有少許研究，最近在鍛鍊自己的執行力</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2016/08/06/gazebo-robot-2d-map/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=https://blog.techbridge.cc/2016/08/06/gazebo-robot-2d-map/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2016/08/06/gazebo-robot-2d-map/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2016/08/06/gazebo-robot-2d-map/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2016/08/12/defend-against-ddos-with-nginx-iptable-and-fail2ban/">
+        ← 與 DDoS 奮戰：nginx, iptables 與 fail2ban
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/07/30/react-dev-enviroment-webpack-browserify/">
+        一看就懂的 React 開發環境建置與 Webpack 入門教學 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
