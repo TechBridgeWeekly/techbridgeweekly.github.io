@@ -11,8 +11,7 @@ TechBridge 技術共筆部落格是由 TechBridge Weekly 技術週刊團隊維�
 
 ## Contribute
 
-全新 TechBridge 技術週刊文章投稿方式請參照：
-https://www.coderbridge.com/articles/c63f676ec1ad4e1e8e8bd1f5abb1bcc4
+發布 PR 到 repo 等待審核
 
 ## Format（文章格式）
 
