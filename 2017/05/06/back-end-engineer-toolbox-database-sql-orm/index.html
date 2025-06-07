@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>後端軟體工程工具箱：資料庫/SQL/ORM篇 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-05-06T23:00:00.000Z" itemprop="datePublished">
+          2017-05-06
+      </time>
+    
+    
+    | 
+    <a href='/tags/Web/'>Web</a>,
+    
+    <a href='/tags/Python/'>Python</a>,
+    
+    <a href='/tags/PHP/'>PHP</a>,
+    
+    <a href='/tags/Back-End/'>Back End</a>,
+    
+    <a href='/tags/Back-End-Development/'>Back End Development</a>,
+    
+    <a href='/tags/Back-End-Engineer/'>Back End Engineer</a>,
+    
+    <a href='/tags/TCP/'>TCP</a>,
+    
+    <a href='/tags/HTTP/'>HTTP</a>,
+    
+    <a href='/tags/UDP/'>UDP</a>
+    
+    
+</span>
+
+<meta name="generator" content="後端軟體工程工具箱：資料庫/SQL/ORM篇">
+<meta name="og:title" content="後端軟體工程工具箱：資料庫/SQL/ORM篇">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">後端軟體工程工具箱：資料庫/SQL/ORM篇</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>事實上，要成為一個好的後端軟體工程師除了必須對於後端工程的程式語言的部份有所了解外，也需要了解系統設計的原理和伺服器規劃（Server 規劃、Load Balance、Memory Cache、DB Scaling、Cloud Server、後端框架、TCP&#x2F;IP&#x2F;UDP 網路通訊協定、HTTP 超文字傳輸協定、設計模式、資料庫操作、SQL&#x2F;ORM、資訊安全、性能優化等）。接下來我們將來探討資料庫&#x2F;SQL&#x2F;ORM 相關議題。</p>
+<h1 id="資料庫基礎概念"><a href="#資料庫基礎概念" class="headerlink" title="資料庫基礎概念"></a>資料庫基礎概念</h1><p>一般持久性儲存資料是資訊系統或是應用程式蠻重要的一個環節，除了使用檔案系統外使用資料庫也是另外一個非常重要的儲存工具。比起檔案系統，資料庫雖然相對複雜（一般來說需要正規化）但在資料查詢使用和管理上比起檔案會方便許多。</p>
+<p>在資料庫系統中，我們會稱資料庫操作的一個完整的邏輯過程為事務（transaction）。例如：銀行 ATM 轉帳，從原帳戶扣除金額，以及向目標帳戶新增金額，這兩個資料庫操作的總和，就會構成一個完整的邏輯過程，不可拆分。這個過程被稱為一個事務，具有 ACID 特性。</p>
+<ol>
+<li><p>什麼是 ACID？<br> ACID 係指資料庫管理系統（DBMS）在寫入&#x2F;更新資料的過程中，為保證事務（transaction）是正確可靠的，所必須具備的四個特性：原子性（atomicity，或稱不可分割性）、一致性（consistency）、隔離性（isolation，又稱獨立性）、持久性（durability）</p>
+<ul>
+<li><p>原子性：一個事務（transaction）中的所有操作，要麼全部完成，要麼全部不完成，不會結束在中間某個環節。事務在執行過程中發生錯誤，會被回滾（rollback）到事務開始前的狀態，就像這個事務從來沒有執行過一樣</p>
+</li>
+<li><p>一致性：在事務開始之前和事務結束以後，資料庫的完整性沒有被破壞。這表示寫入的資料必須完全符合所有的預設規則，這包含資料的精確度、串聯性以及後續資料庫可以自發性地完成預定的工作</p>
+</li>
+<li><p>隔離性：資料庫允許多個並發事務同時對齊數據進行讀寫和修改的能力，隔離性可以防止多個事務並發執行時由於交叉執行而導致數據的不一致。事務隔離分為不同級別，包括讀未提交（read uncommitted）、讀提交（read committed）、可重複讀（repeatable read）和序列化（serializable）</p>
+</li>
+<li><p>持久性：事務處理結束後，對資料數據的修改就是永久的，即便系統故障也不會遺失</p>
+</li>
+</ul>
+</li>
+<li><p>資料庫並發控制（Concurrency control）<br> 資料庫管理系統（DBMS）中的並發控制的任務是確保在多個事務同時存取資料庫中同一數據時不破壞事務的隔離性（isolation）以及資料庫的統一性。下面舉例說明並發操作帶來的數據不一致性問題：</p>
+<p> 現有兩處火車票售票點，同時讀取某一趟列車車票資料庫中車票餘額為 X。兩處售票點同時賣出一張車票，同時修改餘額為 X -1 寫回資料庫，這樣就造成了實際賣出兩張火車票而資料庫中的記錄卻只少了一張。</p>
+<p> 產生這種情況的原因是因為兩個事務讀入同一數據並同時修改，其中一個事務提交的結果破壞了另一個事務提交的結果，導致其數據的修改遺失，破壞了事務的隔離性。並發控制要解決的就是這類問題。</p>
+<p> 一般來說我們會使用以下幾種方式來解決：</p>
+<ul>
+<li><p>封鎖<br>  封鎖（lock）是一項用於多用戶同時存取資料庫的技術，是實作並行控制的一項重要手段，能夠防止當多用戶覆寫資料庫時造成資料遺失和損壞。當有一個用戶對資料庫內的資料進行操作時，在讀取資料前先鎖住資料，這樣其他用戶就無法存取和修改該資料，直到這一資料修改並寫回資料庫解除封鎖為止。</p>
+</li>
+<li><p>時間戳<br>  時間戳（Timestamp）用於辨識記錄下來的時間日期的字串。國際標準為 ISO 8601</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2005-10-30 T 10:45 UTC</span><br><span class="line">2007-11-09 T 11:20 UTC </span><br><span class="line">Sat Jul 23 02:16:57 2005</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>樂觀並發控制<br>  樂觀並行控制（又稱「樂觀鎖」，Optimistic Concurrency Control，簡稱 OCC ）是一種並行控制的方法。它假設多用戶並行的交易在處理時不會彼此互相影響，各交易能夠在不產生鎖的情況下處理各自影響的那部分資料。在提交資料更新之前，每個交易會先檢查在該交易讀取資料後，有沒有其他交易又修改了該資料。如果其他交易有更新的話，正在提交的交易會進行回復</p>
+<p>  讀取：交易將資料讀入快取，這時系統會給交易分派一個時間戳<br>  校驗：交易執行完畢後，進行提交。這時同步校驗所有交易，如果交易所讀取的資料在讀取之後又被其他交易修改，則產生衝突，交易被中斷回復<br>  寫入：通過校驗階段後，將更新的資料寫入資料庫</p>
+</li>
+<li><p>悲觀並發控制<br>  悲觀並行控制（又稱「悲觀鎖」，Pessimistic Concurrency Control，簡稱 PCC ）是一種並行控制的方法。它可以阻止一個交易以影響其他用戶的方式來修改資料。如果一個交易執行的操作讀某行資料應用了鎖，那只有當這個交易把鎖釋放，其他交易才能夠執行與該鎖衝突的操作。悲觀並行控制主要用於資料爭用激烈的環境，以及發生並發衝突時使用鎖保護資料的成本要低於回復交易的成本的環境中。</p>
+</li>
+</ul>
+</li>
+<li><p>什麼是正規化？<br> 正規化是在資料庫中組織資料一系列原理和技術。其中包括建立資料表，以及在這些資料表之間根據規則建立關聯性，這些規則的設計目的是：透過刪除重複性和不一致的相依性，保護資料並讓資料庫更有彈性。 </p>
+<ul>
+<li><p>第一正規化<br> 第一正規化是資料庫正規化中所使用的一種正規形式。第一正規化是為了要排除重複群 的出現，所採用的方法是要求資料庫的每個列的值域都是由原子值組成；每個欄位的值都只能是單一值。</p>
+</li>
+<li><p>第二正規化<br> 符合第一正規化。所有非鍵的欄位都一定是候選鍵全體欄位的函式。</p>
+</li>
+<li><p>第三正規化<br> 是資料庫正規化中所使用的一種正規形式，要求所有非鍵屬性都只和候選鍵有相關性，也就是說非鍵屬性之間應該是獨立無關的。</p>
+</li>
+</ul>
+<p> 現在資料庫設計最多滿足 3NF，普遍認為正規化過高，雖然具有對資料關係更好的約束性，但也導致資料關係表增加而令資料庫 IO 更易繁忙，原來交由資料庫處理的關係約束現更多在資料庫使用程式中完成。</p>
+</li>
+</ol>
+<h1 id="RDB-vs-NoSQL"><a href="#RDB-vs-NoSQL" class="headerlink" title="RDB vs. NoSQL"></a>RDB vs. NoSQL</h1><p><img src="/img/kdchang/nosql-vs-sql-overview.png" alt="後端軟體工程工具箱： 資料庫/SQL/ORM 篇 "> </p>
+<p>一般而言，資料庫主要有分為關聯式資料庫（RDB）和 NoSQL（Not Only SQL &#x2F; nonrelational）資料庫，關聯式資料庫是由一堆資料表組成，每個資料表會對照一個固定的資料表結構（schema）。一般會使用 SQL（Structured Query Language）這種宣告式語言來操作數據資料，例如：MySQL、PostgreSQL、Oracle、MSSQL、SQLite。相對於關聯式資料庫，NoSQL 並不是使用資料表來保存資料，例如：MongoDB 就是一種很流行的文件型態 NoSQL 資料庫，其元素並非一列列數據，而是使用類 JSON 文件（document）格式呈現，更容易延展擴充和更有效率。此外還有針對不同需求設計的資料庫，例如：欄資料庫、圖形（Graph）資料庫等。本篇文章會主要討論關聯式資料庫並補充一些 NoSQL 知識點。</p>
+<h1 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h1><p>首先，我們先來介紹如何使用 SQL 來操作關聯式資料庫！（注意 SQL 語法可以大寫或小寫，但實務上通常寫大寫。）</p>
+<p>RDB 資料庫相關命名方式（主要依團隊共識）：</p>
+<ol>
+<li>資料庫：底線連接 </li>
+<li>資料表：複數、底線連接 </li>
+<li>資料欄位：單數、底線連接</li>
+</ol>
+<p>NoSQL 資料庫相關命名方式（主要依團隊共識）：</p>
+<ol>
+<li>資料庫：Pascal casing (a.k.a. upper camel case)</li>
+<li>資料表：單數，Schema name for tables prefix (E.g.: SchemeName.TableName) </li>
+<li>資料欄位：單數，Schema name for tables prefix (E.g.: SchemeName.TableName)</li>
+</ol>
+<p>按：Microsoft 的命名方式喜歡單字第一個字母大寫，如 OrderDetail。而 MySQL 比較常見全部小寫，單字中間加底線的命名方式，如 birth_date。這和資料庫的字元大小寫敏感度預設值有關，MS SQL Server 預設是大小寫不分，MySQL 則是大小寫視為不同欄位，所以統一小寫比較不容易出錯。</p>
+<p><img src="/img/kdchang/rdb.jpg" alt="後端軟體工程工具箱： 資料庫/SQL/ORM 篇 "> </p>
+<ol>
+<li><p>資料庫&#x2F;資料表創建（CREATE）<br> 表格被分為欄位 (column) 及列位 (row)。每一列代表一筆資料，而每一欄代表一筆資料的一部份。當我們對表格下定義時，我們需要註明欄位的標題，以及那個欄位的資料種類。</p>
+<p> 使用 <code>CREATE DATABASE</code> 指令可以建立資料庫，命名使用小寫英文以及下底線組：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE database_name;</span><br></pre></td></tr></table></figure>
+
+<p> 實際使用，建立一個名為 <code>dr_course</code> 的資料庫：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE dr_course;</span><br></pre></td></tr></table></figure>
+
+<p> 使用 <code>CREATE TABLE</code> 指令可以建立資料表，命名使用大寫英文以及：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> &quot;表格名&quot;</span><br><span class="line">(&quot;欄位 1&quot; &quot;欄位 1 資料種類&quot;,</span><br><span class="line">&quot;欄位 2&quot; &quot;欄位 2 資料種類&quot;,</span><br><span class="line">... );</span><br></pre></td></tr></table></figure>
+
+<p> 實際使用，建立一個名為 <code>users</code> 的資料表：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> users</span><br><span class="line">(id <span class="type">BIGINT</span>(<span class="number">7</span>) <span class="keyword">NOT NULL</span> AUTO_INCREMENT,</span><br><span class="line">name <span class="type">CHAR</span>(<span class="number">50</span>),</span><br><span class="line">email <span class="type">CHAR</span>(<span class="number">50</span>),</span><br><span class="line">age <span class="type">INT</span>(<span class="number">50</span>),</span><br><span class="line">course_id <span class="type">INT</span>(<span class="number">50</span>),</span><br><span class="line">salary <span class="type">INT</span>(<span class="number">50</span>));</span><br></pre></td></tr></table></figure>
+
+<p> 實際使用，建立一個名為 <code>courses</code> 資料表：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE TABLE</span> courses</span><br><span class="line">(id <span class="type">BIGINT</span>(<span class="number">7</span>) <span class="keyword">NOT NULL</span> AUTO_INCREMENT,</span><br><span class="line">name <span class="type">CHAR</span>(<span class="number">50</span>),</span><br><span class="line">point <span class="type">INT</span>(<span class="number">50</span>));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新增（INSERT）</p>
+<p> 使用 <code>INSERT INTO</code> 指令可以新增資料：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT INTO</span> &quot;表格名&quot; (&quot;欄位1&quot;, &quot;欄位2&quot;, ...) <span class="keyword">VALUES</span> (&quot;值1&quot;, &quot;值2&quot;, ...);</span><br></pre></td></tr></table></figure>
+
+<p> 實際使用：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO users (&quot;name&quot;, &quot;email&quot;, &quot;age&quot;, &quot;salary&quot;) VALUES (&quot;Mark&quot;, &quot;mark@gmail.com&quot;, 20, 70000);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>選擇（SELECT）</p>
+<p> 使用 <code>SELECT</code> 指令可以選取資料：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &quot;欄位&quot; <span class="keyword">FROM</span> &quot;表格名&quot;;</span><br></pre></td></tr></table></figure>
+
+<p> 實際使用：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> name, email <span class="keyword">FROM</span> users;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>刪除（DELETE）</p>
+<p> 使用 <code>DELETE</code> 指令可以新增資料：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> &quot;表格名&quot; <span class="keyword">WHERE</span> &quot;條件&quot;;</span><br></pre></td></tr></table></figure>
+
+<p> 實際使用：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> id<span class="operator">=</span><span class="number">1</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>修改（UPDATE）</p>
+<p> 使用 <code>UPDATE SET</code> 指令可以新增資料：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> &quot;表格名&quot; <span class="keyword">SET</span> &quot;欄位1&quot;<span class="operator">=</span>[新值] <span class="keyword">WHERE</span> &quot;條件&quot;;</span><br></pre></td></tr></table></figure>
+
+<p> 實際使用：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> users <span class="keyword">SET</span> name<span class="operator">=</span>Mark <span class="keyword">WHERE</span> id<span class="operator">=</span><span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分組根據（GROUP BY）</p>
+<p> 使用 <code>INSERT INTO</code> 指令可以新增資料：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &quot;欄位1&quot;, <span class="built_in">SUM</span>(&quot;欄位2&quot;) </span><br><span class="line"><span class="keyword">FROM</span> &quot;表格名&quot; </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> &quot;欄位1&quot;;</span><br></pre></td></tr></table></figure>
+
+<p> 實際使用：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> name, <span class="built_in">SUM</span>(salary) <span class="keyword">FROM</span> users <span class="keyword">GROUP</span> <span class="keyword">BY</span> users;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>排序根據（ORDER BY）</p>
+<p> 通常我們會需要將資料做排序，此時可以使用 <code>ORDER BY</code> 指令可以進行資料排序（[] 代表可選，ASC 和 DESC 是 ascending 和 descending 的縮寫，default 使用 ASC）：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> &quot;欄位名&quot; </span><br><span class="line"><span class="keyword">FROM</span> &quot;表格名&quot; </span><br><span class="line">[<span class="keyword">WHERE</span> &quot;條件&quot;]</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> &quot;欄位名&quot; [<span class="keyword">ASC</span>, <span class="keyword">DESC</span>];</span><br></pre></td></tr></table></figure>
+
+<p> 實際使用：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="keyword">ASC</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>聯結（JOIN）</p>
+<p> 我們現在有兩個資料表單一個是 users 一個是 courses ，一個存放使用者的資料表，一個存放課程資料表。我們希望計算使用者修了多少學分的課，所以透過 course_id 來連結兩個表單：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> A1.name, <span class="built_in">SUM</span>(A2.point)  </span><br><span class="line"><span class="keyword">FROM</span> users A1, courses A2 </span><br><span class="line"><span class="keyword">WHERE</span> A1.course_id <span class="operator">=</span> A2.id </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> A1.course_id;</span><br></pre></td></tr></table></figure>
+
+<p> 之前我們看到的左連接 (left join)，又稱內部連接 (inner join)。在這個情況下，要兩個表格內都有同樣的值，那一筆資料才會被選出。那如果我們想要列出一個表格中每一筆的資料，無論它的值在另一個表格中有沒有出現，我們就需要用到 SQL OUTER JOIN (外部連接) 的指令：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> A1.name, <span class="built_in">SUM</span>(A2.point) SALES </span><br><span class="line"><span class="keyword">FROM</span> users A1, courses A2 </span><br><span class="line"><span class="keyword">WHERE</span> A1.course_id <span class="operator">=</span> A2.id (<span class="operator">+</span>) <span class="operator">/</span><span class="operator">/</span> 在 Oracle 資料庫要使用 <span class="operator">+</span> </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> A1.course_id;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不重複資料（DISTINCT）</p>
+<p> 使用 <code>DISTINCT</code> 指令可以選擇不重複資料：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> &quot;欄位&quot; </span><br><span class="line"><span class="keyword">FROM</span> &quot;表格名&quot;;</span><br></pre></td></tr></table></figure>
+
+<p> 實際使用：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> name <span class="keyword">FROM</span> users;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="子查詢"><a href="#子查詢" class="headerlink" title="子查詢"></a>子查詢</h1><p>在 SQL 中可以將查詢結果當做一個資料表，再次進行 SELECT 查詢：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT MIN(id) AS min_user_id FROM (SELECT id FROM users WHERE age = 20); </span><br></pre></td></tr></table></figure>
+
+<h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><p>建議資料表中常用來查詢的欄位使用 index 索引可以在使用 JOIN 時提高檢索效率，資料表中可以有一個或多個索引，也可以把某個索引欄位設為 unique。</p>
+<h1 id="查詢最佳化"><a href="#查詢最佳化" class="headerlink" title="查詢最佳化"></a>查詢最佳化</h1><p>一般而言，先篩選再 JOIN 效能會比較好。但一般資料庫引擎會幫你最佳化，所以只要下 SQL 就好：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> name <span class="keyword">FROM</span> users <span class="keyword">JOIN</span> courses <span class="keyword">ON</span> users.course_id <span class="operator">=</span> courses.id <span class="keyword">WHERE</span> courses.point <span class="operator">&gt;</span> <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="ORM"><a href="#ORM" class="headerlink" title="ORM"></a>ORM</h1><p>物件關聯對映（英語：Object Relational Mapping，簡稱ORM，或O&#x2F;RM，或O&#x2F;R mapping），是一種程式設計技術，用於實現物件導向編程語言裡不同類型系統的資料之間的轉換。</p>
+<h1 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h1><p>MongoDB 是一個開源且跨平台的 NoSQL 資料庫，主要使用類 JSON 格式的文件進行資料儲存和 schema 定義。</p>
+<p><img src="/img/kdchang/nosql-databases.gif" alt="後端軟體工程工具箱： 資料庫/SQL/ORM 篇 "> </p>
+<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><p>Redis 是一個非常流行的開源、支援網路、基於記憶體、鍵值對儲存資料庫，使用 ANSI C 編寫而成。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"><span class="comment"># lredis-server 保持開啟，若是有使用密碼，則要在 ConnectionPool 使用 password=密碼</span></span><br><span class="line">pool = redis.ConnectionPool(host=<span class="string">&#x27;127.0.0.1&#x27;</span>, port=<span class="number">6379</span>, db=<span class="number">0</span>)</span><br><span class="line">r=redis.StrictRedis(connection_pool=pool)</span><br><span class="line"><span class="comment"># 字符串 string</span></span><br><span class="line">r.<span class="built_in">set</span>(<span class="string">&#x27;test&#x27;</span>,<span class="string">&#x27;aaa&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span> r.get(<span class="string">&#x27;test&#x27;</span>);</span><br><span class="line"><span class="comment"># 列表 list</span></span><br><span class="line"><span class="comment"># 注意 python、lrange range 範圍</span></span><br><span class="line">x=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">11</span>):</span><br><span class="line">	r.lpush(<span class="string">&#x27;list&#x27;</span>,x)</span><br><span class="line">	x=x+<span class="number">1</span></span><br><span class="line"><span class="built_in">print</span> r.lrange(<span class="string">&#x27;list&#x27;</span>,<span class="string">&#x27;0&#x27;</span>,<span class="string">&#x27;10&#x27;</span>)</span><br><span class="line"><span class="comment"># hash/dict </span></span><br><span class="line">dict_hash=&#123;<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;tang&#x27;</span>,<span class="string">&#x27;password&#x27;</span>:<span class="string">&#x27;tang_passwd&#x27;</span>&#125;</span><br><span class="line">r.hmset (<span class="string">&#x27;hash_test&#x27;</span>,dict_hash)</span><br><span class="line"><span class="built_in">print</span> r.hgetall(<span class="string">&#x27;hash_test&#x27;</span>)</span><br><span class="line"><span class="comment"># 集合 set</span></span><br><span class="line">r.sadd(<span class="string">&#x27;set_test&#x27;</span>,<span class="string">&#x27;aaa&#x27;</span>,<span class="string">&#x27;bbb&#x27;</span>)</span><br><span class="line">r.sadd(<span class="string">&#x27;set_test&#x27;</span>,<span class="string">&#x27;ccc&#x27;</span>)</span><br><span class="line">r.sadd(<span class="string">&#x27;set_test&#x27;</span>,<span class="string">&#x27;ddd&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span> r.smembers(<span class="string">&#x27;set_test&#x27;</span>)</span><br><span class="line"><span class="comment"># 有序集</span></span><br><span class="line">r.zadd(<span class="string">&#x27;zset_test&#x27;</span>,<span class="string">&#x27;aaa&#x27;</span>,<span class="number">1</span>,<span class="string">&#x27;bbb&#x27;</span>,<span class="number">1</span>)</span><br><span class="line">r.zadd(<span class="string">&#x27;zset_test&#x27;</span>,<span class="string">&#x27;ccc&#x27;</span>,<span class="number">1</span>)</span><br><span class="line">r.zadd(<span class="string">&#x27;zset_test&#x27;</span>,<span class="string">&#x27;ddd&#x27;</span>,<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span> r.zrange(<span class="string">&#x27;zset_test&#x27;</span>,<span class="number">0</span>,<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="Memcache"><a href="#Memcache" class="headerlink" title="Memcache"></a>Memcache</h1><p>Memcache 是一套開源的分散式的快取系統，是由 LiveJournal 的 Brad Fitzpatrick 所開發。由於一般認為 Memcache 缺乏認證以及安全管制，因此應該將 Memcache 伺服器放置在防火牆後。</p>
+<p>此外 memcached 的 API 使用三十二位元的循環冗餘校驗（CRC-32）計算鍵值後，將資料分散在不同的機器上。當表格滿了以後，接下來新增的資料會以 LRU 機制替換掉。由於 memcached 通常只是當作快取系統使用，所以使用 memcached 的應用程式在寫回較慢的系統時（像是後端的資料庫）通常需要額外的程式碼更新 memcached 內的資料。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function get_foo (int userid) &#123;</span><br><span class="line">   result = db_select(&quot;SELECT * FROM users WHERE userid = ?&quot;, userid);</span><br><span class="line">   return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面的程式會先到 Memcache 檢查是否有 <code>userrow:userid</code> 的資料，如果有則直接傳回結果，如果不存在時再去資料庫查詢，並將結果放到 Memcache 內，記得要同步資料庫和 Memcache，避免 Cache coherency 問題：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function get_foo (int userid) &#123;</span><br><span class="line">    result = memcached_fetch(&quot;userrow:&quot; + userid);</span><br><span class="line">    if (!result) &#123;</span><br><span class="line">        result = db_select(&quot;SELECT * FROM users WHERE userid = ?&quot;, userid);</span><br><span class="line">        memcached_add(&quot;userrow:&quot; + userid,  result);</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="AWS-DynamoDB"><a href="#AWS-DynamoDB" class="headerlink" title="AWS DynamoDB"></a>AWS DynamoDB</h1><p>Amazon DynamoDB 是一種快速靈活的 NoSQL 雲端資料庫服務，適合所有需要一致性且延遲低於 10 毫秒規模應用程式。它是全受管的雲端資料庫，支援文件和鍵值存放模型。</p>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上介紹了後端軟體工程工具箱：資料庫&#x2F;SQL&#x2F;ORM 相關議題，在接下來的章節中我們將為大家打開後端工程的工具箱，介紹那些必須掌握的後端軟體工程知識。</p>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6">並發控制（英語：Concurrency control）</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.1keydata.com/tw/sql/sql.html">SQL 語法教學</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.wun-ching.com.tw/img/Books_files/D049e4-9789862368602-trial.pdf">資料庫概念</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.infoq.com/cn/news/2013/12/mysql-vs-postgresql">MySQL与PostgreSQL：该选择哪个开源数据库？哪一个更好？</a></li>
+<li><a target="_blank" rel="noopener" href="https://support.microsoft.com/zh-tw/kb/283878">說明資料庫正規化基本概念</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.w3schools.com/SQl/default.asp">SQL Tutorial</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.codedata.com.tw/database/mysql-tutorial-8-storage-engine-datatype/">MySQL 超新手入門（8）儲存引擎與資料型態</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ptt.cc/bbs/Database/M.1332051208.A.F4E.html">標題[SQL ] 欄位命名規則</a></li>
+<li><a target="_blank" rel="noopener" href="http://renjin.blogspot.tw/2008/02/database-naming-conventions.html">資料庫物件命名原則</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.neo.com.tw/archives/275">資料庫表單及欄位命名規則實例</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.kdchang.cc/">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino&#x2F;Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/05/06/back-end-engineer-toolbox-database-sql-orm/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/05/06/back-end-engineer-toolbox-database-sql-orm/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/05/06/back-end-engineer-toolbox-database-sql-orm/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/05/06/back-end-engineer-toolbox-database-sql-orm/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/05/07/owasp/">
+        ← Top issues on OWASP
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/04/29/css-methodology-atomiccss/">
+        淺談 CSS 方法論與 Atomic CSS →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>測試 webhook 不再煩惱：ngrok | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-05-24T22:37:27.000Z" itemprop="datePublished">
+          2018-05-24
+      </time>
+    
+    
+    | 
+    <a href='/tags/ngrok/'>ngrok</a>
+    
+    
+</span>
+
+<meta name="generator" content="測試 webhook 不再煩惱：ngrok">
+<meta name="og:title" content="測試 webhook 不再煩惱：ngrok">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">測試 webhook 不再煩惱：ngrok</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>以前在開發 Chatbot 的時候，發現最困難的不是寫程式，而是測試。</p>
+<p>為什麼呢？因為 Chatbot 的原理就是接收到訊息時發送一個 request 到你指定的位置（webhook），你再 call API 然後回訊息。</p>
+<p>可是呢，這個 webhook url 通常都會有兩個需求：</p>
+<ol>
+<li>必須要有一個 domain（不能只有 IP）</li>
+<li>要是 https</li>
+</ol>
+<p><img src="/img/huli/ngrok/line.png"></p>
+<p>因此測試的流程就變成這樣：</p>
+<ol>
+<li>在 local 端先 coding，用肉眼 debug 看似一切都沒問題</li>
+<li>上傳到 server</li>
+<li>在聊天平台上測試，看有沒有收到訊息</li>
+<li>看 server 的 log debug</li>
+<li>發現問題，改 code，回到步驟 1</li>
+</ol>
+<p>真正的 debug 流程是發生在 server 上面，因為聊天平台只能接受真的 domain，所以你也沒辦法在你的 localhost 測試。</p>
+<p>現在的狀況應該好很多了，一開始 Chatbot 剛出來，大家都還在摸索然後官方文件又寫得不清不清楚的時候，來來往往就會花很多時間。你有可能會傳錯參數，或是搞錯 function。</p>
+<p>正當我感到絕望的時候，有朋友跟我說了：你為什麼不用 ngrok 呢？</p>
+<h1 id="Debug-的救星：ngrok"><a href="#Debug-的救星：ngrok" class="headerlink" title="Debug 的救星：ngrok"></a>Debug 的救星：ngrok</h1><p>一句話介紹什麼是 ngrok：</p>
+<blockquote>
+<p>一個可以把你 localhost 對應到 https public domain 的服務</p>
+</blockquote>
+<p>例如說把你的 <code>localhost:5000</code> 對應到 <code>https://fj2rijo3.ngrok.com</code>。</p>
+<p>這樣子做之後的好處就顯而易見了，你只要把 webhook 的 URL 填對應到的那個（完全符合那兩個條件），就可以在 localhost 上面測試了！</p>
+<p>除此之外，使用上也超級無敵簡單。</p>
+<p>你就去<a target="_blank" rel="noopener" href="https://ngrok.com/download">ngrok 官網</a>註冊帳號、下載一個程式，設定好 auth token 之後，就可以靠一個指令做到我剛剛講的事了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ngrok http 5000 </span><br></pre></td></tr></table></figure>
+
+<p>只要這行指令，就可以把你的 5000 port 對應到一個 ngrok 提供的 https domain。</p>
+<p><img src="/img/huli/ngrok/cmd.png"></p>
+<p>除此之外，在 console 也會不斷印出 request 的訊息，讓你可以簡單看到有哪些 request 以及 server 回覆的狀態碼是什麼。</p>
+<p>總之呢，有了這個 ngrok 的 https domain 以後，你就可以把這個網址填到 webhook url 上面去測試了！</p>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>這次會寫出這篇文章是因為我最近又再次體驗到了 ngrok 的強大之處。這陣子在 debug 一個 PWA，發現 service worker 在 localhost 完全正常，可是 deploy 到 server 去的時候 lighthouse 的偵測就失敗了。</p>
+<p>如果按照正常的流程，儘管你只是改一行 code，也要花費十分鐘跑 CI&#x2F;CD，所以一小時之內你只有六次改 code 的機會，不能再多了。</p>
+<p>後來我想起有 ngrok 這個十分好用的東西，就把 ngrok 對應到 localhost 來測了，好處就是你改任何 code 都可以即時反應，效率真的是好很多。</p>
+<p>下次如果你也需要一個 https 的網址來 debug，那我誠心推薦你 ngrok。</p>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://huli.logdown.com/">@huli</a> 野生工程師，相信分享與交流能讓世界變得更美好</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/05/24/ngrok/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/05/24/ngrok/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/05/24/ngrok/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/05/24/ngrok/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/05/27/js-proxy-reflect/">
+        ← 一起來了解 Javascript 中的 Proxy 與 Reflect
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/05/21/lets-build-weather-bot-2/">
+        來寫個氣象機器人吧！(Part 2) →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

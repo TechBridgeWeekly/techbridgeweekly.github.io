@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>淺談 CSS 方法論與 Atomic CSS | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-04-29T19:05:31.000Z" itemprop="datePublished">
+          2017-04-29
+      </time>
+    
+    
+    | 
+    <a href='/tags/css/'>css</a>,
+    
+    <a href='/tags/atomic-css/'>atomic css</a>,
+    
+    <a href='/tags/methodology/'>methodology</a>
+    
+    
+</span>
+
+<meta name="generator" content="淺談 CSS 方法論與 Atomic CSS">
+<meta name="og:title" content="淺談 CSS 方法論與 Atomic CSS">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">淺談 CSS 方法論與 Atomic CSS</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p data-height="300" data-theme-id="29194" data-slug-hash="bWqOeK" data-default-tab="result" data-user="arvin0731" data-embed-version="2" data-pen-title="css-is-awesome" class="codepen">See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/arvin0731/pen/bWqOeK/">css-is-awesome</a> by Arvin (<a target="_blank" rel="noopener" href="http://codepen.io/arvin0731">@arvin0731</a>) on <a target="_blank" rel="noopener" href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+<p>今天來點輕鬆的，看標題就知道我想介紹一下 <a target="_blank" rel="noopener" href="https://acss.io/">Atomic CSS</a>，這是一套由 Yahoo 開源的 CSS 工具，工作上使用了蠻長一段時間，一開始使用起來其實覺得蠻不習慣的，<br>但是久了以後發現搭配 React 寫起來雖然醜了點但是方便又易懂，非常適合獨立作業的前端工程師（設計師不參與 HTML, CSS 切版等動作），待我稍後慢慢說來。</p>
+<p>在介紹 Atomic CSS 之前，我想順便複習一下現今的 CSS methodology，以及 React 出現後對 CSS 的影響，進而帶出 Atomic CSS 想解決的問題與其帶來的好處。後續的一些說明多參考自許多網路資源，附錄在文章最後面。</p>
+<h2 id="CSS-架構心法"><a href="#CSS-架構心法" class="headerlink" title="CSS 架構心法"></a>CSS 架構心法</h2><p>剛開始接觸前端時，對於 CSS 也不太會去思考什麼架構，覺得就自己 class name 命名清楚一點，檔案整理好一點就好，但是這幾乎僅適用於專案規模還算小的時候，一但開發的專案龐大起來，並且有多位前端工程師在進行程式碼撰寫時，就很容易遇到命名衝突、stylesheet 過於龐大等問題，主因是在 CSS 的世界中，所有規則集都是全域的。（註：規則集 (ruleset) - 由一個宣告區塊所涵括的一或多個選擇器所組成, ex: <code>modal-text &#123; color: #000, font-size: 12px &#125;</code>）</p>
+<p>為了更加明確的管理 CSS，開始有人提出一些 CSS 的架構心法，想讓 CSS 也能有良好的<strong>重用性</strong>、<strong>維護性</strong>與<strong>延展性</strong>。</p>
+<p>比較有名的 CSS 架構心法大致上分為這三種：</p>
+<ul>
+<li>OOCSS</li>
+<li>SMACSS</li>
+<li>BEM</li>
+</ul>
+<p>有份流傳已久的投影片在說明這三種心法：<a target="_blank" rel="noopener" href="https://www.slideshare.net/kurotanshi/css-oocss-smacss-bem">漫談 CSS 架構方法 - Kuro Hsu</a></p>
+<p>這邊我就簡單節錄重點：</p>
+<p><span style="font-size: 2.5rem; color: #ba0707;">OOCSS</span></p>
+<p>身為工程師，看到 OO 兩個字一定就會想到 Object-Oriented 吧，OOCSS 主意就在於將 CSS 物件化、模組化，其主要原則有兩個：</p>
+<p><span style="font-size: 2rem; color: #2626cc">1. Separation of Structure from Skin: </span></p>
+<p>Structure 可以看作是 CSS 中定義元素的 box-modal 大小、margin 與 position 的部分，而 Skin 自然就是表現性的 Style，像是顏色、字型大小、border-color、box-shadow 等等，在 OOCSS 的原則中，這兩部分的 CSS 不能混合在同一個規則集中。</p>
+<p>Example:</p>
+<p>一般在定義一個 div 的長相時，直覺就會寫出下列這種 CSS，根據該 div selector 定義好其大小、位置與顏色</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#modal</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">500px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">500px</span>;</span><br><span class="line">    <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">border</span>: solid <span class="number">1px</span> <span class="number">#1ED3A9</span>;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(<span class="number">#09D083</span>, <span class="number">#1ED3A9</span>);</span><br><span class="line">    <span class="attribute">box-shadow</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, .<span class="number">5</span>) <span class="number">2px</span> <span class="number">2px</span> <span class="number">5px</span>;</span><br><span class="line">    <span class="attribute">overflow</span>: hidden;</span><br><span class="line">    <span class="attribute">position</span>: fixed;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateX</span>(-<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#button</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">30px</span>;</span><br><span class="line">    <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">border</span>: solid <span class="number">1px</span> <span class="number">#1ED3A9</span>;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(<span class="number">#09D083</span>, <span class="number">#1ED3A9</span>);</span><br><span class="line">    <span class="attribute">box-shadow</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, .<span class="number">5</span>) <span class="number">2px</span> <span class="number">2px</span> <span class="number">5px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而 apply OOCSS 的第一原則後，可以修改成如下，將共用的表現型 Style 抽取出來，並且以 class 取代 id 作為 selector，讓其可以 reuse：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.modal</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">500px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">500px</span>;</span><br><span class="line">    <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">position</span>: fixed;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateX</span>(-<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.button</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">30px</span>;</span><br><span class="line">    <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.defaultTheme</span> &#123;</span><br><span class="line">    <span class="attribute">border</span>: solid <span class="number">1px</span> <span class="number">#1ED3A9</span>;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(<span class="number">#09D083</span>, <span class="number">#1ED3A9</span>);</span><br><span class="line">    <span class="attribute">box-shadow</span>: <span class="built_in">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, .<span class="number">5</span>) <span class="number">2px</span> <span class="number">2px</span> <span class="number">5px</span>;</span><br><span class="line">    <span class="attribute">overflow</span>: hidden;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><span style="font-size: 2rem; color: #2626cc">2. Separation of Containers and Content:</span></p>
+<p>關於 OOCSS 的第二原則，白話來說就是要求你將 css 與 html 盡量切割，以可共用的 class selector 來定義 style 並放入該 html 元素中。</p>
+<p>Example:</p>
+<p>假設我們定義 Header id 底下的 h1 要是如下 style：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#header</span> <span class="selector-tag">h1</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">2rem</span>;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#1ED3A9</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>假若之後想要在不同地方的 h1 有不同顏色，但同時保有相同 size 呢？你得這樣複寫：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#header</span> <span class="selector-tag">h1</span>, <span class="selector-id">#footer</span> <span class="selector-tag">h1</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">2rem</span>;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#1ED3A9</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-id">#footer</span> <span class="selector-tag">h1</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>這樣不僅是有重複的 style，更是難以維護，以 OOCSS 的角度來看，若將這些共用的 style 另外包成 class，最後在 apply 到需要的 html 上，會清楚許多。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;header commonFontSize&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;footer commonFontSize&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.commonFontSize</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">2rem</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.header</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#1ED3A9</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.footer</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>OOCSS 的指標人物 Nicole Sullivan 有個 <a target="_blank" rel="noopener" href="https://github.com/stubbornella/oocss/wiki/Content">media object</a> 的 reusable module 以 oocss 概念實作，大家可以參考。</p>
+<p>總結一下 OOCSS 優點與實作方針：</p>
+<p>優點：更小的 css size，能讓網站加速；更方便管理模組化的 css stylesheet。<br>實作方針：避免 descendent selector 與 id selector，使用 class 並盡量與 html 元素綁定。<br><strong>Don’ do</strong>: <code>#button h3</code>, <code>span.title</code></p>
+<p><span style="font-size: 2.5rem; color: #ba0707;">SMACSS</span></p>
+<p>SMACSS 有線上的官方電子書 <a target="_blank" rel="noopener" href="https://smacss.com/book/">Scalable and Modular Architecture for CSS</a></p>
+<p>看名稱就知道是以整體專案的 Architecture 來考量，與 OOCSS 我覺得是相同概念，只是關注點的起始位置不同，從不同瀏覽器對於基礎元件的 style 就開始考量，除了與 OOCSS 相似但有規範的 <strong>結構分類</strong> 與 <strong>CSS與HTML分離</strong>，還多了命名規則的限制。</p>
+<h3 id="結構分類："><a href="#結構分類：" class="headerlink" title="結構分類："></a>結構分類：</h3><ul>
+<li>Base</li>
+<li>Layout</li>
+<li>Module</li>
+<li>State</li>
+<li>Theme</li>
+</ul>
+<h3 id="Base"><a href="#Base" class="headerlink" title="Base:"></a>Base:</h3><p>定義頁面中HTML Element的最基本Style，包含CSS Reset(一致化各瀏覽器自定義的 style)，因此只會用到 element tag selector。</p>
+<h3 id="Layout"><a href="#Layout" class="headerlink" title="Layout:"></a>Layout:</h3><p>所謂 Layout 就是將頁面切割定義成不同的區塊，像是 naviagtion、header、sidebar 等等，由於這些區塊大多獨立出現在頁面，因此用 ID 宣告是 ok 的，但若是有重複區塊類型，但不同 style，則可以採用 class 加上 cascade 來處理。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#sidebar</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">30%</span>;</span><br><span class="line">    <span class="attribute">float</span>: right;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.l-fixed</span> <span class="selector-id">#sidebar</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">10%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Module"><a href="#Module" class="headerlink" title="Module:"></a>Module:</h3><p>Module 基本上與 Layout 相同，都是頁面上的區塊，只是偏向於 Content，但是嚴禁使用 id 或是 element selector，只准使用 <strong>class selector</strong>，可以透過命名的方式來管理這些 class，即 <code>Subclassing</code> 或 <code>Sub module</code>:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.modal-body</span> &#123; <span class="attribute">width</span>: <span class="number">100%</span> &#125; <span class="comment">/* 用 dash 分隔 class (subclassing/submodule)*/</span></span><br><span class="line"><span class="selector-class">.modal-header</span> &#123; <span class="attribute">height</span>: <span class="number">50px</span>; <span class="attribute">width</span>: <span class="number">100%</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="State"><a href="#State" class="headerlink" title="State:"></a>State:</h3><p>State 顧名思義就是根據元件的狀態給予不同的 style，因此命名上，針對該狀態的描述越精準越好：</p>
+<p><code>&lt;div class=&quot;modal-button active&quot;&gt;&lt;/div&gt;</code></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.active</span> &#123; <span class="attribute">color</span>: red; &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Theme"><a href="#Theme" class="headerlink" title="Theme:"></a>Theme:</h3><p>這個很好懂，其實就是針對網站主視覺定義好各種 Module 或是 Layout 需要的 Style，像是 Bootstrap、Material-UI 中也有類似概念。</p>
+<p>這邊稍為總結一下 SMACSS 的優缺，更多細節可以參考電子書：</p>
+<p>優： 根據結構分類，並定義出 Base style，最小化各瀏覽器的差異，遵守其 Layout、Module、State 規則可以有良好的重用性與維護性，並分離 CSS 與 HTML，進而幫助簡化 selector 深度，增加效能、減少 Size。<br>缺：與 OOCSS 一樣，可能會造成 Class 定義過多</p>
+<p><span style="font-size: 2.5rem; color: #ba0707;">BEM</span></p>
+<p>最後一個心法是 BEM，核心觀念與現今流行的 React, Vuejs 相像，強調模組化與 css 的重複利用性，因此只使用 Class selector，以其特有的命名規則來規範。不像先前 OOCSS 或 SMACSS 的 class 可能會讓你命名出 MargintTop-10 這樣以 skin 為主的 class name，BEM 以<strong>功能導向</strong>來命名，將網頁組成分為 <em>Block</em>, <em>Element</em>, <em>Modifier</em>。</p>
+<h3 id="Block："><a href="#Block：" class="headerlink" title="Block："></a>Block：</h3><p>就是一個獨立並可重複使用的頁面元件，如同 SMACSS 的 Layout&#x2F;Module，命名若有需要則以 dash (-) 串接<br><code>.search-field &#123;...&#125;</code>。</p>
+<h3 id="Element："><a href="#Element：" class="headerlink" title="Element："></a>Element：</h3><p>是 Block 中不可分離的小元件，一定存在於 Block 下，但 Block 不一定會有 Element。<br>因為一定存在於 Block 中，因此命名會一定有 Block Name 作為 prefix，以<span style="font-weight: 600; color: red;">雙底線</span>分隔 :</p>
+<p>.search-field<span style="color:red">__button</span> {…}</p>
+<p><img src="/img/arvinh/BEM_BE_example.png" alt="BEM example" title="BEM example"></p>
+<h3 id="Modifier："><a href="#Modifier：" class="headerlink" title="Modifier："></a>Modifier：</h3><p>用來定義 Block 或 Element 的狀態或屬性，像是 SMACSS 的 State，可以多個 modifier 同時存在於 Block 與 Element 中。命名則以 Block 或 Element name 作為 prefix，以<span style="font-weight: 600; color: red;">單底線</span>分隔</p>
+<p>.search-field__button<span style="color:red">_hover</span> {…}</p>
+<p>另外，BEM 甚至提出了依照 BEM 的架構來區分 file structure：<br>（截圖至<a target="_blank" rel="noopener" href="https://en.bem.info/methodology/quick-start/#file-structure">官網</a>）<br><img src="/img/arvinh/BEM_file.png" alt="BEM file structure" title="BEM file structure"></p>
+<h2 id="結論與轉折"><a href="#結論與轉折" class="headerlink" title="結論與轉折"></a>結論與轉折</h2><p>CSS 心法除了上述三種以外，其實還有 <a target="_blank" rel="noopener" href="https://suitcss.github.io/">SUIT CSS</a> 等等，不過就大同小異，主要都是希望提高 CSS 的重用性、可維護性與延展性，發展至此似乎趨於穩定，搭配 SASS 等工具幾乎已經能很好的管理 CSS 了，但是從 React 出來以後，其推薦的 CSS in JS 根本打翻了上述的哲學，既然要用 JS 來寫 component，那 CSS 直接用 inline-style 的方式寫在 jsx 中，就不用記一堆有的沒的命名規則，又不用擔心全域變數影響，多棒啊！</p>
+<p>但從來沒有完美的解法，有很多人討厭這樣的做法，所以出現了 <a target="_blank" rel="noopener" href="http://stack.formidable.com/radium/">Radim</a> 或 <a target="_blank" rel="noopener" href="https://github.com/css-modules/css-modules">CSS-module</a> 這樣的東西，算是蠻完美的利用 Scoped css<br>來做到擁有原始 css style 使用彈性的 CSS in JS。</p>
+<p>不管是用哪種方式，朝向模組化、Scoped CSS 的方向看來都是不變的。</p>
+<p><span style="font-size: 2.5rem; color: #ba0707;">Atomic CSS</span></p>
+<p>既然我們複習了 CSS 心法，也了解到目前因應 React 的發展而出現的 CSS-module 等方式，我們就可以來介紹一下由 Yahoo 這個曾經的網路巨人所開源的 Atomic CSS 吧！</p>
+<p><strong>這邊要特別說明一下，Atomic CSS 並不是來解決上述心法的缺點，要解決的問題都雷同，都是希望能讓 CSS 在大型專案下能擁有更好的重用性與維護性，只是採用的方法與面向不同罷了。</strong></p>
+<p>透過前述心法我們可以利用 class selector 的方式來處理命名衝突的麻煩，但是還有可能造成 stylesheet 過大，因為你可能會依據不同 component 來設置不同的 namespace，而且一個不小心，若 CSS 階層越多，效能就會越差。加上不同團隊一起開發時，可能還會有不同命名，卻有相同效果：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">block1__text_highlight &#123;</span><br><span class="line">  <span class="attribute">color</span>: yellow;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">block2__text_bright &#123;</span><br><span class="line">  <span class="attribute">color</span>: yellow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因此 Atomic CSS 提出另一種觀點：</p>
+<h3 id="將-CSS-style-最小元件化，重用性最大化"><a href="#將-CSS-style-最小元件化，重用性最大化" class="headerlink" title="將 CSS style 最小元件化，重用性最大化"></a>將 CSS style 最小元件化，重用性最大化</h3><p>只要確保同一個 style 永遠只會被定義一次，並且可以運用在各個地方，就能解決這些問題！</p>
+<p>實際作法就看一下範例吧：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;D(f) W(100px)&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>利用 Atomic css 的工具，會幫你將上述 html 中的 class name 解析成：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.D</span>\(f\) &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.W</span>\(<span class="number">300px</span>\) &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>應該很淺顯易懂吧！<code>D(f)</code> 對應到 <code>display:flex</code> 這個 style，也就是說，Atomic 以一種 css style 作為 class name 的最小單位。</p>
+<p>再稍微想一下你就會發現，這根本就是在寫 inline-style，只是我們用 class name 的方式來表示而已啊！</p>
+<p>沒錯，但這樣做的好處就是可以 <span style="color:red">Define once, use everywhere.</span></p>
+<p>今天你就算有另一個 div 也想要有 display:flex 的屬性，只要加上 <code>D(f)</code> 這個 class name 就可以了，同樣 style，不用重複定義 class name！</p>
+<p><strong>在大型專案內，你的元件越多、重複的屬性用得越多，相對於其他心法，你就可能省下更多 Size！</strong></p>
+<p>而且這樣的寫法，搭配 React 真的很方便，也符合原先 CSS in JS 的概念，透過串接多個 “Atomic Class” 的方式在元素上來達到原先 css style 的效果。</p>
+<p>來看個實際的 Example：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Modal</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">    <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;P(10px) M(20%) Pos(f) Start(50%) Bgc(#fff)&quot;</span> /&gt;</span></span></span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">Modal</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Atomic css tool parsed 過的 css</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.Bgc</span>\(<span class="selector-id">#fff</span>\) &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#ffffff</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.M</span>\(<span class="number">20</span>\%\) &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">20%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.Pos</span>\(f\) &#123;</span><br><span class="line">  <span class="attribute">position</span>: fixed;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.Start</span>\(<span class="number">50%</span>\) &#123;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.P</span>\(<span class="number">10px</span>\) &#123;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有發現嗎？從此以後你要看一個 component 的時候，可以直接從 jsx 檔案中看完整個元件的狀態與樣式，不用再切換 jsx 與 css 檔案了，而且透過這樣的 class name 命名，只要稍微熟悉以後，就超級好懂這個 div 用了哪些 style。（就算不懂，官網也有很方便的<a target="_blank" rel="noopener" href="https://acss.io/reference">查閱工具</a>）。</p>
+<p>最後列舉一下優點：</p>
+<ol>
+<li>將 class name 定義最小化，讓全站都能重複使用。</li>
+<li>透過 Atomic CSS 的 parser（or webpack loader），只會產生你有使用到的 classname 的 stylesheet。</li>
+<li>比起 inline style 的寫法更簡潔，又不會有命名衝突。</li>
+<li>加上此種 class name 很好壓縮，整體 size 可以很小。</li>
+<li>搭配 React，從此 component 的狀態與樣式合為一體。</li>
+</ol>
+<p>我知道會有很多人覺得這樣違反直覺、寫起來很醜、沒有語意化等等，我一開始也閃過這種念頭，<br>但是身為工程師，我們擅長打破常規、利用創意來解決問題。<br>這些 class name 的確不語意化，但是身為工程師，我想我們擅長理解這些代號。<br>寫程式都知道，語言只是工具，邏輯才是重點，如果可以避免，可以不必花這麼多時間在思考命名。</p>
+<p>當然，以上只是我的觀點啦～推薦大家試用看看！</p>
+<p>同場加映另一個類似概念，但處理機制不太相同的 <a target="_blank" rel="noopener" href="http://tachyons.io/">Tachyons css</a></p>
+<h2 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.smashingmagazine.com/2011/12/an-introduction-to-object-oriented-css-oocss/">Intro-to-OOCSS</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.slideshare.net/kurotanshi/css-oocss-smacss-bem">漫談 CSS 架構方法 - Kuro Hsu</a></li>
+<li><a target="_blank" rel="noopener" href="http://sj82516-blog.logdown.com/posts/1077348/finish-css-intro-oocss-smacss-bem">Scalable CSS - 介紹OOCSS&#x2F;SMACSS&#x2F;BEM</a></li>
+<li><a target="_blank" rel="noopener" href="https://smacss.com/book/">Scalable and Modular Architecture for CSS</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.bem.info/methodology/quick-start/#file-structure">BEM</a></li>
+<li><a target="_blank" rel="noopener" href="http://tom76kimo-blog.logdown.com/posts/737611-atomic-css-introduction">Atomic css 介紹</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.arvinh.info/about/">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/04/29/css-methodology-atomiccss/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/04/29/css-methodology-atomiccss/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/04/29/css-methodology-atomiccss/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/04/29/css-methodology-atomiccss/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/05/06/back-end-engineer-toolbox-database-sql-orm/">
+        ← 後端軟體工程工具箱：資料庫/SQL/ORM篇
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/04/22/javascript-prototype/">
+        該來理解 JavaScript 的原型鍊了 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

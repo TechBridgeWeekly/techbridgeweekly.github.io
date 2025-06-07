@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Web Accessibility 的重要性 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-10-13T17:07:29.000Z" itemprop="datePublished">
+          2019-10-13
+      </time>
+    
+    
+    | 
+    <a href='/tags/web/'>web</a>,
+    
+    <a href='/tags/javascript/'>javascript</a>,
+    
+    <a href='/tags/web-accessibility/'>web accessibility</a>,
+    
+    <a href='/tags/a11y/'>a11y</a>
+    
+    
+</span>
+
+<meta name="generator" content="Web Accessibility 的重要性">
+<meta name="og:title" content="Web Accessibility 的重要性">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Web Accessibility 的重要性</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>你是否曾因為網路上被歧視、被霸凌的新聞或影片而憤憤不平？你是否曾因為各種身殘心不殘的勵志故事而感到激勵？<br>如果你有過上述經驗，那當你在製作網站時，是否曾經考量過 Web Accessibility（a11y） 呢？</p>
+<p>老實說，我真的很少在實作時認真的驗證自己的網站的可訪性，花在考量是否能支援 IE 9 的時間還比較多一些。（想當年在政府機關服務時，看到局處長很自豪官網拿到無障礙網站評等第一時，還覺得莫名其妙，想說網站這麼醜，到底哪裡無障礙 XD）</p>
+<p>在實作的時候，PM 會拿數據告訴你，有多少用戶是使用舊版的瀏覽器，所以我們需要支援到何種程度，但應該很少 PM 會拿出數據告訴你，有多少 screen reader 來存取我們的網站·。</p>
+<p>然而，光台灣，2018 年的身心障礙人口有一百多萬人，其中視覺障礙的有將近六萬（<a target="_blank" rel="noopener" href="https://dep.mohw.gov.tw/DOS/lp-2976-113.html">衛生福利處的資料</a>），美國比例更高，有將近 25% 的身心障礙人口（<a target="_blank" rel="noopener" href="https://youtu.be/dvtfNpt75aA?t=26101">資料來源</a>）。</p>
+<p>依照你產品的用戶比例，這些數據大概無法說服你的 PM，讓他們給你更多時間思考如何增強網站的可訪性，但仔細想想，如果你在乎那些身心健全卻不願意升級自己瀏覽器的人，而不在乎這些走出障礙，連接到網路吸取知識的殘障人士，你是不是無意中在他們的人生道路中增加了更多阻礙，不自覺地成為歧視他人的一方呢。</p>
+<p>今天想透過這篇文章，整理一些資源與簡短的實作要點，喚醒大家對 Web Accessibility 重要性的認知，也是提醒自己在未來實作上必定要多加注意。</p>
+<h1 id="使用-screen-reader-的感覺是什麼"><a href="#使用-screen-reader-的感覺是什麼" class="headerlink" title="使用 screen reader 的感覺是什麼"></a>使用 screen reader 的感覺是什麼</h1><p>相信會看到這篇文章的人，多少對於 Web Accessiblity 都有了解，知道是為了輔助障礙人士閱讀網頁內容，平常實作時至少在 <code>&lt;img&gt;</code> 元素上會加上 <code>alt</code> 等文字來描述圖片。但你有真的使用過 screen reader 嗎？你知道使用這些輔助工具上網的人，看到的世界跟你有多大的不同嗎？</p>
+<p>我原本也不知道，直到我試用了 Mac 內建的 VoiceOver，用它來閱讀平常看的網站，像是 wikipedia：</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/IHm6me_VfyM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<p>體驗實在很糟，除了機器人的聲調外，外加極快的語速，在你從瀏覽器的分頁標籤移動到真正的網頁內容前，還需經過許多瀏覽器本身按鈕選項的介紹，接著到了網頁內容，文章因為連結的關係，變得破碎（為了讓你知道是連結或是按鈕，在文字內容前都會先朗讀出該段內容的功能性，像是：<em>連結</em>、<em>按鈕</em>），閱讀順序也與我們憑眼睛觀看時的不同。</p>
+<p>然而 Wikipedia 已經算是 a11y 處理得不錯的了，畢竟內容大多也只有文字與圖片。想想看現在這麼多炫麗介面的網站，各種需要使用者與之互動的功能，光用想像的就是悲劇，看一下 Google 大肆宣傳的 AMP Story：</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cdPVMDJB37k" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<p>在強調 Web performance 的同時，web accessibility 也該考量進去。這邊就有<a target="_blank" rel="noopener" href="https://ethanmarcotte.com/wrote/amphora/">文章</a>在討論關於 amp-story 在 a11y 的 <a target="_blank" rel="noopener" href="https://github.com/ampproject/meta-ac/blob/master/meetings/2019-03-f2f.md#accessibility">issue</a>，不過 ampproject 內是有 accessibility working group 在想辦法解局的。</p>
+<p>上面的 Screen reader 範例比較是針對視障朋友的使用為主，現實中能造成生活不便的可不只有視覺上的困難，還有聽覺、肢體等等，像是滑鼠這類需要高度手眼協調能力的操作，就不是那麼有親和力，因此光是透過鍵盤操作網站的順暢度，就必須好好思考，也是實作 Web Accessibility 時的一大重點。</p>
+<p>如果想快速體驗一下使用 screen reader 的效果，又不想學習 Voiceover 等系統內建 reader 的，可以到 udacity 提供的<a target="_blank" rel="noopener" href="http://udacity.github.io/ud891/lesson3-semantics-built-in/02-chromevox-lite/">網站</a> 試試，使用的是 Chrome 的 chromevox-lite 閱讀器，且有刻意將內容模糊化，感受會更真實點。</p>
+<h1 id="Web-Accessibility-的資源與實作要點"><a href="#Web-Accessibility-的資源與實作要點" class="headerlink" title="Web Accessibility 的資源與實作要點"></a>Web Accessibility 的資源與實作要點</h1><p>說了許多緣由以及範例，現在來談談該如何學習 Web Accessibility，並實作在我們的網站中。</p>
+<h2 id="網絡內容無障礙功能指南-Web-Content-Accessibility-Guidelines"><a href="#網絡內容無障礙功能指南-Web-Content-Accessibility-Guidelines" class="headerlink" title="網絡內容無障礙功能指南 - Web Content Accessibility Guidelines"></a>網絡內容無障礙功能指南 - Web Content Accessibility Guidelines</h2><p>先從 W3C 指南了解 “無障礙” 的定義。<a target="_blank" rel="noopener" href="https://www.w3.org/TR/WCAG21/">網絡內容無障礙功能指南 (WCAG) 2.1</a>，是 W3C 擬定的無障礙功能指南和最佳做法，旨在有系統地闡述“無障礙功能”的含義。很多國家政府機關都會要求根據此指南來實作網站。</p>
+<p>WCAG 有四大原則：</p>
+<ul>
+<li><p>可感知（Perceivable）：所有資訊與使用者介面元件都必須要能以各種使用者能感知的方式，呈現給使用者。像是能讓 Screen Reader 閱讀出內容。不能讓使用者透過各種感官都無法感知到內容。</p>
+</li>
+<li><p>可操作（Operable）：使用者元件與網頁內容間的導覽都要可操作，不能出現使用者無法操作的介面。</p>
+</li>
+<li><p>可理解（Understandable）：呈現給使用者的資訊與操作方式都要能被使用者理解。</p>
+</li>
+<li><p>強健（Robust）：不論是被哪種輔助科技工具或是各種 user agents 所存取，網站內容都要能不受影響，呈現給使用者完整的內容，若使用者使用的工具變得更加進步，網站也得跟上腳步，維持內容的存取、閱讀性。</p>
+</li>
+</ul>
+<p>這是無障礙內容的一個概覽，還可以透過 <a target="_blank" rel="noopener" href="https://webaim.org/">WebAIM</a> 檢查清單，來檢視我們該如何依照 WCAG 的指南實作。</p>
+<h2 id="其他資源"><a href="#其他資源" class="headerlink" title="其他資源"></a>其他資源</h2><p>除了 W3C 的定義指南外，還有許多更親和的資源可以參考，畢竟 Web accessibility 不是很新的議題了，像是 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Learn/Accessibility">MDN</a> 或是 <a target="_blank" rel="noopener" href="https://developers.google.com/web/fundamentals/accessibility">Google</a> 都有非常詳細的資料與教學，Udacity 上也有相關<a target="_blank" rel="noopener" href="https://www.udacity.com/course/web-accessibility--ud891">課程</a>。</p>
+<p>看完大概都需要花上幾個小時的時間，如果想快速了解的話，其實也已經有不少關於 a11y 的繁中文章，像這篇 - <a target="_blank" rel="noopener" href="https://medium.com/frochu/%E5%9B%9E%E6%AD%B8%E5%88%9D%E5%BF%83-%E4%B8%80%E6%8E%A2web-accessibility-baaa4d22f4a7">回歸初心，一探 Web Accessibility</a>，簡短精要，整理了上面 Google 與 Udacity 課程的內容，適合快速了解何謂 a11y，而最近<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/users/20108045/ironman/2454">鐵人賽的這系列文</a>也很不錯，蒐集整理非常多資訊，細節很多，可以當作參考工具，在實作時隨時翻閱，推推。</p>
+<p>此外，上面的資源著重在一般的網站上，而身為資料視覺化的愛好者，我很好奇該如何處理 Data visualization 上的 Web Accessibility 問題。</p>
+<p>從 <a target="_blank" rel="noopener" href="https://www.a11ywithlindsey.com/about">Lindsey</a> 的這篇文章 - <a target="_blank" rel="noopener" href="https://www.a11ywithlindsey.com/blog/accessibility-d3-bar-charts">Accessibility in d3 Bar Charts</a> 中可以窺知一二。</p>
+<p>主要是要在圖表中加入足夠的描述文字，然後在設計顏色時，使用一些輔助工具如 <a target="_blank" rel="noopener" href="http://www.color-blindness.com/coblis-color-blindness-simulator/">coblis</a> 來建立 color blind friendly 的圖表。</p>
+<p>若是較常使用 SVG 來製作動態圖表的人，推薦研讀一下這篇專門介紹如何為你的 SVG 增強 accessibility 的文章 -  <a target="_blank" rel="noopener" href="https://css-tricks.com/accessible-svgs/">accessible-svgs</a>，可以為你的資訊圖表在 Web Accessibility 上帶來非常大的改善。</p>
+<h2 id="實作要點"><a href="#實作要點" class="headerlink" title="實作要點"></a>實作要點</h2><p>知道了為何需要了解 Web Accessibility，也知道了有哪些資源可以閱讀，接下來根據上面閱讀的資料，簡單總結幾個實作上要關注的重點：</p>
+<h3 id="思考網站能以什麼方式瀏覽"><a href="#思考網站能以什麼方式瀏覽" class="headerlink" title="思考網站能以什麼方式瀏覽"></a>思考網站能以什麼方式瀏覽</h3><p>這其實是 <a target="_blank" rel="noopener" href="https://medium.com/frochu/%E5%9B%9E%E6%AD%B8%E5%88%9D%E5%BF%83-%E4%B8%80%E6%8E%A2web-accessibility-baaa4d22f4a7">回歸初心，一探 Web Accessibility</a> 這篇文章中所提到的結論，我覺得蠻有道理的。</p>
+<p>與其思考使用者失去什麼感官能力，不如專注在你的網站能提供哪些方式瀏覽。可能是 screen reader、鍵盤（keyboard）、聲控或眼動儀等其他人機介面。從這些操作介面去思考該怎麼加強自己網站的可訪性。</p>
+<h3 id="網頁元件的可聚焦性"><a href="#網頁元件的可聚焦性" class="headerlink" title="網頁元件的可聚焦性"></a>網頁元件的可聚焦性</h3><p>所謂的可聚焦，指的就是元件能夠成為焦點，而所謂焦點，是指當前螢幕上瀏覽器當下能接收來自鍵盤輸入、剪貼板輸出的元件（字段、複選框、按鈕或連結等輸入項目），更簡單來說，就是使用者此刻正在操作的元件。</p>
+<p>為什麼可聚焦性很重要呢？除了讓使用者知道自己目前所使用的元件外，就是讓 screen reader 知道目前該 read 哪個元件。而瀏覽器一次只能聚焦在一個元件上，這個特性讓 screen reader 不會同時讀到兩個不同元件的描述。</p>
+<p>在一般瀏覽器上頭，被聚焦的元件通常預設會以一個藍色外框包裹住：</p>
+<p><img src="/img/arvinh/outline-blue.png" alt="defaul outline"></p>
+<p>實務上很多人都會用 <code>outline: none</code> 把這個外框拿掉，但實際上是非常不友善的行為，若是不喜歡瀏覽器預設的樣式，可以跟設計師溝通，看要如何修改被聚焦的元件樣式，但記得要能讓使用者注意到樣式的變化，才能幫助他們判斷元件的聚焦與否。如 Youtube 上的回復查看按鈕：</p>
+<p><img src="/img/arvinh/outline-custom.png" alt="custom outline"></p>
+<p>另外要注意的是，並非所有元件都要設成可聚焦，像是文章內文本身，或是其他即便讓 screen reader 朗讀出來也無法很好傳達意思的元件，其實跳過反而比較不會造成混淆與困擾。</p>
+<h3 id="DOM-的順序"><a href="#DOM-的順序" class="headerlink" title="DOM 的順序"></a>DOM 的順序</h3><p>Screen reader 在移動時，會依照 DOM 的順序進行，所以應當盡量將你想要呈現給使用者的內容順序，完整的對應到 DOM 的順序上頭。除此之外，還得注意 CSS 的影響，例如 <code>float</code>，就可能會造成視覺上的順序與 DOM 順序有所差異，導致 screen reader 朗讀的次序受到影響與畫面不符：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">style</span>=<span class="string">&quot;float: right&quot;</span>&gt;</span>1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span>&gt;</span>2<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span>&gt;</span>2<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><button style="width:100px;background:transparent;color:#5050c5;font-size: 1.5rem;float: right">1</button><button style="width:100px;background:transparent;color:#5050c5;font-size: 1.5rem;">2</button><button style="width:100px;background:transparent;color:#5050c5;font-size: 1.5rem;">2</button><br><br/></p>
+<p>另外，善用 <code>tabindex</code>，能夠更好的幫助使用者操作鍵盤（tab）瀏覽網站時的移動順序，無論是跳過隱藏在 Responsive 表單選項中的元件，或是在開啟的 Modal 中製造出 Key trap，讓使用者不會移動到 Modal 覆蓋下的元件上。</p>
+<h3 id="語義化標籤"><a href="#語義化標籤" class="headerlink" title="語義化標籤"></a>語義化標籤</h3><p>眾所皆知，Semantic HTML 對於提高 SEO 很有幫助，然而，它也能大大增加網站的可訪性（大概也是因此才會讓 SEO 效果提升），一個好的 Semantic HTML Element 應該包含：</p>
+<ol>
+<li>Role： 元件的類型（按鈕、input 元件、超連結等等）</li>
+<li>Name(Label)：通常與 input 元件並用，像是 radio input、dropdown list 等等</li>
+<li>State：元件當下的狀態（點擊、展開、收合）</li>
+<li>Value：元件內的值（Input 元件內的值、Button 上的文字等等）</li>
+</ol>
+<p>瀏覽器會根據你的 HTML 建造出 DOM Tree，同時也會依照你在 DOM 元件上的資訊建造出 Accessibility Tree（<a target="_blank" rel="noopener" href="https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/the-accessibility-tree">source</a>）：</p>
+<p><img src="/img/arvinh/treestructure.jpg" alt="accessibility-tree"></p>
+<p>而 Screen reader 就會根據這棵 Accessibility Tree 進行朗讀，因此你提供的 Semantic HTML 越清楚，資訊越詳細，就能夠建構出越強健的 Accessibility Tree 供輔助工具參考。</p>
+<p>再者，如同文章前頭提到的，網頁上的媒體元件，像是 <code>img</code>、<code>video</code> 或是視覺圖表，都應該提供對應的 <code>alt</code> 描述，讓 Screen reader 至少能根據 <code>alt</code> 來說明該媒體元件的內容。不過，若是單純拿來裝飾用的 <code>img</code>，可以給予 <code>alt</code> 空值，代表其裝飾性。</p>
+<p>想檢測網站是否有足夠完整的 Accessibility Tree 的話，可以用 Chrome 打開你想看的網站，並且開啟開發者工具，在 Element 標籤內，右側可以找到 Accessibility 的 tab，在那邊就能看到當前頁面元件的 Accessibility Tree：</p>
+<p><img src="/img/arvinh/chrome-dev-AT.png" alt="Chrome DevTool Accessibility Tree"></p>
+<h3 id="WAI-ARIA"><a href="#WAI-ARIA" class="headerlink" title="WAI-ARIA"></a>WAI-ARIA</h3><p>WAI-ARIA，代表 Web Accessibility Initiative — Accessibility Rich Internet Applications （網頁可訪性倡議 — 無障礙網頁應用）。</p>
+<p>上面章節我們提到瀏覽器會依照 Semantic HTML Element 來建構 Accessibility Tree，然而有時你需要使用像是 <code>div</code>、<code>span</code> 等元素來做一些客製化的元件時，該怎麼辦呢？不就無法保持語義了嗎？</p>
+<p>這時 WAI-ARIA 就派得上用場了。使用 ARIA 屬性，我們就可以補足元件缺少的訊息，讓它進入 Accessibility Tree 當中。（<a target="_blank" rel="noopener" href="https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/the-accessibility-tree">source</a>）</p>
+<p><img src="/img/arvinh/dom-aria-tree.png" alt="DOM+ARIA"></p>
+<p>舉個例子：</p>
+<p>一個用 <code>&lt;li&gt;</code> 元件所客製化的 checkbox，我們可以依靠 CSS 讓他 “表現” 得像 checkbox，對於視力正常的人來說是沒問題的，但 screen reader 可不認得他，因此我們至少必須加上 ARIA 屬性中的：<code>role</code> 與 <code>aria-*</code>，讓其加入到 Accessibility Tree 中：</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="deletion">- &lt;li tabindex=&quot;0&quot; class=&quot;checkbox&quot; checked&gt;</span></span><br><span class="line"><span class="addition">+ &lt;li tabindex=&quot;0&quot; class=&quot;checkbox&quot; role=&quot;checkbox&quot; checked aria-checked=&quot;true&quot;&gt;</span></span><br><span class="line">  Receive promotional offers</span><br><span class="line">&lt;/li&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>role</code> ，等於宣告該 DOM 元件該扮演什麼角色，像是 <code>checkbox</code>、<code>button</code> 或 <code>dialog</code> 等，還可再分類出 <code>Widget roles</code>、<code>Composite roles</code> 和 <code>Landmark roles</code> 等等。詳細 spec 可以看 <a target="_blank" rel="noopener" href="https://www.w3.org/TR/wai-aria-1.1/#role_definitions">W3C 的定義</a></p>
+<p>而搭配 <code>role</code> 使用的 <code>aria-*</code> 則為元件定義了<em>屬性</em>與<em>狀態</em>，像是上面例子中的 <code>aria-checked=&quot;true&quot;</code> 即為元素狀態的一種，告知 Accessibility Tree 這元件目前屬於 <code>checked</code> 狀態。</p>
+<p>也能透過 <code>aria-lable</code> 設定專門給輔助工具使用的 API：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button aria-label=<span class="string">&quot;screen reader only label&quot;</span>&gt;&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+
+<p>或是設定父項&#x2F;子項聯繫，例如控制特定區域的客製化捲軸：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div role=<span class="string">&quot;scrollbar&quot;</span> aria-controls=<span class="string">&quot;main&quot;</span>&gt;&lt;/div&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;main&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">// . . .</span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>關於 <code>role</code> 與 <code>aria-*</code> 狀態和屬性，可以先從 MDN 的<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques">這份文件</a>概觀所有列表，然後從 <a target="_blank" rel="noopener" href="https://www.w3.org/WAI/PF/aria-1.1/states_and_properties">W3C 的定義</a>中去翻找詳細資訊。</p>
+<h3 id="色彩、樣式"><a href="#色彩、樣式" class="headerlink" title="色彩、樣式"></a>色彩、樣式</h3><p>文章前面有提到，設計顏色時，應當使用一些輔助工具如 <a target="_blank" rel="noopener" href="http://www.color-blindness.com/coblis-color-blindness-simulator/">coblis</a> 來模擬色盲的使用者是如何 “看” 你的網站，可以根據這些測試與資訊，與設計師討論，製作出 color blind friendly 的介面。</p>
+<p>除了顏色之外，從文字的大小、表格的間隙，到長條圖中每條 Bar 的距離，都可能影響到視覺障礙的使用者，也都可以在設計無障礙網站時考慮進去。</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>不知道大家投身 Web 領域的動機是什麼，我想一定有部分人的理由與我相同，相信 Web 是最平易近人的媒介，能輕易把任何資訊帶給全世界，你不用存錢半天才能買到一台 iPhone 進入 App Store 下載應用程式，只需要到圖書館把電腦打開，透過瀏覽器即可連接世界。如果你也有同樣信念，除了加強 Web performance，讓存取網站的門檻降低外，提升 Web Accessibility 讓網站能真正服務到 “所有人”，絕對也是必修的課題之一，弭平資訊落差，落實公平正義，從你我做起！</p>
+<p>P.S. Web Accessibility 的內容很多，這篇文章旨在引起大家對其的重視，詳細的規格與實作細節可以從底下的參考資料中去閱讀。</p>
+<h3 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://youtu.be/dvtfNpt75aA?t=26101">React rally 2019</a></li>
+<li><a target="_blank" rel="noopener" href="https://ethanmarcotte.com/wrote/amphora/">Amphora</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Learn/Accessibility">MDN - 可訪問性</a></li>
+<li><a target="_blank" rel="noopener" href="https://developers.google.com/web/fundamentals/accessibility">Google - 無障礙功能</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/frochu/%E5%9B%9E%E6%AD%B8%E5%88%9D%E5%BF%83-%E4%B8%80%E6%8E%A2web-accessibility-baaa4d22f4a7">回歸初心，一探 Web Accessibility</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/users/20108045/ironman/2454">實踐無障礙網頁設計（Web Accessibility）系列</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.a11ywithlindsey.com/blog/accessibility-d3-bar-charts">Accessibility in d3 Bar Charts</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.arvinh.info/about/">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/10/13/web-accessibility-intro/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/10/13/web-accessibility-intro/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/10/13/web-accessibility-intro/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/10/13/web-accessibility-intro/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/10/19/how-to-build-up-game-with-pygame-tutorial/">
+        ← 使用 Python 和 PyGame 遊戲製作入門教學
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/10/05/javascript-async-sync-and-callback/">
+        JavaScript 中的同步與非同步（上）：先成為 callback 大師吧！ →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

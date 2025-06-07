@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>使用 Object Recognition Kitchen 的 Linemod 演算法辨識物體 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-05-14T11:21:49.000Z" itemprop="datePublished">
+          2016-05-14
+      </time>
+    
+    
+    | 
+    <a href='/tags/機器人-物體辨識-ROS-Object-Recognition-Kitchen-Linemod/'>機器人, 物體辨識, ROS, Object Recognition Kitchen, Linemod</a>
+    
+    
+</span>
+
+<meta name="generator" content="使用 Object Recognition Kitchen 的 Linemod 演算法辨識物體">
+<meta name="og:title" content="使用 Object Recognition Kitchen 的 Linemod 演算法辨識物體">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">使用 Object Recognition Kitchen 的 Linemod 演算法辨識物體</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>這次要介紹的工具是 ROS 裡面專門用來作物體辨識的 <a target="_blank" rel="noopener" href="http://wg-perception.github.io/object_recognition_core/">Object Recognition Kitchen</a> (以下簡稱為 ORK )，這個工具比較像是一個框架，裡面包含了好幾種演算法(你可以根據自己的需求使用不同的演算法)，這篇文章要介紹的只是其中一種 – Linemod 。 Linemod 是一個辨識效果很不錯的 3D 物體辨識演算法(不過一個使用條件是物體須是剛體)，所以想藉此機會分享給大家，以後只要你想要，就可以直接拿這個工具來串自己的機器人應用。</p>
+<h2 id="安裝-ORK-Linemod"><a href="#安裝-ORK-Linemod" class="headerlink" title="安裝 ORK &amp; Linemod"></a>安裝 ORK &amp; Linemod</h2><p>雖然 ORK 的開發者已經寫了一份滿不錯的<a target="_blank" rel="noopener" href="http://wg-perception.github.io/object_recognition_core/install.html#install">安裝 tutorial</a>，不過我覺得還是值得為他再寫一份自己的整理筆記，可以把過程中遇到的一些問題都整理下來供大家參考。</p>
+<p>我目前跑起來的環境是 Ubuntu 14.04+ROS Indigo，首先來裝一些 ORK 需要用到的 package !</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export DISTRO=indigo</span><br><span class="line">sudo apt-get install libopenni-dev ros-$&#123;DISTRO&#125;-catkin ros-$&#123;DISTRO&#125;-ecto* ros-$&#123;DISTRO&#125;-opencv-candidate ros-$&#123;DISTRO&#125;-moveit-msgs</span><br></pre></td></tr></table></figure>
+
+<p>接下來就要安裝 ORK 啦，然後因為我比較喜歡 build from source，所以我會下面會放上一份複雜版的安裝方法，裡面會有比較多跟 error 奮鬥的過程，如果你比較喜歡直接玩應用，安裝什麼的懶得管，那看簡單版的安裝方式其實就可以了。</p>
+<h3 id="超簡單版安裝方式"><a href="#超簡單版安裝方式" class="headerlink" title="超簡單版安裝方式"></a>超簡單版安裝方式</h3><p>超簡單版顧名思義就是超簡單，完全不要管我們會用到哪些 package，只要是 ORK 底下的 package，都裝下去，缺點就是會多浪費一些硬碟空間。只要用一行指令就搞定:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ros-indigo-object-recognition-kitchen-*</span><br></pre></td></tr></table></figure>
+
+<h3 id="稍微理解自己裝了什麼的安裝方式"><a href="#稍微理解自己裝了什麼的安裝方式" class="headerlink" title="稍微理解自己裝了什麼的安裝方式"></a>稍微理解自己裝了什麼的安裝方式</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ros-indigo-object-recognition-core ros-indigo-object-recognition-linemod ros-indigo-object-recognition-msgs ros-indigo-object-recognition-renderer ros-indigo-object-recognition-ros ros-indigo-object-recognition-ros-visualization</span><br></pre></td></tr></table></figure>
+
+<h3 id="Build-From-Source版安裝方式"><a href="#Build-From-Source版安裝方式" class="headerlink" title="Build From Source版安裝方式"></a>Build From Source版安裝方式</h3><p>首先來先裝跟 ROS 銜接的 package，首先要先開啟 terminal，切到 catkin_workspace&#x2F;src 底下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone http://github.com/wg-perception/object_recognition_msgs</span><br><span class="line">git clone http://github.com/wg-perception/object_recognition_ros</span><br><span class="line">git clone http://github.com/wg-perception/object_recognition_ros_visualization</span><br></pre></td></tr></table></figure>
+
+<p>然後因為今天的主角是 linemod，所以需要安裝相關 package</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone http://github.com/wg-perception/object_recognition_core</span><br><span class="line">git clone http://github.com/wg-perception/linemod</span><br><span class="line">git clone http://github.com/wg-perception/ork_renderer</span><br><span class="line">cd ../ &amp;&amp; catkin_make</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>catkin_make</code> 的過程中可能會碰到因 error 而中斷，會看到類似如下的訊息：</p>
+<p><img src="/img/pojenlai/error_1.png" alt="catkin_make_error_1"></p>
+<p>這時候不要怕，繼續給他 <code>catkin_make</code> 下去，你就會發現編譯進度會神奇地有進展：</p>
+<p><img src="/img/pojenlai/error_2.png" alt="catkin_make_error_2"></p>
+<p>不過我有碰到一個問題，再怎麼重新編譯都沒有用:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">In file included from /home/rosindigo/catkin_ws/src/ork_renderer/src/renderer3d.cpp:50:0:</span><br><span class="line">/home/rosindigo/catkin_ws/src/ork_renderer/src/renderer3d_impl_osmesa.h:39:23: fatal error: GL/osmesa.h: 沒有此一檔案或目錄</span><br><span class="line"> #include &lt;GL/osmesa.h&gt;</span><br><span class="line"> ^</span><br><span class="line"> compilation terminated.</span><br><span class="line"> make[2]: *** [ork_renderer/src/CMakeFiles/object_recognition_renderer_3d.dir/renderer3d.cpp.o] Error 1</span><br><span class="line"> make[1]: *** [ork_renderer/src/CMakeFiles/object_recognition_renderer_3d.dir/all] Error 2</span><br><span class="line"> make: *** [all] Error 2</span><br><span class="line"> Invoking &quot;make -j8 -l8&quot; failed</span><br></pre></td></tr></table></figure>
+
+<p>因為是少了 GL&#x2F;osmesa.h，所以需要額外下一個指令 <code>sudo apt-get install libosmesa6-dev</code> 來安裝。</p>
+<p>裝到這邊還會有一個問題，就是雖然編譯都已經過了，但 <code>roscd object_recognition_core</code> 時都會出現無法找到此 package 的 error，由於這會對後續要執行演算法時造成問題，所以還是要來處理一下。</p>
+<p>我們先重新理一下思路，理論上，編譯過之後就會被加入到 <code>roscd</code> 可以找到的 path 中，但是 <code>roscd</code> 顯然就表示沒有被加進  ROS_PACKAGE_PATH 中，google 了一下發現到有人也遇過類似的問題，解法也確實就是把我們 git clone 下來的那些 package 加入到 ROS_PACKAGE_PATH 中，這樣的話問題就簡單啦!</p>
+<p> 先 <code>vim ~/.bashrc</code> 一下，然後在最下面補上一行:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export ROS_PACKAGE_PATH=&quot;$ROS_PACKAGE_PATH:/home/rosindigo/catkin_ws/src&quot;</span><br></pre></td></tr></table></figure>
+
+<p>補完的結果看起來就像:</p>
+<p><img src="/img/pojenlai/bashrc.png" alt="bachrc"></p>
+<h2 id="接上並從-RGB-D-Sensor-收資料"><a href="#接上並從-RGB-D-Sensor-收資料" class="headerlink" title="接上並從 RGB-D Sensor 收資料"></a>接上並從 RGB-D Sensor 收資料</h2><p>接下來我們要先處理感測器這塊，畢竟如果沒有感測器，那就根本不用辨識物體的對吧。原本官方教學上是建議用 <code>roslaunch openni2_launch openni2.launch</code>，但因為我是用 Kinect 1，要用 <code>roslaunch openni_launch openni.launch</code>。</p>
+<p>跑起來之後應該就可以在 Rviz 看到以下的畫面:</p>
+<p><img src="/img/pojenlai/kinect_rviz.png" alt="kinect_rviz"></p>
+<h2 id="安裝物體辨識資料庫-加入-model"><a href="#安裝物體辨識資料庫-加入-model" class="headerlink" title="安裝物體辨識資料庫 &amp; 加入 model"></a>安裝物體辨識資料庫 &amp; 加入 model</h2><p>ORK 是一套以 template matching 方法為主的辨識工具，也就是說，他會把感測器看到的物體跟資料庫中的物體比對，夠相似的就算是辨識成功，所以我們接著要來處理資料庫這一塊。首先要安裝 CouchDB 這個工具 (用 <code>sudo apt-get install couchdb</code> )。</p>
+<p>接下來檢查一下是否有安裝成功 (用 <code>curl -X GET http://localhost:5984</code> )。如果成功，應該會看到類似下面的畫面：</p>
+<p><img src="/img/pojenlai/couchdb.png" alt="curl_couchdb"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosrun object_recognition_core object_add.py -n &quot;coke &quot; -d &quot;A universal can of coke&quot; --commit</span><br></pre></td></tr></table></figure>
+
+<p>執行上面這個指令之後，你可以去 <a target="_blank" rel="noopener" href="http://localhost:5984/_utils/database.html?object_recognition/_design/objects/_view/by_object_name">http://localhost:5984/_utils/database.html?object_recognition/_design/objects/_view/by_object_name</a> 看看自己的資料庫裡是否已經新增了這個物體：</p>
+<p><img src="/img/pojenlai/object_id.png" alt="obj_id"></p>
+<p>接下來就是要指定這個物體的 3D 模型是什麼，這邊就需要先下載個 package 並編譯。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/wg-perception/ork_tutorials</span><br><span class="line">cd .. &amp;&amp; catkin_make</span><br></pre></td></tr></table></figure>
+
+<p>ork_tutorials裡面有一個 coke.stl 檔，他就是一個可樂罐的 3D 模型，足夠讓我們先用來辨識。注意下面這個指令中有一串看起來像亂碼的東西，但那其實是物體的 id ，這就要從你自己的資料庫裡去看了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosrun object_recognition_core mesh_add.py 0be612246c9b0a00baaa4adefb0009eb /home/rosindigo/catkin_ws/src/ork_tutorials/data/coke.stl --commit</span><br></pre></td></tr></table></figure>
+
+<h3 id="執行-Linemod-演算法-Training-Detection"><a href="#執行-Linemod-演算法-Training-Detection" class="headerlink" title="執行 Linemod 演算法 (Training &amp; Detection)"></a>執行 Linemod 演算法 (Training &amp; Detection)</h3><p>好了!終於要進入正題了，這一塊一樣有 <a target="_blank" rel="noopener" href="http://wg-perception.github.io/ork_tutorials/tutorial03/tutorial.html">官方tutorial</a> 可以參考，我們先從 Training 開始。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosrun object_recognition_core training -c `rospack find object_recognition_linemod`/conf/training.ork</span><br></pre></td></tr></table></figure>
+
+<p>這個 training 指令會利用資料庫裡的 3D 模型建立辨識時所需要的 template，如果執行成功，你會看到如下的訊息：</p>
+<p><img src="/img/pojenlai/training.png" alt="train"></p>
+<p>如果已經訓練完畢，下一步就是用他來辨識物體啦。</p>
+<p>可惜筆者的 Kinect 突然壞掉了，沒有辦法直接 demo 出來，不過這邊的指令也不會很複雜。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">roslaunch openni_launch openni.launch</span><br><span class="line">rosrun dynamic_reconfigure dynparam set /camera/driver depth_registration True</span><br><span class="line">rosrun dynamic_reconfigure dynparam set /camera/driver image_mode 2 </span><br><span class="line">rosrun dynamic_reconfigure dynparam set /camera/driver depth_mode 2</span><br><span class="line">rosrun topic_tools relay /camera/depth_registered/image_raw /camera/depth_registered/image</span><br><span class="line">rosrun object_recognition_core detection -c  `rospack find object_recognition_linemod`/conf/detection.ros.ork</span><br></pre></td></tr></table></figure>
+
+<p>接下來就可以用 Rviz 來看辨識結果啦！</p>
+<p><img src="/img/pojenlai/rviz_result.png" alt="rviz_result"></p>
+<h2 id="演算法簡介"><a href="#演算法簡介" class="headerlink" title="演算法簡介"></a>演算法簡介</h2><p>既然 Linemod 是一個這麼強大的演算法，試著去稍微了解一下演算法也是很合理的，原始的<a target="_blank" rel="noopener" href="http://campar.in.tum.de/pub/hinterstoisser2011linemod/hinterstoisser2011linemod.pdf">論文</a>在這邊 (2011 ICCV 的 oral 論文)，以下的圖片也是出自這篇論文。</p>
+<p>首先來看一下這篇論文的辨識結果：</p>
+<p><img src="/img/pojenlai/paper_1.jpg" alt="result"></p>
+<p>這個演算法的核心概念就是整合多種不同的 modalities，把 modality 想成物體的不同特徵可能比較好懂，例如下圖中就有兩種 modalities – gradient 跟 surface normal，而因為這兩種特徵所表達的特性不一樣，所以可以互補，進而達到更好的辨識效果。</p>
+<p><img src="/img/pojenlai/paper_2.jpg" alt="concept"></p>
+<p>所以說，Linemod 需要先有已知的物體模型，然後先取得這個物體各種 modlaities 的template，這樣在辨識的時候就可以拿 template 來比對。</p>
+<p>不過這概念在電腦視覺領域中並不特別，因為同時使用不同特徵來加強物體辨識的效果是很直覺的，也有很多不同的方法可以做到這件事情，所以這篇論文還提出了一個方法來增進 similarity measurement 的效率 ( similarity measurement 的意思是 measure 儲存的 template 跟現在看到的影像資料有多接近)。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>這篇文章很簡略地介紹了 ORK 的安裝、基本的使用方式(使用 Linemod )、還有演算法簡介，有興趣的讀者可以自己動手玩玩看 (如果沒有實體的 RGB-D sensor，你也可以試著用 Gazebo 裡面的 Kinect 來模擬)!</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a target="_blank" rel="noopener" href="http://wg-perception.github.io/ork_tutorials/tutorial02/tutorial.html">使用 ORK 的 tabletop 演算法</a></li>
+<li><a target="_blank" rel="noopener" href="http://wg-perception.github.io/ork_tutorials/tutorial01/tutorial.html">建立自己的 ORK 模型</a></li>
+<li><a target="_blank" rel="noopener" href="https://vimeo.com/66584131">ORK 開發者介紹演講</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Itseez/opencv_contrib/blob/master/modules/rgbd/src/linemod.cpp">Linemod的OpenCV實作</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="https://pojenlai.wordpress.com/">@pojenlai</a> 演算法工程師，對機器人跟電腦視覺有少許研究，最近在鍛鍊自己的執行力</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2016/05/14/ros-object-recognition-kitchen/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2016/05/14/ros-object-recognition-kitchen/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2016/05/14/ros-object-recognition-kitchen/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2016/05/14/ros-object-recognition-kitchen/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2016/05/20/fast-way-to-get-apk-information/">
+        ← 快速取得 apk 相關資訊
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/04/29/introduce-flux-from-flux-and-mvc/">
+        從 Flux 與 MVC 的差異來簡介 Flux →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

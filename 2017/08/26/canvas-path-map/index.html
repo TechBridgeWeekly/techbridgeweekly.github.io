@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>D3v4 &amp; Canvas 工作坊 - D3 + Canvas 繪製動態路線圖 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-08-26T00:04:21.000Z" itemprop="datePublished">
+          2017-08-26
+      </time>
+    
+    
+    | 
+    <a href='/tags/d3/'>d3</a>,
+    
+    <a href='/tags/canvas/'>canvas</a>,
+    
+    <a href='/tags/map/'>map</a>,
+    
+    <a href='/tags/animation/'>animation</a>,
+    
+    <a href='/tags/d3-js/'>d3.js</a>
+    
+    
+</span>
+
+<meta name="generator" content="D3v4 & Canvas 工作坊 - D3 + Canvas 繪製動態路線圖">
+<meta name="og:title" content="D3v4 & Canvas 工作坊 - D3 + Canvas 繪製動態路線圖">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">D3v4 & Canvas 工作坊 - D3 + Canvas 繪製動態路線圖</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>HTML 5 的 Canvas 是許多人做動畫、做遊戲常常會用到的工具，此外，如果是進行資料視覺化，在繪製大量的圖形與動畫時，Canvas 可以為你的 performance 帶來很大的改善，從 <a target="_blank" rel="noopener" href="http://blog.infographics.tw/2015/07/optimize-d3-with-canvas/">D3.js 實戰 － Canvas 把我的視覺化變「快」了！</a> 中最後的範例就可以看得出來差異。</p>
+<p>總之，身為前端工程師的我卻沒有實作做過 Canvas 相關應用，在羞愧之餘也得奮發向上扳回劣勢才可以，所以決定把上次用 d3 與 svg 繪製的颱風路徑圖重新用 Canvas 重寫一遍，也透過這篇文章做個紀錄。</p>
+<h2 id="Canvas-基礎概念-繪圖"><a href="#Canvas-基礎概念-繪圖" class="headerlink" title="Canvas 基礎概念 - 繪圖"></a>Canvas 基礎概念 - 繪圖</h2><p>Canvas 顧名思義就是一塊畫布，只不過是生存在你的 HTML DOM tree 中，讓你透過 Javascript 在上面揮灑創意。</p>
+<p>Canvas 就像一般的 DOM 元素一樣，有 <code>width</code> 與 <code>height</code> 等屬性可以設定，也能透過 CSS 來操作他的樣式，而這些樣式並不會影響到你在上面所進行的任何繪製功能。<br>不過要注意一下，如果你是透過 CSS 去更改寬度與高度，他會放大 Canvas 元素本身，而不會放大 Canvas 內的像素，因此你在 Canvas 內繪製的圖形可能會變形。</p>
+<p><code>&lt;canvas id=&quot;worldMapCanvas&quot; width=&quot;1000&quot; height=&quot;600&quot;&gt; Your browser is too old... &lt;/canvas&gt;</code></p>
+<p>有了 Canvas 元素後，我們要取得他的 <strong>渲染環境（rendering context）</strong>，之後必須要透過這個 Context 才能進行繪圖：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> canvas = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;worldMapCanvas&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> ctx = canvas.<span class="title function_">getContext</span>(<span class="string">&#x27;2d&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>接下來的一切繪圖操作就會跟著你取得的 context 進行，透過一連串 Canvas API，你可以繪製出如下的圖案：</p>
+<p data-height="374" data-theme-id="29194" data-slug-hash="brLmqX" data-default-tab="js,result" data-user="arvin0731" data-embed-version="2" data-pen-title="First demo - define graph" class="codepen">See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/arvin0731/pen/brLmqX/">First demo - define graph</a> by Arvin (<a target="_blank" rel="noopener" href="https://codepen.io/arvin0731">@arvin0731</a>) on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+<p>在 <code>ball.draw()</code> 這個函數當中，我用了五個最基本的 Canvas API 來進行繪製：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ctx.<span class="title function_">beginPath</span>();</span><br><span class="line">ctx.<span class="title function_">arc</span>(<span class="variable language_">this</span>.<span class="property">x</span>, <span class="variable language_">this</span>.<span class="property">y</span>, <span class="variable language_">this</span>.<span class="property">radius</span>, <span class="number">0</span>, <span class="title class_">Math</span>.<span class="property">PI</span> * <span class="number">2</span>, <span class="literal">true</span>);</span><br><span class="line">ctx.<span class="title function_">closePath</span>();</span><br><span class="line">ctx.<span class="property">fillStyle</span> = <span class="variable language_">this</span>.<span class="property">color</span>;</span><br><span class="line">ctx.<span class="title function_">fill</span>();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>ctx.beginPath()</code>:<br>  <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-TW/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes">MDN</a> 上的說明是：產生一個新路徑，產生後再使用繪圖指令來設定路徑。<br>  白話一點就是告訴 Canvas 說你現在要開始繪製線段了喔！請幫我開啟一個新的次路徑清單（sub-path），幫忙紀錄接下來我繪製的路線。<br>  基本上在你每次繪製新的圖形或線段的時候，都需要呼叫一次 <code>beginPath()</code>，否則 Canvas 會將你先前的繪製的部分與後續你想繪製的新圖型當作同一個連續的圖。<br>  來個範例（沒有使用 beginPath() 就直接想繪製新圖形時）：</p>
+  <p data-height="300" data-theme-id="29194" data-slug-hash="LjQgqg" data-default-tab="js,result" data-user="arvin0731" data-embed-version="2" data-pen-title="First demo - beginPath" class="codepen">See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/arvin0731/pen/LjQgqg/">First demo - beginPath</a> by Arvin (<a target="_blank" rel="noopener" href="https://codepen.io/arvin0731">@arvin0731</a>) on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.</p></li>
+</ul>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+<pre><code>可以發現我明明在 `lineTo()` 後有設定不同的 `strokeStyle`，但最後都被 &lt;span style=&quot;color:#B90CB3&quot;&gt;#B90CB3&lt;/span&gt; 給取代了，這就是因為沒有呼叫 beginPath 來對線段做區隔。
+
+加上 `beginPath()` 後，結果就會是我們想要的了：
+&lt;p data-height=&quot;300&quot; data-theme-id=&quot;29194&quot; data-slug-hash=&quot;ayqRMG&quot; data-default-tab=&quot;js,result&quot; data-user=&quot;arvin0731&quot; data-embed-version=&quot;2&quot; data-pen-title=&quot;First demo - addBeginPath&quot; class=&quot;codepen&quot;&gt;See the Pen &lt;a href=&quot;https://codepen.io/arvin0731/pen/ayqRMG/&quot;&gt;First demo - addBeginPath&lt;/a&gt; by Arvin (&lt;a href=&quot;https://codepen.io/arvin0731&quot;&gt;@arvin0731&lt;/a&gt;) on &lt;a href=&quot;https://codepen.io&quot;&gt;CodePen&lt;/a&gt;.&lt;/p&gt;
+</code></pre>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+
+<ul>
+<li><p><code>ctx.arc(x,y,raidus,startAngle,endAngle,counterclockwise)</code>:<br>  就是畫出一個弧線，前兩個參數設定中心點的位置，接著設定半徑、起始點（起始角度）、結束點（結束角度）與方向（順時針或逆時針：</p>
+<p>  <img src="/img/arvinh/canvasarc.png" alt="Canvas arc"></p>
+</li>
+<li><p><code>ctx.beginPath()</code> 的範例中還有用到 <code>moveTo()</code>, <code>lineTo()</code> 與 <code>stroke()</code>，也都是很常用的 API，但從字面上就很好理解:</p>
+<ul>
+<li>moveTo(x, y): 移動畫筆到 point x,y</li>
+<li>lineTo(x, y): 從現在畫筆位置畫一條直線到 point x,y（但光呼叫 <code>lineTo()</code> 還不會畫出線段，需透過 <code>stroke()</code> 等相似 API）</li>
+<li>stroke(): 實際下筆繪畫的 API</li>
+</ul>
+</li>
+<li><p><code>ctx.closePath()</code>:<br>  closePath 其實在這邊不需要，他主要用途是在於幫你把你在 beginPath 後創建的 sub-path 做連接的動作，像是把第一條 path 的頭與最後一條 path 的尾巴接起來，但你也可以自己再多畫一條線將區域圍起來，只是稍嫌麻煩。<br>  從字面上來看，<code>closePath()</code> 很像是呼叫後就能幫你斷開路徑的連續性，保持後續繪製圖型的獨立性，但實際上沒有這個功用，你需要透過 <code>beginPath()</code> 來完成。</p>
+</li>
+</ul>
+<p>還有很多 canvas API 的介紹都可以在 MDN 上查詢到，有的教學附有中文呦！<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-TW/docs/Web/API/Canvas_API/Tutorial">MDN Canvas tutorial</a></p>
+<h2 id="Canvas-基礎概念-動畫"><a href="#Canvas-基礎概念-動畫" class="headerlink" title="Canvas 基礎概念 - 動畫"></a>Canvas 基礎概念 - 動畫</h2><p>先前利用 D3 與 svg 做動畫時，是使用 <code>d3.timer</code> 來控制時間，並且更改 svg 元素的 attribute 來移動物件，進而達到動畫效果，但是在 Canvas 的世界中，沒有移動的這種概念，你如果想要讓一個在 Canvas 上的物件移動，你需要的是重新繪製在不同位置的物件，在快速的 frame update 下，人眼看到的就會是一連串動畫了。這原理就跟一般的影片與動畫相同，都是透過每一次 frame 的更新，來呈現出連續畫面。</p>
+<p>那要如何不斷地去更新 Canvas 呢？你可以透過 <code>setInterval</code> 也能夠用現在較為人知的 <code>requestAnimationFrame</code> 來處理，使用 <code>setInterval</code> 你可以直接控制動畫的更新速率，然而在效能上還是採用 <code>requestAnimationFrame</code> 較好，是以網頁頁面的更新速度為基準。</p>
+<p>一個採用 <code>requestAnimationFrame</code> 的簡單動畫如下：</p>
+<p data-height="300" data-theme-id="29194" data-slug-hash="yoovpx" data-default-tab="js,result" data-user="arvin0731" data-embed-version="2" data-pen-title="First demo" class="codepen">See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/arvin0731/pen/yoovpx/">First demo</a> by Arvin (<a target="_blank" rel="noopener" href="https://codepen.io/arvin0731">@arvin0731</a>) on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+<figure class="highlight js"><figcaption><span>draw</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ctx.<span class="title function_">clearRect</span>(<span class="number">0</span>,<span class="number">0</span>, canvas.<span class="property">width</span>, canvas.<span class="property">height</span>);</span><br><span class="line">ball.<span class="title function_">draw</span>();</span><br><span class="line"><span class="comment">// ... calculate position</span></span><br><span class="line"></span><br><span class="line">raf = <span class="variable language_">window</span>.<span class="title function_">requestAnimationFrame</span>(draw);</span><br></pre></td></tr></table></figure>
+
+<p>關鍵只有兩個地方：</p>
+<ul>
+<li>在每次 requestAnimationFrame 執行時，你都要清空現在的 Canvas 畫面重新繪製 <code>ctx.clearRect(0,0, canvas.width, canvas.height);</code>。</li>
+<li>requestAnimationFrame 是必須自己去呼叫的，所以在我們的 <code>draw()</code> 函式中，最後要自己呼叫 raf 來重新 trigger 自己的 draw function。<br>  你可以像一般的 setInterval 一樣記錄他回傳的 reference，並在適當時間 <code>cancelAnimationFrame</code>。</li>
+</ul>
+<h2 id="瞭解了-Canvas-的基礎知識後，可以開始動手今天的主題了！"><a href="#瞭解了-Canvas-的基礎知識後，可以開始動手今天的主題了！" class="headerlink" title="瞭解了 Canvas 的基礎知識後，可以開始動手今天的主題了！"></a>瞭解了 Canvas 的基礎知識後，可以開始動手今天的主題了！</h2><p>由於範例是修改自 <a href="http://blog.techbridge.cc/2017/07/21/d3-workshop-map/">D3v4 工作坊 - React + D3 繪製 svg 動態路線地圖</a>，所以關於資料的取得與格式請參考該篇或是下面 Demo 的程式碼。</p>
+<h2 id="地圖"><a href="#地圖" class="headerlink" title="地圖"></a>地圖</h2><p>在上一篇 <a href="http://blog.techbridge.cc/2017/07/21/d3-workshop-map/">D3v4 工作坊 - React + D3 繪製 svg 動態路線地圖</a> 中，我們利用 svg path 元素搭配 <code>d3.geoPath()</code> 與 <code>d3.geo</code> 中的 <code>geoMercator()</code> 來繪製世界地圖，那 d3 有辦法幫助我們在 Canvas 上繪製世界圖嗎?</p>
+<p>當然可以！</p>
+<p><code>d3.geoPath()</code> 有提供一個 <code>context()</code> API，讓你綁定 Canvas 的 context，然後就能傳入路徑資料繪製到 Canvas 上頭：</p>
+<figure class="highlight js"><figcaption><span>renderMap</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">renderMap</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> self = <span class="variable language_">this</span>;</span><br><span class="line">  <span class="keyword">const</span> canvasNode = <span class="title function_">d3Select</span>(<span class="string">&#x27;#mapCanvas&#x27;</span>).<span class="title function_">node</span>();</span><br><span class="line">  <span class="keyword">const</span> context = canvasNode.<span class="title function_">getContext</span>(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">  <span class="comment">// 傳入 canvas context 給 geoPath()</span></span><br><span class="line">  <span class="keyword">const</span> path = <span class="title function_">geoPath</span>().<span class="title function_">context</span>(context);</span><br><span class="line">  context.<span class="title function_">beginPath</span>();</span><br><span class="line">  <span class="comment">// 記得一樣要放入你的映射函數</span></span><br><span class="line">  path.<span class="title function_">projection</span>(<span class="variable language_">this</span>.<span class="title function_">projection</span>());</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">state</span>.<span class="property">worlddata</span>.<span class="property">features</span>.<span class="title function_">forEach</span>(<span class="function">(<span class="params">d, i</span>) =&gt;</span> &#123;</span><br><span class="line">      context.<span class="property">fillStyle</span> = </span><br><span class="line">        <span class="string">&#x27;rgba(38,50,56,&#x27;</span>+ <span class="number">1</span> / <span class="variable language_">this</span>.<span class="property">state</span>.<span class="property">worlddata</span>.<span class="property">features</span>.<span class="property">length</span> * i + <span class="string">&#x27;)&#x27;</span></span><br><span class="line">      context.<span class="title function_">beginPath</span>();</span><br><span class="line">      <span class="comment">// 綁定 Canvas context 的 path 就能將傳入的資料繪製在 Canvas 上頭</span></span><br><span class="line">      <span class="title function_">path</span>(d);</span><br><span class="line">      context.<span class="title function_">fill</span>();</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// add graticules path</span></span><br><span class="line">  context.<span class="title function_">beginPath</span>();</span><br><span class="line">  path.<span class="title function_">projection</span>(<span class="variable language_">this</span>.<span class="title function_">projection</span>());</span><br><span class="line">  <span class="title function_">path</span>(<span class="variable language_">this</span>.<span class="property">state</span>.<span class="property">graticule</span>);</span><br><span class="line">  context.<span class="property">fillStyle</span> = <span class="string">&#x27;none&#x27;</span>;</span><br><span class="line">  context.<span class="property">strokeStyle</span> = <span class="string">&#x27;#79A09E&#x27;</span>;</span><br><span class="line">  context.<span class="title function_">stroke</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Demo: （可以切換模式看 code，或是到<a href="http://blog.techbridge.cc/2017/07/21/d3-workshop-map/">上一篇</a>看，有許多重複的運算函式）</p>
+<iframe src="https://codesandbox.io/embed/w2lp7ml9vw?autoresize=1&view=preview" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+<h2 id="路徑"><a href="#路徑" class="headerlink" title="路徑"></a>路徑</h2><p>接著重頭戲是要畫上路徑，這邊會複雜許多，我盡力說明，但直接看 code 會清楚一點。</p>
+<p>這邊說明在 Canvas 上繪製動態路線的原理與步驟：</p>
+<h3 id="線段動畫原理："><a href="#線段動畫原理：" class="headerlink" title="線段動畫原理："></a>線段動畫原理：</h3><span style="color: red">
+跟 svg 要製作動態路線一樣的原理，我們都是先將線畫好後，利用線段的 **line dash** 與 **dash offset** 來製作出路徑的動畫效果。（可參考 [上一篇](http://blog.techbridge.cc/2017/07/21/d3-workshop-map/)）
+</span>
+
+<p>因此在繪製上的步驟也差不多，只是實作的細節不同罷了：</p>
+<ul>
+<li>Step 1. 繪製線段的入口點：</li>
+</ul>
+<p>既然一樣是利用 <strong>line dash</strong> 與 <strong>dash offset</strong>，那我們也就需要取得路徑的長度，才能夠設定 <code>lineDash</code> 麻，但是你如果在前面的範例中有打開過 devTool，就知道根本看不到 Canvas 上面你繪製的物件，每個線段也都是用各點的 x, y 值去連接，這樣要怎麼知道整個線段長呢？！</p>
+<p>難道要每一段每一段的線長度加總起來嗎？或許是個方法，但太麻煩了！</p>
+<p>我們可以直接利用 D3 創建一個 <code>invisiablePath</code>，然後透過 <code>getTotalLength()</code> 來取得線段長度，並利用在 Canvas 上頭！</p>
+<p><code>renderLine()</code> 是一切的起點，我們在這邊創建隱藏的 svg path 好計算長度，並呼叫 <code>requestAnimationFrame</code> 進行 loop，傳入 <code>updateLine</code> 函式來產生動畫。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">renderLine</span>(<span class="params">canvasCtx, typhoonPath, marker, typhoonId</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> pathCoordinates = [];</span><br><span class="line">    typhoonPath.<span class="title function_">forEach</span>(<span class="function">(<span class="params">path</span>) =&gt;</span> &#123;</span><br><span class="line">        pathCoordinates.<span class="title function_">push</span>(&#123;</span><br><span class="line">            <span class="attr">x</span>: <span class="variable language_">this</span>.<span class="title function_">projection</span>()(path.<span class="property">coordinates</span>)[<span class="number">0</span>],</span><br><span class="line">            <span class="attr">y</span>: <span class="variable language_">this</span>.<span class="title function_">projection</span>()(path.<span class="property">coordinates</span>)[<span class="number">1</span>],</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">const</span> lineFunction = <span class="title function_">d3Line</span>()</span><br><span class="line">      .<span class="title function_">x</span>(<span class="function">(<span class="params">d</span>) =&gt;</span> d.<span class="property">x</span>)</span><br><span class="line">      .<span class="title function_">y</span>(<span class="function">(<span class="params">d</span>) =&gt;</span> d.<span class="property">y</span>)</span><br><span class="line">      .<span class="title function_">curve</span>(curveCatmullRom);</span><br><span class="line">    <span class="comment">// use svg path to get length</span></span><br><span class="line">    <span class="keyword">const</span> invisiblePath = <span class="title function_">d3Select</span>(<span class="string">&#x27;svg&#x27;</span>)</span><br><span class="line">      .<span class="title function_">append</span>(<span class="string">&#x27;g&#x27;</span>)</span><br><span class="line">      .<span class="title function_">append</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line">      .<span class="title function_">attr</span>(<span class="string">&#x27;d&#x27;</span>, <span class="title function_">lineFunction</span>(pathCoordinates))</span><br><span class="line">      .<span class="title function_">attr</span>(<span class="string">&#x27;fill&#x27;</span>, <span class="string">&#x27;none&#x27;</span>)</span><br><span class="line">      .<span class="title function_">attr</span>(<span class="string">&#x27;stroke&#x27;</span>, <span class="string">&#x27;none&#x27;</span>)</span><br><span class="line">      .<span class="title function_">attr</span>(<span class="string">&#x27;class&#x27;</span>, <span class="string">&#x27;invisiblePath&#x27;</span>);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">invisibleSVGPath</span>[typhoonId] = invisiblePath.<span class="title function_">node</span>();</span><br><span class="line">    <span class="keyword">const</span> length = <span class="variable language_">this</span>.<span class="property">invisibleSVGPath</span>[typhoonId].<span class="title function_">getTotalLength</span>();</span><br><span class="line">    <span class="comment">// this clears itself once the line is drawn</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">lineInterval</span>[typhoonId] = <span class="title function_">requestAnimationFrame</span>(<span class="variable language_">this</span>.<span class="property">updateLine</span>.<span class="title function_">bind</span>(<span class="variable language_">this</span>, canvasCtx, typhoonPath, length, marker, typhoonId));</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Step 3. 更新線段的函式：</li>
+</ul>
+<p>在每一次 requestAnimationFrame trigger 的時候，我們都會呼叫 <code>updateLine()</code> 來重新 render canvas，主要進行幾個步驟：</p>
+<ol>
+<li><p><code>defineLine()</code>，定義線段，每一次的 loop 都需要重新繪製線段。<a href="#step4"> 跳至 Step 4 看詳細實作</a></p>
+</li>
+<li><p>計算目前 <code>progress</code>，也就是目前 line offset 要調整到何處，我們是定義一個變數 <code>this.speed</code> 與 <code>this.dir</code> 來控制線段繪製的方向與速度。每一次的 loop 都會增加 <code>this.progress</code> 的值，然後丟入 <code>this.moveDash()</code> 中來繪製線段的 line dash 與 line dash offset。<a href="#step5"> 跳至 Step 5 看詳細實作</a></p>
+</li>
+<li><p>最後，每一次呼叫 <code>updateLine</code> 時，我們都會檢查 <code>this.progress</code> 是否已經與線段長度相同，代表已經走完一次路線，需要重新開始，這時候我們就需要先將 canvas 清空：<code>canvasCtx.clearRect(0,0,1000,600)</code>，表示將 canvasCtx 所持有的渲染環境從位置 (0,0) 開始對寬 1000 與高 600 的 canvas 清空。最後可以利用 <code>setTimoue()</code> 來延長一下路徑走完後的時間，讓他不要馬上就清空 canvas 重繪。</p>
+</li>
+</ol>
+<figure class="highlight js"><figcaption><span>updateLine</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">updateLine</span>(<span class="params">canvasCtx, typhoonPath, length, marker, typhoonId</span>) &#123;</span><br><span class="line">    <span class="comment">// define the line</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">defineLine</span>(canvasCtx, typhoonPath, marker, typhoonId);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">progress</span>[typhoonId] = <span class="variable language_">this</span>.<span class="property">progress</span>[typhoonId] || <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">progress</span>[typhoonId] &lt; length) &#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">progress</span>[typhoonId] += <span class="variable language_">this</span>.<span class="property">speed</span>;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="title function_">moveDash</span>(canvasCtx, typhoonId, typhoonPath, length, marker, <span class="variable language_">this</span>.<span class="property">progress</span>[typhoonId], <span class="variable language_">this</span>.<span class="property">dir</span>);</span><br><span class="line">      <span class="title function_">requestAnimationFrame</span>(<span class="variable language_">this</span>.<span class="property">updateLine</span>.<span class="title function_">bind</span>(<span class="variable language_">this</span>, canvasCtx, typhoonPath, length, marker, typhoonId));</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    </span><br><span class="line">      canvasCtx.<span class="title function_">clearRect</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1000</span>, <span class="number">600</span>);</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">progress</span>[typhoonId] = <span class="number">0</span>;</span><br><span class="line">      <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="title function_">requestAnimationFrame</span>(<span class="variable language_">this</span>.<span class="property">updateLine</span>.<span class="title function_">bind</span>(<span class="variable language_">this</span>, canvasCtx, typhoonPath, <span class="number">500</span>, marker, typhoonId)), <span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><span id="step4" style="">Step 4. 定義線段的函式：</span></li>
+</ul>
+<figure class="highlight js"><figcaption><span>defineLine</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">defineLine</span>(<span class="params">canvasCtx, typhoonPath, marker, typhoonId</span>) &#123;</span><br><span class="line">  <span class="comment">// define path</span></span><br><span class="line">  canvasCtx.<span class="title function_">beginPath</span>();</span><br><span class="line">  <span class="comment">// start point</span></span><br><span class="line">  <span class="keyword">const</span> startPoint = &#123;</span><br><span class="line">    <span class="attr">x</span>: <span class="variable language_">this</span>.<span class="title function_">projection</span>()(marker.<span class="property">coordinates</span>)[<span class="number">0</span>],</span><br><span class="line">    <span class="attr">y</span>: <span class="variable language_">this</span>.<span class="title function_">projection</span>()(marker.<span class="property">coordinates</span>)[<span class="number">1</span>],</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">// 移動畫筆到起始點</span></span><br><span class="line">  canvasCtx.<span class="title function_">moveTo</span>(startPoint.<span class="property">x</span>, startPoint.<span class="property">y</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 將路徑中的每個點與點之間用 lineTo() 連接起來</span></span><br><span class="line">  typhoonPath.<span class="title function_">forEach</span>(<span class="function">(<span class="params">path</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> x = <span class="variable language_">this</span>.<span class="title function_">projection</span>()(path.<span class="property">coordinates</span>)[<span class="number">0</span>];</span><br><span class="line">      <span class="keyword">const</span> y = <span class="variable language_">this</span>.<span class="title function_">projection</span>()(path.<span class="property">coordinates</span>)[<span class="number">1</span>];</span><br><span class="line">      canvasCtx.<span class="title function_">lineTo</span>(x, y);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">// 設定 style</span></span><br><span class="line">  canvasCtx.<span class="property">lineWidth</span> = <span class="number">2</span>;</span><br><span class="line">  canvasCtx.<span class="property">strokeStyle</span> = <span class="string">&#x27;rgba(53, 247, 14,0.7)&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><span id="step5" style="">Step 5. 實作更新 LineDash 的函式：</span></li>
+</ul>
+<p>單純的 moveDash 很簡單，只要透過 <code>setLineDash()</code>，將線段長度傳入，定義好你的 line dash 要多長，接著我們利用 Step 3 中提到的 <code>this.speed</code> 與 <code>this.dir</code> 來計算出現在要將 <code>lineDashOffset</code> 設為多少。</p>
+<p>這邊有個有趣的 API，<code>globalCompositeOperation</code>，它可以用來決定你目前的 canvas context 渲染環境中，每個新繪製的物件與其他舊有的物件之間的階層關係，像是我這邊設置的 <code>destination-over</code> 就代表 <strong>新繪製的圖形會被壓在舊的圖形下方</strong>，至於為什麼我這邊要設置這個參數呢？待會介紹颱風圈實作時你就知道了！更多關於 <code>globalCompositionOperation</code> 的介紹可以看 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation">MDN globalCompositeOperation</a></p>
+<figure class="highlight js"><figcaption><span>moveDash</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">moveDash = <span class="function">(<span class="params">canvasCtx, typhoonId, typhoonPath, length, marker, frac, dir = -<span class="number">1</span></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// default direction right-&gt;left</span></span><br><span class="line">  <span class="comment">// 設定 line dash 為線段長</span></span><br><span class="line">  canvasCtx.<span class="title function_">setLineDash</span>([length]);</span><br><span class="line">  <span class="comment">// 利用 `this.progress (frac)` 來慢慢增加 line-dash offset，製作出線段動態</span></span><br><span class="line">  canvasCtx.<span class="property">lineDashOffset</span> = dir * (frac + length);</span><br><span class="line">  canvasCtx.<span class="property">globalCompositeOperation</span> = <span class="string">&#x27;destination-over&#x27;</span>;</span><br><span class="line">  canvasCtx.<span class="title function_">stroke</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>到這裡為止，你已經創建出與上次相同的動態路線地圖，只是是採用 Canvas 實作，Demo：</p>
+<iframe src="https://codesandbox.io/embed/4j3r5yv74w?view=preview" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+<h2 id="暴風圈"><a href="#暴風圈" class="headerlink" title="暴風圈"></a>暴風圈</h2><p>當然不能單純只有線段，還是需要有個跟著線段跑的颱風才比較有 fu。</p>
+<p>你可以會想說，那就每次 <code>moveDash()</code> 執行的時候，順便也繪製上一個圓形的暴風圈不就好了嗎？</p>
+<p>接著就這麼做了：</p>
+<figure class="highlight js"><figcaption><span>moveDash</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">moveDash = <span class="function">(<span class="params">canvasCtx, typhoonId, typhoonPath, length, marker, frac, dir = -<span class="number">1</span></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// default direction right-&gt;left</span></span><br><span class="line">  <span class="comment">/* 原本繪製線段的部分 ... */</span></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="comment">// ..</span></span><br><span class="line">  <span class="comment">// Move typhoon marker</span></span><br><span class="line">  canvasCtx.<span class="title function_">beginPath</span>();</span><br><span class="line">  canvasCtx.<span class="title function_">setLineDash</span>([<span class="number">0</span>]);</span><br><span class="line">  canvasCtx.<span class="property">lineDashOffset</span> = <span class="number">0</span>;</span><br><span class="line">  canvasCtx.<span class="property">lineWidth</span> = <span class="number">1</span>;</span><br><span class="line">  canvasCtx.<span class="property">strokeStyle</span> = <span class="string">&#x27;rgba(53, 247, 14,0.8)&#x27;</span>;</span><br><span class="line">  canvasCtx.<span class="title function_">arc</span>(p.<span class="property">x</span>, p.<span class="property">y</span>, <span class="number">10</span>, <span class="number">0</span>, <span class="title class_">Math</span>.<span class="property">PI</span> * <span class="number">2</span>, <span class="literal">true</span>);</span><br><span class="line">  canvasCtx.<span class="title function_">closePath</span>();</span><br><span class="line">  canvasCtx.<span class="title function_">stroke</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然後就看到下面這個悲劇：</p>
+<iframe src="https://codesandbox.io/embed/xjz4n92yq4?view=preview" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+<p>其實也沒有錯，你的確是畫上圈圈了，但是每一次的 moveDash() 都會畫上一個圈圈，並且會持續留在 Canvas 上，而實際上我們應該每一步都要將前一個圈圈刪除。</p>
+<p>但如果你在這邊加上 <code>canvasCtx.clearRect(0, 0, 1000, 600);</code>，就會發現圈圈會正常移動了，但線段不見了…因為 <code>moveDash()</code> 並沒有重新繪製線段，只有更改 context 的 line dash。</p>
+<p><img src="/img/arvinh/typhooncircleonly.gif" alt="只剩下圈圈了..."></p>
+<h3 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h3><p>那就多畫一層 Canvas 吧！</p>
+<p>沒有人說過 Canvas 只能有一層，你可以疊加一層 Canvas 上去，讓跟著線段移動的暴風圈獨自一個圖層，這樣一來就不會互相影響了！</p>
+<figure class="highlight js"><figcaption><span>moveDash-multilayer</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">moveDash = <span class="function">(<span class="params">canvasCtx, canvasTyphoonMarkerCtx, typhoonId, typhoonPath, length, marker, frac, dir = -<span class="number">1</span></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// default direction right-&gt;left</span></span><br><span class="line">  canvasCtx.<span class="title function_">setLineDash</span>([length]);</span><br><span class="line">  canvasCtx.<span class="property">lineDashOffset</span> = dir * (frac + length);</span><br><span class="line">  canvasCtx.<span class="property">globalCompositeOperation</span> = <span class="string">&#x27;destination-over&#x27;</span>;</span><br><span class="line">  canvasCtx.<span class="title function_">stroke</span>();</span><br><span class="line">  <span class="keyword">const</span> p = <span class="variable language_">this</span>.<span class="property">invisibleSVGPath</span>[typhoonId].<span class="title function_">getPointAtLength</span>(frac);</span><br><span class="line">  canvasCtx.<span class="title function_">save</span>();</span><br><span class="line">  <span class="comment">// Move typhoon marker</span></span><br><span class="line">  canvasTyphoonMarkerCtx.<span class="title function_">clearRect</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1000</span>, <span class="number">600</span>);</span><br><span class="line">  canvasTyphoonMarkerCtx.<span class="title function_">beginPath</span>();</span><br><span class="line">  canvasTyphoonMarkerCtx.<span class="title function_">setLineDash</span>([<span class="number">0</span>]);</span><br><span class="line">  canvasTyphoonMarkerCtx.<span class="property">lineDashOffset</span> = <span class="number">0</span>;</span><br><span class="line">  canvasTyphoonMarkerCtx.<span class="property">lineWidth</span> = <span class="number">1</span>;</span><br><span class="line">  canvasTyphoonMarkerCtx.<span class="property">strokeStyle</span> = <span class="string">&#x27;rgba(53, 247, 14,0.8)&#x27;</span>;</span><br><span class="line">  canvasTyphoonMarkerCtx.<span class="title function_">arc</span>(p.<span class="property">x</span>, p.<span class="property">y</span>, <span class="number">10</span>, <span class="number">0</span>, <span class="title class_">Math</span>.<span class="property">PI</span> * <span class="number">2</span>, <span class="literal">true</span>);</span><br><span class="line">  canvasTyphoonMarkerCtx.<span class="title function_">closePath</span>();</span><br><span class="line">  canvasTyphoonMarkerCtx.<span class="title function_">stroke</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>const p = this.invisibleSVGPath[typhoonId].getPointAtLength(frac);</code> 這邊我們先前創立的 <code>invisibleSVGPath</code> 又登場了，用來取得目前的線段點資料。</p>
+<p>Demo: 利用兩層 Canvas 來實作跟著線段移動的暴風圈：</p>
+<iframe src="https://codesandbox.io/embed/0xoy5yn4rp?view=preview" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+<h2 id="最後-Demo-加上時間判斷、顏色區別、多個颱風的情況："><a href="#最後-Demo-加上時間判斷、顏色區別、多個颱風的情況：" class="headerlink" title="最後 Demo - 加上時間判斷、顏色區別、多個颱風的情況："></a>最後 Demo - 加上時間判斷、顏色區別、多個颱風的情況：</h2><iframe src="https://codesandbox.io/embed/98816jkovr?view=preview" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+<p>這邊還要注意一下，稍早提到的 <code>globalCompositeOperation</code>，如果你設為 <code>source-over</code>，也就是新繪製出的物件蓋在舊的上面的話，你就會發現颱風圈都被壓在線段下了！</p>
+<p><img src="/img/arvinh/circleunderline.png" alt="source-over"></p>
+<p>因為在 moveDash 中，線段是一直在重新繪製的，而你留下的颱風圈相對就是舊的物件，所以記得要改成 <code>destinatioin-over</code> 才能有比較好的效果！</p>
+<h2 id="根據時間留下暴風圈"><a href="#根據時間留下暴風圈" class="headerlink" title="根據時間留下暴風圈"></a>根據時間留下暴風圈</h2><p>這實作方法很簡單，就是在 moveDash 中判斷該點的時間，若符合要求就繪製上一個圖案即可，有興趣的讀者可以直接從 code 中看到。</p>
+<h2 id="如何讓所有動畫都結束後才一起重播？"><a href="#如何讓所有動畫都結束後才一起重播？" class="headerlink" title="如何讓所有動畫都結束後才一起重播？"></a>如何讓所有動畫都結束後才一起重播？</h2><p>在我最後一個 Demo 中，一個颱風的路徑較短，一個較長，但卻能同時重播，我採用的方法其實蠻愚蠢的，暫時還沒想到更好的解法，歡迎大家提供。</p>
+<p>我的方法是，用一個共有變數 <code>this.allDone</code> 來記錄每條路徑是否已經播完動畫（走完整條 path），接著在 <code>updateLine()</code> 中，當自己跑完 path 時，就會多檢查一下 <code>this.allDone</code> 中的結果，如果還有人在跑，那自己就繼續呼叫 requestAnimationFrame，但不將 Canvas 清空，所以會一直 loop 檢查 <code>this.allDone</code>，直到大家都跑完才清空 Canvas 並重新 loop。</p>
+<figure class="highlight js"><figcaption><span>updateLine-multiple</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">progress</span>[typhoonId] &lt; length) &#123;</span><br><span class="line">   <span class="comment">// 正常執行 defineLine 與 moveDash</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// 不斷檢查是否每條 path 都跑完了</span></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">allDone</span>[typhoonId] = <span class="literal">true</span>;</span><br><span class="line">  <span class="keyword">let</span> keepWaiting;</span><br><span class="line">  <span class="title class_">Object</span>.<span class="title function_">keys</span>(<span class="variable language_">this</span>.<span class="property">allDone</span>).<span class="title function_">forEach</span>(<span class="function">(<span class="params">allDoneTyphoonId</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="variable language_">this</span>.<span class="property">allDone</span>[allDoneTyphoonId]) &#123;</span><br><span class="line">        keepWaiting = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> keepWaiting;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">if</span> (keepWaiting) &#123;</span><br><span class="line">    <span class="title function_">requestAnimationFrame</span>(<span class="variable language_">this</span>.<span class="property">updateLine</span>.<span class="title function_">bind</span>(<span class="variable language_">this</span>, canvasCtx, canvasTyphoonMarkerCtx, typhoonPath, <span class="number">500</span>, marker, typhoonId));</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 清空 canvas 並重新 loop</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>利用 Canvas 繪製動畫實際上比用 D3 + svg 煩瑣多了，但是當你的動畫有大量的物件時，Canvas 能為你帶來大幅的 performance 改進，畢竟 svg 的操作會直接影響到 DOM tree。<br>另外，實際上要將這些東西應用到 Production 的話，其實還有非常多細節要調整，包含各種 Browser 與 Device 的呈現、Map Scale 的彈性等等，還有很長的路要走啊…<br>這篇文章算是我的一個筆記，寫得有點雜亂，歡迎（有看完的或是看不下去的）讀者給予任何建議！<br>(PS. 我本來路徑跟暴風圈的顏色是想弄得像 EVA 風格，結果有點慘XD  但我懶得修了就給大家笑笑～)</p>
+<h2 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://css-tricks.com/svg-line-animation-works/">How SVG Line Animation Works</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.infographics.tw/2015/07/optimize-d3-with-canvas/">D3.js 實戰 － Canvas 把我的視覺化變「快」了！</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-TW/docs/Web/API/Canvas_API/Tutorial">MDN Canvas tutorial</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation">MDN globalCompositeOperation</a></li>
+<li><a target="_blank" rel="noopener" href="https://bl.ocks.org/mbostock/3783604">mbostock d3.geoPath + Canvas</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.arvinh.info/about/">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/08/26/canvas-path-map/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/08/26/canvas-path-map/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/08/26/canvas-path-map/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/08/26/canvas-path-map/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/08/26/robond-rover/">
+        ← Udacity RoboND - Rover project 簡介
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/08/19/sotring-algorithm/">
+        一起用 JavaScript 來複習經典排序法吧！ →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

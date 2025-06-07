@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>用 Python 自學資料科學與機器學習入門實戰：Matplotlib 基礎入門 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-05-11T09:54:49.000Z" itemprop="datePublished">
+          2018-05-11
+      </time>
+    
+    
+    | 
+    <a href='/tags/Python/'>Python</a>,
+    
+    <a href='/tags/Machine-Learning/'>Machine Learning</a>,
+    
+    <a href='/tags/機器學習/'>機器學習</a>,
+    
+    <a href='/tags/AI/'>AI</a>,
+    
+    <a href='/tags/Artificial-Intelligence/'>Artificial Intelligence</a>,
+    
+    <a href='/tags/NLP/'>NLP</a>,
+    
+    <a href='/tags/Data-Mining/'>Data Mining</a>,
+    
+    <a href='/tags/人工智慧/'>人工智慧</a>,
+    
+    <a href='/tags/監督式學習/'>監督式學習</a>,
+    
+    <a href='/tags/Supervised-learning/'>Supervised learning</a>,
+    
+    <a href='/tags/從零開始學資料科學/'>從零開始學資料科學</a>,
+    
+    <a href='/tags/Numpy/'>Numpy</a>,
+    
+    <a href='/tags/資料科學/'>資料科學</a>,
+    
+    <a href='/tags/data-science/'>data science</a>,
+    
+    <a href='/tags/data-scientist/'>data scientist</a>,
+    
+    <a href='/tags/matplotlib/'>matplotlib</a>
+    
+    
+</span>
+
+<meta name="generator" content="用 Python 自學資料科學與機器學習入門實戰：Matplotlib 基礎入門">
+<meta name="og:title" content="用 Python 自學資料科學與機器學習入門實戰：Matplotlib 基礎入門">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">用 Python 自學資料科學與機器學習入門實戰：Matplotlib 基礎入門</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/data-science101/matplotlib/logo.svg" alt=" 從零開始學資料科學：Matplotlib 基礎入門"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本系列文章將透過系統介紹資料科學（Data Science）相關的知識，透過 Python 帶領讀者從零開始進入資料科學的世界。這邊我們將介紹 Matplotlib 這個 Python 資料視覺化的核心工具。</p>
+<h1 id="什麼是-Matplotlib？"><a href="#什麼是-Matplotlib？" class="headerlink" title="什麼是 Matplotlib？"></a>什麼是 Matplotlib？</h1><p>Python 的視覺化套件有靜態的 <a target="_blank" rel="noopener" href="https://matplotlib.org/">Matplotlib</a>、<a target="_blank" rel="noopener" href="https://seaborn.pydata.org/">Seaborn</a> 和 <a target="_blank" rel="noopener" href="http://ggplot.yhathq.com/">ggplot</a>（借鏡於 <a target="_blank" rel="noopener" href="https://www.r-project.org/">R</a> 的 <a target="_blank" rel="noopener" href="http://ggplot2.org/">ggplot2</a>）套件以及動態的 <a target="_blank" rel="noopener" href="https://bokeh.pydata.org/en/latest/">Bokeh</a> 套件（類似於 D3.js）。其中 Matplotlib 是 Python 的一個重要模組（Python 是一個高階語言也是一種膠水語言，可以透過整合其他低階語言同時擁有效能和高效率的開發），主要用於資料視覺化上。一般來說使用 Matplotlib 有兩種主要方式：直接和 Matplotlib 的全域 pyplot 模組互動操作，第二種則是物件導向形式的操作方式。若是只有一張圖的話使用全域 pyplot 很方便，若是有多張圖的話用物件導向操作。一般來說 Matplotlib 預設值並不理想，但它的優點在於很容易在上面外包一層提供更好的預設值或是自己修改預設值。</p>
+<h1 id="第一張-Matplotlib-圖片"><a href="#第一張-Matplotlib-圖片" class="headerlink" title="第一張 Matplotlib 圖片"></a>第一張 Matplotlib 圖片</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 引入模組</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">x = pd.period_range(pd.datetime.now(), periods=<span class="number">200</span>, freq=<span class="string">&#x27;d&#x27;</span>)</span><br><span class="line">x = x.to_timestamp().to_pydatetime()</span><br><span class="line"><span class="comment"># 產生三組，每組 200 個隨機常態分布元素</span></span><br><span class="line">y = np.random.randn(<span class="number">200</span>, <span class="number">3</span>).cumsum(<span class="number">0</span>)</span><br><span class="line">plt.plot(x, y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="/img/kdchang/data-science101/matplotlib/output_1_0.png" alt=" 從零開始學資料科學：Matplotlib 基礎入門"></p>
+<h1 id="常用屬性和參數調整"><a href="#常用屬性和參數調整" class="headerlink" title="常用屬性和參數調整"></a>常用屬性和參數調整</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Matplotlib 使用點 point 而非 pixel 為圖的尺寸測量單位，適合用於印刷出版。1 point = 1 / 72 英吋，但可以調整</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> matplotlib <span class="keyword">as</span> mpl</span><br><span class="line">mpl.rcParams[<span class="string">&#x27;lines.linewidth&#x27;</span>] = <span class="number">5</span></span><br><span class="line">mpl.rcParams[<span class="string">&#x27;lines.color&#x27;</span>] = <span class="string">&#x27;r&#x27;</span></span><br><span class="line">mpl.rcParams[<span class="string">&#x27;figure.figsize&#x27;</span>] = (<span class="number">10</span>, <span class="number">10</span>)</span><br><span class="line">plt.gcf().set_size_inches(<span class="number">10</span>, <span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">x = pd.period_range(pd.datetime.now(), periods=<span class="number">200</span>, freq=<span class="string">&#x27;d&#x27;</span>)</span><br><span class="line">x = x.to_timestamp().to_pydatetime()</span><br><span class="line"><span class="comment"># 產生三組，每組 200 個隨機常態分布元素</span></span><br><span class="line">y = np.random.randn(<span class="number">200</span>, <span class="number">3</span>).cumsum(<span class="number">0</span>)</span><br><span class="line">plt.plot(x, y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<h1 id="物件導向式-Matplotlib"><a href="#物件導向式-Matplotlib" class="headerlink" title="物件導向式 Matplotlib"></a>物件導向式 Matplotlib</h1><p><img src="/img/kdchang/data-science101/matplotlib/output_2_0.png" alt=" 從零開始學資料科學：Matplotlib 基礎入門"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 設定標籤</span></span><br><span class="line">plots = plt.plot(x, y)</span><br><span class="line">plt.legend(plots, (<span class="string">&#x27;Apple&#x27;</span>, <span class="string">&#x27;Facebook&#x27;</span>, <span class="string">&#x27;Google&#x27;</span>), loc=<span class="string">&#x27;best&#x27;</span>, framealpha=<span class="number">0.5</span>, prop=&#123;<span class="string">&#x27;size&#x27;</span>: <span class="string">&#x27;large&#x27;</span>, <span class="string">&#x27;family&#x27;</span>: <span class="string">&#x27;monospace&#x27;</span>&#125;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/kdchang/data-science101/matplotlib/output_3_1.png" alt=" 從零開始學資料科學：Matplotlib 基礎入門"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 標題與軸標籤</span></span><br><span class="line">plt.title(<span class="string">&#x27;Random Trends&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Date&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Cum. Sum&#x27;</span>)</span><br><span class="line">plt.figtext(<span class="number">0.995</span>, <span class="number">0.01</span>, <span class="string">&#x27;CopyRight&#x27;</span>, ha=<span class="string">&#x27;right&#x27;</span>, va=<span class="string">&#x27;bottom&#x27;</span>)</span><br><span class="line"><span class="comment"># 避免被圖表元素被蓋住</span></span><br><span class="line">plt.tight_layout()</span><br><span class="line">plt.plot(x, y)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="/img/kdchang/data-science101/matplotlib/output_4_0.png" alt=" 從零開始學資料科學：Matplotlib 基礎入門"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 儲存圖表</span></span><br><span class="line">plt.savefig(<span class="string">&#x27;plt.svg&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>&lt;matplotlib.figure.Figure at 0x120e70828&gt;
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用物件導向方式控制圖表，透過控制 figure 和 axes 來操作。其中 figure 和全域 pyplot 部分屬性相同。例如： fig.text() 對應到 plt.fig_text()</span></span><br><span class="line">fig = plt.figure(figsize=(<span class="number">8</span>, <span class="number">4</span>), dpi=<span class="number">200</span>, tight_layout=<span class="literal">True</span>, linewidth=<span class="number">1</span>, edgecolor=<span class="string">&#x27;r&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>&lt;matplotlib.figure.Figure at 0x120c16940&gt;
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 軸與子圖表</span></span><br><span class="line">fig = plt.figure(figsize=(<span class="number">8</span>, <span class="number">4</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 插入主要軸，可以透過 add_axes 控制軸在圖裡的位置。例如：[bottom*0.1, left*0.1, top*0.5, right*0.5]，fig.add_axes([0.1, 0.1, 0.5, 0.5])</span></span><br><span class="line">ax = fig.add_axes([<span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">0.8</span>, <span class="number">0.8</span>])</span><br><span class="line">ax.set_title(<span class="string">&#x27;Main Axes with Insert Child Axes&#x27;</span>)</span><br><span class="line">ax.plot(x, y[:, <span class="number">0</span>])</span><br><span class="line">ax.set_xlabel(<span class="string">&#x27;Date&#x27;</span>)</span><br><span class="line">ax.set_ylabel(<span class="string">&#x27;Cum. sum&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 插入軸</span></span><br><span class="line">ax = fig.add_axes([<span class="number">0.15</span>, <span class="number">0.15</span>, <span class="number">0.3</span>, <span class="number">0.3</span>])</span><br><span class="line">ax.plot(x, y[:, <span class="number">1</span>], color=<span class="string">&#x27;g&#x27;</span>)</span><br><span class="line">ax.set_xticks([])</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="/img/kdchang/data-science101/matplotlib/output_7_1.png" alt=" 從零開始學資料科學：Matplotlib 基礎入門"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 單一圖與軸繪製（subplots 不帶參數回傳擁有一軸 figure 物件，幾乎等同於 matplotlib 全域物件）</span></span><br><span class="line"><span class="comment"># matplotlib 內建版面編排系統相對好用。圖表大小不一可以使用 gridspec 模組</span></span><br><span class="line">figure, ax = plt.subplots()</span><br><span class="line">plots = ax.plot(x, y, label=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">figure.set_size_inches(<span class="number">8</span>, <span class="number">4</span>)</span><br><span class="line">ax.legend(plots, (<span class="string">&#x27;Apple&#x27;</span>, <span class="string">&#x27;Faceook&#x27;</span>, <span class="string">&#x27;Google&#x27;</span>), loc=<span class="string">&#x27;best&#x27;</span>, framealpha=<span class="number">0.25</span>, prop=&#123;<span class="string">&#x27;size&#x27;</span>: <span class="string">&#x27;small&#x27;</span>, <span class="string">&#x27;family&#x27;</span>: <span class="string">&#x27;monospace&#x27;</span>&#125;)</span><br><span class="line"></span><br><span class="line">ax.set_title(<span class="string">&#x27;Random trends&#x27;</span>)</span><br><span class="line">ax.set_xlabel(<span class="string">&#x27;Date&#x27;</span>)</span><br><span class="line">ax.set_ylabel(<span class="string">&#x27;Cum. sum&#x27;</span>)</span><br><span class="line"></span><br><span class="line">ax.grid(<span class="literal">True</span>) <span class="comment"># 使用格子</span></span><br><span class="line">figure.text(<span class="number">0.995</span>, <span class="number">0.01</span>, <span class="string">&#x27;ACM 2015&#x27;</span>, ha=<span class="string">&#x27;right&#x27;</span>, va=<span class="string">&#x27;bottom&#x27;</span>)</span><br><span class="line">figure.tight_layout()</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="/img/kdchang/data-science101/matplotlib/output_8_0.png" alt=" 從零開始學資料科學：Matplotlib 基礎入門"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用子圖表</span></span><br><span class="line">figure, ax = plt.subplots()</span><br><span class="line">plots = ax.plot(x, y, label=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">figure.set_size_inches(<span class="number">8</span>, <span class="number">4</span>)</span><br><span class="line">ax.legend(plots, (<span class="string">&#x27;Apple&#x27;</span>, <span class="string">&#x27;Faceook&#x27;</span>, <span class="string">&#x27;Google&#x27;</span>), loc=<span class="string">&#x27;best&#x27;</span>, framealpha=<span class="number">0.25</span>, prop=&#123;<span class="string">&#x27;size&#x27;</span>: <span class="string">&#x27;small&#x27;</span>, <span class="string">&#x27;family&#x27;</span>: <span class="string">&#x27;monospace&#x27;</span>&#125;)</span><br><span class="line">ax.set_title(<span class="string">&#x27;Random trends&#x27;</span>)</span><br><span class="line">ax.set_xlabel(<span class="string">&#x27;Date&#x27;</span>)</span><br><span class="line">ax.set_ylabel(<span class="string">&#x27;Cum. sum&#x27;</span>)</span><br><span class="line">ax.grid(<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">figure.text(<span class="number">0.995</span>, <span class="number">0.01</span>, <span class="string">&#x27;Acm&#x27;</span>, ha=<span class="string">&#x27;right&#x27;</span>, va=<span class="string">&#x27;bottom&#x27;</span>)</span><br><span class="line">figure.tight_layout()</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="/img/kdchang/data-science101/matplotlib/output_9_0.png" alt=" 從零開始學資料科學：Matplotlib 基礎入門"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用子圖表產生多個圖表</span></span><br><span class="line">fig, axes = plt.subplots(nrows=<span class="number">3</span>, ncols=<span class="number">1</span>, sharex=<span class="literal">True</span>, sharey=<span class="literal">True</span>, figsize=(<span class="number">8</span>, <span class="number">8</span>))</span><br><span class="line">labelled_data = <span class="built_in">zip</span>(y.transpose(), (<span class="string">&#x27;Apple&#x27;</span>, <span class="string">&#x27;Faceook&#x27;</span>, <span class="string">&#x27;Google&#x27;</span>), (<span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;g&#x27;</span>, <span class="string">&#x27;r&#x27;</span>))</span><br><span class="line">fig.suptitle(<span class="string">&#x27;Three Random Trends&#x27;</span>, fontsize=<span class="number">16</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i, ld <span class="keyword">in</span> <span class="built_in">enumerate</span>(labelled_data):</span><br><span class="line">    ax = axes[i]</span><br><span class="line">    ax.plot(x, ld[<span class="number">0</span>], label=ld[<span class="number">1</span>], color=ld[<span class="number">2</span>])</span><br><span class="line">    ax.set_ylabel(<span class="string">&#x27;Cum. sum&#x27;</span>)</span><br><span class="line">    ax.legend(loc=<span class="string">&#x27;upper left&#x27;</span>, framealpha=<span class="number">0.5</span>, prop=&#123;<span class="string">&#x27;size&#x27;</span>: <span class="string">&#x27;small&#x27;</span>&#125;)</span><br><span class="line">axes[-<span class="number">1</span>].set_xlabel(<span class="string">&#x27;Date&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>&lt;matplotlib.text.Text at 0x11eb71278&gt;
+</code></pre>
+<p><img src="/img/kdchang/data-science101/matplotlib/output_10_1.png" alt=" 從零開始學資料科學：Matplotlib 基礎入門"></p>
+<h1 id="常見圖表"><a href="#常見圖表" class="headerlink" title="常見圖表"></a>常見圖表</h1><ol>
+<li><p>直方圖（Histogram）</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 直方圖</span></span><br><span class="line">normal_samples = np.random.normal(size=<span class="number">100</span>) <span class="comment"># 生成 100 組標準常態分配（平均值為 0，標準差為 1 的常態分配）隨機變數</span></span><br><span class="line">plt.hist(normal_samples, width=<span class="number">0.1</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p> <img src="/img/kdchang/data-science101/matplotlib/output_11_0.png" alt=" 從零開始學資料科學：Matplotlib 基礎入門"></p>
+</li>
+<li><p>散佈圖（Scatter plot）</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 散佈圖</span></span><br><span class="line">num_points = <span class="number">100</span></span><br><span class="line">gradient = <span class="number">0.5</span></span><br><span class="line">x = np.array(<span class="built_in">range</span>(num_points))</span><br><span class="line">y = np.random.randn(num_points) * <span class="number">10</span> + x * gradient</span><br><span class="line">fig, ax = plt.subplots(figsize=(<span class="number">8</span>, <span class="number">4</span>))</span><br><span class="line">ax.scatter(x, y)</span><br><span class="line"></span><br><span class="line">fig.suptitle(<span class="string">&#x27;A Simple Scatter Plot&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+
+<p> <img src="/img/kdchang/data-science101/matplotlib/output_11_1.png" alt=" 從零開始學資料科學：Matplotlib 基礎入門"></p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 散佈圖 + 迴歸</span></span><br><span class="line">num_points = <span class="number">100</span></span><br><span class="line">gradient = <span class="number">0.5</span></span><br><span class="line">x = np.array(<span class="built_in">range</span>(num_points))</span><br><span class="line">y = np.random.randn(num_points) * <span class="number">10</span> + x * gradient</span><br><span class="line"></span><br><span class="line">fig, ax = plt.subplots(figsize=(<span class="number">8</span>, <span class="number">4</span>))</span><br><span class="line"></span><br><span class="line">ax.scatter(x, y)</span><br><span class="line"></span><br><span class="line">m, c = np.polyfit(x, y, <span class="number">1</span>) <span class="comment"># 使用 Numpy 的 polyfit，參數 1 代表一維，算出 fit 直線斜率</span></span><br><span class="line">ax.plot(x, m * x + c) <span class="comment"># 使用 y = m * x + c 斜率和常數匯出直線</span></span><br><span class="line">fig.suptitle(<span class="string">&#x27;Scatter with regression&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>線圖（Line plot）</p>
+<p> <img src="/img/kdchang/data-science101/matplotlib/output_11_2.png" alt=" 從零開始學資料科學：Matplotlib 基礎入門"></p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 線圖</span></span><br><span class="line">age = [<span class="number">4</span>, <span class="number">4</span>, <span class="number">17</span>, <span class="number">17</span>, <span class="number">18</span>]</span><br><span class="line">points = [<span class="number">2</span>, <span class="number">20</span>, <span class="number">22</span>, <span class="number">24</span>, <span class="number">20</span>]</span><br><span class="line"></span><br><span class="line">plt.plot(age, points)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>長條圖（Bar plot）</p>
+<p> <img src="/img/kdchang/data-science101/matplotlib/output_11_3.png" alt=" 從零開始學資料科學：Matplotlib 基礎入門"></p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 長條圖</span></span><br><span class="line">labels = [<span class="string">&#x27;Physics&#x27;</span>, <span class="string">&#x27;Chemistry&#x27;</span>, <span class="string">&#x27;Literature&#x27;</span>, <span class="string">&#x27;Peace&#x27;</span>]</span><br><span class="line">foo_data = [<span class="number">3</span>, <span class="number">6</span>, <span class="number">10</span>, <span class="number">4</span>]</span><br><span class="line">bar_width = <span class="number">0.5</span></span><br><span class="line">xlocations = np.array(<span class="built_in">range</span>(<span class="built_in">len</span>(foo_data))) + bar_width</span><br><span class="line"></span><br><span class="line">plt.bar(xlocations, foo_data, width=bar_width)</span><br><span class="line"></span><br><span class="line">plt.title(<span class="string">&#x27;Stock Price&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p> <img src="/img/kdchang/data-science101/matplotlib/output_11_4.png" alt=" 從零開始學資料科學：Matplotlib 基礎入門"></p>
+</li>
+<li><p>盒鬚圖（Box plot）</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 盒鬚圖</span></span><br><span class="line">normal_examples = np.random.normal(size = <span class="number">100</span>) <span class="comment"># 生成 100 組標準常態分配（平均值為 0，標準差為 1 的常態分配）隨機變數</span></span><br><span class="line"></span><br><span class="line">plt.boxplot(normal_examples)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p> <img src="/img/kdchang/data-science101/matplotlib/output_11_5.png" alt=" 從零開始學資料科學：Matplotlib 基礎入門"></p>
+</li>
+<li><p>圓餅圖（Pie plot）</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 圓餅圖</span></span><br><span class="line">data = np.random.randint(<span class="number">1</span>, <span class="number">11</span>, <span class="number">5</span>) <span class="comment"># 生成</span></span><br><span class="line">x = np.arange(<span class="built_in">len</span>(data))</span><br><span class="line"></span><br><span class="line">plt.pie(data)</span><br><span class="line"></span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><img src="/img/kdchang/data-science101/matplotlib/output_11_6.png" alt=" 從零開始學資料科學：Matplotlib 基礎入門"></p>
+<h1 id="Python-其他資料視覺化套件"><a href="#Python-其他資料視覺化套件" class="headerlink" title="Python 其他資料視覺化套件"></a>Python 其他資料視覺化套件</h1><ol>
+<li><p>Seaborn</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Seaborn</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">sns.<span class="built_in">set</span>(style=<span class="string">&quot;white&quot;</span>, context=<span class="string">&quot;talk&quot;</span>)</span><br><span class="line">rs = np.random.RandomState(<span class="number">7</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 準備 matplotlib 圖表</span></span><br><span class="line">f, (ax1, ax2, ax3) = plt.subplots(<span class="number">3</span>, <span class="number">1</span>, figsize=(<span class="number">8</span>, <span class="number">6</span>), sharex=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 產生連續資料</span></span><br><span class="line">x = np.array(<span class="built_in">list</span>(<span class="string">&quot;ABCDEFGHI&quot;</span>))</span><br><span class="line">y1 = np.arange(<span class="number">1</span>, <span class="number">10</span>)</span><br><span class="line">sns.barplot(x, y1, palette=<span class="string">&quot;BuGn_d&quot;</span>, ax=ax1)</span><br><span class="line">ax1.set_ylabel(<span class="string">&quot;Sequential&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 調整成 diverging 資料</span></span><br><span class="line">y2 = y1 - <span class="number">5</span></span><br><span class="line">sns.barplot(x, y2, palette=<span class="string">&quot;RdBu_r&quot;</span>, ax=ax2)</span><br><span class="line">ax2.set_ylabel(<span class="string">&quot;Diverging&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 隨機資料</span></span><br><span class="line">y3 = rs.choice(y1, <span class="number">9</span>, replace=<span class="literal">False</span>)</span><br><span class="line">sns.barplot(x, y3, palette=<span class="string">&quot;Set3&quot;</span>, ax=ax3)</span><br><span class="line">ax3.set_ylabel(<span class="string">&quot;Qualitative&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 秀出圖片</span></span><br><span class="line">sns.despine(bottom=<span class="literal">True</span>)</span><br><span class="line">plt.setp(f.axes, yticks=[])</span><br><span class="line">plt.tight_layout(h_pad=<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<p> <img src="/img/kdchang/data-science101/matplotlib/output_12_0.png" alt=" 從零開始學資料科學：Matplotlib 基礎入門"></p>
+</li>
+<li><p>Bokeh</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Bokeh</span></span><br><span class="line"><span class="keyword">from</span> bokeh.plotting <span class="keyword">import</span> figure, output_file, show</span><br><span class="line"></span><br><span class="line"><span class="comment"># 準備資料</span></span><br><span class="line">x = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">y = [<span class="number">6</span>, <span class="number">7</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 輸出成靜態 HTML</span></span><br><span class="line">output_file(<span class="string">&quot;lines.html&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 創建新的標題和軸圖表</span></span><br><span class="line">p = figure(title=<span class="string">&quot;simple line example&quot;</span>, x_axis_label=<span class="string">&#x27;x&#x27;</span>, y_axis_label=<span class="string">&#x27;y&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 繪製直線圖</span></span><br><span class="line">p.line(x, y, legend=<span class="string">&quot;Temp.&quot;</span>, line_width=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 呈現結果</span></span><br><span class="line">show(p)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上介紹了 Matplotlib 的基礎知識和 api，同時也介紹了 Python 其他資料視覺化套件。一般來說 Matplotlib 預設值並不理想，但它的優點在於很容易在上面外包一層提供更好的預設值或是自己修改預設值。一般來說我們在進行資料科學和機器學習分析的過程中我們會先使用資訊視覺化工具來了解整個資料集的特色並針對資料進行後續的處理和特徵選取，所以說資料視覺化不僅能呈現資料分析的結果，對於資料分析的過程也十分重要。</p>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><ol>
+<li><a target="_blank" rel="noopener" href="http://changtw-blog.logdown.com/posts/895468-python-numpy-axis-concept-organize-notes">[python] numpy axis概念整理筆記</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10186484">[第 18 天] 資料視覺化 matplotlib</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/kylinlin/p/5236601.html">数据可视化（三）- Seaborn简易入门</a></li>
+</ol>
+<p>（image via <a target="_blank" rel="noopener" href="https://matplotlib.org/_static/logo2.svg">matplotlib</a></p>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.kdchang.cc/">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino&#x2F;Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/05/11/python-data-science-and-machine-learning-matplotlib-tutorial/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/05/11/python-data-science-and-machine-learning-matplotlib-tutorial/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/05/11/python-data-science-and-machine-learning-matplotlib-tutorial/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/05/11/python-data-science-and-machine-learning-matplotlib-tutorial/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/05/19/intro-to-robot-shelf-replenishment/">
+        ← 一起讀 Knowledge-Enabled Robotic Agents for Shelf Replenishment in Cluttered Retail Environments
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/05/10/lets-build-weather-bot-1/">
+        來寫個氣象機器人吧！(Part 1) →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

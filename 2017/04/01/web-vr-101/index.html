@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Web VR 初探 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-04-01T17:12:25.000Z" itemprop="datePublished">
+          2017-04-01
+      </time>
+    
+    
+    | 
+    <a href='/tags/webvr-A-frame/'>webvr, A-frame</a>
+    
+    
+</span>
+
+<meta name="generator" content="Web VR 初探">
+<meta name="og:title" content="Web VR 初探">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Web VR 初探</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p>Web VR 出來也很久了，但沒有去玩過，因為想說我沒有相關設備，直到前陣子看到這篇文章 <a target="_blank" rel="noopener" href="https://css-tricks.com/minecraft-webvr-html-using-frame/">Minecraft in WebVR with HTML Using A-Frame</a></p>
+<p>整個驚艷！</p>
+<p>隨便加幾個 tag，然後調整一下就可以有 VR 效果，這東西不試試怎麼行！說不定以後能像這篇作者一樣，在自己的婚禮上搞一套 VR 的網站！因此決定跟著<a target="_blank" rel="noopener" href="https://aframe.io/docs/0.5.0/guides/">官網範例</a>來了解一下 Web VR 到底該如何實作。</p>
+<p>一樣先看個成品：</p>
+<p data-height="265" data-theme-id="0" data-slug-hash="BWMjBd" data-default-tab="html,result" data-user="arvin0731" data-embed-version="2" data-pen-title="webVR-test-demo5" class="codepen">See the Pen <a target="_blank" rel="noopener" href="http://codepen.io/arvin0731/pen/BWMjBd/">webVR-test-demo5</a> by Arvin (<a target="_blank" rel="noopener" href="http://codepen.io/arvin0731">@arvin0731</a>) on <a target="_blank" rel="noopener" href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+<h2 id="A-frame"><a href="#A-frame" class="headerlink" title="A-frame"></a>A-frame</h2><p>A-Frame 是 Mozilla VR team 為了在 browser 上利用 Javascript 提供 VR 體驗的一套 web framework，<a target="_blank" rel="noopener" href="https://aframe.io/docs/0.5.0/guides/">官網</a> 上有很詳細的教學與介紹。<br>核心基於 HTML 與 entity-component-system framework (似乎是一套遊戲上常用的 pattern，像是 Unity)，雖然我不懂遊戲，但他的概念頗簡單，**”ECS favors composition over inheritance”**。</p>
+<p>在每個場景（scene）中的每個物件（object）都是一個 <strong>entity</strong>，<strong>entity</strong> 可以想做一個物件的空殼，而該空殼的動作、行為、外觀皆是由 <strong>components</strong> 來完成。<br>所以透過在場景中混搭組合各種 components 就能創造出無數種的物件，這種方式若是用繼承的方式則會需要 create 許多特殊的 class 才行。</p>
+<p>在 A-frame 中，一個 entity 就是 <code>&lt;a-entity&gt;&lt;/a-entity&gt;</code>。</p>
+<p>而這個 entity 可以掛載上各種 component，大致的方式如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable constant_">AFRAME</span>.<span class="title function_">registerComponent</span>(<span class="string">&#x27;sun&#x27;</span>, &#123;</span><br><span class="line">  <span class="attr">schema</span>: &#123;</span><br><span class="line">    <span class="attr">degree</span>: &#123;<span class="attr">type</span>: <span class="string">&#x27;number&#x27;</span>&#125;,</span><br><span class="line">    <span class="attr">color</span>: &#123;<span class="attr">type</span>: <span class="string">&#x27;string&#x27;</span>&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">init</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// Do something when component is plugged in.</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">update</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// Do something when component&#x27;s data is updated.</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>接著就能夠在 html 中使用 sun 這個 component，<code>&lt;a-entity sun=&quot;degree: 5; color: yellow&quot;&gt;&lt;/a-entity&gt;</code>。<br>（這邊比較會跟一般的 html tag 混淆，因為 tag 上看似 attribute 的東西其實是 entity 掛載的 component。）</p>
+<p>就像 Web component 一樣，A-frame 也有個 <a target="_blank" rel="noopener" href="https://aframe.io/aframe-registry/">A-Frame Registry</a> 在收集各種開發者貢獻的 component。</p>
+<p>除了 <code>&lt;a-entity&gt;&lt;/a-entity&gt;</code> 以外，Web VR 還有許多原生原件，像是 <code>&lt;a-scene&gt;</code>、<code>&lt;a-assets&gt;</code>、<code>&lt;a-box&gt;</code> 等等。<br>這些 Primitives 的 tag 也是一種 entity，主要是包含了一些複雜但是 common 的元件（像是 <a-sky>，用來代表場景中的天空），<br>以 <code>&lt;a-box&gt;</code> 為例，其實就是一個包含 geometry 與 material components 的 entity：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a-entity id=<span class="string">&quot;box&quot;</span> geometry=<span class="string">&quot;primitive: box&quot;</span> material=<span class="string">&quot;color: red&quot;</span>&gt;&lt;/a-entity&gt;</span><br></pre></td></tr></table></figure>
+
+<p>也可以透過 <code>AFRAME.registerPrimitive</code> 的方式來註冊：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable constant_">AFRAME</span>.<span class="title function_">registerPrimitive</span>(<span class="string">&#x27;a-wave&#x27;</span>, &#123;</span><br><span class="line">  <span class="comment">// Attaches the wave component by default.</span></span><br><span class="line">  <span class="comment">// And smartly makes the wave parallel to the ground.</span></span><br><span class="line">  <span class="attr">defaultComponents</span>: &#123;</span><br><span class="line">    <span class="attr">wave</span>: &#123;&#125;,</span><br><span class="line">    <span class="attr">rotation</span>: &#123;<span class="attr">x</span>: -<span class="number">90</span>, <span class="attr">y</span>: <span class="number">0</span>, <span class="attr">z</span>: <span class="number">0</span>&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// Maps HTML attributes to wave component&#x27;s properties.</span></span><br><span class="line">  <span class="attr">mappings</span>: &#123;</span><br><span class="line">    <span class="attr">width</span>: <span class="string">&#x27;wave.width&#x27;</span>,</span><br><span class="line">    <span class="attr">depth</span>: <span class="string">&#x27;wave.depth&#x27;</span>,</span><br><span class="line">    <span class="attr">density</span>: <span class="string">&#x27;wave.density&#x27;</span>,</span><br><span class="line">    <span class="attr">color</span>: <span class="string">&#x27;wave.color&#x27;</span>,</span><br><span class="line">    <span class="attr">opacity</span>: <span class="string">&#x27;wave.opacity&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>這樣就有一個 Primitives 元件可用，<code>&lt;a-wave color=&quot;aqua&quot; depth=&quot;100&quot; width=&quot;100&quot;&gt;&lt;/a-wave&gt;</code></p>
+<p>其中可以看到我們有 <code>defaultComponents</code> 與 <code>mappings</code> 兩個 properties 可以用，分別讓你設置這個 entity 的 default component 與 將 HTML 的 attribute 映射到你自定義的 component 的屬性中，<br>向這邊就是將 html 的 width 映射到 wave 這個 component 的 width 屬性。</p>
+<p>更詳細內容可以參考官網 <a target="_blank" rel="noopener" href="https://aframe.io/docs/0.5.0/primitives/">primitives</a></p>
+<h2 id="Our-first-Web-VR-Scene-Skeleton"><a href="#Our-first-Web-VR-Scene-Skeleton" class="headerlink" title="Our first Web VR Scene (Skeleton)"></a>Our first Web VR Scene (Skeleton)</h2><p>接下來從實作一個最簡單的 Web VR Scene 來一步步認識 Web VR 的一些基礎元件。</p>
+<p>Web VR 的基礎骨幹：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://aframe.io/releases/0.5.0/aframe.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a-scene</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">a-scene</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>&lt;a-scene&gt;</code> 會 setup 一切 VR 所需的東西，並包含所有 entities，包含 WebGL, canvas, camera 等等，另外還有一些針對不同平台的 WebVR support，一個 out of box 的 magic tag！<br>加上這個以後，整個 html 就會變成 WebVR 的骨幹了，你在 codepen 上的話就會看到右下角有個眼鏡的圖示。（當然記得要載入 aframe.js）</p>
+<p>接著，我們需要瞭解一下在 A-frame 的世界中的座標系統，採用所謂的 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Right-hand_rule">right-hand rule</a></p>
+<p><img src="/img/arvinh/right-hand-rule.png" alt="Right-hand rule" title="Right-hand rule"></p>
+<p>在 WebVR API 回傳的距離資料以 Meter 為單位，因此在 A-frame 中的距離單位也是 Meter，所以當你在設計你的 WebVR project 時要注意一下，<code>height: 10</code> 跟 <code>width: 10</code> 在一般開發 web 來說好像很小，<br>但在 A-frame 中可是會超大。</p>
+<h2 id="Add-Entity"><a href="#Add-Entity" class="headerlink" title="Add Entity"></a>Add Entity</h2><p>再來我們可以在 <code>&lt;a-scene&gt;</code> 中加入 <code>&lt;a-cylinder color=&quot;red&quot;&gt;&lt;/a-cylinder&gt;</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a-scene</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a-cylinder</span> <span class="attr">color</span>=<span class="string">&quot;red&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a-cylinder</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">a-scene</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>當你放上去以後應該會覺得奇怪，怎麼什麼都看不到，轉動了一下才發現東西在你腳下ＸＤ<br>原因很簡單，我們沒有設定 postion，所以 x, y, z 軸都是 0。根據 right-hand rule，我們可以給 position component 一些參數，另外還可以進行 rotation 與 scale：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a-scene</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a-cylinder</span> <span class="attr">color</span>=<span class="string">&quot;red&quot;</span> <span class="attr">position</span>=<span class="string">&quot;0 2 -5&quot;</span> <span class="attr">rotation</span>=<span class="string">&quot;30 45 45&quot;</span> <span class="attr">scale</span>=<span class="string">&quot;1 1 1&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a-cylinder</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">a-scene</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如此應該就能看到如下結果：</p>
+<p data-height="265" data-theme-id="0" data-slug-hash="MpLwKa" data-default-tab="html,result" data-user="arvin0731" data-embed-version="2" data-pen-title="webVR-test-demo1" class="codepen">See the Pen <a target="_blank" rel="noopener" href="http://codepen.io/arvin0731/pen/MpLwKa/">webVR-test-demo1</a> by Arvin (<a target="_blank" rel="noopener" href="http://codepen.io/arvin0731">@arvin0731</a>) on <a target="_blank" rel="noopener" href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+<p>Note：這邊岔開介紹一下 codepen 上的 WebVR 功能，點選右下角眼鏡可以進入全 VR 環境，在電腦上 default 的控制是用滑鼠拖拉，或是 WASD 控制，如果你有 VR headset 就能更直接的體驗。</p>
+<h2 id="Add-Background"><a href="#Add-Background" class="headerlink" title="Add Background"></a>Add Background</h2><p>我們可以透過 <code>&lt;a-sky&gt;&lt;/a-sky&gt;</code> 來增加背景，裡面可以單純設置顏色、360度的影片或照片</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a-sky src=<span class="string">&quot;http://i.imgur.com/JHZjdp6.jpg&quot;</span>&gt;&lt;/a-sky&gt;</span><br></pre></td></tr></table></figure>
+
+<p data-height="265" data-theme-id="0" data-slug-hash="yMZNXO" data-default-tab="html,result" data-user="arvin0731" data-embed-version="2" data-pen-title="webVR-test-demo2" class="codepen">See the Pen <a target="_blank" rel="noopener" href="http://codepen.io/arvin0731/pen/yMZNXO/">webVR-test-demo2</a> by Arvin (<a target="_blank" rel="noopener" href="http://codepen.io/arvin0731">@arvin0731</a>) on <a target="_blank" rel="noopener" href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+<p>這樣我們就有一個漂浮在城市空中的圓柱體了 XD  (<a target="_blank" rel="noopener" href="http://www.nwicon.com/seattle-view-from-the-top-of-the-space-needle.htm">圖片來源</a>)</p>
+<h2 id="Asset-Management-System"><a href="#Asset-Management-System" class="headerlink" title="Asset Management System"></a>Asset Management System</h2><p>在 A-frame 裡面有個 <code>&lt;a-assets&gt;</code>，用來管理所有 Entity 的 assets 資源，與其直接寫在 inline 裡面在 runtime 時讀取，透過定義在 <code>&lt;a-assets&gt;</code> 中可以讓 Browser 更輕易地做 cache，而 A-frame 會保證在 render 之前就把這些資源都載好，因此官方建議使用這種方式來處理圖片等 assets。</p>
+<p>用法很簡單，在 <code>&lt;a-assets&gt;</code> 中宣告 <code>&lt;img&gt;</code>，然後設定好 id，接著在想使用該 asset 的 entity 中的 src 指定對應 id 即可。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a-scene</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a-assets</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">id</span>=<span class="string">&quot;skyTexture&quot;</span> <span class="attr">src</span>=<span class="string">&quot;http://i.imgur.com/JHZjdp6.jpg&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">a-assets</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a-sky</span> <span class="attr">src</span>=<span class="string">&quot;#skyTexture&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a-sky</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">a-scene</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="More-entity-Ground-Light-Animation"><a href="#More-entity-Ground-Light-Animation" class="headerlink" title="More entity (Ground, Light, Animation)"></a>More entity (Ground, Light, Animation)</h2><h3 id="Ground-Light"><a href="#Ground-Light" class="headerlink" title="Ground &amp; Light"></a>Ground &amp; Light</h3><p>基本的場景除了天空以外，當然還要有地板、燈光，地板其實有很多種選擇，可以用 <code>&lt;a-plane&gt;</code>，也能用 <code>&lt;a-cylinder&gt;</code>，只要設置對的高度跟方位即可。<br>以 <code>&lt;a-plane&gt;</code> 來說，因為他 defalut 的角度是與 XY 平行，因此我們要將 X 軸反轉九十度，讓他與 XZ 平行：</p>
+<p><code>&lt;a-plane src=&quot;#groundTexture&quot; rotation=&quot;-90 0 0&quot; width=&quot;30&quot; height=&quot;30&quot;&gt;&lt;/a-plane&gt;</code></p>
+<p>另外場景中很重要的燈光，在目前的例子中，我們都沒有特別設定，A-frame 會自己幫我們定義一個 ambient light 和 directional light，一旦我們有了自己的設定，default 值就會被拔掉。</p>
+<p>基本有兩種燈光可以設定：</p>
+<ul>
+<li>ambient: 針對整個 scene 的燈光設定</li>
+<li>point: 像是一個電燈泡，我們可以調整其位置與強度，讓 entity 上的光影效果因應距離與角度的不同有所變化。</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a-light</span> <span class="attr">type</span>=<span class="string">&quot;ambient&quot;</span> <span class="attr">color</span>=<span class="string">&quot;#445451&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a-light</span>&gt;</span></span><br><span class="line">// intensity 為強度 2 距離在 x y z: 2 4 4 的燈泡</span><br><span class="line"><span class="tag">&lt;<span class="name">a-light</span> <span class="attr">type</span>=<span class="string">&quot;point&quot;</span> <span class="attr">intensity</span>=<span class="string">&quot;2&quot;</span> <span class="attr">position</span>=<span class="string">&quot;2 4 4&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a-light</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Animation"><a href="#Animation" class="headerlink" title="Animation"></a>Animation</h3><p>A-frame 有內建的 <a target="_blank" rel="noopener" href="https://aframe.io/docs/0.5.0/core/animations.html">animation system</a>，要使用很簡單，加上 <code>&lt;a-animation&gt;</code> 即可（文件上寫說這個 entity 將被取代，不過在我寫文的當下，該 issue 從 aframe 的 milestone 拔除了，所以還需要再觀察看看。）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a-cylinder</span> <span class="attr">color</span>=<span class="string">&quot;red&quot;</span> <span class="attr">position</span>=<span class="string">&quot;0 2 -5&quot;</span> <span class="attr">rotation</span>=<span class="string">&quot;30 45 45&quot;</span> <span class="attr">scale</span>=<span class="string">&quot;1 1 1&quot;</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">a-animation</span> <span class="attr">attribute</span>=<span class="string">&quot;rotation&quot;</span> <span class="attr">to</span>=<span class="string">&quot;30 60 45&quot;</span> <span class="attr">direction</span>=<span class="string">&quot;alternate&quot;</span> <span class="attr">dur</span>=<span class="string">&quot;2000&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">repeat</span>=<span class="string">&quot;indefinite&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a-animation</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">a-cylinder</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>是的，A-frame 中的 entity 可以有 child，而 child 會擁有 parent 設定的位置與角度等等，A-frame 會幫你處理好。</p>
+<p>這邊我們的動畫讓 <a-cylinder> 改變 rotation，到 30 60 45，也就是往 Y 軸轉動到 60 度，方向是 alternate，兩秒內做完，並且不斷 repeat。<br>如果要多個動畫，就再加上一個 <a-animation>。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a-cylinder</span> <span class="attr">color</span>=<span class="string">&quot;red&quot;</span> <span class="attr">position</span>=<span class="string">&quot;0 2 -5&quot;</span> <span class="attr">rotation</span>=<span class="string">&quot;30 45 45&quot;</span> <span class="attr">scale</span>=<span class="string">&quot;1 1 1&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a-animation</span> <span class="attr">attribute</span>=<span class="string">&quot;rotation&quot;</span> <span class="attr">to</span>=<span class="string">&quot;30 60 45&quot;</span> <span class="attr">direction</span>=<span class="string">&quot;alternate&quot;</span> <span class="attr">dur</span>=<span class="string">&quot;2000&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">repeat</span>=<span class="string">&quot;indefinite&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a-animation</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a-animation</span> <span class="attr">attribute</span>=<span class="string">&quot;position&quot;</span> <span class="attr">to</span>=<span class="string">&quot;0 2.2 -5&quot;</span> <span class="attr">direction</span>=<span class="string">&quot;alternate&quot;</span> <span class="attr">dur</span>=<span class="string">&quot;2000&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">repeat</span>=<span class="string">&quot;indefinite&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a-animation</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">a-cylinder</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>現在我們的圓柱體會上下左右旋轉移動了！</p>
+<p data-height="265" data-theme-id="0" data-slug-hash="aJXvZa" data-default-tab="html,result" data-user="arvin0731" data-embed-version="2" data-pen-title="webVR-test-demo3" class="codepen">See the Pen <a target="_blank" rel="noopener" href="http://codepen.io/arvin0731/pen/aJXvZa/">webVR-test-demo3</a> by Arvin (<a target="_blank" rel="noopener" href="http://codepen.io/arvin0731">@arvin0731</a>) on <a target="_blank" rel="noopener" href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+<h2 id="Add-user-interation"><a href="#Add-user-interation" class="headerlink" title="Add user interation"></a>Add user interation</h2><p>VR 如果不能互動，還有什麼意義嗎？</p>
+<p>雖然我們沒有 VR 設備，但 A-frame 有提供給 Desktop 的開發者一個好用的內建 component <code>&lt;a-cursor&gt;</code>，用來模擬 controllers，我們要讓 controller 固定在 camera 的中間，也就是跟著我們的眼睛，<br>只要當作 child 放在 <a-camera> 底下即可。<br>(cursor 可以監聽的事件在此 <a target="_blank" rel="noopener" href="https://aframe.io/docs/0.5.0/components/cursor.html">https://aframe.io/docs/0.5.0/components/cursor.html</a>)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a-camera</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a-cursor</span>&gt;</span><span class="tag">&lt;/<span class="name">a-cursor</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">a-camera</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如此一來我們就可以用滑鼠來做點擊的動作。</p>
+<p>要讓場景中的物件跟隨我們的點擊有所反應的話，有兩種做法：</p>
+<ul>
+<li><p>Event Listener Component:<br>  如同一般我們在 Web 當中一樣，用 javascript 去 querySelector 出 object，接著加上 EventListener：</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    <span class="keyword">const</span> cylinderEl = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;a-cylinder&#x27;</span>);</span><br><span class="line">    cylinderEl.<span class="title function_">addEventListener</span>(<span class="string">&#x27;mouseenter&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">        cylinderEl.<span class="title function_">setAttribute</span>(<span class="string">&#x27;scale&#x27;</span>, &#123;<span class="attr">x</span>: <span class="number">2</span>, <span class="attr">y</span>: <span class="number">2</span>, <span class="attr">z</span>: <span class="number">2</span>&#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>  也可以設置一個 component 然後 attach 到 Entity 上：<br>  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">    <span class="variable constant_">AFRAME</span>.<span class="title function_">registerComponent</span>(<span class="string">&#x27;scale-on-mouseenter&#x27;</span>, &#123;</span><br><span class="line">        <span class="attr">schema</span>: &#123;</span><br><span class="line">            <span class="attr">to</span>: &#123;<span class="attr">default</span>: <span class="string">&#x27;2.5 2.5 2.5&#x27;</span>&#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">init</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">            <span class="keyword">var</span> data = <span class="variable language_">this</span>.<span class="property">data</span>;</span><br><span class="line">            <span class="comment">// 在這邊設定 listener</span></span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">el</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;mouseenter&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">                <span class="variable language_">this</span>.<span class="title function_">setAttribute</span>(<span class="string">&#x27;scale&#x27;</span>, data.<span class="property">to</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">el</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;mouseleave&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">                <span class="variable language_">this</span>.<span class="title function_">setAttribute</span>(<span class="string">&#x27;scale&#x27;</span>, data.<span class="property">leave</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure><br>  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 掛載一個 sacle-on-mouseenter component 上去 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a-cylinder</span> <span class="attr">color</span>=<span class="string">&quot;red&quot;</span> <span class="attr">position</span>=<span class="string">&quot;0 2 -5&quot;</span> <span class="attr">rotation</span>=<span class="string">&quot;30 100 0&quot;</span> <span class="attr">scale</span>=<span class="string">&quot;1 1 1&quot;</span> <span class="attr">height</span>=<span class="string">&quot;0.2&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">scale-on-mouseenter</span>=<span class="string">&quot;to: 2.2 2.2 2.2&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a-animation</span> <span class="attr">attribute</span>=<span class="string">&quot;rotation&quot;</span> <span class="attr">to</span>=<span class="string">&quot;30 90 90&quot;</span> <span class="attr">direction</span>=<span class="string">&quot;alternate&quot;</span> <span class="attr">dur</span>=<span class="string">&quot;2000&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">repeat</span>=<span class="string">&quot;indefinite&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a-animation</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a-animation</span> <span class="attr">attribute</span>=<span class="string">&quot;position&quot;</span> <span class="attr">to</span>=<span class="string">&quot;0 2.2 -5&quot;</span> <span class="attr">direction</span>=<span class="string">&quot;alternate&quot;</span> <span class="attr">dur</span>=<span class="string">&quot;2000&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">repeat</span>=<span class="string">&quot;indefinite&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a-animation</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">a-cylinder</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+</li>
+<li><p>Animating on Event:<br>  另一種方式很簡單，是直接設定 Event 到 <a-animation> 上頭，但你就少了一些自由操作的彈性：<br>  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a-cylinder</span> <span class="attr">color</span>=<span class="string">&quot;red&quot;</span> <span class="attr">position</span>=<span class="string">&quot;0 2 -5&quot;</span> <span class="attr">rotation</span>=<span class="string">&quot;30 100 0&quot;</span> <span class="attr">scale</span>=<span class="string">&quot;1 1 1&quot;</span> <span class="attr">height</span>=<span class="string">&quot;0.2&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">scale-on-mouseenter</span>=<span class="string">&quot;to: 2.2 2.2 2.2&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a-animation</span> <span class="attr">attribute</span>=<span class="string">&quot;rotation&quot;</span> <span class="attr">to</span>=<span class="string">&quot;30 90 90&quot;</span> <span class="attr">direction</span>=<span class="string">&quot;alternate&quot;</span> <span class="attr">dur</span>=<span class="string">&quot;2000&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">repeat</span>=<span class="string">&quot;indefinite&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a-animation</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a-animation</span> <span class="attr">attribute</span>=<span class="string">&quot;position&quot;</span> <span class="attr">to</span>=<span class="string">&quot;0 2.2 -5&quot;</span> <span class="attr">direction</span>=<span class="string">&quot;alternate&quot;</span> <span class="attr">dur</span>=<span class="string">&quot;2000&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">repeat</span>=<span class="string">&quot;indefinite&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a-animation</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a-animation</span> <span class="attr">attribute</span>=<span class="string">&quot;scale&quot;</span> <span class="attr">begin</span>=<span class="string">&quot;mouseenter&quot;</span> <span class="attr">dur</span>=<span class="string">&quot;300&quot;</span> <span class="attr">to</span>=<span class="string">&quot;2.2 2.2 2.2&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a-animation</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a-animation</span> <span class="attr">attribute</span>=<span class="string">&quot;scale&quot;</span> <span class="attr">begin</span>=<span class="string">&quot;mouseleave&quot;</span> <span class="attr">dur</span>=<span class="string">&quot;300&quot;</span> <span class="attr">to</span>=<span class="string">&quot;1 1 1&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a-animation</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a-animation</span> <span class="attr">attribute</span>=<span class="string">&quot;rotation&quot;</span> <span class="attr">begin</span>=<span class="string">&quot;click&quot;</span> <span class="attr">dur</span>=<span class="string">&quot;2000&quot;</span> <span class="attr">to</span>=<span class="string">&quot;30 405 0&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a-animation</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">a-cylinder</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+</li>
+</ul>
+<p>中間的點（cursor）移入與移出圓柱體時會放大縮小，點擊時會旋轉：</p>
+<p data-height="265" data-theme-id="0" data-slug-hash="BWMjBd" data-default-tab="html,result" data-user="arvin0731" data-embed-version="2" data-pen-title="webVR-test-demo5" class="codepen">See the Pen <a target="_blank" rel="noopener" href="http://codepen.io/arvin0731/pen/BWMjBd/">webVR-test-demo5</a> by Arvin (<a target="_blank" rel="noopener" href="http://codepen.io/arvin0731">@arvin0731</a>) on <a target="_blank" rel="noopener" href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+<p>到目前為止學到的東西其實已經足夠我們回去最開始我提及的那篇文章 <a target="_blank" rel="noopener" href="https://css-tricks.com/minecraft-webvr-html-using-frame/">https://css-tricks.com/minecraft-webvr-html-using-frame/</a> 深入閱讀，<br>大部分的內容在我這篇都有涵括到了，但透過閱讀該篇文章可以更了解如何利用 reusable 的 component 製作出一個 VR 的 Minecraft！並且裡面還有教你怎麼要設置 Vive, Oculus 的 controller，很推薦閱讀！</p>
+<p>最後，再告訴大家一個好康，A-frame 有提供 Inspector<a target="_blank" rel="noopener" href="https://github.com/aframevr/aframe-inspector">github</a>！而且只要在你的 html 加上：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a-scene</span> <span class="attr">inspector</span>=<span class="string">&quot;url: https://aframe.io/releases/0.3.0/aframe-inspector.min.js&quot;</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- Scene... --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">a-scene</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接著按下 <code>&lt;ctrl&gt; + &lt;alt&gt; + i</code>，就可以看到如下畫面了！</p>
+<p><img src="/img/arvinh/vr-inspector.png" alt="aframe-inspector" title="aframe-inspector"></p>
+<p>A-frame 使用起來真的很簡單方便，大家都來玩玩看吧！</p>
+<p>這邊有瀏覽器支援度：<a target="_blank" rel="noopener" href="https://webvr.rocks/">https://webvr.rocks/</a></p>
+<h2 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://aframe.io/docs/0.5.0/guides">A-frame.io</a></li>
+<li><a target="_blank" rel="noopener" href="https://css-tricks.com/minecraft-webvr-html-using-frame/">Minecraft webVR using A-frame</a></li>
+<li><a target="_blank" rel="noopener" href="https://mozvr.com/">Mozilla VR</a></li>
+<li><a target="_blank" rel="noopener" href="https://webvr.rocks/">webvr.rocks</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.gamedev.net/resources/_/technical/game-programming/understanding-component-entity-systems-r3013">Understanding Component-Entity-Systems</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.arvinh.info/about/">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/04/01/web-vr-101/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/04/01/web-vr-101/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/04/01/web-vr-101/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/04/01/web-vr-101/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/04/08/how-to-mastering-machine-learning-with-python/">
+        ← 如何使用 Python 學習機器學習（Machine Learning）
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/03/24/difficult-problem-of-cookie/">
+        我遇過的最難的 Cookie 問題 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

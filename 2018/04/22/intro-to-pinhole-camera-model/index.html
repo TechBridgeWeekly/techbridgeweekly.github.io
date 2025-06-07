@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>清晰說明針孔相機的內部參數與外部參數矩陣 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-04-22T01:32:21.000Z" itemprop="datePublished">
+          2018-04-22
+      </time>
+    
+    
+    | 
+    <a href='/tags/Pinhole-camera-model/'>Pinhole camera model</a>,
+    
+    <a href='/tags/Intrinsic-matrix/'>Intrinsic matrix</a>
+    
+    
+</span>
+
+<meta name="generator" content="清晰說明針孔相機的內部參數與外部參數矩陣">
+<meta name="og:title" content="清晰說明針孔相機的內部參數與外部參數矩陣">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">清晰說明針孔相機的內部參數與外部參數矩陣</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>學習電腦視覺的同學們應該都有學習過相機的內部參數和外部參數矩陣，網路上也有很多說明文章，不過在學習過程中，還是花了一些時間把一些似懂非懂的觀念釐清，所以今天想要來寫一篇文章幫大家整理最簡單的基本概念，讓學習變得更容易。</p>
+<p>內部參數和外部參數矩陣最基本的應用就是從 2D 影像去重建 3D 世界的樣貌，也就是可以從畫面中的點去推得 3D 世界中的座標，接下來就讓我們一起來看看基本的原理。</p>
+<h2 id="成像的原理"><a href="#成像的原理" class="headerlink" title="成像的原理"></a>成像的原理</h2><p>最基本的相機模型，就是針孔相機。他的成像原理就是，物體反射出來的光線，透過針孔，會在針孔的感光平面上成像，如下圖所示：</p>
+<p><img src="https://pic.pimg.tw/silverwind1982/1467200545-3113692363.png?v=1467200546" alt="pinhole"></p>
+<p>大家有時候看到內部參數的示意圖，會是如下圖：</p>
+<p><img src="https://pic.pimg.tw/silverwind1982/1475662270-3082248572_n.png" alt="half pinhole"></p>
+<p>其實只是把 virtual image plane 跟 image plane 視作相同的概念，只要知道這一點，就比較不會被混淆。</p>
+<h2 id="內部參數矩陣"><a href="#內部參數矩陣" class="headerlink" title="內部參數矩陣"></a>內部參數矩陣</h2><p>了解上面的概念之後，我們就可以利用 virtual image plane 的表示法，來幫助我們推得某一點（X, Y, Z）在 virtual image plane 上面的座標（u, v）該是多少。</p>
+<p>首先，我們考慮最簡單的關係，</p>
+<h1 id="begin-bmatrix-u-v-end-bmatrix"><a href="#begin-bmatrix-u-v-end-bmatrix" class="headerlink" title="$$\begin{bmatrix} u \ v\end{bmatrix}\"></a>$$<br>\begin{bmatrix}<br> u \<br> v<br>\end{bmatrix}\</h1><p>\begin{bmatrix}<br> f &amp; 0 &amp; 0 \<br> 0 &amp; f &amp; 0 \<br> 0 &amp; 0 &amp; 1<br>\end{bmatrix}\<br>\begin{bmatrix}<br> X \<br> Y \<br> Z<br>\end{bmatrix}\<br>$$</p>
+<p>但是，我們的相機會因為有組裝誤差等等，不會非常理想，principal axis 不一定會落在 virtual image plane 的中心，可能會在 u 方向跟 v 方向各自有一個平移量，若這兩個平移量分別為 $t_u$ 跟 $t_v$，我們就可以將剛剛的矩陣寫成</p>
+<h1 id="begin-bmatrix-u-v-end-bmatrix-1"><a href="#begin-bmatrix-u-v-end-bmatrix-1" class="headerlink" title="$$\begin{bmatrix} u \ v\end{bmatrix}\"></a>$$<br>\begin{bmatrix}<br> u \<br> v<br>\end{bmatrix}\</h1><p>\begin{bmatrix}<br> f &amp; 0 &amp; t_u \<br> 0 &amp; f &amp; t_v \<br> 0 &amp; 0 &amp; 1<br>\end{bmatrix}\<br>\begin{bmatrix}<br> X \<br> Y \<br> Z<br>\end{bmatrix}\<br>$$</p>
+<p>剛剛我們提到，目前所使用的單位還是真實世界中的單位（例如公分）。但是，在影像中的座標都是用像素的位置來呈現，所以我們希望可以將單位轉換成 pixel 數。那要怎麼換呢？其實很簡單，我們只要將所有以 cm 為單位的值，都乘上 pixel&#x2F;cm（每公分有多少個 pixel），自然就可以換成 pixel 數啦。</p>
+<p>在一般情況下，u 方向跟 v 方向的單位像素個數不會相同，所以我們就分別用 $m_u$、$m_v$ 來表示 u 方向跟 v 方向每公分有幾個像素。這樣的話，矩陣就會變成下面的形式，u、v 的單位就變成 pixel 了：</p>
+<h1 id="begin-bmatrix-u-v-end-bmatrix-2"><a href="#begin-bmatrix-u-v-end-bmatrix-2" class="headerlink" title="$$\begin{bmatrix} u \ v\end{bmatrix}\"></a>$$<br>\begin{bmatrix}<br> u \<br> v<br>\end{bmatrix}\</h1><p>\begin{bmatrix}<br> m_uf &amp; 0 &amp; m_ut_u \<br> 0 &amp; m_vf &amp; m_vt_v \<br> 0 &amp; 0 &amp; 1<br>\end{bmatrix}\<br>\begin{bmatrix}<br> X \<br> Y \<br> Z<br>\end{bmatrix}\<br>$$</p>
+<p>到這邊為止，就是大家常看到的內部參數矩陣的長相。但是，如果要寫成最完整的的形式，還需要考慮 u 軸跟 v 軸不垂直的狀況，這會使得每一個像素變成一個平行四邊形，如下圖所示：</p>
+<p><img src="https://scontent.ftpe7-1.fna.fbcdn.net/v/t1.15752-9/31044603_10156564185611844_2601010801225498624_n.png?_nc_fx=ftpe7-2&_nc_cat=0&oh=47e721d978b7bf3ee026fad2f1b8a866&oe=5B502634" alt="img"></p>
+<p>從圖中可以看到，在這個像素裡面，u 的值會隨著 v 的增加而增加，所以 u 應該要額外加上 $tan(\alpha)v$，也就會可以讓我們將矩陣寫成下面的形式：（其中 $ s &#x3D; \alpha_ytan(\alpha)$）</p>
+<h1 id="begin-bmatrix-u-v-end-bmatrix-3"><a href="#begin-bmatrix-u-v-end-bmatrix-3" class="headerlink" title="$$\begin{bmatrix} u \ v\end{bmatrix}\"></a>$$<br>\begin{bmatrix}<br> u \<br> v<br>\end{bmatrix}\</h1><p>\begin{bmatrix}<br> m_uf &amp; s &amp; m_ut_u \<br> 0 &amp; m_vf &amp; m_vt_v \<br> 0 &amp; 0 &amp; 1<br>\end{bmatrix}\<br>\begin{bmatrix}<br> X \<br> Y \<br> Z<br>\end{bmatrix}\<br>$$</p>
+<h2 id="外部參數矩陣"><a href="#外部參數矩陣" class="headerlink" title="外部參數矩陣"></a>外部參數矩陣</h2><p>經過上面的介紹，我們已經了解，內部參數矩陣可以幫助我們將相機座標系的某一個三維點座標投影到影像平面上的二維像素座標，但是，如果只用相機座標的話，在應用上常常會遇到一些麻煩的地方。舉例來說，如果我們現在是要用一個 camera 做 3D SLAM，在過程中，我們的相機會一直移動，這會造成我們之前已經有的某些點座標，也必須隨著相機的移動，而不斷更新。這時候，如果可以有一個世界座標系一直維持不動，就可以有一個錨定的座標系，而物體的座標點就由是藉座標系定義。</p>
+<p>下面這張圖很清楚地可以看出外部參數矩陣的功能：</p>
+<p><img src="https://www.mathworks.com/help/vision/ug/calibration_cameramodel_coords.png" alt="extrinsic"></p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>用一張圖來總結，可以再將整個定位複習一次。</p>
+<ul>
+<li>內部參數矩陣：處理相機座標系到影像座標系的投影</li>
+<li>外部參數矩陣：處理世界座標系到相機座標系的座標轉換</li>
+</ul>
+<p><img src="http://openmvg.readthedocs.io/en/latest/_images/pinholeCamera.png" alt="summary"></p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a target="_blank" rel="noopener" href="http://silverwind1982.pixnet.net/blog/post/134551091">Pinhole Camera: 針孔相機座標成像原理</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/liulina603/article/details/52953414">計算機視覺-相機內參數和外參數</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.mathworks.com/help/vision/ug/camera-calibration.html">What Is Camera Calibration?</a></li>
+</ol>
+<p>關於作者：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://pojenlai.wordpress.com/">@pojenlai</a> 演算法工程師，對機器人、電腦視覺和人工智慧有少許研究，正在學習<a target="_blank" rel="noopener" href="https://buzzorange.com/techorange/2017/07/10/elon-musk-first-principle/">用心體會事物的本質</a>跟<a target="_blank" rel="noopener" href="https://www.ted.com/talks/eduardo_briceno_how_to_get_better_at_the_things_you_care_about">不斷進入學生心態改進</a>。</li>
+<li>@sherrychuang</li>
+</ul>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/04/22/intro-to-pinhole-camera-model/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/04/22/intro-to-pinhole-camera-model/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/04/22/intro-to-pinhole-camera-model/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/04/22/intro-to-pinhole-camera-model/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/04/28/antd-and-admin-website/">
+        ← 打造後台管理系統的好幫手：Ant Design
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/04/14/how-to-setup-python-development-environment-in-windows/">
+        如何在 Windows 打造 Python 開發環境設定基礎入門教學 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

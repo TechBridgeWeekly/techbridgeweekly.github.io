@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>使用 AntV 製作資料圖表-台灣老年人口與長照機構供需比 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-08-25T20:20:58.000Z" itemprop="datePublished">
+          2018-08-25
+      </time>
+    
+    
+    | 
+    <a href='/tags/javascript/'>javascript</a>,
+    
+    <a href='/tags/data-visualization/'>data visualization</a>,
+    
+    <a href='/tags/AntV/'>AntV</a>,
+    
+    <a href='/tags/G2/'>G2</a>,
+    
+    <a href='/tags/RWD/'>RWD</a>
+    
+    
+</span>
+
+<meta name="generator" content="使用 AntV 製作資料圖表-台灣老年人口與長照機構供需比">
+<meta name="og:title" content="使用 AntV 製作資料圖表-台灣老年人口與長照機構供需比">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">使用 AntV 製作資料圖表-台灣老年人口與長照機構供需比</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>隨著年齡增長，多少開始會遇到家人或親戚需要長期照護，入住療養院或醫院的狀況，接者就會發現許多照護中心可是一位難求，院中的照服人員或是醫護人員也得以一擋百，讓我很想知道目前台灣整體來說，老年人口、長照機構與照服人員的比例失衡有多嚴重。而剛好在前陣子 <a target="_blank" rel="noopener" href="https://medium.com/@hulitw">@huli</a> 大大介紹了<a href="https://blog.techbridge.cc/2018/04/28/antd-and-admin-website/">Ant design</a>，讓我再次注意到同樣為螞蟻金服出品的 <a target="_blank" rel="noopener" href="https://antv.alipay.com/zh-cn/index.html">AntV</a>，稍微研究之下發現它使用起來非常簡單快速，並且一樣有 React、Angular 與 Vue 的版本。所以今天這篇文章想藉由實作台灣老年人口與長照機構供需比的資料圖表，順便介紹 AntV 這套資料視覺化的套件。</p>
+<p>對了，報導者有發表過一系列專輯 - <a target="_blank" rel="noopener" href="https://www.twreporter.org/topics/nursing-home-truth">長照機構裡的大象——10萬老人被照顧的真相</a>，說明台灣長照產業的現況，如果懶得看我長篇大論的技術文章，拜託至少在離開前去看一下報導者的專輯，這樣我也算功德一件，讓更多人知道長照產業的重要性，或許也就有那麼一些人有辦法解決這個鮮少被提起的問題。</p>
+<p>先看個成果：</p>
+<p data-height="379" data-theme-id="29194" data-slug-hash="OZxNbO" data-default-tab="result" data-user="arvin0731" data-embed-version="2" data-pen-title="總體台灣老年人口與長照機構供需比 - AntV - demo" class="codepen">See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/arvin0731/pen/OZxNbO/">總體台灣老年人口與長照機構供需比 - AntV - demo</a> by Arvin (<a target="_blank" rel="noopener" href="https://codepen.io/arvin0731">@arvin0731</a>) on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<!--
+解釋範例內容
+-->
+<p>我依照 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8F%B0%E6%B9%BE%E5%9C%B0%E7%90%86%E5%8C%BA%E5%88%92">Wiki 上的台灣地理區劃分</a>將資料北、中、南、東與外島五個區塊，並加上兩個按鈕，可以把資料量較少的外島去除，用來展示 G2 在處理資料切換時的順暢感。</p>
+<p>看得出來其實就是個非常簡單用 Excel 也畫得出來的分組長條圖，但實際上你會發現，透過 AntV 製作完全不會比用 Excel 麻煩，還支援 RWD 與資料的切換動畫！真的非常適合我這次想要快速拉出一個比較圖表的狀況！</p>
+<h1 id="AntV"><a href="#AntV" class="headerlink" title="AntV"></a>AntV</h1><p><img src="/img/arvinh/antv-cover.png" alt="AntV 官網"></p>
+<p>AntV 其實包含了三個不同應用情境的套件：G2、G6、F2。</p>
+<ol>
+<li>G2: 包含各種圖表元素的集成，大多數的應用場景都可以從 G2 中找到對應合適的元件。</li>
+<li>G6: 主要是針對流程圖與關聯性分析的圖表元件，甚至能利用 G2 繪製資料庫的 ER Diagram 與時序圖。</li>
+<li>F2: 針對 Mobile 的使用情境來特別加強圖表在 performance 上的表現，主要繪製在 <code>canvas</code> 上。</li>
+</ol>
+<h2 id="今天我們使用-G2-來開發"><a href="#今天我們使用-G2-來開發" class="headerlink" title="今天我們使用 G2 來開發"></a>今天我們使用 G2 來開發</h2><p>這幾套由螞蟻金服開發的視覺化套件，除了遵照 Antd 的設計語言外，針對圖表的設計製作上，深受 <a target="_blank" rel="noopener" href="https://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448">The Grammar of Graphics</a> 這本巨作的影響，也是 G2 的名稱的由來。</p>
+<blockquote>
+<p>G2 的強大是由其背後的一套圖形語法所支撐的，它基於《The Grammar of Graphics》(Leland Wilkinson 著)一書，是一套用來描述所有統計圖形深層特性的語法規則，該語法回答了『什麼是統計圖形』這一問題，以自底向上的方式組織最基本的元素形成更高級的元素。由此，G2 所建構出的圖表是由一系列獨立的圖形語法元素組合而成的 – <a target="_blank" rel="noopener" href="https://antv.alipay.com/zh-cn/g2/3.x/tutorial/the-grammar-of-graphics.html">AntV G2 官網</a></p>
+</blockquote>
+<p>我並沒有看過那本書，也沒有仔細研究 G2 的原始碼，但這敘述聽起來就超厲害的，整個工具是建構在一套完整的理論基礎上頭。</p>
+<p>在 G2 的世界中，並沒有明確定義一般的圖表類型，像是長條圖、折線圖等等，是依照一系列的圖形語法元素組合成的結果來決定其類型。</p>
+<p>所謂的圖形語法元素大概就是包含：</p>
+<ul>
+<li><strong>DataSet 資料集操作</strong></li>
+<li><strong>Scale 度量</strong></li>
+<li><strong>Geom 幾何標記（point, line, area, shape, etc）</strong></li>
+<li><strong>Attr 圖形屬性</strong></li>
+<li><strong>Coord 座標系</strong></li>
+<li><strong>Axis 座標軸</strong></li>
+<li><strong>Legend 圖例</strong></li>
+<li><strong>Tooltip 提示訊息</strong></li>
+<li><strong>Guide 輔助元素</strong></li>
+<li><strong>Facet 分面 （將一份資料按照某個維度分隔成若干子集）</strong></li>
+<li><strong>Label 標籤</strong></li>
+<li><strong>Theme 主題</strong></li>
+<li><strong>Event 圖表事件</strong></li>
+</ul>
+<p>在<a target="_blank" rel="noopener" href="https://antv.alipay.com/zh-cn/g2/3.x/tutorial/index.html">官方文件上</a>上針對不同的元素都有非常詳細的說明與範例，而且都有中文文件（雖然是簡體…），是 AntV 的絕大優點之一。</p>
+<p>透過操作這些不同元素的組合，可以很容易的切換圖表類型，以 <strong>Coord</strong> 為例：</p>
+<p><code>chart.coord(&#39;coordType&#39;[, cfg]);</code></p>
+<p>在同樣的資料集上，透過上述的方式來轉換座標軸，馬上就可以從層疊長條圖切換為圓餅圖：</p>
+<p><img src="/img/arvinh/g2_coord.png" alt="Different coord on same chart"> <a target="_blank" rel="noopener" href="https://antv.alipay.com/zh-cn/g2/3.x/tutorial/coord.html">圖片來源</a></p>
+<p>或是透過自定義 <code>Shape</code>，快速將一般的長條圖，改變成三角形的形狀：</p>
+<p data-height="458" data-theme-id="29194" data-slug-hash="deVMmN" data-default-tab="js,result" data-user="arvin0731" data-embed-version="2" data-pen-title="AntV-G2-demo" class="codepen">See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/arvin0731/pen/deVMmN/">AntV-G2-demo</a> by Arvin (<a target="_blank" rel="noopener" href="https://codepen.io/arvin0731">@arvin0731</a>) on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p>由於這樣的設計理念與基礎，G2 比起其他一樣提供較為高階視覺化語法的套件來說，彈性大了不少。</p>
+<h2 id="開始進行實作，視覺化總要有個方向，走，我們先從資料搜集開始！"><a href="#開始進行實作，視覺化總要有個方向，走，我們先從資料搜集開始！" class="headerlink" title="開始進行實作，視覺化總要有個方向，走，我們先從資料搜集開始！"></a>開始進行實作，視覺化總要有個方向，走，我們先從資料搜集開始！</h2><p>首先，要想知道老年人口以及長照機構的比例，我們需要找到依照年齡分組的人口統計資料，這可以從<a target="_blank" rel="noopener" href="https://www.ris.gov.tw/346">內政部的人口資料庫</a>中找到「年底人口數按性別及五歲年齡組分」的資料表，從民國 35 年到 106 年都有，算是蠻齊全的。我們選取 85 ~ 100+ 以上的資料當作老年人口。</p>
+<p>2017 年的部分計算出來後大約是：368,757 人</p>
+<p><img src="/img/arvinh/age_population.png" alt="年底人口數按性別及五歲年齡組分"></p>
+<p>接著，到<a target="_blank" rel="noopener" href="https://dep.mohw.gov.tw/DOS/lp-3550-113-xCat-T02.html">衛福部統計處</a>找尋長期照顧機構的相關資料。</p>
+<p>可以找到 2017 年長照與安養機構總數的可供進住人數，大約 57,147 人：</p>
+<p><img src="/img/arvinh/number_of_nursy_building.png" alt="長照與安養機構總數的可供進住人數"></p>
+<p>以及 2017 年老人長期照顧、安養機構工作人員人數，大約 19,064 人（只計算護理人員與照顧服務人員）：</p>
+<p><img src="/img/arvinh/number_of_workers.png" alt="老人長期照顧、安養機構工作人員人數"></p>
+<p>上述的資料來源都有個別縣市的統計資料，上面數字是我將各縣市加總的結果，可能多少會有誤差，大家別介意啊…整體比例應該不會差太多。</p>
+<h2 id="接著使用-G2-來進行視覺化"><a href="#接著使用-G2-來進行視覺化" class="headerlink" title="接著使用 G2 來進行視覺化"></a>接著使用 G2 來進行視覺化</h2><p>要使用 G2 很簡單，只要在 HTML 中載入 <code>&lt;script src=&quot;https://gw.alipayobjects.com/os/antv/assets/g2/3.0.9/g2.min.js&quot;&gt;&lt;/script&gt;</code> 即可。</p>
+<p>接著將剛剛的資料定義好：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">SimpleAll</span> = [</span><br><span class="line">  &#123;<span class="attr">name</span>: <span class="string">&#x27;可供進住人數&#x27;</span>, <span class="attr">value</span>: <span class="number">57147</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">name</span>: <span class="string">&#x27;長照、養護人員&#x27;</span>, <span class="attr">value</span>: <span class="number">19064</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">name</span>: <span class="string">&#x27;老年人口數(85~100+)&#x27;</span>, <span class="attr">value</span>: <span class="number">368757</span>&#125;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>我們就可以透過 <code>G2.Chart</code> 來定義圖表：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> chart = <span class="keyword">new</span> <span class="variable constant_">G2</span>.<span class="title class_">Chart</span>(&#123;</span><br><span class="line">  <span class="attr">container</span>: <span class="string">&#x27;mountNode&#x27;</span>,</span><br><span class="line">  <span class="attr">forceFit</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">height</span>: <span class="variable language_">window</span>.<span class="property">innerHeight</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>我們 new 一個 <code>G2.Chart</code> 的 instance，並且同時傳入三個參數給予建構：</p>
+<ul>
+<li>container: 指定你的圖表要掛載在 DOM 中的哪個位置，對應於 HTML 中元素的 id 值。</li>
+<li>forceFit: 超方便的參數，只要設定為 true，你的圖表就能 Responsive，因此也不用再設定寬度。</li>
+<li>height: 可以額外定義需要的圖表高度。</li>
+</ul>
+<p>再來我們把資料與圖表做綁定：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chart.<span class="title function_">source</span>(<span class="title class_">SimpleAll</span>);</span><br></pre></td></tr></table></figure>
+
+<p>接著便能開始設定我們的圖表長相：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">chart</span><br><span class="line">  .<span class="title function_">interval</span>()</span><br><span class="line">  .<span class="title function_">position</span>(<span class="string">&#x27;name*value&#x27;</span>)</span><br><span class="line">  .<span class="title function_">color</span>(<span class="string">&#x27;name&#x27;</span>)</span><br><span class="line">  .<span class="title function_">adjust</span>([&#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;dodge&#x27;</span>,</span><br><span class="line">    <span class="attr">marginRatio</span>: <span class="number">1</span> / <span class="number">5</span></span><br><span class="line">  &#125;]);</span><br></pre></td></tr></table></figure>
+
+<p>先前說過，G2 中沒有區分圖表類型，利用的是各種不同的<strong>幾何標記</strong>來組成圖表，如果要製作長條圖，需要用到的就是 <code>ìnterval()</code> 這個幾何標記，G2 還支援：<code>point()</code>, <code>path()</code>, <code>line()</code>, <code>area()</code>, <code>polygon()</code>, <code>edge()</code>, <code>schema()</code>, <code>heatmap()</code> 這幾種類型，<a target="_blank" rel="noopener" href="https://antv.alipay.com/zh-cn/g2/3.x/tutorial/geom.html">官網有更詳細的介紹</a></p>
+<p>宣告我們需要的幾何圖形後，接著就會想知道我們要怎麼將資料映射到對的位置，並且給予不同的顏色區別。</p>
+<p>而這一切在 G2 中都非常的簡單直覺。</p>
+<p>透過 <code>position(&#39;name*value&#39;)</code> 這個 API，我們指定資料欄位的 <code>name</code> 要對應到圖表座標軸上的 <code>x</code>，而 <code>value</code> 對應到 <code>y</code>，到這邊為止，我們就能畫出一個擁有完整資訊的圖表：</p>
+<img src="/img/arvinh/g2-simple-bar.png" width="500" height="300">
+
+<p>當然這樣還不夠，至少也要用顏色來區別一下不同的資料類別。利用 <code>color(name)</code> 來告訴 G2，我們要根據資料的 <code>name</code> 欄位，用不同的顏色來區分。</p>
+<img src="/img/arvinh/g2-simple-bar-color.png" width="500" height="300">
+
+<p>G2 的 API 通常都能接收一個以上的參數，以 color 為例，除了直接傳入顏色要對應的資料欄位外，也可以直接輸入某個顏色，讓他 apply 到整個圖表；或是傳入 callback，在 callback 中根據欄位數值做邏輯上的著色動作。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 可以參考官網 API Doc https://antv.alipay.com/zh-cn/g2/3.x/api/geom.html#_color</span></span><br><span class="line"></span><br><span class="line">chart.<span class="title function_">point</span>().<span class="title function_">position</span>(<span class="string">&#x27;x*y&#x27;</span>).<span class="title function_">color</span>(<span class="string">&#x27;z&#x27;</span>); <span class="comment">// 使用默認的顏色</span></span><br><span class="line">chart.<span class="title function_">point</span>().<span class="title function_">position</span>(<span class="string">&#x27;x*y&#x27;</span>).<span class="title function_">color</span>(<span class="string">&#x27;z&#x27;</span>, [ <span class="string">&#x27;red&#x27;</span>, <span class="string">&#x27;blue&#x27;</span> ]); <span class="comment">// 使用傳入的指定顏色</span></span><br><span class="line">chart.<span class="title function_">point</span>().<span class="title function_">position</span>(<span class="string">&#x27;x*y&#x27;</span>).<span class="title function_">color</span>(<span class="string">&#x27;z&#x27;</span>, <span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span>(value === <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;red&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;blue&#x27;</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="接著我們還可以加點東西讓圖表活潑一點。"><a href="#接著我們還可以加點東西讓圖表活潑一點。" class="headerlink" title="接著我們還可以加點東西讓圖表活潑一點。"></a>接著我們還可以加點東西讓圖表活潑一點。</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">chart.<span class="title function_">point</span>()</span><br><span class="line">  .<span class="title function_">position</span>([<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;value&#x27;</span>])</span><br><span class="line">  .<span class="title function_">size</span>(<span class="number">50</span>)</span><br><span class="line">  .<span class="title function_">shape</span>(<span class="string">&#x27;name&#x27;</span>, <span class="keyword">function</span> (<span class="params">name</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="string">&#x27;image&#x27;</span>, imageMap[name]];</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>我們在原本的 <code>interval</code> 幾何圖形上加上另一個幾何圖形 <code>point</code>，位置一樣將 <code>(name, value)</code> 映射到 <code>(x, y)</code>。</p>
+<p>相信眼尖的你會發現，<code>position</code> 的參數除了一開始的 <code>(name*value)</code> 外，也可以傳遞 array 形式。</p>
+<p>接著設定 size 為 50；在幾何圖形 <code>point</code> 中，size 代表原點的半徑，如果是 <code>interval</code> 則代表柱體寬度，<code>line</code> 則是線段寬度。</p>
+<p>還有個特殊的 <code>shape()</code> 函式，他讓我們可以指定特定資料欄位（在這邊我們用 <code>name</code>），將其轉換成不同的型態，像是這邊我們就把單純的 <code>point</code> mapping 成圖片，而這一切只要透過一個 callback 函數，回傳對應的結果即可！</p>
+<p data-height="518" data-theme-id="29194" data-slug-hash="jxZGPV" data-default-tab="js,result" data-user="arvin0731" data-embed-version="2" data-pen-title="2017 台灣總體老年人口與長照機構供需比 - AntV - demo" class="codepen">See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/arvin0731/pen/jxZGPV/">2017 台灣總體老年人口與長照機構供需比 - AntV - demo</a> by Arvin (<a target="_blank" rel="noopener" href="https://codepen.io/arvin0731">@arvin0731</a>) on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p>短短幾行 code 就作出一個比一般 Excel 還要特別一些的圖表，真的蠻方便使用的對吧！</p>
+<h2 id="但只看全台灣總體的資料好像不太夠啊，能不能看一下各縣市的呢？"><a href="#但只看全台灣總體的資料好像不太夠啊，能不能看一下各縣市的呢？" class="headerlink" title="但只看全台灣總體的資料好像不太夠啊，能不能看一下各縣市的呢？"></a>但只看全台灣總體的資料好像不太夠啊，能不能看一下各縣市的呢？</h2><p>當然可以。</p>
+<p>只是每個縣市如果都要放三根長方體好像太密集了點，不是很適合，所以如同最前面的成品圖，將資料北、中、南、東與外島五個區塊，這樣圖表會比較清晰一點。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data = [ &#123; <span class="attr">name</span>: <span class="string">&#x27;可供進住人數&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;北部&#x27;</span>: <span class="number">25499</span>,</span><br><span class="line">    <span class="string">&#x27;中部&#x27;</span>: <span class="number">11027</span>,</span><br><span class="line">    <span class="string">&#x27;南部&#x27;</span>: <span class="number">18684</span>,</span><br><span class="line">    <span class="string">&#x27;東部&#x27;</span>: <span class="number">1609</span>,</span><br><span class="line">    <span class="string">&#x27;外島&#x27;</span>: <span class="number">328</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&#x27;長照、養護人員&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;北部&#x27;</span>: <span class="number">8994</span>,</span><br><span class="line">    <span class="string">&#x27;中部&#x27;</span>: <span class="number">3518</span>,</span><br><span class="line">    <span class="string">&#x27;南部&#x27;</span>: <span class="number">5997</span>,</span><br><span class="line">    <span class="string">&#x27;東部&#x27;</span>: <span class="number">482</span>,</span><br><span class="line">    <span class="string">&#x27;外島&#x27;</span>: <span class="number">73</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&#x27;老年人口數(85~100+)&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;北部&#x27;</span>: <span class="number">162443</span>,</span><br><span class="line">    <span class="string">&#x27;中部&#x27;</span>: <span class="number">92071</span>,</span><br><span class="line">    <span class="string">&#x27;南部&#x27;</span>: <span class="number">101846</span>,</span><br><span class="line">    <span class="string">&#x27;東部&#x27;</span>: <span class="number">10197</span>,</span><br><span class="line">    <span class="string">&#x27;外島&#x27;</span>: <span class="number">2200</span> &#125; ];</span><br></pre></td></tr></table></figure>
+
+<h3 id="DataSet"><a href="#DataSet" class="headerlink" title="DataSet"></a>DataSet</h3><p>要想在同一圖表中呈現多組長條圖，我們需引進 G2 中 <code>DataSet</code> 的這個概念。</p>
+<p><img src="/img/arvinh/antv-g2-data-set-structure.svg" alt="DataSet 架構圖（取自官網）"><br><a target="_blank" rel="noopener" href="https://antv.alipay.com/zh-cn/g2/3.x/tutorial/data-set.html#">官網介紹</a></p>
+<p>這張圖看似複雜，但其實很清楚的介紹了 <code>DataSet</code> 在使用 G2 製圖的過程中所扮演的角色：操作資料。</p>
+<p>資料可以經由 <code>Connector</code> 傳入 <code>DataSet</code> 中，接著利用 <code>Transforms</code> 針對數據做處理（排序、統計、資料補齊），最後渲染到 <code>DataView</code> 中。</p>
+<p>突然看到一堆名詞感覺有點嚇人？別擔心，待會的範例會慢慢講解，只要先把 <code>DataSet</code> 想成是存放資料的資料集，而 <code>DataView</code> 就是我們要繪製出來的資料視圖。</p>
+<p>另外，一份 <code>DataSet</code> 可以連接多個 <code>DataView</code>，並透過更動其中的共用 <code>State</code> 來進行連動變更，在我們的範例中沒有使用到，但可以參考<a target="_blank" rel="noopener" href="https://antv.alipay.com/zh-cn/g2/3.x/tutorial/data-set.html#_%E5%9B%BE%E8%A1%A8%E8%81%94%E5%8A%A8%E7%A4%BA%E4%BE%8B">官網的清楚範例</a></p>
+<p><img src="/img/arvinh/antv2-g2-dataset-state.gif" alt="官網範例示圖"></p>
+<h3 id="回到我們的範例來"><a href="#回到我們的範例來" class="headerlink" title="回到我們的範例來"></a>回到我們的範例來</h3><p>跟剛剛的範例不同，我們在進行資料綁定前（<code>chart.source(data)</code>），需要先對數據做一些操作，所以要利用 <code>DataSet</code> 與 <code>transform</code> 兩個 API：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ds = <span class="keyword">new</span> <span class="title class_">DataSet</span>();</span><br><span class="line"><span class="keyword">const</span> dv = ds.<span class="title function_">createView</span>().<span class="title function_">source</span>(data);</span><br><span class="line">dv.<span class="title function_">transform</span>(&#123;</span><br><span class="line">  <span class="attr">type</span>: <span class="string">&#x27;fold&#x27;</span>,</span><br><span class="line">  <span class="attr">fields</span>: [ <span class="string">&#x27;北部&#x27;</span>, <span class="string">&#x27;中部&#x27;</span>, <span class="string">&#x27;南部&#x27;</span>, <span class="string">&#x27;東部&#x27;</span>, <span class="string">&#x27;外島&#x27;</span>], <span class="comment">// 展開資料</span></span><br><span class="line">  <span class="attr">key</span>: <span class="string">&#x27;區域&#x27;</span>, <span class="comment">// key, 設置新的 key/value 值，來對應新數據的含義。</span></span><br><span class="line">  <span class="attr">value</span>: <span class="string">&#x27;區域人數&#x27;</span>, <span class="comment">// value</span></span><br><span class="line">  <span class="attr">retains</span>: [ <span class="string">&#x27;name&#x27;</span> ] <span class="comment">// 想要保留在 transform 後的資料欄位</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">chart.<span class="title function_">source</span>(dv);</span><br></pre></td></tr></table></figure>
+
+<p>透過 <code>new DataSet()</code> 與 <code>createView()</code> 創建出一個擁有 <strong>資料集 &lt;-&gt; 資料狀態連接 &lt;-&gt; 資料視圖</strong> 關聯性的物件 <code>dv</code>，接著利用 <code>transform()</code> 函數針對資料進行處理。</p>
+<p>我們的資料是根據 <code>可供進住人數&#39;</code>、<code>長照、養護人員</code> 與 <code>老年人口數</code>來分類，但我們實際上希望的是能夠先依照區域劃分，在每個區域中再分別用這三種類別來比較資料。</p>
+<p>因此在傳入 <code>transform</code> 的 option 中，我們選定 <code>type</code> 為 <code>fold</code>，其意義為：<strong>以指定字段集作為 Key，展開數據。</strong>並且設置新的 key&#x2F;value 值，來對應新數據的含義。</p>
+<p>直接拿我們的資料來作為例子，比較一下前後結果就會很清楚了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 原始資料</span></span><br><span class="line"><span class="keyword">const</span> data = [&#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;可供進住人數&#x27;</span>, <span class="string">&#x27;北部&#x27;</span>: <span class="number">25499</span>,<span class="string">&#x27;中部&#x27;</span>: <span class="number">11027</span>,<span class="string">&#x27;南部&#x27;</span>: <span class="number">18684</span>,<span class="string">&#x27;東部&#x27;</span>: <span class="number">1609</span>,<span class="string">&#x27;外島&#x27;</span>: <span class="number">328</span></span><br><span class="line">&#125;, &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;長照、養護人員&#x27;</span>, <span class="string">&#x27;北部&#x27;</span>: <span class="number">8994</span>, <span class="string">&#x27;中部&#x27;</span>: <span class="number">3518</span>, <span class="string">&#x27;南部&#x27;</span>: <span class="number">5997</span>, <span class="string">&#x27;東部&#x27;</span>: <span class="number">482</span>, <span class="string">&#x27;外島&#x27;</span>: <span class="number">73</span></span><br><span class="line">&#125;, ...];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 經過 transform 後</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> dataBeenTransformed = [&#123;</span><br><span class="line">  <span class="attr">key</span>: <span class="string">&#x27;北部&#x27;</span>, <span class="attr">value</span>: <span class="number">25499</span>, <span class="attr">name</span>: <span class="string">&#x27;可供進住人數&#x27;</span>,</span><br><span class="line">&#125;, &#123;</span><br><span class="line">  <span class="attr">key</span>: <span class="string">&#x27;北部&#x27;</span>, <span class="attr">value</span>: <span class="number">8994</span>, <span class="attr">name</span>: <span class="string">&#x27;長照、養護人員&#x27;</span>,</span><br><span class="line">&#125;, &#123;</span><br><span class="line">  <span class="attr">key</span>: <span class="string">&#x27;中部&#x27;</span>, <span class="attr">value</span>: <span class="number">11027</span>, <span class="attr">name</span>: <span class="string">&#x27;可供進住人數&#x27;</span>,</span><br><span class="line">&#125;, &#123;</span><br><span class="line">  <span class="attr">key</span>: <span class="string">&#x27;中部&#x27;</span>, <span class="attr">value</span>: <span class="number">3518</span>, <span class="attr">name</span>: <span class="string">&#x27;長照、養護人員&#x27;</span>,</span><br><span class="line">&#125; ...];</span><br><span class="line"><span class="comment">// 基本上，transform 後，原有的資料欄位會不見，這邊的 `name` 還保留是因為我有加入 `retains: [ &#x27;name&#x27; ]` 這個選項。</span></span><br></pre></td></tr></table></figure>
+
+<p>如此一來，我們在繪製圖表的時候，他就會依照目前的 Key, 將相同的 Key 所對應的值 Group 在一起，讓<code>北部</code>這個 Key 對應的三個欄位數值（可供進住人數、長照人員數、老年人口數）一起在同個分類（北部）中顯示。</p>
+<p>不過，還沒有結束。</p>
+<p>將資料分組後，依照先前的繪製方式，會畫出下面這樣的結果：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chart.<span class="title function_">interval</span>().<span class="title function_">position</span>(<span class="string">&#x27;區域*區域人數&#x27;</span>).<span class="title function_">color</span>(<span class="string">&#x27;name&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<img src="/img/arvinh/antv2-g2-multiple-set.png" width="500" height="300">
+
+<p>雖然分組了，但資料重疊在一起了…囧</p>
+<p>這是因為每個分組中的每個數據都套用到了同樣的 position 設定（區域*區域人數），我們必須要調整一下！</p>
+<p>透過 <code>adjust()</code> 函數可以方便做到：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.<span class="title function_">adjust</span>([&#123;</span><br><span class="line">  <span class="attr">type</span>: <span class="string">&#x27;dodge&#x27;</span>,</span><br><span class="line">  <span class="attr">marginRatio</span>: <span class="number">1</span> / <span class="number">5</span></span><br><span class="line">&#125;])</span><br></pre></td></tr></table></figure>
+
+<p>設定 type 為 <code>dodge</code>，代表我們要調整的是分組數據，然後給予 margin 比例為 1&#x2F;5。</p>
+<p data-height="297" data-theme-id="29194" data-slug-hash="JvZWQE" data-default-tab="result" data-user="arvin0731" data-embed-version="2" data-pen-title="2017 台灣老年人口與長照機構供需比 - AntV - demo1" class="codepen">See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/arvin0731/pen/JvZWQE/">2017 台灣老年人口與長照機構供需比 - AntV - demo1</a> by Arvin (<a target="_blank" rel="noopener" href="https://codepen.io/arvin0731">@arvin0731</a>) on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p>看起來就正常多了！</p>
+<p>關於 <code>transform</code> 的運用，可以參考官方詳解 - <a target="_blank" rel="noopener" href="https://antv.alipay.com/zh-cn/g2/3.x/api/transform.html#">Transform</a><br>關於 <code>adjust</code> 的運用，目前<a target="_blank" rel="noopener" href="https://antv.alipay.com/zh-cn/g2/3.x/api/geom.html#_adjust">支援四種 type</a>：<code>stack</code>, <code>dodge</code>, <code>jitter</code>, <code>symmetric</code>。</p>
+<p>神奇的是，這些不同類型的差異，在擁有豐富文檔的官方網站竟然找不到介紹，所以我其實也不太懂。重點是，不同的資料型態會有各自適合的 type，大家在製作時要記得都嘗試看看效果。</p>
+<h3 id="看起來蠻完整的了，但圖表沒辦法動態變化怎麼可以！"><a href="#看起來蠻完整的了，但圖表沒辦法動態變化怎麼可以！" class="headerlink" title="看起來蠻完整的了，但圖表沒辦法動態變化怎麼可以！"></a>看起來蠻完整的了，但圖表沒辦法動態變化怎麼可以！</h3><p>沒錯，我也覺得不可以。</p>
+<p>還好 AntV G2 讓我們輕鬆利用 <code>chart.changeData()</code> 就能同時更新 <code>DataSet</code> 與 <code>DataView</code>。更棒的是，除了提供 RWD 設計外，資料轉換過程中的動畫他也幫你照顧好好的。</p>
+<p>除此之外，我們也能夠直接操作原有的 <code>DataSet</code>，像開頭的範例一樣，點選 button 時，我們透過 <code>chart.filter</code> 來過濾原有資料，並且在最後呼叫 <code>chart.repaint()</code> 進行 <code>DataView</code> 的重繪（一定要重繪才會 trigger <code>DataSet</code> 與 <code>DataView</code> 間的連動）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">changeData</span> = (<span class="params">status</span>) =&gt; &#123;</span><br><span class="line">  chart.<span class="title function_">filter</span>(<span class="string">&#x27;區域&#x27;</span>, <span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (status === <span class="string">&#x27;all&#x27;</span>) &#123;</span><br><span class="line">      chart.<span class="title function_">scale</span>(<span class="string">&#x27;區域人數&#x27;</span>, &#123;</span><br><span class="line">        <span class="attr">minLimit</span>: <span class="number">73</span></span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    chart.<span class="title function_">scale</span>(<span class="string">&#x27;區域人數&#x27;</span>, &#123;</span><br><span class="line">      <span class="attr">minLimit</span>: <span class="number">400</span></span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> val !== <span class="string">&#x27;外島&#x27;</span>;</span><br><span class="line">  &#125;);</span><br><span class="line">  chart.<span class="title function_">repaint</span>();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如此一來就能完成開頭的範例啦！</p>
+<p data-height="379" data-theme-id="29194" data-slug-hash="OZxNbO" data-default-tab="result" data-user="arvin0731" data-embed-version="2" data-pen-title="總體台灣老年人口與長照機構供需比 - AntV - demo" class="codepen">See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/arvin0731/pen/OZxNbO/">總體台灣老年人口與長照機構供需比 - AntV - demo</a> by Arvin (<a target="_blank" rel="noopener" href="https://codepen.io/arvin0731">@arvin0731</a>) on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>如同我在前言提及的<a target="_blank" rel="noopener" href="https://www.twreporter.org/topics/nursing-home-truth">報導者專輯</a>中所呈現的，台灣的長照產業正面臨很大的困境，只要家中有人有這種需求，相信都能有很深的體會。先前也曾有學長以長照產業為創業題目，可惜最終黯然收場，可見這問題真的有其嚴重與困難性存在。</p>
+<p>身為前端開發者，或許目前能做的最大貢獻就是盡量製作出許多一目了然的資訊圖表、網頁專輯，讓更多的人知道問題的嚴重性，透過 AntV G2 這樣的工具，製作互動式圖表真的是越來越方便與容易，希望大家能多加貢獻，讓台灣社會往更好的方向走去！而小魯我能力不足分身乏術…先下台一鞠躬…</p>
+<!-- 資料來源 -->
+
+<h2 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://antv.alipay.com/zh-cn/index.html">AntV</a></li>
+<li><a target="_blank" rel="noopener" href="https://antv.alipay.com/zh-cn/g2/3.x/tutorial/index.html">G2</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ris.gov.tw/346">內政部戶政司人口資料庫</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.gender.ey.gov.tw/gecdb/Stat_Statistics_DetailData.aspx?sn=+wEzRrF1jtJ82VtOVizhxw==">行政院性別平等統計資料庫</a></li>
+<li><a target="_blank" rel="noopener" href="https://dep.mohw.gov.tw/DOS/lp-3550-113-xCat-T02.html">衛福部統計處-長期照顧統計</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.twreporter.org/topics/nursing-home-truth">長照機構裡的大象——10萬老人被照顧的真相</a></li>
+<li>Icon made by Freepik from <a target="_blank" rel="noopener" href="http://www.flaticon.com/">www.flaticon.com</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.arvinh.info/about/">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/08/25/datavis-antv/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/08/25/datavis-antv/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/08/25/datavis-antv/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/08/25/datavis-antv/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/09/02/learn-with-passion/">
+        ← 如何充滿熱情地學習 - 以資料結構為例
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/08/18/cors-issue/">
+        原來 CORS 沒有我想像中的簡單 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

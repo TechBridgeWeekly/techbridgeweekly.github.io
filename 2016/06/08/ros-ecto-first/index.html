@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>ecto 簡介 (1) – cell 與 plasm | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-06-08T20:30:13.000Z" itemprop="datePublished">
+          2016-06-08
+      </time>
+    
+    
+    | 
+    <a href='/tags/ROS-ecto/'>ROS, ecto</a>
+    
+    
+</span>
+
+<meta name="generator" content="ecto 簡介 (1) – cell 與 plasm">
+<meta name="og:title" content="ecto 簡介 (1) – cell 與 plasm">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">ecto 簡介 (1) – cell 與 plasm</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>這次想要跟大家介紹 ROS ORK (Object Recognition Kitchen) 這個函式庫實作物體辨識 pipeline 的機制，其背後運用到的一個重要的函式庫叫做 <a target="_blank" rel="noopener" href="http://plasmodic.github.io/ecto/index.html">ecto</a> ，接下來會介紹 ecto 的基本觀念和用法。但因為我想把內容講解得比較詳細，所以不會只花一篇文章的篇幅就介紹完這個工具，這一篇會講到最基本的 cell 與 plasm，讓大家先有初步的認識，更進階的用法甚至是實例會在之後的文章介紹。</p>
+<h2 id="ecto-是什麼-為什麼要使用-ecto"><a href="#ecto-是什麼-為什麼要使用-ecto" class="headerlink" title="ecto 是什麼 &amp; 為什麼要使用 ecto"></a>ecto 是什麼 &amp; 為什麼要使用 ecto</h2><p>可以把 ecto 想成一個框架，這個框架可以讓你很方便地把程式用 DAG (Directed Acyclic Graph) 的方式來實作，這樣實作的兩大好處在於模組化跟彈性。</p>
+<p>DAG的一個範例圖：</p>
+<p><img src="/img/pojenlai/dag.png" alt="DAG"></p>
+<p>首先談到模組化，在 ecto 的世界裡，你首先可以用 C++ 或 Python 寫出一個個的 cell ，這個 cell 就是執行一個功能的單位 (所以命名為 cell，細胞的意思)，這種設計的方式讓你在撰寫 cell 的時候，比較不會把好多個功能硬寫在一起，增加了程式的可讀性、也讓後續的擴充彈性變強。</p>
+<p>模組化所衍生出的好處就是彈性，因為你只要抽換某個模組，就可以改變整個程式的行為。</p>
+<p>以 ORK 為例，在撰寫物體辨識的 pipeline 時，假設有三個步驟: (這邊只是為了方便理解舉例，不是真實情況)</p>
+<ol>
+<li>讀取 Kinect 影像</li>
+<li>使用 Linemod 演算法進行 template matching</li>
+<li>將辨識結果輸出</li>
+</ol>
+<p>那用 ecto 實作就會寫成三個 cells，然後再建立一個 ecto 的 plasm，plasm 其實就只是 graph，把寫好的三個cell相連接。 所以，如果我想要實作另一個物體辨識的演算法，我只要改寫第二個 cell 就好，當然有個前提是兩個演算法的 input 和 output 要一致，才不會影響到第一個和第三個 cell。</p>
+<h2 id="基本中的基本-–-Cells-Plasm-的簡單用法"><a href="#基本中的基本-–-Cells-Plasm-的簡單用法" class="headerlink" title="基本中的基本 – Cells &amp; Plasm 的簡單用法"></a>基本中的基本 – Cells &amp; Plasm 的簡單用法</h2><p>為了讓大家有見樹又見林的感覺，我們先看一下 ecto 大致上要怎麼用。最簡單的用法大概就是建立兩個 cell ，再用一個 plasm 將這兩個 cell 串成 graph 。</p>
+<p>現在我們只要先知道要寫一個 cell 需要在裡面定義四個函式: </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> <span class="type">void</span></span></span><br><span class="line"><span class="function"><span class="title">declare_params</span><span class="params">(tendrils&amp;)</span></span></span><br><span class="line"><span class="function"><span class="type">static</span> <span class="type">void</span></span></span><br><span class="line"><span class="function"><span class="title">declare_io</span><span class="params">(<span class="type">const</span> tendrils&amp;, tendrils&amp;, tendrils&amp;)</span></span></span><br><span class="line"><span class="function"><span class="type">void</span></span></span><br><span class="line"><span class="function"><span class="title">configure</span><span class="params">(<span class="type">const</span> tendrils&amp;, <span class="type">const</span> tendrils&amp;, <span class="type">const</span> tendrils&amp;)</span></span></span><br><span class="line"><span class="function"><span class="type">int</span></span></span><br><span class="line"><span class="function"><span class="title">process</span><span class="params">(<span class="type">const</span> tendrils&amp;, <span class="type">const</span> tendrils&amp;)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>這四個函式顧名思義就是要定義這個 cell 有哪些參數可以設定、輸入跟輸出是什麼、怎麼設定參數以及 cell 運作時的功能，很符合直覺上的需求。</p>
+<p>那假設我們已經定義了兩個 cell – MyAwesomeCell1 跟 MyAwesomeCell2，ru, 剩下的就是建立一個 Plasm 來串接這兩個 cell 並執行，他的程式碼會像這樣:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">import</span> ecto</span><br><span class="line"><span class="keyword">import</span> my_awesome_cpp_ecto_module</span><br><span class="line"><span class="keyword">import</span> my_awesome_python_ecto_module</span><br><span class="line"> </span><br><span class="line"><span class="comment"># create a plasm</span></span><br><span class="line">plasm = ecto.Plasm()</span><br><span class="line"> </span><br><span class="line"><span class="comment"># create some cells</span></span><br><span class="line">cell1 = my_awesome_cpp_ecto_module.MyAwesomeCell1(param1=whatever1)</span><br><span class="line">cell2 = my_awesome_python_ecto_module.MyAwesomeCell2(param2=whatever2)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># connect those cells in the plasm</span></span><br><span class="line">plasm.connect(cell1[<span class="string">&#x27;output&#x27;</span>] &gt;&gt; cell2[<span class="string">&#x27;input&#x27;</span>])</span><br><span class="line"> </span><br><span class="line"><span class="comment"># execute the graph</span></span><br><span class="line">plasm.execute(niter=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<p>重點其實只有 Plasm 的初始化、串接 cell 成 graph 與執行這三個部分:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># create a plasm</span></span><br><span class="line">plasm = ecto.Plasm()</span><br><span class="line"> </span><br><span class="line"><span class="comment"># connect those cells in the plasm</span></span><br><span class="line">plasm.connect(cell1[<span class="string">&#x27;output&#x27;</span>] &gt;&gt; cell2[<span class="string">&#x27;input&#x27;</span>])</span><br><span class="line"> </span><br><span class="line"><span class="comment"># execute the graph</span></span><br><span class="line">plasm.execute(niter=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Cell-的機制詳解"><a href="#Cell-的機制詳解" class="headerlink" title="Cell 的機制詳解"></a>Cell 的機制詳解</h2><p>從上面的例子，大家應該可以明顯的看出，plasm 因為只是要串連寫好的 cell ，所以設定相對單純(目前我們先不討論 scheduling 等複雜的狀況)，但 cell 就不太一樣，上面只提到需要寫四個函式，卻沒有實例讓大家了解怎麼實作，接下來就會介紹比較實際的例子，讓大家了解 cell 要怎麼寫。</p>
+<p>首先我們看個簡單的例子，這個 class 是一個 Printer ，我們在產生這個 Printer 的 instance 時，可以設定裡面的兩個 data member – prefix_ 和 suffix_ (或可以理解成參數)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Printer</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">Printer</span>(<span class="type">const</span> std::string&amp; prefix, <span class="type">const</span> std::string&amp; suffix)</span><br><span class="line">      :</span><br><span class="line">        <span class="built_in">prefix_</span>(prefix),</span><br><span class="line">        <span class="built_in">suffix_</span>(suffix)</span><br><span class="line">  &#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span></span></span><br><span class="line"><span class="function">  <span class="title">operator</span><span class="params">()</span><span class="params">(std::ostream&amp; out, <span class="type">const</span> std::string&amp; message)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    out &lt;&lt; prefix_ &lt;&lt; message &lt;&lt; suffix_;</span><br><span class="line">  &#125;</span><br><span class="line">  std::string prefix_, suffix_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>假設要改寫成 ecto 的 cell，首先我們來宣告參數，透過 declare_params 這個函式可以做到，在這個例子裡，只是先單純宣告有兩個 params，提供這兩個參數的說明(這個說明可以用來自動生成文件，不過我們先忽略)，以及預設值。</p>
+<p>大家可能會疑惑的地方是，params.declare 這個用法怎麼突然就跑出來了。這是因為在 ecto 裡面，cell 之間的溝通是透過 tendrils 這個類別來處理，但這一篇先不提到 tendrils 的細節，所以才會有點混亂，不過如果去看 <a target="_blank" rel="noopener" href="http://plasmodic.github.io/ecto/api/html/classecto_1_1tendrils.html#a89e7ed34481d3ed987ddfd5ba35174ae">tendrils 的 API</a>，就會清楚這中間是怎麼一回事。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> <span class="type">void</span></span></span><br><span class="line"><span class="function"><span class="title">declare_params</span><span class="params">(tendrils&amp; params)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  params.<span class="built_in">declare</span>&lt;std::string&gt;(<span class="string">&quot;prefix&quot;</span>, <span class="string">&quot;A string to prefix printing with.&quot;</span>, <span class="string">&quot;start&gt;&gt; &quot;</span>);</span><br><span class="line">  params.<span class="built_in">declare</span>&lt;std::string&gt;(<span class="string">&quot;suffix&quot;</span>, <span class="string">&quot;A string to append printing with.&quot;</span>, <span class="string">&quot; &lt;&lt;stop\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著我們來定義 IO 的介面，透過 declare_io 來做，因為這個 cell 只需要接收需要印出的 message ，所以只需要宣告一個 input ，不需要宣告 output 。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> <span class="type">void</span></span></span><br><span class="line"><span class="function"><span class="title">declare_io</span><span class="params">(<span class="type">const</span> tendrils&amp; params, tendrils&amp; inputs, tendrils&amp; outputs)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  inputs.<span class="built_in">declare</span>&lt;std::string&gt;(<span class="string">&quot;message&quot;</span>, <span class="string">&quot;The message to print.&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>目前我們已經指定了對外的兩個重點 – 有哪些參數以及 IO 介面。接著該考慮內部使用的設定了，所以第一步是將 declare_params 裡面宣告的參數 (此例中是 prefix 跟 suffix) 跟類別裡面的 data member (此例中是 prefix_ 跟 suffix_) 連接。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span></span></span><br><span class="line"><span class="function"><span class="title">configure</span><span class="params">(<span class="type">const</span> tendrils&amp; params, <span class="type">const</span> tendrils&amp; inputs, <span class="type">const</span> tendrils&amp; outputs)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  params[<span class="string">&quot;prefix&quot;</span>] &gt;&gt; prefix_;</span><br><span class="line">  params[<span class="string">&quot;suffix&quot;</span>] &gt;&gt; suffix_;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後的重點就是，實作這個 cell 的功能，我們要把實際做的事情寫在 process 這個函式裡面。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span></span></span><br><span class="line"><span class="function"><span class="title">process</span><span class="params">(<span class="type">const</span> tendrils&amp; inputs, <span class="type">const</span> tendrils&amp; outputs)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  std::cout &lt;&lt; prefix_ &lt;&lt; inputs.<span class="built_in">get</span>&lt;std::string&gt;(<span class="string">&quot;message&quot;</span>) &lt;&lt; suffix_;</span><br><span class="line">  <span class="keyword">return</span> ecto::OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以如果把四個函式合起來看，就會像這樣:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ecto/ecto.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ecto/registry.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> ecto::tendrils;</span><br><span class="line"><span class="keyword">namespace</span> overview</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">Printer01</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="function"><span class="type">static</span> <span class="type">void</span></span></span><br><span class="line"><span class="function">    <span class="title">declare_params</span><span class="params">(tendrils&amp; params)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">      params.<span class="built_in">declare</span>&lt;std::string&gt;(<span class="string">&quot;prefix&quot;</span>, <span class="string">&quot;A string to prefix printing with.&quot;</span>, <span class="string">&quot;start&gt;&gt; &quot;</span>);</span><br><span class="line">      params.<span class="built_in">declare</span>&lt;std::string&gt;(<span class="string">&quot;suffix&quot;</span>, <span class="string">&quot;A string to append printing with.&quot;</span>, <span class="string">&quot; &lt;&lt;stop\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">static</span> <span class="type">void</span></span></span><br><span class="line"><span class="function">    <span class="title">declare_io</span><span class="params">(<span class="type">const</span> tendrils&amp; params, tendrils&amp; inputs, tendrils&amp; outputs)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">      inputs.<span class="built_in">declare</span>&lt;std::string&gt;(<span class="string">&quot;message&quot;</span>, <span class="string">&quot;The message to print.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span></span></span><br><span class="line"><span class="function">    <span class="title">configure</span><span class="params">(<span class="type">const</span> tendrils&amp; params, <span class="type">const</span> tendrils&amp; inputs, <span class="type">const</span> tendrils&amp; outputs)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">      params[<span class="string">&quot;prefix&quot;</span>] &gt;&gt; prefix_;</span><br><span class="line">      params[<span class="string">&quot;suffix&quot;</span>] &gt;&gt; suffix_;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span></span></span><br><span class="line"><span class="function">    <span class="title">process</span><span class="params">(<span class="type">const</span> tendrils&amp; inputs, <span class="type">const</span> tendrils&amp; outputs)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">      std::cout &lt;&lt; prefix_ &lt;&lt; inputs.<span class="built_in">get</span>&lt;std::string&gt;(<span class="string">&quot;message&quot;</span>) &lt;&lt; suffix_;</span><br><span class="line">      <span class="keyword">return</span> ecto::OK;</span><br><span class="line">    &#125;</span><br><span class="line">    std::string prefix_, suffix_;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">ECTO_CELL</span>(ecto_overview, overview::Printer01, <span class="string">&quot;Printer01&quot;</span>,</span><br><span class="line">          <span class="string">&quot;A simple stdout printer with prefix and suffix parameters.&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>雖然整個類別被寫成很長，但其實只要熟悉 cell 的基本用法，就不會被這一堆程式碼嚇到。最後想跟大加補充說明一下，上面提到的 cell 寫法有個不直覺的地方是，沒有明顯的繼承關係，所以會覺得不符合我們的 cell 應該要繼承一個 base 的 cell class 的直覺。其實這邊是被 ECTO_CELL 這個 Macro 給處理掉了，所以才會看起來只有宣告幾個函式就寫完一個 cell 的感覺。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>這篇文章簡介了 ecto 的 cell 和 plasm，下一篇將會介紹 tendril 跟 scheduler 的機制，幫助大家更加理解 ecto ，並在未來能運用這個框架來建立自己的應用。</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a target="_blank" rel="noopener" href="http://programmers.stackexchange.com/questions/171671/when-to-use-dag-directed-acyclic-graph-in-programming">When to use DAG (Directed Acyclic Graph) in programming?</a></li>
+<li><a target="_blank" rel="noopener" href="http://plasmodic.github.io/ecto/ecto/usage/tutorials/plasms.html">ecto 官方網頁的 plasm 介紹</a></li>
+<li><a target="_blank" rel="noopener" href="http://plasmodic.github.io/ecto/ecto/overview/cells.html">ecto 官方網頁的 cell 詳細介紹</a></li>
+</ol>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2016/06/08/ros-ecto-first/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2016/06/08/ros-ecto-first/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2016/06/08/ros-ecto-first/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2016/06/08/ros-ecto-first/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2016/06/18/redis-introduction/">
+        ← 資料庫的好夥伴：Redis
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/06/04/sketch-prototyping-for-engineer/">
+        給工程師的 Sketch Prototyping 簡易入門教學 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

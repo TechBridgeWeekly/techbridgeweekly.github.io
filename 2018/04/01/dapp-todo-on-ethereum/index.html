@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>在 Ethereum 上開發簡單的 Todo App | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-04-01T10:00:13.000Z" itemprop="datePublished">
+          2018-04-01
+      </time>
+    
+    
+    | 
+    <a href='/tags/ethereum/'>ethereum</a>,
+    
+    <a href='/tags/smart-contract/'>smart contract</a>,
+    
+    <a href='/tags/dapp/'>dapp</a>
+    
+    
+</span>
+
+<meta name="generator" content="在 Ethereum 上開發簡單的 Todo App">
+<meta name="og:title" content="在 Ethereum 上開發簡單的 Todo App">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">在 Ethereum 上開發簡單的 Todo App</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>近一兩年區塊鏈的技術造成一股熱潮，由於加密貨幣在投資上的炒作，常看到的區塊鏈範例都是和虛擬貨幣相關連的服務，另外，技術的應用焦點也常放在金融和會計業上，這是因為這兩個行業長久以來在市場上都有球員兼裁判的嫌疑（例如會計有資產信用背書和被雇用人這兩種矛盾的角色），因此需要一個「備受信任」的機制來重拾市場對它們的信任。而區塊鏈，或是廣義上來說的分散式賬本技術，正是一個有潛力的解法。不過就像《區塊鏈革命》這本書所說的，這個技術實現了「價值上的轉移」，理當會對更多的行業帶來影響。</p>
+<p>Ethereum 提出 DApp(Decentralized App) 的想法，也就是藉著區塊鏈上佈署的智慧合約（Smart Contract）對區塊鏈資料進行操作，使得不但資料無法被竄改，連合約（程式碼）本身也無法被竄改，因此這些合約可以在沒有第三方（例如律師）的見證下具有信用。以下簡單的將傳統 web app 和 DApp 作類比：</p>
+<table>
+<thead>
+<tr>
+<th>–</th>
+<th>–</th>
+<th>–</th>
+<th>–</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Web app</td>
+<td>front-end</td>
+<td>back-end API</td>
+<td>Database</td>
+</tr>
+<tr>
+<td>DApp</td>
+<td>front-end</td>
+<td>smart contract</td>
+<td>Blockchain(Ethereum)</td>
+</tr>
+</tbody></table>
+<p>由於這篇只會提到開發 Todo 程式的必要部分，如果需要更完整對於智慧合約的介紹和 Ethereum 的相關知識可以參考 Taipei Ethereum Meetup 的<a target="_blank" rel="noopener" href="https://medium.com/taipei-ethereum-meetup">部落格</a>或是 gasolin 網友編寫的 <a target="_blank" rel="noopener" href="https://www.gitbook.com/book/gasolin/learn-ethereum-dapp/details">gitbook</a>。</p>
+<p>另外，雖然這裡只是實作一個簡單的 Todo 程式，但是可以想像如果擴展成接案平台的核心，發包人和接案人商量一個完成任務的評估方式和報酬，例如完成幾個測試後會收到多少款項，接著將剛剛的合約寫入 DAapp，未來只要接案人的專案通過測試後就能自動完成收款。</p>
+<p>以下對 DApp 的實作利用 Truffle 這個開發框架，以 Solidity（Ethereum 官方開發的編程語言）開發智慧合約，並利用 javascript 的 web3.js 套件和合約溝通，以下分別就這兩個工具介紹。另外如果使用 VSCode 開發，可以安裝 Solidity 的<a target="_blank" rel="noopener" href="https://github.com/juanfranblanco/vscode-solidity">開發工具</a>，方便檢查語法上的問題。</p>
+<p>這是這篇所使用到的<a target="_blank" rel="noopener" href="https://github.com/pomelyu/EthereumTodo.git">程式碼</a></p>
+<h2 id="Truffle-Ethereum-Development-Framework"><a href="#Truffle-Ethereum-Development-Framework" class="headerlink" title="Truffle - Ethereum Development Framework"></a>Truffle - Ethereum Development Framework</h2><p><a target="_blank" rel="noopener" href="http://truffleframework.com/">Truffle</a> 是 Ethereum（以太坊）的開發框架，可以建立測試用的區塊鏈，並將寫好的智慧合約編譯佈署，由於以太坊的開發環境變動的相當快，因此務必注意到不同版本的支援問題。這裡使用最新的 truffle 版本(v4.1.3)，因為這個版本建立的測試用區塊鏈支援 websocket 連線，配合 web3.js v1.0 之後的版本可以利用 socket 監聽事件的觸發，這是比較有效率的作法。</p>
+<h3 id="Step1-安裝-truffle"><a href="#Step1-安裝-truffle" class="headerlink" title="Step1. 安裝 truffle"></a>Step1. 安裝 truffle</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g truffle@4.1.3</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step2-建立專案資料並初始化"><a href="#Step2-建立專案資料並初始化" class="headerlink" title="Step2. 建立專案資料並初始化"></a>Step2. 建立專案資料並初始化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> EthereumTodo &amp;&amp; <span class="built_in">cd</span> EthereumTodo</span><br><span class="line">truffle init</span><br><span class="line"><span class="comment"># 資料夾結構如下</span></span><br><span class="line"><span class="comment"># build/       合約編譯完才會產生，這裡會生成描述合約的 json 檔，包含合約的 ABI(Application Binary Interface)</span></span><br><span class="line"><span class="comment"># contracts/   合約的檔案，以 .sol 為結尾</span></span><br><span class="line"><span class="comment"># migrations/  描述如何將合約佈署到區塊鏈</span></span><br><span class="line"><span class="comment"># test/        用來測試合約</span></span><br><span class="line"><span class="comment"># truffle.js   設定 truffle</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Step3-查看版本資訊"><a href="#Step3-查看版本資訊" class="headerlink" title="Step3. 查看版本資訊"></a>Step3. 查看版本資訊</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">truffle version</span><br><span class="line"><span class="comment"># Truffle v4.1.3 (core: 4.1.3)</span></span><br><span class="line"><span class="comment"># Solidity v0.4.19 (solc-js)</span></span><br></pre></td></tr></table></figure>
+<p>請務必先檢查支援的 Solidity 版本，由於目前這個語言變動很快，需要更加注意版本間的語法差異。</p>
+<h3 id="Step4-建立測試用區塊鏈"><a href="#Step4-建立測試用區塊鏈" class="headerlink" title="Step4. 建立測試用區塊鏈"></a>Step4. 建立測試用區塊鏈</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ganache-cli 是 truffle 內附的指令，用來取代原先的 testrpc</span></span><br><span class="line"><span class="comment"># 用 --seed apple banana cherry，指定隨機生成的種子，這樣可以確保每次建立的區塊鏈都是相同的，</span></span><br><span class="line"><span class="comment"># 如此一來合約的佈署位址也會相同，這在測試環境上非常好用</span></span><br><span class="line">ganache-cli --seed apple banana cherry</span><br><span class="line"></span><br><span class="line"><span class="comment">## 執行結果會順便產生測試用的帳號和 key，帳號會在之後執行合約時用到</span></span><br><span class="line"><span class="comment"># Available Accounts</span></span><br><span class="line"><span class="comment"># ==================</span></span><br><span class="line"><span class="comment"># (0) 0x1d489c3f8ed5ee71325a847888b2157c9ac29c05</span></span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line"><span class="comment"># Private Keys</span></span><br><span class="line"><span class="comment"># ==================</span></span><br><span class="line"><span class="comment"># (0) bea70301d065cf7946f25251c73dbfff93d4320715e43bdc0d5087553074cb64</span></span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line"><span class="comment"># Listening on localhost:8545</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Step5-設定-truffle-環境"><a href="#Step5-設定-truffle-環境" class="headerlink" title="Step5. 設定 truffle 環境"></a>Step5. 設定 truffle 環境</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// truffle.js</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">networks</span>: &#123;</span><br><span class="line">    <span class="attr">development</span>: &#123;</span><br><span class="line">      <span class="attr">host</span>: <span class="string">&quot;localhost&quot;</span>,</span><br><span class="line">      <span class="attr">port</span>: <span class="number">8545</span>,     <span class="comment">// default port of ganache-cli</span></span><br><span class="line">      <span class="attr">network_id</span>: <span class="string">&quot;*&quot;</span> <span class="comment">// Match any network id</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="建立-Todo-合約"><a href="#建立-Todo-合約" class="headerlink" title="建立 Todo 合約"></a>建立 Todo 合約</h2><h3 id="Step1-設定資料結構"><a href="#Step1-設定資料結構" class="headerlink" title="Step1. 設定資料結構"></a>Step1. 設定資料結構</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// contracts/TodoFactory.sol</span></span><br><span class="line"><span class="comment">// 指定編譯的版本</span></span><br><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.17</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 指定合約的名稱，之後佈署或是測試時都是根據這個名稱（不是檔案名稱）</span></span><br><span class="line">contract TodoFactory &#123;</span><br><span class="line">  struct Todo &#123;</span><br><span class="line">    string taskName;</span><br><span class="line">    bool isCompleted;</span><br><span class="line">    bool isValid;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  Todo[] todos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上簡單的設定在合約中資料儲存的方式，利用 <code>struct</code> 包裹每個 todo 應該包含的資料，並利用陣列儲存。Solidty 常用的型別包含<code>int(uint, uint256), uint8, bool, address(8 bytes), byte</code> ，而 <code>string</code> 相當於是 <code>byte[]</code>。由於儲存資料在區塊鏈上相當耗費成本（以 POW 機制來說，就是需要有人挖礦），智慧合約的執行上也必須消耗 <strong>gas</strong>，因此會盡可能的選用適當的型別以減少寫入的資料量和運算量，另外在 <code>struct</code> 中盡可能的將相同的資料型別排列在一起，也可以節省儲存的資料量。</p>
+<p>除了 <code>Array</code> 之外，Solidity 中常用的還有 <code>mapping</code>，代表 key-value 之間的對應。例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 由 id(int) 對應到 todo(Todo)</span></span><br><span class="line">mapping(<span class="type">int</span> =&gt; Todo) idMapTodo;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step2-加上操作資料的-Function-Method"><a href="#Step2-加上操作資料的-Function-Method" class="headerlink" title="Step2. 加上操作資料的 Function(Method)"></a>Step2. 加上操作資料的 Function(Method)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">contract TodoFactory &#123;</span><br><span class="line"></span><br><span class="line">  function <span class="title function_">addTodo</span><span class="params">(string _taskName)</span> <span class="keyword">public</span> &#123;</span><br><span class="line">    Todo <span class="type">memory</span> <span class="variable">todo</span> <span class="operator">=</span> Todo(_taskName, <span class="literal">false</span>, <span class="literal">true</span>);</span><br><span class="line">    <span class="type">uint</span> <span class="variable">todoId</span> <span class="operator">=</span> todos.push(todo) - <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>addTodo</code> 中，我們先以輸入的 <code>_taskName</code> 初始化一個型態是 <code>Todo</code> 的物件，接著加進合約中的 todos 陣列，並以陣列索引當作 id。注意到上面的函式即使加上回傳值也無法回傳預期的結果，之後會再解釋這部份。</p>
+<p>Solidity 中 contract 和 function 的關係，可以類比成 class 和 function 的關係，contract 也是可以被繼承的，而 function 可以加上一些 <strong>modifier</strong>，例如：</p>
+<ul>
+<li><code>public</code>: 代表可以被外界調用</li>
+<li><code>private</code>: 代表只能被此合約中的其他 function 調用</li>
+<li><code>internal</code>: 代表可以被此合約和繼承的合約調用，像是 c++ 的 <code>protected</code></li>
+<li><code>external</code>: 代表只能被外界調用<br>或是</li>
+<li><code>view</code>: 代表此 function 不會對區塊鏈上的資料作任何的更改，像是 get function</li>
+<li><code>pure</code>: 代表此 function 不會操作到區塊鏈上的任何資料，所以 pure function 不會消耗任何的 <strong>gas</strong>，可以想像這就是 util function</li>
+</ul>
+<p>另外需要特別注意的是，Solidity 中<strong>執行函式的方式</strong>被分成 <strong>Call</strong> 和 <strong>Transaction</strong> 兩種（雖然程式碼都是 function）</p>
+<ul>
+<li><strong>Call</strong>: 代表執行函式但是不會對區塊鏈作任何的修改，可以使用「回傳值」，通常會被這樣使用的函式包含 <code>view</code> 或是 <code>pure</code> 這兩個關鍵字，如果對於一個有寫入的函式使用 call 的方式執行，結果<strong>不會</strong>寫入任何的資料</li>
+<li><strong>Transaction</strong>: 和 Call 相反，在執行上會寫入資料，因此需要等待礦工們將資料寫入，所以函式的「回傳值」僅代表 transaction hash，不會回傳預期的結果。</li>
+</ul>
+<p>以上可以參考這個<a target="_blank" rel="noopener" href="https://ethereum.stackexchange.com/questions/765/what-is-the-difference-between-a-transaction-and-a-call">討論串</a></p>
+<p>除了預設的關鍵字，也可以利用關鍵字 <code>modifier</code> 宣告自訂的 <strong>modifier</strong>，類似 python 或是 js ES7 中的 decorator（裝飾字），例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">contract TodoFactory &#123;</span><br><span class="line"></span><br><span class="line">  modifier <span class="title function_">isValidTodo</span><span class="params">(uint _todoId)</span> &#123;</span><br><span class="line">    <span class="comment">// require 要求傳入的參數要是 true，否則中止操作，並退還執行時消耗的 gas</span></span><br><span class="line">    <span class="comment">// 以下連結有更詳細的比較和說明</span></span><br><span class="line">    <span class="comment">// https://medium.com/taipei-ethereum-meetup/比較-require-assert-和-revert-及其運作方式-30c24d534ce4</span></span><br><span class="line">    require(isTodoValid(_todoId));</span><br><span class="line">    _; <span class="comment">// 這是語法上必要的</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function <span class="title function_">deleteTodo</span><span class="params">(uint _todoId)</span> <span class="keyword">public</span> <span class="title function_">isValidTodo</span><span class="params">(_todoId)</span> &#123;</span><br><span class="line">    todos[_todoId].isValid = <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上述的程式碼中，首先利用自訂的 <strong>modifier</strong> 檢查想要刪除的元素是否有效，有效才會刪除。回到前面新增物件的部分，把陣列索引當作 id 是很奇怪的作法，因為實作上如果把陣列的元素移除，可能會想用其他的元素填補這個空隙，以節省儲存空間，這樣索引就會被更改，例如 [a, b, c] 移除 b 後會變成 [a, c]，但是因為區塊鏈的寫入成本極高，因此當刪除陣列元素時，<strong>不應該</strong>搬移其他的元素，所以直接將這個元素設定成 invalid 是成本較低的作法，當然也可以用 <code>delete</code> 刪除，但是會造成空隙。</p>
+<p>另外 Solidity 中的函式可以回傳複數的值，回傳時類似 tuple 以<code>()</code>包裹，不過回傳的資料型別只能是原始的資料型別或是陣列，也就是說不能回傳 <code>struct</code> 或者是 <code>string[]</code>。</p>
+<h3 id="Step3-加上-event-標示已完成的事件"><a href="#Step3-加上-event-標示已完成的事件" class="headerlink" title="Step3. 加上 event 標示已完成的事件"></a>Step3. 加上 event 標示已完成的事件</h3><p>如同前面提到的，執行 <code>addTodo</code>, <code>deleteTodo</code>, <code>completeTodo</code> 的時候都會以 <strong>Transaction</strong> 的方式執行（不然不會寫入資料），因此為了讓其他人知道執行完畢，並收到執行的結果，必須使用 event 觸發的方式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">contract TodoFactory &#123;</span><br><span class="line"></span><br><span class="line">event <span class="title function_">OnTodoAdded</span><span class="params">(uint todoId)</span>;</span><br><span class="line"></span><br><span class="line">  function <span class="title function_">addTodo</span><span class="params">(string _taskName)</span> <span class="keyword">public</span> &#123;</span><br><span class="line">    Todo <span class="type">memory</span> <span class="variable">todo</span> <span class="operator">=</span> Todo(_taskName, <span class="literal">false</span>, <span class="literal">true</span>);</span><br><span class="line">    <span class="type">uint</span> <span class="variable">todoId</span> <span class="operator">=</span> todos.push(todo) - <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// trigger event:</span></span><br><span class="line">    <span class="comment">// 這樣才能取得原來的回傳值 todoId</span></span><br><span class="line">    <span class="comment">// 在 v0.4.21 之後，必須寫成 emit OnTodoAdded(todoId)</span></span><br><span class="line">    OnTodoAdded(todoId);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>event</code> 的宣告就像是函式的 header，利用 <code>event</code> 可以讓多個 client 監聽智慧合約的變化，而且這些 <code>event</code> 一旦被觸發就會被紀錄在區塊鏈裡面，未來可以很輕易的查詢過去發生過的紀錄 </p>
+<h3 id="Step4-編譯及佈署合約"><a href="#Step4-編譯及佈署合約" class="headerlink" title="Step4. 編譯及佈署合約"></a>Step4. 編譯及佈署合約</h3><p>原則上就是照抄 <code>migrations/1_initial_migration.js</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// migrations/4_deploy_todoFactory.js</span></span><br><span class="line"><span class="type">const</span> <span class="variable">TodoFactory</span> <span class="operator">=</span> artifacts.require(<span class="string">&#x27;TodoFactory&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span>.<span class="keyword">exports</span> = function (deployer) &#123;</span><br><span class="line">  deployer.deploy(TodoFactory);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著依序編譯和佈署合約到自建的測試區塊鏈上</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">truffle compile</span><br></pre></td></tr></table></figure>
+<p>執行結果會 在 <code>build/</code> 建立 <code>TodoFactory.json</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">truffle migrate</span><br><span class="line"></span><br><span class="line"><span class="comment">## 執行結果</span></span><br><span class="line"><span class="comment"># Running migration: 4_deploy_todoFactory.js</span></span><br><span class="line"><span class="comment">#   Deploying TodoFactory...</span></span><br><span class="line"><span class="comment">#   ... 0xfecf0206d68c496cf067e320a4d4b5d294dfe89979552f7b6b8ab38696c51356</span></span><br><span class="line"><span class="comment">#   TodoFactory: 0x21e4624c5a0b3fda81d0833d412dded2bb3a7a7c</span></span><br><span class="line"><span class="comment"># Saving successful migration to network...</span></span><br><span class="line"><span class="comment">#   ... 0x6f592087ebfa7d5d77cce3f82c9d1222148c25499c348a59480ccfb3fe5884e1</span></span><br><span class="line"><span class="comment"># Saving artifacts...</span></span><br></pre></td></tr></table></figure>
+
+<p>其中 0x21e4624c5a0b3fda81d0833d412dded2bb3a7a7c 就是合約部署在區塊鏈上的位址</p>
+<h3 id="Step5-測試"><a href="#Step5-測試" class="headerlink" title="Step5. 測試"></a>Step5. 測試</h3><p>由於已經佈署在區塊鏈上的合約無法再被修改，最多只能利用事先設定的函數調整參數，因此每一次的合約更新都會導致地址的改變，在實際的應用上代表著每次合約的更新都需要改變利用到的合約位址，這是非常麻煩的事情，因此佈署前的測試相當重要，另外測試對於 TDD（Test Drive Development） 或是 CI,CD 的流程也是不可或缺的。truffle 內建測試用的框架，利用 Mocha 和 Chai 這兩個在 javascript 中常用的套件（兩者所使用的版本可以從 <a target="_blank" rel="noopener" href="https://github.com/trufflesuite/ganache-core/blob/develop/package.json">ganache-core</a> 查看）</p>
+<p>以下的測試可以驗證合約是否正常發佈</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// test/test_todoFactory.js</span></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">TodoFactory</span> = artifacts.<span class="built_in">require</span>(<span class="string">&#x27;TodoFactory&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">contract</span>(<span class="string">&#x27;TodoFactory&#x27;</span>, <span class="keyword">function</span>(<span class="params">accounts</span>) &#123;</span><br><span class="line">  <span class="title function_">before</span>(<span class="title function_">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="comment">// 在所有測試開始前佈署合約</span></span><br><span class="line">    contract = <span class="keyword">await</span> <span class="title class_">TodoFactory</span>.<span class="title function_">deployed</span>();</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&#x27;Should contract deployed properly&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 驗證合約是否已經被佈署</span></span><br><span class="line">    assert.<span class="title function_">isDefined</span>(contract);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>對於非同步的情形而言，可以使用 Promise 或者是 Callback 的語法，這裡用 Promise 配合 async-await 比較簡潔。不過因為目前 ganache-core 所使用的 chai 版本為 3.5，無法抓到非同步的錯誤，因此如果需要這方面的測試可以用以下的寫法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">contract(<span class="string">&#x27;TodoFactory&#x27;</span>, function(accounts) &#123;</span><br><span class="line">  it(<span class="string">&#x27;Should not complete invalid task&#x27;</span>, async () =&gt; &#123;</span><br><span class="line">    contract.completeTodo(<span class="number">9527</span>, (err) =&gt; &#123;</span><br><span class="line">      <span class="keyword">assert</span>.isDefined(err);</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另外在測試的部分 truffle 對於 <strong>Call</strong> 和 <strong>Transaction</strong> 兩種執行方式並沒有區分，都是用一般函式的呼叫方式，差別在後者回傳的是 transaction hash，從 hash 可以取得觸發的 event 的資訊</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// test/utils.js</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getEvents</span> (<span class="params">tx, filter</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> logs = tx.<span class="property">logs</span>;</span><br><span class="line">  <span class="keyword">const</span> events = _.<span class="title function_">filter</span>(logs, filter);</span><br><span class="line">  <span class="keyword">return</span> events;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// test/test_todoFactory.js</span></span><br><span class="line"><span class="title function_">contract</span>(<span class="string">&#x27;TodoFactory&#x27;</span>, <span class="keyword">function</span>(<span class="params">accounts</span>) &#123;</span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&#x27;Should add new todo properly&#x27;</span>, <span class="title function_">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="comment">// addTodo 的呼叫是 Transaction 所以即使 addTodo 中有回傳值，也無法收到</span></span><br><span class="line">    <span class="keyword">const</span> tx1 = <span class="keyword">await</span> contract.<span class="title function_">addTodo</span>(<span class="title class_">Todo1</span>.<span class="property">taskName</span>);</span><br><span class="line">    <span class="keyword">const</span> events1 = utils.<span class="title function_">getEvents</span>(tx1, &#123; <span class="attr">event</span>: <span class="string">&#x27;OnTodoAdded&#x27;</span>, <span class="attr">logIndex</span>: <span class="number">0</span> &#125;);</span><br><span class="line">    todoId1 = events1[<span class="number">0</span>].<span class="property">args</span>.<span class="property">todoId</span>;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另外如果要檢查執行時觸發的 event 可以參考 stackoverflow 上的<a target="_blank" rel="noopener" href="https://ethereum.stackexchange.com/questions/15353/how-to-listen-for-contract-events-in-javascript-tests">討論</a>來驗證</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// test/utils.js</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">assertEvent</span>(<span class="params">contract, filter</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> event = contract[filter.<span class="property">event</span>]();</span><br><span class="line">    <span class="comment">// event.watch, event.get, event.stopWatching</span></span><br><span class="line">    <span class="comment">// 在 web3 中也有對應的 function 來監聽區塊鏈上的事件</span></span><br><span class="line">    event.<span class="title function_">watch</span>();</span><br><span class="line">    event.<span class="title function_">get</span>(<span class="function">(<span class="params">error, logs</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> log = _.<span class="title function_">filter</span>(logs, filter);</span><br><span class="line">      <span class="keyword">if</span> (!_.<span class="title function_">isEmpty</span>(log)) &#123;</span><br><span class="line">        <span class="title function_">resolve</span>(log);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&quot;Failed to find filtered event for &quot;</span> + filter.<span class="property">event</span>));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    event.<span class="title function_">stopWatching</span>();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"><span class="comment">// test/test_todoFactory.js</span></span><br><span class="line"><span class="title function_">contract</span>(<span class="string">&#x27;TodoFactory&#x27;</span>, <span class="keyword">function</span>(<span class="params">accounts</span>) &#123;</span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&#x27;Should delete todo properly&#x27;</span>, <span class="title function_">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">await</span> contract.<span class="title function_">deleteTodo</span>(todoId1);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> utils.<span class="title function_">assertEvent</span>(contract, &#123; <span class="attr">event</span>: <span class="string">&#x27;OnTodoDeleted&#x27;</span>, <span class="attr">args</span>: &#123; <span class="attr">todoId</span>: todoId1 &#125; &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接著執行以下指令後可以得到測試的結果</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">truffle <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>講完 DApp「後端」的部分後，接下來是利用前端來和智慧合約互動</p>
+<h2 id="Web3-js"><a href="#Web3-js" class="headerlink" title="Web3.js"></a>Web3.js</h2><p><a target="_blank" rel="noopener" href="https://github.com/ethereum/web3.js/">Web3.js</a> 提供 javascript 用來和以太坊互動的 API，這邊使用的版本是 v1.0，v1.0 與之前的版本有相當大的差別，除了額外提供 Socket 接口監聽事件，API 的呼叫方式也完全不同，甚至有些連運作的邏輯也不同，所以在查詢資料上需要特別注意這點。前端的功能除了傳統 Todo App 的新增、刪除、標記完成任務的功能之外，還可以列出這個 DAPP 過去的操作紀錄。但這邊只會強調與 web3 相關的接口部分，其餘的部分請看完整的<a target="_blank" rel="noopener" href="https://github.com/pomelyu/EthereumTodo.git">程式碼</a>，運作流程如下：</p>
+<img src="/img/cychien/dapp-todo-data-flow.png" alt="data-flow" style="width: 600px;"/>
+
+<h3 id="Step1-安裝-web3"><a href="#Step1-安裝-web3" class="headerlink" title="Step1. 安裝 web3"></a>Step1. 安裝 web3</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install web3</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step2-初始化-web3"><a href="#Step2-初始化-web3" class="headerlink" title="Step2. 初始化 web3"></a>Step2. 初始化 web3</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ethereum-todo/src/config/config-web3.js</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 websocket</span></span><br><span class="line"><span class="comment">// localhost:8545 是利用 truffle 建立的測試用區塊鏈</span></span><br><span class="line"><span class="comment">// const web3 = new Web3(new Web3.providers.WebsocketProvider(&#x27;ws://localhost:8545&#x27;)) </span></span><br><span class="line"><span class="keyword">const</span> web3 = <span class="keyword">new</span> <span class="title class_">Web3</span>(<span class="string">&#x27;ws://localhost:8545&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// or 使用 http</span></span><br><span class="line"><span class="comment">// const web3 = new Web3(new Web3.providers.HttpProvider(&#x27;ws://localhost:8545&#x27;)) </span></span><br><span class="line"><span class="comment">// const web3 = new Web3(&#x27;http://localhost:8545&#x27;);</span></span><br></pre></td></tr></table></figure>
+<p>除了自己架設測試的區塊鏈外，也可以使用<a target="_blank" rel="noopener" href="https://medium.com/taipei-ethereum-meetup/ethereum-%E6%99%BA%E8%83%BD%E5%90%88%E7%B4%84%E9%96%8B%E7%99%BC%E7%AD%86%E8%A8%98-%E4%B8%8D%E7%94%A8%E8%87%AA%E5%B7%B1%E8%B7%91%E7%AF%80%E9%BB%9E-%E4%BD%BF%E7%94%A8-infura-%E5%92%8C-web3-js-%E5%91%BC%E5%8F%AB%E5%90%88%E7%B4%84-2b8c852ed3d2">公開的測試區塊鏈</a>。</p>
+<h3 id="Step3-初始化合約"><a href="#Step3-初始化合約" class="headerlink" title="Step3. 初始化合約"></a>Step3. 初始化合約</h3><p>這邊需要用到合約的 ABI（Application Binary Interface） 以及在區塊鏈上佈署的位址，ABI 就是紀錄合約中使用到的函數和變數的文件，<a target="_blank" rel="noopener" href="https://medium.com/taipei-ethereum-meetup/ethereum-%E6%99%BA%E8%83%BD%E5%90%88%E7%B4%84%E9%96%8B%E7%99%BC%E7%AD%86%E8%A8%98-%E6%B7%B1%E5%85%A5%E6%99%BA%E8%83%BD%E5%90%88%E7%B4%84-abi-268ececb70ae">這裡</a>有更詳細的說明，首先先將前一個部分編譯後的檔案（<code>build/contracts/TodoFactory.json</code>）複製到專案資料夾</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ethereum-todo/src/contracts/todoContract</span></span><br><span class="line"><span class="keyword">import</span> web3 <span class="keyword">from</span> <span class="string">&#x27;config/config-web3&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">TodoFactoryJSON</span> <span class="keyword">from</span> <span class="string">&#x27;./TodoFactory.json&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">CONTRACT_ADDRESS</span> = <span class="string">&#x27;0x21e4624c5a0b3fda81d0833d412dded2bb3a7a7c&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> todoContract = <span class="keyword">new</span> web3.<span class="property">eth</span>.<span class="title class_">Contract</span>(<span class="title class_">TodoFactoryJSON</span>.<span class="property">abi</span>, <span class="variable constant_">CONTRACT_ADDRESS</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> todoContract;</span><br></pre></td></tr></table></figure>
+<p>這樣就建立一個合約的實體可供操作</p>
+<h3 id="Step4-執行合約"><a href="#Step4-執行合約" class="headerlink" title="Step4. 執行合約"></a>Step4. 執行合約</h3><p>重複前面提到的，<strong>Transaction</strong> 合約的執行需要消耗 <strong>gas</strong>，所以我們需要有一個帳號來花費 <strong>gas</strong> 執行這些合約，可以從 truffle 建立的區塊鏈中找到測試用的帳號（也就是執行時建立的那十個），並藉著 web3 提供的 api 查看帳號擁有的 <strong>gas</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ethereum-todo/src/helpers/accountsHelper/balance.js</span></span><br><span class="line"><span class="keyword">import</span> web3 <span class="keyword">from</span> <span class="string">&#x27;config/config-web3&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">getBalanceAsync</span>(<span class="params">address</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> balance = <span class="keyword">await</span> web3.<span class="property">eth</span>.<span class="title function_">getBalance</span>(address);</span><br><span class="line">  <span class="keyword">return</span> balance;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 接者可以在任何地方使用 getBalanceAsync 來取得特定使用者目前的 gas 量，例如</span></span><br><span class="line"><span class="comment">// const DEFAULT_USER = &#x27;0x1d489c3f8ed5ee71325a847888b2157c9ac29c05&#x27;;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// void async function() &#123;</span></span><br><span class="line"><span class="comment">//   const balance = await getBalanceAsync(DEFAULT_USER);</span></span><br><span class="line"><span class="comment">//   console.log(&#x27;Balance of account0&#x27;, balance);</span></span><br><span class="line"><span class="comment">// &#125;()</span></span><br></pre></td></tr></table></figure>
+
+<p>在 web3 中 <strong>Call</strong> 和 <strong>Transaction</strong> 分別對應 <code>contract.methods.myMethod.call</code> 和 <code>contract.methods.myMethod.send</code> 兩種呼叫方式，後者在之前的版本是 <code>sendTransaction</code>。兩者的使用如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ethereum-todo/src/helpers/todoHelpers/todoAction.js</span></span><br><span class="line"><span class="keyword">import</span> todoContract <span class="keyword">from</span> <span class="string">&#x27;contracts/todoContract&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第一個測試帳號的 gas 數目相當多，很適合用來測試合約的執行</span></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">DEFAULT_USER</span> = <span class="string">&#x27;0x1d489c3f8ed5ee71325a847888b2157c9ac29c05&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">getTodoAsync</span>(<span class="params">todoId</span>) &#123;</span><br><span class="line">  <span class="comment">// 估計需要消耗的 gas</span></span><br><span class="line">  <span class="keyword">const</span> gas = <span class="keyword">await</span> todoContract.<span class="property">methods</span>.<span class="title function_">getTodo</span>(todoId).<span class="title function_">estimateGas</span>();</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Get Todo: Estimated gas&#x27;</span>, gas);</span><br><span class="line">  <span class="comment">// 因為 getTodo 不會修改到資料，所以用 call </span></span><br><span class="line">  <span class="keyword">const</span> result = <span class="keyword">await</span> todoContract.<span class="property">methods</span>.<span class="title function_">getTodo</span>(todoId).<span class="title function_">call</span>(&#123;</span><br><span class="line">    <span class="attr">from</span>: <span class="variable constant_">DEFAULT_USER</span>,</span><br><span class="line">    <span class="attr">gas</span>:<span class="number">200000</span>,</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">addTodoAsync</span>(<span class="params">taskName</span>) &#123;</span><br><span class="line">  <span class="comment">// 估計需要消耗的 gas，因為必須寫入字串，所以很可能會消耗超過預設值 90000 的 gas，</span></span><br><span class="line">  <span class="comment">// 故調高 gas limit 到 200000</span></span><br><span class="line">  <span class="keyword">const</span> gas = <span class="keyword">await</span> todoContract.<span class="property">methods</span>.<span class="title function_">addTodo</span>(taskName).<span class="title function_">estimateGas</span>();</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;AddTodo: Estimated gas&#x27;</span>, gas);</span><br><span class="line">  <span class="comment">// 因為 addTodo 會修改資料，所以必須用 send</span></span><br><span class="line">  <span class="comment">// 如果這邊改成 call，依然可以執行，但不會有資料的寫入</span></span><br><span class="line">  <span class="keyword">await</span> todoContract.<span class="property">methods</span>.<span class="title function_">addTodo</span>(taskName).<span class="title function_">send</span>(&#123;</span><br><span class="line">    <span class="attr">from</span>: <span class="variable constant_">DEFAULT_USER</span>,</span><br><span class="line">    <span class="attr">gas</span>: <span class="number">200000</span>,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>無論用 <code>call</code> 或是 <code>send</code> 都可以指定消耗的 <strong>gas</strong> 最大值（稱為 gas limit 這裡是 200000），gas limit 的設計是為了防止智慧合約在執行時產生無窮迴圈的情形，因為所有的運算都需要消耗 gas，一旦消耗 gas 的總量到達 gas limit，就會終止執行。</p>
+<h3 id="Step5-監聽執行的結果"><a href="#Step5-監聽執行的結果" class="headerlink" title="Step5. 監聽執行的結果"></a>Step5. 監聽執行的結果</h3><p>還是一樣 <code>Transaction</code> 的執行需要等到礦工們寫入資料才算真的完成，因此只能利用監聽事件的方式來確定。在這個專案中將這些監聽的處理放在 <code>src/events</code> 資料夾下，未來或許放在 middleware 是比較漂亮的方式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ethereum-todo/src/events/todoEvents.js</span></span><br><span class="line"><span class="keyword">import</span> todoContract <span class="keyword">from</span> <span class="string">&#x27;contracts/todoContract&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> todoHelper <span class="keyword">from</span> <span class="string">&#x27;helpers/todoHelpers&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; addTodo, deleteTodo, completeTodo &#125; <span class="keyword">from</span> <span class="string">&#x27;containers/App/duck/todo&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">&#x27;../store&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Event</span></span><br><span class="line"><span class="comment">// OnTodoAdded 是 event 的名稱</span></span><br><span class="line">todoContract.<span class="property">events</span>.<span class="title class_">OnTodoAdded</span>(&#123;</span><br><span class="line">&#125;, <span class="title function_">async</span> (error, result) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (error) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(error);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// result</span></span><br><span class="line">  <span class="comment">// &#123;</span></span><br><span class="line">  <span class="comment">//   raw: &#123;</span></span><br><span class="line">  <span class="comment">//     data: &quot;0x0000000000000000000000000000000000000000000000000000000000000001&quot;,</span></span><br><span class="line">  <span class="comment">//     topics: [&quot;0x6edbfebf4adc3e180444860a21cd838446f00049410a44c6ec4a178a2ebe529b&quot;]</span></span><br><span class="line">  <span class="comment">//   &#125;,</span></span><br><span class="line">  <span class="comment">//   returnValues: &#123;</span></span><br><span class="line">  <span class="comment">//     todoId: 1</span></span><br><span class="line">  <span class="comment">//   &#125;,</span></span><br><span class="line">  <span class="comment">//   address: &quot;0x21e4624c5A0B3fdA81D0833d412DDED2bb3A7a7C&quot;, // 合約的 address</span></span><br><span class="line">  <span class="comment">//   blockHash: &quot;0x9186b52740bff34239c92137ae1ecb7205a028b540e30b79256b13b829354252&quot;,</span></span><br><span class="line">  <span class="comment">//   blockNumber: 61,</span></span><br><span class="line">  <span class="comment">//   event: &quot;OnTodoAdded&quot;,</span></span><br><span class="line">  <span class="comment">//   signature: &quot;0x6edbfebf4adc3e180444860a21cd838446f00049410a44c6ec4a178a2ebe529b&quot;,</span></span><br><span class="line">  <span class="comment">//   transactionHash: &quot;0x997195a40d9ad102b0c18b730711fec0623596643c5820253296415b816563a3&quot;,</span></span><br><span class="line">  <span class="comment">//   transactionIndex: 0,</span></span><br><span class="line">  <span class="comment">//   type: &quot;mined&quot;</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line">  <span class="keyword">const</span> &#123; <span class="attr">returnValues</span>: &#123; todoId &#125; &#125; = result;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 因為事件的回傳值只有 todoId，因此還需要取得完整的 todo 資料。</span></span><br><span class="line">  <span class="keyword">const</span> todo = <span class="keyword">await</span> todoHelper.<span class="title function_">getTodoAsync</span>(todoId);</span><br><span class="line">  store.<span class="title function_">dispatch</span>(<span class="title function_">addTodo</span>(todoId, todo[<span class="number">0</span>], todo[<span class="number">1</span>]));</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Add&#x27;</span>, todoId);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="Step6-獲取過去的事件"><a href="#Step6-獲取過去的事件" class="headerlink" title="Step6. 獲取過去的事件"></a>Step6. 獲取過去的事件</h3><p>區塊鏈可以視為一個保存操作紀錄並且確保這些紀錄無法被竄改的資料庫，因此上述的操作事件都會被紀錄在區塊鏈上，web3 提供 <code>getPastEvents</code> 這個 api 來取得過去的事件（web3 在 v1.0 版本前要取得過去的事件需要持續監聽，而非直接傳回結果）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ethereum-todo/src/helpers/todoHelpers/eventLogs.js</span></span><br><span class="line"><span class="keyword">import</span> todoContract <span class="keyword">from</span> <span class="string">&#x27;contracts/todoContract&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">getAllEventsAsync</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> events = <span class="keyword">await</span> todoContract.<span class="title function_">getPastEvents</span>(<span class="string">&#x27;allEvents&#x27;</span>, &#123;</span><br><span class="line">    <span class="comment">// 也就是取得從第一個區塊到最新區塊的所有事件</span></span><br><span class="line">    <span class="attr">fromBlock</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">toBlock</span>: <span class="string">&#x27;latest&#x27;</span></span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">// events 是一個陣列，陣列元素與前述監聽事件的回傳值相同</span></span><br><span class="line">  <span class="keyword">return</span> events;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>透過以上的兩個部分已經可以利用智慧合約在區塊鏈上寫一個 Todo DApp，不過使用的方式仍然相當侷限，也忽略不少實際上可能會碰到的問題，事實上光是如何適當的儲存資料在區塊鏈上就是一大挑戰，這個專案可以當作簡單基底，繼續深入研究。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.gitbook.com/book/gasolin/learn-ethereum-dapp/details">Ethereum區塊鏈！智能合約(Smart Contract)與分散式網頁應用(DApp)入門</a></li>
+<li><a target="_blank" rel="noopener" href="https://ethereum.stackexchange.com/questions/765/what-is-the-difference-between-a-transaction-and-a-call">What is different between a transaction and a call</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/taipei-ethereum-meetup/%E6%AF%94%E8%BC%83-require-assert-%E5%92%8C-revert-%E5%8F%8A%E5%85%B6%E9%81%8B%E4%BD%9C%E6%96%B9%E5%BC%8F-30c24d534ce4">比較 requre, assert, 和 revert 及其運作的方式</a></li>
+<li><a target="_blank" rel="noopener" href="https://ethereum.stackexchange.com/questions/15353/how-to-listen-for-contract-events-in-javascript-tests">How to listen for contract events in javascript tests</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/taipei-ethereum-meetup/ethereum-%E6%99%BA%E8%83%BD%E5%90%88%E7%B4%84%E9%96%8B%E7%99%BC%E7%AD%86%E8%A8%98-%E4%B8%8D%E7%94%A8%E8%87%AA%E5%B7%B1%E8%B7%91%E7%AF%80%E9%BB%9E-%E4%BD%BF%E7%94%A8-infura-%E5%92%8C-web3-js-%E5%91%BC%E5%8F%AB%E5%90%88%E7%B4%84-2b8c852ed3d2">在公開測試鏈上部署合約</a>。</li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/taipei-ethereum-meetup/ethereum-%E6%99%BA%E8%83%BD%E5%90%88%E7%B4%84%E9%96%8B%E7%99%BC%E7%AD%86%E8%A8%98-%E6%B7%B1%E5%85%A5%E6%99%BA%E8%83%BD%E5%90%88%E7%B4%84-abi-268ececb70ae">深入智能合約 ABI</a></li>
+</ul>
+<p>關於作者：<br>@cychien 喜愛閱讀，熱愛動手作，相信未來建立在對歷史的理解上</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/04/01/dapp-todo-on-ethereum/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/04/01/dapp-todo-on-ethereum/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/04/01/dapp-todo-on-ethereum/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/04/01/dapp-todo-on-ethereum/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/04/07/deeplearnjs-logistic-regression/">
+        ← 用 Javascript 進行邏輯迴歸分析
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/03/31/react-fiber-and-lifecycle-change/">
+        淺談 React Fiber 及其對 lifecycles 造成的影響 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

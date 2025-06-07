@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>如何用 TensorFlow object detection API 的 Single Shot MultiBox Detector 來做 hand detection | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-02-16T18:40:50.000Z" itemprop="datePublished">
+          2019-02-16
+      </time>
+    
+    
+    | 
+    <a href='/tags/TensorFlow-Deep-Learning-Computer-Vision-Hand-detection/'>TensorFlow, Deep Learning, Computer Vision, Hand detection</a>
+    
+    
+</span>
+
+<meta name="generator" content="如何用 TensorFlow object detection API 的 Single Shot MultiBox Detector 來做 hand detection">
+<meta name="og:title" content="如何用 TensorFlow object detection API 的 Single Shot MultiBox Detector 來做 hand detection">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">如何用 TensorFlow object detection API 的 Single Shot MultiBox Detector 來做 hand detection</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>今天要來教大家怎麼用 TensorFlow 的 Object Detection API 來偵測人的手，因為筆者最近在使用 <a target="_blank" rel="noopener" href="https://github.com/victordibia/handtracking">這個 repo</a> 的 code<br>時，還是遇到了一些問題，需要自己再去找資料解決，所以決定基於前人的基礎之上再補充說明一些</p>
+<p>相比起去年寫過的 <a href="https://blog.techbridge.cc/2018/02/24/osrf-tensorflow-object-detector/">一起來玩 OSRF 的 TensorFlow Object Detector</a>，這一篇會有更多對於演算法和細節的敘述，讓大家之後也可以自己學習深入研究各個 model。</p>
+<h2 id="TensorFlow-Object-Detection-API-的使用流程"><a href="#TensorFlow-Object-Detection-API-的使用流程" class="headerlink" title="TensorFlow Object Detection API 的使用流程"></a>TensorFlow Object Detection API 的使用流程</h2><p>在一開始，先知道所有要做的步驟，會對於整個流程比較有概念：</p>
+<p><img src="https://i.imgur.com/u8tOwWq.jpg" alt="img"></p>
+<p>假設，你今天是只想拿別人現成的結果來做 hand detection，那你可以不需要會上面這一串步驟，你只需要會最後一步 - Inference，拿到現成的 <code>frozen_inference_graph.pb</code>，再寫個程式直接使用這個<code>frozen_inference_graph.pb</code>來 inference 就好 （請參考 <a target="_blank" rel="noopener" href="https://github.com/victordibia/handtracking/blob/master/detect_single_threaded.py">這個範例</a>）。</p>
+<p>但如果你對結果不滿意，想要再 finetune 現有的 model；或是你不想要只偵測手，你可能還想分辨是左手還是右手（也就是 model 的輸出類別要變），那你就會需要學會整個流程了，而這篇教學就希望可以達到這個目的。</p>
+<ul>
+<li>我假設大家都已經有 Python、TensorFlow 這些東西了，沒有的話可以先去安裝一下。</li>
+</ul>
+<h2 id="Dataset-download-Image-annotation"><a href="#Dataset-download-Image-annotation" class="headerlink" title="Dataset download &amp; Image annotation"></a>Dataset download &amp; Image annotation</h2><p>Dataset 的準備常常是在做 Deep Learning 研究最麻煩的一塊，如果要自己去準備，是可以拿一台相機就出去開始拍，或上網爬下一堆圖片，然後再一張張慢慢標註。（可以用 <a target="_blank" rel="noopener" href="https://github.com/tzutalin/labelImg">labelImg</a> 或 <a target="_blank" rel="noopener" href="https://github.com/wkentaro/labelme">labelme</a>）</p>
+<p>Hand dataset 是有一些選擇，比較有名的包含 <a target="_blank" rel="noopener" href="http://www.robots.ox.ac.uk/~vgg/data/hands/">University of Oxford 的 Hand Dataset</a> 和 <a target="_blank" rel="noopener" href="http://vision.soic.indiana.edu/projects/egohands/">Indiana Univeristy 的 EgoHands</a>。</p>
+<p>因為這些 dataset 都算足夠量的圖片加上 ground truth data，所以我們可以直接拿這些 dataset 來用，我們先假設我們是用 EgoHands。</p>
+<p>但因為 TemsorFlow Object Detection API 需要吃的是 TF record 格式的檔案，所以我們還需要做的準備是：</p>
+<ol>
+<li>把 dataset 裡面的的格式轉成 csv</li>
+<li>把 csv 的內容轉成 TF record</li>
+</ol>
+<p>之所以要先轉成 csv 是因為 csv 是相對方便我們看 ground truth data 有沒有問題的。</p>
+<p>關於把 EgoHands 的 labels 轉成自己的 csv 檔，你可以參考 <a target="_blank" rel="noopener" href="https://github.com/victordibia/handtracking/blob/master/egohands_dataset_clean.py">egohands_dataset_clean.py</a>，其中最關鍵的地方就是這個 function，把 EgoHands 裡面原本存的 label 讀出來並寫到 csv 當中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_bbox_visualize</span>(<span class="params">base_path, <span class="built_in">dir</span></span>):</span><br><span class="line">image_path_array = []</span><br><span class="line"><span class="keyword">for</span> root, dirs, filenames <span class="keyword">in</span> os.walk(base_path + <span class="built_in">dir</span>):</span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> filenames:</span><br><span class="line"><span class="keyword">if</span>(f.split(<span class="string">&quot;.&quot;</span>)[<span class="number">1</span>] == <span class="string">&quot;jpg&quot;</span>):</span><br><span class="line">img_path = base_path + <span class="built_in">dir</span> + <span class="string">&quot;/&quot;</span> + f</span><br><span class="line">image_path_array.append(img_path)</span><br><span class="line"></span><br><span class="line"><span class="comment">#sort image_path_array to ensure its in the low to high order expected in polygon.mat</span></span><br><span class="line">image_path_array.sort()</span><br><span class="line">boxes = sio.loadmat(</span><br><span class="line">base_path + <span class="built_in">dir</span> + <span class="string">&quot;/polygons.mat&quot;</span>)</span><br><span class="line"><span class="comment"># there are 100 of these per folder in the egohands dataset</span></span><br><span class="line">polygons = boxes[<span class="string">&quot;polygons&quot;</span>][<span class="number">0</span>]</span><br><span class="line"><span class="comment"># first = polygons[0]</span></span><br><span class="line"><span class="comment"># print(len(first))</span></span><br><span class="line">pointindex = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> first <span class="keyword">in</span> polygons:</span><br><span class="line">index = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">font = cv2.FONT_HERSHEY_SIMPLEX</span><br><span class="line"></span><br><span class="line">img_id = image_path_array[pointindex]</span><br><span class="line">img = cv2.imread(img_id)</span><br><span class="line"></span><br><span class="line">img_params = &#123;&#125;</span><br><span class="line">img_params[<span class="string">&quot;width&quot;</span>] = np.size(img, <span class="number">1</span>)</span><br><span class="line">img_params[<span class="string">&quot;height&quot;</span>] = np.size(img, <span class="number">0</span>)</span><br><span class="line">head, tail = os.path.split(img_id)</span><br><span class="line">img_params[<span class="string">&quot;filename&quot;</span>] = tail</span><br><span class="line">img_params[<span class="string">&quot;path&quot;</span>] = os.path.abspath(img_id)</span><br><span class="line">img_params[<span class="string">&quot;type&quot;</span>] = <span class="string">&quot;train&quot;</span></span><br><span class="line">pointindex += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">boxarray = []</span><br><span class="line">csvholder = []</span><br><span class="line"><span class="keyword">for</span> pointlist <span class="keyword">in</span> first:</span><br><span class="line">pst = np.empty((<span class="number">0</span>, <span class="number">2</span>), <span class="built_in">int</span>)</span><br><span class="line">max_x = max_y = min_x = min_y = height = width = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">findex = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> point <span class="keyword">in</span> pointlist:</span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">len</span>(point) == <span class="number">2</span>):</span><br><span class="line">x = <span class="built_in">int</span>(point[<span class="number">0</span>])</span><br><span class="line">y = <span class="built_in">int</span>(point[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(findex == <span class="number">0</span>):</span><br><span class="line">min_x = x</span><br><span class="line">min_y = y</span><br><span class="line">findex += <span class="number">1</span></span><br><span class="line">max_x = x <span class="keyword">if</span> (x &gt; max_x) <span class="keyword">else</span> max_x</span><br><span class="line">min_x = x <span class="keyword">if</span> (x &lt; min_x) <span class="keyword">else</span> min_x</span><br><span class="line">max_y = y <span class="keyword">if</span> (y &gt; max_y) <span class="keyword">else</span> max_y</span><br><span class="line">min_y = y <span class="keyword">if</span> (y &lt; min_y) <span class="keyword">else</span> min_y</span><br><span class="line"><span class="comment"># print(index, &quot;====&quot;, len(point))</span></span><br><span class="line">appeno = np.array([[x, y]])</span><br><span class="line">pst = np.append(pst, appeno, axis=<span class="number">0</span>)</span><br><span class="line">cv2.putText(img, <span class="string">&quot;.&quot;</span>, (x, y), font, <span class="number">0.7</span>,</span><br><span class="line">(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>), <span class="number">2</span>, cv2.LINE_AA)</span><br><span class="line"></span><br><span class="line">hold = &#123;&#125;</span><br><span class="line">hold[<span class="string">&#x27;minx&#x27;</span>] = min_x</span><br><span class="line">hold[<span class="string">&#x27;miny&#x27;</span>] = min_y</span><br><span class="line">hold[<span class="string">&#x27;maxx&#x27;</span>] = max_x</span><br><span class="line">hold[<span class="string">&#x27;maxy&#x27;</span>] = max_y</span><br><span class="line"><span class="keyword">if</span> (min_x &gt; <span class="number">0</span> <span class="keyword">and</span> min_y &gt; <span class="number">0</span> <span class="keyword">and</span> max_x &gt; <span class="number">0</span> <span class="keyword">and</span> max_y &gt; <span class="number">0</span>):</span><br><span class="line">boxarray.append(hold)</span><br><span class="line">labelrow = [tail,</span><br><span class="line">np.size(img, <span class="number">1</span>), np.size(img, <span class="number">0</span>), <span class="string">&quot;hand&quot;</span>, min_x, min_y, max_x, max_y]</span><br><span class="line">csvholder.append(labelrow)</span><br><span class="line"></span><br><span class="line">cv2.polylines(img, [pst], <span class="literal">True</span>, (<span class="number">0</span>, <span class="number">255</span>, <span class="number">255</span>), <span class="number">1</span>)</span><br><span class="line">cv2.rectangle(img, (min_x, max_y),</span><br><span class="line">(max_x, min_y), (<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>), <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">csv_path = img_id.split(<span class="string">&quot;.&quot;</span>)[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(csv_path + <span class="string">&quot;.csv&quot;</span>):</span><br><span class="line">cv2.putText(img, <span class="string">&quot;DIR : &quot;</span> + <span class="built_in">dir</span> + <span class="string">&quot; - &quot;</span> + tail, (<span class="number">20</span>, <span class="number">50</span>),</span><br><span class="line">cv2.FONT_HERSHEY_SIMPLEX, <span class="number">0.75</span>, (<span class="number">77</span>, <span class="number">255</span>, <span class="number">9</span>), <span class="number">2</span>)</span><br><span class="line">cv2.imshow(<span class="string">&#x27;Verifying annotation &#x27;</span>, img)</span><br><span class="line">save_csv(csv_path + <span class="string">&quot;.csv&quot;</span>, csvholder)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;===== saving csv file for &quot;</span>, tail)</span><br><span class="line">cv2.waitKey(<span class="number">2</span>) <span class="comment"># close window when a key press is detected</span></span><br></pre></td></tr></table></figure>
+
+<p>成功執行完，你就可以得到如下的 csv 檔（class 我有自己改過，如果是跑範例的程式碼，都會是 hand）：</p>
+<p><img src="https://i.imgur.com/78BcNQE.jpg" alt="img"></p>
+<p>若你想要修改自己的 class，那就需要去改上面那段程式碼的這一行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">labelrow = [tail,np.size(img, <span class="number">1</span>), np.size(img, <span class="number">0</span>), <span class="string">&quot;hand&quot;</span>, min_x, min_y, max_x, max_y]</span><br></pre></td></tr></table></figure>
+
+<p>把 “hand” 用其他方式取代。</p>
+<h2 id="Label-map-preparation-TF-Record-generation"><a href="#Label-map-preparation-TF-Record-generation" class="headerlink" title="Label map preparation &amp; TF Record generation"></a>Label map preparation &amp; TF Record generation</h2><p>當你有了 csv 檔之後，接下來你還會需要轉成 TF record 檔，所以你會需要用 <a target="_blank" rel="noopener" href="https://github.com/EdjeElectronics/TensorFlow-Object-Detection-API-Tutorial-Train-Multiple-Objects-Windows-10/blob/master/generate_tfrecord.py">generate_tfrecord.py</a> 來產生你的 TF record 檔。</p>
+<p>其中有一個關鍵的地方是，TF Record 吃的類別是數字，所以你需要自己去注意數字跟類別間的對應關係，而這個對應關係是由 hand_label_map.pbtxt 來描述：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">item &#123;</span><br><span class="line">id: 1</span><br><span class="line">name: &#x27;hand&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以你在用 產生 TF record 檔時，要很注意這一段 code：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># TO-DO replace this with label map</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">class_text_to_int</span>(<span class="params">row_label</span>):</span><br><span class="line"><span class="keyword">if</span> row_label == <span class="string">&#x27;nine&#x27;</span>:</span><br><span class="line"><span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">elif</span> row_label == <span class="string">&#x27;ten&#x27;</span>:</span><br><span class="line"><span class="keyword">return</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">elif</span> row_label == <span class="string">&#x27;jack&#x27;</span>:</span><br><span class="line"><span class="keyword">return</span> <span class="number">3</span></span><br><span class="line"><span class="keyword">elif</span> row_label == <span class="string">&#x27;queen&#x27;</span>:</span><br><span class="line"><span class="keyword">return</span> <span class="number">4</span></span><br><span class="line"><span class="keyword">elif</span> row_label == <span class="string">&#x27;king&#x27;</span>:</span><br><span class="line"><span class="keyword">return</span> <span class="number">5</span></span><br><span class="line"><span class="keyword">elif</span> row_label == <span class="string">&#x27;ace&#x27;</span>:</span><br><span class="line"><span class="keyword">return</span> <span class="number">6</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line"><span class="keyword">return</span> <span class="literal">None</span></span><br></pre></td></tr></table></figure>
+
+<p>在我們的應用中，你會改成：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># TO-DO replace this with label map</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">class_text_to_int</span>(<span class="params">row_label</span>):</span><br><span class="line"><span class="keyword">if</span> row_label == <span class="string">&#x27;hand&#x27;</span>:</span><br><span class="line"><span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line"><span class="keyword">return</span> <span class="literal">None</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Pipeline-configuration"><a href="#Pipeline-configuration" class="headerlink" title="Pipeline configuration"></a>Pipeline configuration</h2><p>前面的步驟是為了產生 TF record 和 label map，最後只要把你的 config 檔設定好就好，因為我們沒有要重新訓練一個模型，而是拿人家已經用 Coco dataset pretrain 好的 SSD 來 finetune，所以可以參考<a target="_blank" rel="noopener" href="https://github.com/victordibia/handtracking/tree/master/model-checkpoint/ssdmobilenetv1">這個資料夾</a> 裡面的 <a target="_blank" rel="noopener" href="https://github.com/victordibia/handtracking/blob/master/model-checkpoint/ssdmobilenetv1/ssd_mobilenet_v1_coco.config">ssd_mobilenet_v1_coco.config</a>。</p>
+<p>裡面比較常改的地方是</p>
+<ul>
+<li><p>Training step 數（一般我們都是訓練到再增加結果也不會變好）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">num_steps: 200000</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>指定 training data 的 TF record 檔跟 label map：</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">train_input_reader: &#123;</span><br><span class="line">tf_record_input_reader &#123;</span><br><span class="line">input_path: &quot;PATH_TO_DATA/train.record&quot;</span><br><span class="line">&#125;</span><br><span class="line">label_map_path: &quot;PATH_TO_DATA/hand_label_map.pbtxt&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>指定 training data 的 TF record 檔跟 label map：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">eval_input_reader: &#123;</span><br><span class="line">tf_record_input_reader &#123;</span><br><span class="line">input_path: &quot;PATH_TO_DATA/test.record&quot;</span><br><span class="line">&#125;</span><br><span class="line">label_map_path: &quot;hand_inference_graph/hand_label_map.pbtxt&quot;</span><br><span class="line">shuffle: false</span><br><span class="line">num_readers: 1</span><br><span class="line">num_epochs: 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上就是要自己做 training 的所有事前準備工作。因為有很多東西是別人寫過的，我並沒有重複寫得很詳細，如果：</p>
+<ul>
+<li>你用 Windows，請看 <a target="_blank" rel="noopener" href="https://github.com/EdjeElectronics/TensorFlow-Object-Detection-API-Tutorial-Train-Multiple-Objects-Windows-10#2-set-up-tensorflow-directory-and-anaconda-virtual-environment">How To Train an Object Detection Classifier for Multiple Objects Using TensorFlow (GPU) on Windows 10</a></li>
+<li>你用 Linux，請看 <a target="_blank" rel="noopener" href="https://github.com/jkjung-avt/hand-detection-tutorial">Hand Detection Tutorial</a></li>
+</ul>
+<h2 id="Training"><a href="#Training" class="headerlink" title="Training"></a>Training</h2><p>如果上面的步驟都已經做完， training 就只是跑幾行指令而已：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd C:\Users\rosindigo\Documents\GitHub\object_detection_training_env\models\research\object_detection</span><br><span class="line"></span><br><span class="line">set PYTHONPATH=C:\Users\rosindigo\Documents\GitHub\object_detection_training_env\models;C:\Users\rosindigo\Documents\GitHub\object_detection_training_env\models\research;C:\Users\rosindigo\Documents\GitHub\object_detection_training_env\models\research\slim</span><br><span class="line"></span><br><span class="line">python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/ssd_mobilenet_v1_coco.config</span><br></pre></td></tr></table></figure>
+
+<p>如果 train 完想要看一下結果，可以用 tensorboard 看一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensorboard --logdir=training</span><br></pre></td></tr></table></figure>
+
+<p>如果結果滿意，就可以輸出 frozen graph：</p>
+<p>python export_inference_graph.py –input_type image_tensor –pipeline_config_path training&#x2F;ssd_mobilenet_v1_coco.config –trained_checkpoint_prefix training&#x2F;model.ckpt –output_directory inference_graph</p>
+<h2 id="怎麼評估自己-finetune-完的-model-是否夠好？"><a href="#怎麼評估自己-finetune-完的-model-是否夠好？" class="headerlink" title="怎麼評估自己 finetune 完的 model 是否夠好？"></a>怎麼評估自己 finetune 完的 model 是否夠好？</h2><p>在上面訓練的過程中，你可以看到每個 step 的 loss 有多少，一般來說我們會希望訓練到 2 以下，算是可以有還 OK 的辨識效果。</p>
+<p>如果你想做更嚴謹的 evaluation，我跟大家推薦 <a target="_blank" rel="noopener" href="https://github.com/rafaelpadilla/Object-Detection-Metrics">Object-Detection-Metrics</a>，只要將 test data 的 ground truth 跟你的辨識結果都輸出到 txt 檔，就可以跑裡面提供的程式來畫出 Precision-Recall Curve，得到 AP 和 mAP，頗為方便。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>今天跟大家分享了要怎麼用 TensorFLow object detection API 來訓練和辨識手，希望透過學習流程，大家也可以將這個技術應用到自己有興趣的領域！</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@victor.dibia/how-to-build-a-real-time-hand-detector-using-neural-networks-ssd-on-tensorflow-d6bac0e4b2ce">How to Build a Real-time Hand-Detector using Neural Networks (SSD) on Tensorflow</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/jkjung-avt/hand-detection-tutorial">Hand Detection Tutorial</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1512.02325.pdf">SSD: Single Shot MultiBox Detector</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="https://pojenlai.wordpress.com/">@pojenlai</a> 演算法工程師，對機器人、電腦視覺和人工智慧有少許研究，正在學習<a target="_blank" rel="noopener" href="https://buzzorange.com/techorange/2017/07/10/elon-musk-first-principle/">用心體會事物的本質</a>跟<a target="_blank" rel="noopener" href="https://www.ted.com/talks/eduardo_briceno_how_to_get_better_at_the_things_you_care_about">不斷進入學生心態改進</a>。</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/02/16/ssd-hand-detection-with-tensorflow-object-detection-api/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/02/16/ssd-hand-detection-with-tensorflow-object-detection-api/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/02/16/ssd-hand-detection-with-tensorflow-object-detection-api/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/02/16/ssd-hand-detection-with-tensorflow-object-detection-api/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/02/23/javascript-this/">
+        ← 淺談 JavaScript 頭號難題 this：絕對不完整，但保證好懂
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/02/04/vdom-from-scratch/">
+        從頭打造一個簡單的 Virtual DOM →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

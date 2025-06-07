@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>簡介 Markov Decision Process 與其應用 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-10-27T22:37:56.000Z" itemprop="datePublished">
+          2018-10-27
+      </time>
+    
+    
+    | 
+    <a href='/tags/Markov-Decision-Process/'>Markov Decision Process</a>,
+    
+    <a href='/tags/Reinforcement-Learning/'>Reinforcement Learning</a>
+    
+    
+</span>
+
+<meta name="generator" content="簡介 Markov Decision Process 與其應用">
+<meta name="og:title" content="簡介 Markov Decision Process 與其應用">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">簡介 Markov Decision Process 與其應用</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>今天想跟大家介紹一個在 Reinforcement Learning 中相當重要的基礎 - Markov Decision Process（MDP）。比起一般的 search，MDP 能夠 model 更複雜的問題，今天就讓我們來介紹 MDP 的基礎觀念，還有他的應用跟限制。</p>
+<h2 id="MDP-想要-model-什麼問題？"><a href="#MDP-想要-model-什麼問題？" class="headerlink" title="MDP 想要 model 什麼問題？"></a>MDP 想要 model 什麼問題？</h2><p>MDP 想要處理的問題是：當你採取的 action 不會完全如你所想的達到你想要的 state，你該如何採取 action？</p>
+<p>舉例來說（這例子出自延伸閱讀 1 裡面的 MDP），假設有一隻機器人，在一個迷宮裡面，他從最左下角出發，要走到終點（+1 or -1 都是終點），而且要盡量讓 reward 最大：</p>
+<p><img src="https://i.imgur.com/1dgFbSg.jpg" alt="img"><br>(This image comes from <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?feature=player_embedded&v=wKx4MuLfe0M">UC Berkeley CS188 Lecture 8</a>)</p>
+<p>但當這隻機器人想要往上走，他只有 80% 的機率會真的走到上面那一格，另外有 10% 的機率會走到右邊那格、10% 的機率會走到左邊那格。</p>
+<p><img src="https://i.imgur.com/KQgzThC.jpg" alt="img"><br>(This image comes from <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?feature=player_embedded&v=wKx4MuLfe0M">UC Berkeley CS188 Lecture 8</a>)</p>
+<p>這時候就尷尬了，因為當這隻機器人還沒實際開始走，他其實不知道接下來會發生什麼事。他不知道當他要往上走，會不會真正往上。</p>
+<p>這種問題，我們稱做 non-deterministic search problem，也就是你無法事先做好所有規劃，因為你採取某個 action，無法 determine 會產生什麼結果。</p>
+<p>在這種情況下，機器人就不能只是用一些搜索的演算法，得到 “上上右右右” 這種可以無腦照做的步驟，因為只要其中有一步不如預期，那就到不了<del>葛來分多</del> +1 分的終點。</p>
+<p>在這種情況下，我們希望機器人可以<strong>有一套想法</strong>，他可以知道在什麼情況下該怎麼做。假設他第一步想往上，卻因為那 10% 的機率向右了。那沒關係，就走 “右上上右” 就是了，反正一樣到得了終點。</p>
+<p>機器人的<strong>這一套想法</strong>，通常被稱做 <strong>Policy</strong>。比起一個可以直接照做的 plan，policy 比較像是一套規則，告訴機器人在什麼 state 要做什麼事。</p>
+<p>延伸一下，我們可能遇到過某些人，或自己也發生過，還不太會變通，講一動才做一動，這就像是 <a target="_blank" rel="noopener" href="https://www.thenewslens.com/article/13041">你還在抱怨老闆「幹嘛不一次說清楚」嗎？新鮮人該知道但很少人告訴你的職場五件事</a> 裡面提到的印表機例子。</p>
+<h2 id="怎麼用數學來描述-MDP？"><a href="#怎麼用數學來描述-MDP？" class="headerlink" title="怎麼用數學來描述 MDP？"></a>怎麼用數學來描述 MDP？</h2><p>首先，我們需要定義一些基本的東西，例如有：</p>
+<ul>
+<li>總共有哪些狀態（機器人可以在迷宮裡的每一格）</li>
+<li>起始狀態是什麼（機器人在最左下角的那一格）</li>
+<li>可以採取的行動（往上、往下、往左、往右走）</li>
+<li>轉移的機率（例如在某一格 s_k，採取的 action 是往上走，那只有 0.8 的機率會讓 s’ 真的是 s_k 的上方那一格；各自有 0.1 的機率會讓 s’ 落在 s_k 的左邊或右邊）</li>
+<li>到達某個狀態獲得的獎賞（例如走到 -1 那格就會被扣一分）</li>
+</ul>
+<p>寫成數學符號變成下面這樣：</p>
+<p><img src="https://i.imgur.com/rzLEQCP.jpg" alt="img"><br>(This image comes from <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?feature=player_embedded&v=wKx4MuLfe0M">UC Berkeley CS188 Lecture 8</a>)</p>
+<p>另外，考慮到我們想要解的東西，我們還需要定義</p>
+<ul>
+<li>reward（下面用 value 來表示）</li>
+<li>Q-state（Q(s,a) 表示你已經從 state s 選擇了 a action，但因為 a action 產生的結果是什麼還不確定，所以我們把這個還沒決定的 state 稱作 Q-state）</li>
+<li>policy（就是我們希望學到的東西，讓機器人知道在什麼 state 底下該採取什麼 action）</li>
+</ul>
+<p><img src="https://i.imgur.com/nPTNz0j.jpg" alt="img"><br>(This image comes from <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?feature=player_embedded&v=wKx4MuLfe0M">UC Berkeley CS188 Lecture 8</a>)</p>
+<h2 id="怎麼解-MDP？"><a href="#怎麼解-MDP？" class="headerlink" title="怎麼解 MDP？"></a>怎麼解 MDP？</h2><p>定義完上面這些數學符號之後，接下來我們來講解一下該怎麼解。</p>
+<ol>
+<li><p>假設我們在 state s，我們希望可以挑到讓 Q-state value 最大的 action；</p>
+<p><img src="https://i.imgur.com/Fp4RICL.jpg" alt="img"></p>
+</li>
+<li><p>而 Q-state value 要最大，就看這個 Q-state 會落到哪些 s’，這些 s’ 所帶來的 value 會最大：</p>
+<p><img src="https://i.imgur.com/RsDW1xt.jpg" alt="img"></p>
+<p>為何式子會長成上面這樣？因為我們用 $$T(s, a, s’)$$ 來表示從 state s，採取 action a，會變成 state s’的機率。這個機率再乘上 s’ 的 reward，還有 s’ 會得到的 value，就是我們預期 Q-state 會帶來的好處。</p>
+</li>
+<li><p>把 1. 的 $$V^*(s)$$ 用 2. 展開：</p>
+<p><img src="https://i.imgur.com/gTHnLGA.jpg" alt="img"></p>
+</li>
+</ol>
+<p>最後，把這些步驟合起來，就會得到一個可以慢慢收斂的演算法。</p>
+<p><img src="https://i.imgur.com/zhQjACa.jpg" alt="img"></p>
+<p>以一開始的迷宮例子來說，我們經過 100 次 iteration，就會知道在每個 state，往哪邊走會得到最大的 value，這些 value 跟 action 方向顯示在下圖：</p>
+<p><img src="https://i.imgur.com/7kOCcSR.jpg" alt="img"></p>
+<p>而這其實就是讓機器人知道他在不同 state 該怎麼選擇 action 的 policy。</p>
+<h2 id="MDP-的應用"><a href="#MDP-的應用" class="headerlink" title="MDP 的應用"></a>MDP 的應用</h2><p>基本上只要是連續決策、而且在決策過程中的行動具有不確定性，就可以用 MDP 來處理。</p>
+<p>比如說該要怎麼投資股票、怎麼跟人對話等等，有很多有趣的應用。有興趣的讀者可以參考 <a target="_blank" rel="noopener" href="http://www.it.uu.se/edu/course/homepage/aism/st11/MDPApplications1.pdf">這篇文章 - Real Applications of Markov Decision Processes</a> 或 <a target="_blank" rel="noopener" href="https://stats.stackexchange.com/a/178393">這個答案</a>。</p>
+<h2 id="MDP-的限制"><a href="#MDP-的限制" class="headerlink" title="MDP 的限制"></a>MDP 的限制</h2><p>雖然我們已經學會怎麼用 MDP 來獲得一個 policy，但 MDP 有一些限制是我們需要知道的，才能夠在對的地方正確使用：</p>
+<ol>
+<li>無法處理非上帝視角的問題：我們生活的世界中，有很多東西是我們還無法觀測到的（比如人內心的想法、比如宇宙中的暗物質），所以我們無法描述這世界的真實狀態，這種問題就由更進階的 <a target="_blank" rel="noopener" href="https://stefanosnikolaidis.blogspot.com/2018/08/pomdps-intro.html">Partially Observable Markov Decision Processes</a> 來嘗試 model。</li>
+<li>只考慮到 reward，沒考慮到採取 action 的 cost：我們在採取行動時，除了會考慮獲得的 reward，也會考慮付出的代價，有興趣的讀者可以參考這篇 <a target="_blank" rel="noopener" href="http://jjara.scripts.mit.edu/cdl/docs/jaraett_NUC_cogsci2015.pdf">The naïve utility calculus: Joint inferences about the costs and rewards of actions</a>。</li>
+</ol>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>今天跟大家介紹了 MDP 的基本觀念跟數學解法，希望大家在學習 Reinforcement Learning 時有更紮實清楚的底子。</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a target="_blank" rel="noopener" href="http://ai.berkeley.edu/lecture_videos.html">UC Berkeley CS188 Intro to AI – Course Materials</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="https://pojenlai.wordpress.com/">@pojenlai</a> 演算法工程師，對機器人、電腦視覺和人工智慧有少許研究，正在學習<a target="_blank" rel="noopener" href="https://buzzorange.com/techorange/2017/07/10/elon-musk-first-principle/">用心體會事物的本質</a>跟<a target="_blank" rel="noopener" href="https://www.ted.com/talks/eduardo_briceno_how_to_get_better_at_the_things_you_care_about">不斷進入學生心態改進</a>。</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/10/27/intro-to-mdp-and-app/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/10/27/intro-to-mdp-and-app/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/10/27/intro-to-mdp-and-app/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/10/27/intro-to-mdp-and-app/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/11/01/python-flask-keras-image-predict-api/">
+        ← Python Flask + Keras 建置圖片分類 API
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/10/20/flip-your-animation/">
+        FLIP 技巧總複習 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

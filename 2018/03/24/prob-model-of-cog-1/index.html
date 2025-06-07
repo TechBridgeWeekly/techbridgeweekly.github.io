@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>初探 Probabilistic Models of Cognition | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-03-24T23:28:47.000Z" itemprop="datePublished">
+          2018-03-24
+      </time>
+    
+    
+    | 
+    <a href='/tags/Artificial-Intelligence/'>Artificial Intelligence</a>
+    
+    
+</span>
+
+<meta name="generator" content="初探 Probabilistic Models of Cognition">
+<meta name="og:title" content="初探 Probabilistic Models of Cognition">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">初探 Probabilistic Models of Cognition</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近這幾年，AI 的發展又再次變得蓬勃，是一次很好的機會，讓人們可以打造出極棒的科技來為眾人服務。近年最紅的是深度學習已經有很多相關研究，TB 周刊中也一直會為大家放上一些最新的發展，但是，筆者一直對潛藏在我們心智中的基石很有興趣，而這些基石，就跟今天想要介紹的 <a target="_blank" rel="noopener" href="https://probmods.org/">Probabilistic Models of Cognition</a> 很有關係。</p>
+<h2 id="Probabilistic-Models-of-Cognition-的基本想法"><a href="#Probabilistic-Models-of-Cognition-的基本想法" class="headerlink" title="Probabilistic Models of Cognition 的基本想法"></a>Probabilistic Models of Cognition 的基本想法</h2><p>如果我們將人的腦袋想成一個 function，這個 function 可以做好多好多的事。例如看到一本好書、遇到一個好老師、聽到一門好課，我們會想要去把握、想要分享；例如我們看到一幅美麗的畫、一個壯麗的景觀，我們會發出讚嘆、想跟自己珍視的人一起欣賞；遇到千千萬萬種不同的 input，我們會有千千萬萬種不同的想法。</p>
+<p>雖然我們可以處理千千萬萬種情境，產生千千萬萬種想法，但是，我們處理這千千萬萬種情境時，使用的基石可能很少。例如，我們只要知道：</p>
+<ul>
+<li>物體有重量（基石 A）</li>
+<li>抓住物體、抵抗重力才能拿起物體（基石 B）</li>
+<li>用力拋出物體，物體會飛行（基石 C）<br>就可以丟出數以千計種物體（已簡化，還需要看得到物體位置、能夠操控手..等等條件）。</li>
+</ul>
+<p>如果能掌握這些基石，那我們是不是就可以用這些基石來<strong>產生</strong>行為？利用基石來產生行為，就表示這些基石是 generative 的 model。</p>
+<p>但是，這些基石又各自潛藏了一些變數，例如拋出去的力要多大才對？是否沒考慮到空氣阻力？所以裡面有一些我們未完整理解（也就是我們理解這個世界，形成的 model，還不完整），所以加入隨機的成分，這也是 <strong>Probabilistic</strong> Models of Cognition 名稱的由來。</p>
+<h2 id="WebPPL"><a href="#WebPPL" class="headerlink" title="WebPPL"></a>WebPPL</h2><p>為了用比較正規的程式語言來描述我們心智中的基石（也就是 Probabilistic model），作者推出了一種程式語言，叫做 probabilistic programming for the web （WebPPL）。</p>
+<p>我們可以使用這個語言來為世界建立簡單的模型，甚至跑模擬，另外，也可以利用裡面實作的推理功能來做簡單的推理。</p>
+<p>我們目前只要知道這樣就好，語法那些的有興趣可以看看 <a target="_blank" rel="noopener" href="http://webppl.org/">這個網站</a>，基本上是由 Javascript 延伸而來。</p>
+<h2 id="Generative-model"><a href="#Generative-model" class="headerlink" title="Generative model"></a>Generative model</h2><blockquote>
+<p>One view of knowledge is that the mind maintains working models of parts of the world. ‘Model’ in the sense that it captures some of the structure in the world, but not all (and what it captures need not be exactly what is in the world—just useful).</p>
+</blockquote>
+<p>上面這段話是什麼意思呢，我們來看個小小的範例（下面的範例可以在 <a target="_blank" rel="noopener" href="https://probmods.org/chapters/03-conditioning.html">conditioning</a> 這一章節中看到）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// makes a floor with evenly spaced buckets</span></span><br><span class="line"><span class="keyword">var</span> bins = <span class="keyword">function</span> (<span class="params">xmin, xmax, width</span>) &#123;</span><br><span class="line"><span class="keyword">return</span> ((xmax &lt; xmin + width)</span><br><span class="line"><span class="comment">// floor</span></span><br><span class="line">? &#123;<span class="attr">shape</span>: <span class="string">&#x27;rect&#x27;</span>, <span class="attr">static</span>: <span class="literal">true</span>, <span class="attr">dims</span>: [<span class="number">400</span>, <span class="number">10</span>], <span class="attr">x</span>: <span class="number">175</span>, <span class="attr">y</span>: <span class="number">500</span>&#125;</span><br><span class="line"><span class="comment">// bins</span></span><br><span class="line">: [&#123;<span class="attr">shape</span>: <span class="string">&#x27;rect&#x27;</span>, <span class="attr">static</span>: <span class="literal">true</span>, <span class="attr">dims</span>: [<span class="number">1</span>, <span class="number">10</span>], <span class="attr">x</span>: xmin, <span class="attr">y</span>: <span class="number">490</span>&#125;].<span class="title function_">concat</span>(<span class="title function_">bins</span>(xmin + width, xmax, width))</span><br><span class="line">)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// add two fixed circles</span></span><br><span class="line"><span class="keyword">var</span> world = [&#123;<span class="attr">shape</span>: <span class="string">&#x27;circle&#x27;</span>, <span class="attr">static</span>: <span class="literal">true</span>, <span class="attr">dims</span>: [<span class="number">60</span>], <span class="attr">x</span>: <span class="number">60</span>, <span class="attr">y</span>: <span class="number">200</span>&#125;,</span><br><span class="line">&#123;<span class="attr">shape</span>: <span class="string">&#x27;circle&#x27;</span>, <span class="attr">static</span>: <span class="literal">true</span>, <span class="attr">dims</span>: [<span class="number">30</span>], <span class="attr">x</span>: <span class="number">300</span>, <span class="attr">y</span>: <span class="number">300</span>&#125;].<span class="title function_">concat</span>(<span class="title function_">bins</span>(-<span class="number">1000</span>, <span class="number">1000</span>, <span class="number">25</span>))</span><br><span class="line"><span class="keyword">var</span> randomBlock = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line"><span class="keyword">return</span> &#123;<span class="attr">shape</span>: <span class="string">&#x27;circle&#x27;</span>, <span class="attr">static</span>: <span class="literal">false</span>, <span class="attr">dims</span>: [<span class="number">10</span>], <span class="attr">x</span>: <span class="title function_">uniform</span>(<span class="number">0</span>, worldWidth), <span class="attr">y</span>: <span class="number">0</span>&#125;</span><br><span class="line">&#125;</span><br><span class="line">physics.<span class="title function_">animate</span>(<span class="number">1000</span>, [<span class="title function_">randomBlock</span>()].<span class="title function_">concat</span>(world))</span><br></pre></td></tr></table></figure>
+
+<p>模擬跑起來會長得像這樣：</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=oirC9Ae9e_Y" title="Forward"><img src="http://img.youtube.com/vi/oirC9Ae9e_Y/0.jpg" alt="Forward"></a><br>除了模擬去推得結果，也可以從結果反推出</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=v" title="Inverse"><img src="http://img.youtube.com/vi/AvFtKw4fXXA/0.jpg" alt="Inverse"></a><br>從上面的兩例中可以看出，我們可以用很簡單的幾行 WebPPL 程式，就讓電腦可以做到自己要用其他程式語言來做，是有點難度的推理（當然，背後也是有物理模擬的黑盒子已經被包起來，所以我們不需要管那邊的細節）。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>今天我們稍微探討了 Probabilistic Models of Cognition，也玩了裡面的一個模擬功能，有興趣的讀者可以直接去看書裡的更多內容或是作者的論文。</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Z3mFBEOH2y4&t=9s">Josh Tenenbaum - The cognitive science perspective: Reverse-engineering the mind (CCN 2017)</a></li>
+</ol>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/03/24/prob-model-of-cog-1/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/03/24/prob-model-of-cog-1/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/03/24/prob-model-of-cog-1/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/03/24/prob-model-of-cog-1/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/03/31/react-fiber-and-lifecycle-change/">
+        ← 淺談 React Fiber 及其對 lifecycles 造成的影響
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/03/17/docker-build-nginx-tutorial/">
+        使用 Docker 建立 nginx 伺服器入門教學 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

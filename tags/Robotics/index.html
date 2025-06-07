@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Tag: Robotics | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="home-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+<main class="content" role="main">
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2019-01-18T21:01:50.000Z" itemprop="datePublished">
+          2019-01-18
+      </time>
+    
+    
+    | 
+    <a href='/tags/Robotics/'>Robotics</a>,
+    
+    <a href='/tags/Deep-Learning/'>Deep Learning</a>,
+    
+    <a href='/tags/Computer-Vision/'>Computer Vision</a>,
+    
+    <a href='/tags/OpenPose/'>OpenPose</a>
+    
+    
+</span>
+
+<meta name="generator" content="如何在 Windows 安裝 OpenPose 跟使用 Python API 來偵測人體姿態">
+<meta name="og:title" content="如何在 Windows 安裝 OpenPose 跟使用 Python API 來偵測人體姿態">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2019/01/18/openpose-installation/">如何在 Windows 安裝 OpenPose 跟使用 Python API 來偵測人體姿態</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言
+OpenPose 是 Carnegie Mellon University（CMU）論文實作的開源函式庫，提供的功能主要就是可以偵測人體的各部位在什麼地方，例如可以在影像中找到臉、身體、手等等地方的特徵點。但他厲害的地方在於可以一次偵測很多人，看看下面這張圖就知道：
+
+這個 repository 仍然相當地 active，有兩個 CMU 的學生常常在 Github 上面解 issue。這次因為筆者需要在 Windows 上面安裝 
+      
+      </p>
+      
+      <p>
+          <a href="/2019/01/18/openpose-installation/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2017-08-05T21:39:40.000Z" itemprop="datePublished">
+          2017-08-05
+      </time>
+    
+    
+    | 
+    <a href='/tags/Robotics/'>Robotics</a>,
+    
+    <a href='/tags/ROS/'>ROS</a>,
+    
+    <a href='/tags/SLAM/'>SLAM</a>,
+    
+    <a href='/tags/LSD-SLAM/'>LSD SLAM</a>
+    
+    
+</span>
+
+<meta name="generator" content="深入學習 lsd-slam - 5">
+<meta name="og:title" content="深入學習 lsd-slam - 5">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2017/08/05/lsd-slam-5/">深入學習 lsd-slam - 5</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言上次跟大家簡介了 Eigen 這個可以用來做線性代數運算的 open source library，讓大家有動手實作、開始玩到東西的感覺。今天要延續動手實作的精神，跟大家介紹一下該怎麼把幾張 RGB-D 影像拼接成 point cloud，接下來就讓我們一起玩玩吧！
+參考資料來源這次的 data（包含 RGB 影像跟 Depth Map） 等等都是來自於 slambook 的 ch5，有這些資料真的超讚的，不然自己光要產生這些資料就
+      
+      </p>
+      
+      <p>
+          <a href="/2017/08/05/lsd-slam-5/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2017-07-08T21:50:20.000Z" itemprop="datePublished">
+          2017-07-08
+      </time>
+    
+    
+    | 
+    <a href='/tags/Robotics/'>Robotics</a>,
+    
+    <a href='/tags/ROS/'>ROS</a>,
+    
+    <a href='/tags/SLAM/'>SLAM</a>,
+    
+    <a href='/tags/LSD-SLAM/'>LSD SLAM</a>,
+    
+    <a href='/tags/Eigen/'>Eigen</a>
+    
+    
+</span>
+
+<meta name="generator" content="深入學習 LSD-SLAM - 4">
+<meta name="og:title" content="深入學習 LSD-SLAM - 4">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2017/07/08/lsd-slam-4/">深入學習 LSD-SLAM - 4</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言上次講了一些基本的理論介紹，但我們現在是希望學會如何實際寫程式讓機器人動起來，只有純數學的觀念跟機器人好像沒什麼關係，所以這次希望可以開始銜接到一個常用的工具 - Eigen。讓大家有動手實作、開始玩到東西的感覺。
+為什麼要會 Eigen？首先，Eigen 是一個 C++ 的 open source library，提供了許多線性代數運算相關的函式。
+然後，我們這一系列是要介紹 LSD-SLAM，所以當然是因為 LSD-SLAM 也
+      
+      </p>
+      
+      <p>
+          <a href="/2017/07/08/lsd-slam-4/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2017-06-10T21:49:02.000Z" itemprop="datePublished">
+          2017-06-10
+      </time>
+    
+    
+    | 
+    <a href='/tags/Robotics/'>Robotics</a>,
+    
+    <a href='/tags/ROS/'>ROS</a>,
+    
+    <a href='/tags/SLAM/'>SLAM</a>,
+    
+    <a href='/tags/LSD-SLAM/'>LSD SLAM</a>,
+    
+    <a href='/tags/RTAB-Map/'>RTAB-Map</a>
+    
+    
+</span>
+
+<meta name="generator" content="深入學習 LSD-SLAM 番外篇 - RDS X RTAB-Map">
+<meta name="og:title" content="深入學習 LSD-SLAM 番外篇 - RDS X RTAB-Map">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2017/06/10/lsd-slam-side-1/">深入學習 LSD-SLAM 番外篇 - RDS X RTAB-Map</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言因為前陣子因緣際會發現了 Robot Ignite Academy 跟 ROS Develop Studio（RDS），很希望可以推薦給我們的讀者。所以這期專欄我延伸一下 LSD SLAM 系列，先跟大家介紹這個很酷的學習資源，並介紹跟 LSD SLAM 目的相似的 RTAB-Map 演算法。
+為什麼要介紹 RDS？學習的方法有許多種，借引用這一週很紅的 英文學習 repository 的圖：
+
+學習越難的東西，越不容易只靠單一學習
+      
+      </p>
+      
+      <p>
+          <a href="/2017/06/10/lsd-slam-side-1/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2017-05-13T22:02:38.000Z" itemprop="datePublished">
+          2017-05-13
+      </time>
+    
+    
+    | 
+    <a href='/tags/Robotics/'>Robotics</a>,
+    
+    <a href='/tags/ROS/'>ROS</a>,
+    
+    <a href='/tags/SLAM/'>SLAM</a>,
+    
+    <a href='/tags/LSD-SLAM/'>LSD SLAM</a>
+    
+    
+</span>
+
+<meta name="generator" content="深入學習 lsd-slam - 3">
+<meta name="og:title" content="深入學習 lsd-slam - 3">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2017/05/13/lsd-slam-3/">深入學習 lsd-slam - 3</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言在 深入學習 LSD-SLAM - 2 裡面，我們簡單介紹了 Direct Method，先初步地了解這個方法的大致意義，今天再讓我們更深入一點，開始跟 paper 的內容銜接，之後會慢慢越來越深入好玩！
+Spiral learning因為這次剛好也是我第一次真正來學 SLAM 相關技術，以前都只是大略看看，沒有真正學通的感覺，所以也想跟大家分享一下個人學習的心得。
+大家或多或少應該都經歷過一個情境 - 你要學習一個東西，但是因為這
+      
+      </p>
+      
+      <p>
+          <a href="/2017/05/13/lsd-slam-3/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2017-04-15T18:50:58.000Z" itemprop="datePublished">
+          2017-04-15
+      </time>
+    
+    
+    | 
+    <a href='/tags/Robotics/'>Robotics</a>,
+    
+    <a href='/tags/ROS/'>ROS</a>,
+    
+    <a href='/tags/SLAM/'>SLAM</a>,
+    
+    <a href='/tags/LSD-SLAM/'>LSD SLAM</a>
+    
+    
+</span>
+
+<meta name="generator" content="深入學習 LSD-SLAM - 2">
+<meta name="og:title" content="深入學習 LSD-SLAM - 2">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2017/04/15/lsd-slam-2/">深入學習 LSD-SLAM - 2</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言上回我們在深入學習 LSD-SLAM - 1中提到，LSD-SLAM 的一大特色是不計算特徵點、直接使用所有 pixel 來計算相機的姿態。但是，每一幀都有 640x480 個 pixel (作者建議使用 640x480 解析度的相機)，該怎麼處理這些資料呢？今天就來學習 direct method 的基礎。
+在開始之前，我們可以從下圖清楚地看出 Feature-Based Method 跟 Direct Method 的差別，其實
+      
+      </p>
+      
+      <p>
+          <a href="/2017/04/15/lsd-slam-2/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2017-03-18T00:00:43.000Z" itemprop="datePublished">
+          2017-03-18
+      </time>
+    
+    
+    | 
+    <a href='/tags/Robotics/'>Robotics</a>,
+    
+    <a href='/tags/ROS/'>ROS</a>,
+    
+    <a href='/tags/SLAM/'>SLAM</a>,
+    
+    <a href='/tags/LSD-SLAM/'>LSD SLAM</a>
+    
+    
+</span>
+
+<meta name="generator" content="深入學習 LSD-SLAM-1">
+<meta name="og:title" content="深入學習 LSD-SLAM-1">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2017/03/18/lsd-slam-1/">深入學習 LSD-SLAM-1</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言SLAM 是近年來很火紅的一個技術，也有不少文章在介紹，不過我很少看到針對一些頂級演算法的深入介紹，所以才想透過這篇文章來開始深入很久以前玩過的LSD SLAM，也跟大家一起學習這個迷人的演算法。建議有興趣的讀者先讀過這篇平易近人的 Visual SLAM 簡介，然後再繼續往下看，會更有感覺！
+先放一張 LSD-SLAM 建出來的地圖，讓大家感受一下帥度。
+
+安裝方式安裝方式可以到 LSD-SLAM 的 github page 看看
+      
+      </p>
+      
+      <p>
+          <a href="/2017/03/18/lsd-slam-1/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2016-03-19T06:54:49.000Z" itemprop="datePublished">
+          2016-03-19
+      </time>
+    
+    
+    | 
+    <a href='/tags/IoT/'>IoT</a>,
+    
+    <a href='/tags/Mobile/'>Mobile</a>,
+    
+    <a href='/tags/Web/'>Web</a>,
+    
+    <a href='/tags/Startup/'>Startup</a>,
+    
+    <a href='/tags/Data/'>Data</a>,
+    
+    <a href='/tags/Robotics/'>Robotics</a>,
+    
+    <a href='/tags/Maker/'>Maker</a>,
+    
+    <a href='/tags/UI-UX/'>UI/UX</a>,
+    
+    <a href='/tags/Product/'>Product</a>
+    
+    
+</span>
+
+<meta name="generator" content="關於這個技術共筆部落格">
+<meta name="og:title" content="關於這個技術共筆部落格">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2016/03/19/about/">關於這個技術共筆部落格</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人&#x2F;物聯網、數據分析與產品設計等正體中文技術原創文章或國外好文翻譯分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, data analytics technolog
+      
+      </p>
+      
+      <p>
+          <a href="/2016/03/19/about/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <nav class="pagination" role="pagination">
+    
+    <span class="page-number">Page 1 of 1</span>
+    
+  </nav>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

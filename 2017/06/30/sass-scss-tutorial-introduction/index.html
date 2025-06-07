@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Sass/SCSS 簡明入門教學 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-06-30T09:54:49.000Z" itemprop="datePublished">
+          2017-06-30
+      </time>
+    
+    
+    | 
+    <a href='/tags/LESS-SASS-SCSS-Sass-PossCSS-CSS-OOCSS-CSS-in-JS-CSS-Modules/'>LESS, SASS, SCSS, Sass, PossCSS, CSS, OOCSS, CSS in JS, CSS Modules</a>
+    
+    
+</span>
+
+<meta name="generator" content="Sass/SCSS 簡明入門教學">
+<meta name="og:title" content="Sass/SCSS 簡明入門教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Sass/SCSS 簡明入門教學</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/sass.png" alt="Sass/SCSS 簡明入門教學"></p>
+<h1 id="Sass-SCSS-簡介"><a href="#Sass-SCSS-簡介" class="headerlink" title="Sass&#x2F;SCSS 簡介"></a>Sass&#x2F;SCSS 簡介</h1><blockquote>
+<p>Sass is an extension of CSS3, adding nested rules, variables, mixins, selector inheritance, and more. It’s translated to well-formatted, standard CSS using the command line tool or a web-framework plugin.</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://sass-lang.com/">Sass（Syntactically Awesome StyleSheets）</a>是一種 CSS 的擴充，是為 CSS 的超集合（透過編譯會 compiled 成傳統 CSS，讓瀏覽器可以閱讀）。使用 Sass 的出現是為了解決在大型專案時傳統 CSS 會遇到的重複、可維護性差等問題（新增了 nested rules, variables, mixins, selector inheritance 等特性）。讓開發者可以撰寫簡潔、富語意（expressive）、重複性佳（reusable）、可維護性佳和可延展性佳的 CSS 程式碼。<br>gem install sass</p>
+<p>Sass 的語法分為新的 SCSS (<code>Sassy CSS</code>、<code>Sass 3</code>，檔案名稱為 <code>*.scss</code>) 和舊的 SASS（向 <code>Haml</code>取經，具備不使用大括弧格式、使用縮排，不能直接使用 CSS 語法、學習曲線較高等特性，檔案名稱為 <code>*.sass</code>）。由於新的 SCSS 語法是 CSS3 的超集合，所以傳統的 CSS3 檔案就算直接複製過來也不會出錯，學習曲線相對較緩，因此我們將使用 SCSS 語法。 </p>
+<p>關於兩者比較的補充可以參考這篇文章 <a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/5654447/whats-the-difference-between-scss-and-sass">What’s the difference between SCSS and Sass?</a></p>
+<h2 id="SASS-初體驗"><a href="#SASS-初體驗" class="headerlink" title="SASS 初體驗"></a>SASS 初體驗</h2><p>在開始介紹 SASS 特性之前，我們先來學習如何將 Sass 轉譯成 CSS。</p>
+<p>首先，先按照官網先行<a target="_blank" rel="noopener" href="http://sass-lang.com/install">安裝 Sass</a>，接著在專案資料夾建立一個 <code>main.scss</code> 檔案，檔案內容如下：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 引用</span></span><br><span class="line"><span class="keyword">@import</span> url(<span class="attribute">https</span>://fonts.googleapis.com/css?family=Pacifico);</span><br><span class="line"><span class="comment">//Add variables here:</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">h1</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: Roboto, sans-serif;</span><br><span class="line">  <span class="selector-tag">text</span>-align: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.banner</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">&#x27;Pacifico&#x27;</span>, cursive;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">400px</span>;</span><br><span class="line">  <span class="attribute">background-image</span>: <span class="built_in">url</span>(<span class="string">&quot;lemonade.jpg&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="selector-tag">text</span>-align: center;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">&#x27;Pacifico&#x27;</span>, cursive;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在終端機下以下指令進行轉譯：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// sass 指令 欲轉譯檔案 輸出的檔案</span><br><span class="line">sass main.scss main.css</span><br></pre></td></tr></table></figure>
+
+<p>此時你就會看到資料夾中多了 <code>main.css</code> 和 <code>main.css.map</code> 兩個檔案，前者是轉譯過後的 CSS 檔案，後者是方便使用瀏覽器除錯工具除錯時連結原檔案和轉譯檔案，方便除錯。</p>
+<ol>
+<li><p>Variables：變數可以用來儲存值，方便重複利用</p>
+<p> 有些時候 Variables，這時候若能使用變數儲存重複使用的值可以增加重用性。在 Sass 中我們使用 <code>$</code> 來表示變數，變數的資料型態可以是 Numbers（可以有單位或無單位）、Strings、Booleans、null 值（視為空值），甚至可以使用 Lists、Maps 來。</p>
+<p> 變數的使用：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$translucent-white</span>: <span class="built_in">rgba</span>(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>,<span class="number">0.3</span>);</span><br><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">	<span class="attribute">background-color</span>: <span class="variable">$translucent-white</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> Lists 可以空格或加逗號分隔屬性值：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$font-style-2: Helvetica, Arial, sans-serif;</span><br><span class="line">$standard-border: 4px solid black;</span><br><span class="line"></span><br><span class="line">p &#123;</span><br><span class="line">	border: $standard-border;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// maps key:value</span><br><span class="line">$font-style-2: (key1: value1, key2: value2);	</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Nesting：降低父元素重複性</p>
+<p> 轉譯前：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.parent</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: blue;</span><br><span class="line">  <span class="selector-class">.child</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 轉譯後：</p>
+ <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.parent</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: blue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.parent</span> <span class="selector-class">.child</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 在 Nesting 中不僅只有 child selectors 可以使用，還可以使用在相同的 Properties 上：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.parent</span> &#123;</span><br><span class="line">  <span class="attribute">font</span> : &#123;</span><br><span class="line">    family: Roboto, sans-serif;</span><br><span class="line">    size: <span class="number">12px</span>;</span><br><span class="line">    decoration: none;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 轉譯後：</p>
+ <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.parent</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: Roboto, sans-serif;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">  <span class="attribute">font</span>-decoration: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>Mixins：降低 pseudo 元素撰寫的重複性，如：<code>::before</code>、<code>::after</code>、<code>:hover</code>，在 Sass 中使用 <code>&amp;</code> 代表父元素</p>
+<p> 轉譯前：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.notecard</span>&#123; </span><br><span class="line">  &amp;<span class="selector-pseudo">:hover</span>&#123;</span><br><span class="line">      <span class="keyword">@include</span> transform (rotatey(-<span class="number">180deg</span>));  </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p> 轉譯後：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.notecard</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">rotatey</span>(-<span class="number">180deg</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 重用群組的 CSS，例如跨瀏覽器的 prefix，使用 @include 加入群組：</p>
+<p> 轉譯前：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@mixin</span> backface-visibility &#123;</span><br><span class="line">  <span class="attribute">backface-visibility</span>: hidden;</span><br><span class="line">  -webkit-<span class="attribute">backface-visibility</span>: hidden;</span><br><span class="line">  -moz-<span class="attribute">backface-visibility</span>: hidden;</span><br><span class="line">  -ms-<span class="attribute">backface-visibility</span>: hidden;</span><br><span class="line">  -o-<span class="attribute">backface-visibility</span>: hidden;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.notecard</span> &#123;</span><br><span class="line">  <span class="selector-class">.front</span>, <span class="selector-class">.back</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">@include</span> backface_visibility;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 轉譯後：</p>
+ <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.notecard</span> <span class="selector-class">.front</span>, <span class="selector-class">.notecard</span> <span class="selector-class">.back</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">backface-visibility</span>: hidden;</span><br><span class="line">  -webkit-<span class="attribute">backface-visibility</span>: hidden; </span><br><span class="line">  -moz-<span class="attribute">backface-visibility</span>: hidden;</span><br><span class="line">  -ms-<span class="attribute">backface-visibility</span>: hidden;</span><br><span class="line">  -o-<span class="attribute">backface-visibility</span>: hidden;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <code>@mixin</code> 也可以透過 <code>@include</code> 使用參數，也可以使用預設值：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@mixin</span> backface-visibility(<span class="variable">$visibility</span>:hidden) &#123; <span class="comment">//Add an argument</span></span><br><span class="line">  <span class="attribute">backface-visibility</span>: <span class="variable">$visibility</span>;</span><br><span class="line">  -webkit-<span class="attribute">backface-visibility</span>: <span class="variable">$visibility</span>;</span><br><span class="line">  -moz-<span class="attribute">backface-visibility</span>: <span class="variable">$visibility</span>;</span><br><span class="line">  -ms-<span class="attribute">backface-visibility</span>: <span class="variable">$visibility</span>;</span><br><span class="line">  -o-<span class="attribute">backface-visibility</span>: <span class="variable">$visibility</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.front</span>, <span class="selector-class">.back</span> &#123;</span><br><span class="line">    <span class="keyword">@include</span> backface-visibility(hidden);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 有時我們也需要處理參數複雜的情形，此時可以使用 Lists、Maps 資料型態當輔助：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@mixin</span> stripes(<span class="variable">$direction</span>, <span class="variable">$width-percent</span>, <span class="variable">$stripe-color</span>, <span class="variable">$stripe-background</span>: <span class="number">#FFF</span>) &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">repeating-linear-gradient</span>(</span><br><span class="line">    <span class="variable">$direction</span>,</span><br><span class="line">    <span class="variable">$stripe-background</span>,</span><br><span class="line">    <span class="variable">$stripe-background</span> (<span class="variable">$width-percent</span> - <span class="number">1</span>),</span><br><span class="line">    <span class="variable">$stripe-color</span> <span class="number">1%</span>,</span><br><span class="line">    <span class="variable">$stripe-background</span> <span class="variable">$width-percent</span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 使用 Maps 資料格式存欲傳入變數：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$college-ruled-style</span>: ( </span><br><span class="line">    direction: to bottom,</span><br><span class="line">    width-percent: <span class="number">15%</span>,</span><br><span class="line">    stripe-color: blue,</span><br><span class="line">    stripe-background: white</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p> 變數使用 <code>...</code> 進行傳遞：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.definition</span> &#123;</span><br><span class="line">      <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">      <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">      <span class="keyword">@include</span> stripes(<span class="variable">$college-ruled-style</span>...);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p> 還有種情況是參數傳入當作字串（String interpolation）：</p>
+<p> 轉譯前：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用 #&#123;$file&#125; 接收</span></span><br><span class="line"><span class="keyword">@mixin</span> photo-content(<span class="variable">$file</span>) &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="built_in">url</span>(#&#123;<span class="variable">$file</span>&#125;<span class="selector-class">.jpg</span>); <span class="comment">//string interpolation</span></span><br><span class="line">  <span class="selector-tag">object</span>-fit: cover;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.photo</span> &#123; </span><br><span class="line">  <span class="keyword">@include</span> photo-content(<span class="string">&#x27;titanosaur&#x27;</span>);</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">60%</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0px</span> auto; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 轉譯後：</p>
+ <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.photo</span> &#123; </span><br><span class="line">  <span class="attribute">content</span>: <span class="built_in">url</span>(<span class="string">titanosaur.jpg</span>);</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">60%</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0px</span> auto; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 更可以搭配 Nesting 使用：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@mixin</span> hover-color(<span class="variable">$color</span>) &#123;</span><br><span class="line">  		&amp;<span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">   		<span class="attribute">color</span>: <span class="variable">$color</span>;</span><br><span class="line">   	&#125;</span><br><span class="line">  	&#125;</span><br><span class="line"></span><br><span class="line">  	<span class="selector-class">.word</span> &#123;</span><br><span class="line">   	<span class="keyword">@include</span> hover-color(red);</span><br><span class="line">  	&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Functions </p>
+<p> 在 Sass 內建一些好用 functions 可以簡單設定色相、漸層，例如：<code>adjust-hue($color, $degrees)</code>、<code>fade-out</code>：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$lagoon-blue</span>: <span class="built_in">fade-out</span>(<span class="number">#62fdca</span>, <span class="number">0.5</span>);</span><br></pre></td></tr></table></figure>
+
+<p> 更多內建 Functions 可以<a target="_blank" rel="noopener" href="http://sass-lang.com/documentation/Sass/Script/Functions.html">參考這邊</a></p>
+</li>
+<li><p>Operations：透過加減乘除和取餘數等運算子可以方便運算所需的屬性值</p>
+<p> 顏色加法：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$color</span>: <span class="number">#010203</span> + <span class="number">#040506</span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	01 + 04 = 05</span></span><br><span class="line"><span class="comment">	02 + 05 = 07</span></span><br><span class="line"><span class="comment">	03 + 06 = 09</span></span><br><span class="line"><span class="comment">	color: #050709;</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p> <code>//</code> 使用上需要注意：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">width</span>: <span class="variable">$variable</span>/<span class="number">6</span>; <span class="comment">//division</span></span><br><span class="line"><span class="selector-tag">line</span>-<span class="attribute">height</span>: (<span class="number">600px</span>)/<span class="number">9</span>; <span class="comment">//division</span></span><br><span class="line"><span class="attribute">margin-left</span>: <span class="number">20</span>-<span class="number">10</span> px/ <span class="number">2</span>; <span class="comment">//division</span></span><br><span class="line"><span class="attribute">font-size</span>: <span class="number">10px</span>/<span class="number">8px</span>; <span class="comment">//not division</span></span><br></pre></td></tr></table></figure>
+
+<p> 也可以使用 <code>@each</code> 語法迭代 list 內容：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$list</span>: (orange, purple, teal);</span><br><span class="line"></span><br><span class="line"><span class="keyword">@each</span> <span class="variable">$item</span> in <span class="variable">$list</span> &#123;</span><br><span class="line">  .#&#123;<span class="variable">$item</span>&#125; &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="variable">$item</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 使用 <code>@for</code> 迭代，並加入條件判斷：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@for</span> <span class="variable">$i</span> from <span class="number">1</span> through <span class="variable">$total</span> &#123;</span><br><span class="line">  <span class="selector-class">.ray</span><span class="selector-pseudo">:nth-child</span>(#&#123;$i&#125;) &#123;</span><br><span class="line">	<span class="attribute">background</span>: <span class="built_in">adjust-hue</span>(blue, <span class="variable">$i</span> * <span class="variable">$step</span>);</span><br><span class="line">	<span class="comment">// </span></span><br><span class="line">	<span class="attribute">width</span>: <span class="built_in">if</span>(<span class="variable">$i</span> % <span class="number">2</span> == <span class="number">0</span>, <span class="number">300px</span>, <span class="number">350px</span>);</span><br><span class="line"> 		<span class="attribute">margin-left</span>: <span class="built_in">if</span>(<span class="variable">$i</span> % <span class="number">2</span> == <span class="number">0</span>, <span class="number">0px</span>, <span class="number">50px</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>@include 引用：可以引入其他 Sass、SCSS 檔案：</p>
+<p> 我們通常使用 <code>Partials</code> 去處理特定功能，方便管理和維護。以下是引用 <code>_variables.scss</code> 檔案範例，其中檔名前的 <code>_</code> 表示引用前要先 compile：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@import</span> <span class="string">&quot;variables&quot;</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>@extend 共用：</p>
+<p> 編譯前：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.lemonade</span> &#123;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> yellow;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#fdd</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.strawberry</span> &#123;</span><br><span class="line">  <span class="keyword">@extend</span> .lemonade;</span><br><span class="line">  <span class="attribute">border-color</span>: pink;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 轉譯後：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.lemonade</span>, <span class="selector-class">.strawberry</span> &#123;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> yellow;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#fdd</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.strawberry</span> &#123;</span><br><span class="line">  <span class="keyword">@extend</span> .lemonade;</span><br><span class="line">  <span class="attribute">border-color</span>: pink;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 搭配 Placeholders 使用：</p>
+<p> 轉譯前：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">a</span>%drink &#123;</span><br><span class="line">	<span class="attribute">font-size</span>: <span class="number">2em</span>;</span><br><span class="line">	<span class="attribute">background-color</span>: <span class="variable">$lemon-yellow</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.lemonade</span> &#123;</span><br><span class="line">	<span class="keyword">@extend</span> %drink;</span><br><span class="line">	<span class="comment">//more rules</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 轉譯後</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">a</span><span class="selector-class">.lemonade</span> &#123;</span><br><span class="line">   	<span class="attribute">font-size</span>: <span class="number">2em</span>;</span><br><span class="line">   	<span class="attribute">background-color</span>: <span class="variable">$lemon-yellow</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.lemonade</span> &#123;</span><br><span class="line"> 		<span class="comment">//more rules</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>@mixin</code> 和 <code>@extend</code> 比較</p>
+<p> 轉譯前：</p>
+ <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@mixin</span> no-variable &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#FFF</span>;</span><br><span class="line">  <span class="attribute">opacity</span>: .<span class="number">9</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">%placeholder &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#FFF</span>;</span><br><span class="line">  <span class="attribute">opacity</span>: .<span class="number">9</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">span</span> &#123;</span><br><span class="line">  <span class="keyword">@extend</span> %placeholder;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="keyword">@extend</span> %placeholder;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">  <span class="keyword">@include</span> no-variable;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">h1</span> &#123;</span><br><span class="line">  <span class="keyword">@include</span> no-variable;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 轉譯後：</p>
+ <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">span</span>, <span class="selector-tag">div</span>&#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#FFF</span>;</span><br><span class="line">  <span class="attribute">opacity</span>: .<span class="number">9</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#FFF</span>;</span><br><span class="line">  <span class="attribute">opacity</span>: .<span class="number">9</span>;</span><br><span class="line">  //rules specific <span class="selector-tag">to</span> ps</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">h1</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">12px</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#FFF</span>;</span><br><span class="line">  <span class="attribute">opacity</span>: .<span class="number">9</span>;</span><br><span class="line">  //rules specific <span class="selector-tag">to</span> ps</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Sass 資料夾結構</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">sass/</span><br><span class="line">	components/</span><br><span class="line">		_buttons.scss</span><br><span class="line">	helpers/</span><br><span class="line">		_variables.scss</span><br><span class="line">		_functions.scss</span><br><span class="line">		_mixins.scss</span><br><span class="line">	layout/</span><br><span class="line">		_grid.scss</span><br><span class="line">		_header.scss</span><br><span class="line">		_footer.scss</span><br><span class="line">	pages/</span><br><span class="line">		_home.scss</span><br><span class="line">		_contact.scss</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上就是 Sass&#x2F;SCSS 簡明入門教學，在這篇文章中我們大致上介紹了 Sass 使用語法。除了 Sass 外，目前市面上還有許多 CSS 的變形，包括語法較易學的 <a target="_blank" rel="noopener" href="http://lesscss.org/#">LESS</a>、元件化思考的 CSS in JS、主要解決全域問題和模組引用的 <a target="_blank" rel="noopener" href="https://github.com/css-modules/css-modules">CSS Modules</a>，取經於 JavaScript Task Runner 的 <a target="_blank" rel="noopener" href="https://github.com/postcss/postcss">PostCSS</a> 、網格樣式表單 <a target="_blank" rel="noopener" href="https://gridstylesheets.org/">GSS</a> 等，這些最終都是要解決傳統 CSS 維護不易、重用性低下等問題。事實上，有些人覺得使用 preprocessor 較好維護，有些人認為每次都要編譯很麻煩，至於要選擇哪一種 CSS preprocessor 或是根本不使用，取決於團隊的內部規範和討論。俗話說後端一天，前端一年，說不定現在選邊站的技術，下個月就不流行了呢。</p>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><ol>
+<li><a target="_blank" rel="noopener" href="http://sam0512.blogspot.tw/2013/10/sass.html">Sass &amp; Susy教學手冊</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.codecademy.com/learn/learn-sass">learn-sass</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2016/06/css_modules.html">CSS Modules 用法教程</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.hellojcc.tw/2015/12/11/sass-to-postcss/">如何從 SASS 無痛轉移到 POSTCSS</a></li>
+<li><a target="_blank" rel="noopener" href="https://webdesign.tutsplus.com/tutorials/using-postcss-together-with-sass-stylus-or-less--cms-24591">Using PostCSS Together with Sass, Stylus, or LESS</a></li>
+<li><a target="_blank" rel="noopener" href="http://huli.logdown.com/posts/262723-experiences-what-is-postcss">[心得] 什麼是 postcss?</a></li>
+<li><a target="_blank" rel="noopener" href="http://solidzoro.com/blog/article/2015/09/talk-about-css-preprocessor.html">聊聊 CSS 預處理器，LESS、Sass、Stylus 及 postCSS</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.kdchang.cc/">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino&#x2F;Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/06/30/sass-scss-tutorial-introduction/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/06/30/sass-scss-tutorial-introduction/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/06/30/sass-scss-tutorial-introduction/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/06/30/sass-scss-tutorial-introduction/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/07/08/lsd-slam-4/">
+        ← 深入學習 LSD-SLAM - 4
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/06/21/Lets-know-a-little-bit-of-Self-Driving-Car/">
+        一起來用十分鐘略懂自駕車吧！GoGoGo！ →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>使用 Python 和 PyGame 遊戲製作入門教學 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-10-19T23:54:49.000Z" itemprop="datePublished">
+          2019-10-19
+      </time>
+    
+    
+    | 
+    <a href='/tags/Python-PyGame-遊戲製作-game-遊戲開發/'>Python - PyGame - 遊戲製作 - game - 遊戲開發</a>
+    
+    
+</span>
+
+<meta name="generator" content="使用 Python 和 PyGame 遊戲製作入門教學">
+<meta name="og:title" content="使用 Python 和 PyGame 遊戲製作入門教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">使用 Python 和 PyGame 遊戲製作入門教學</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/pygame101/pygame-logo.png" alt="使用 Python 和 PyGame 遊戲製作入門教學"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>隨著天氣越來越冷，很多人卻納悶蚊子為何不減反增。身為一個工程師若沒辦法成功在現實社會和蚊子好好相處，只好做打蚊子遊戲調劑身心（咦）。本文將透過一個打蚊子遊戲，帶領讀者學習如何使用 Python 的 <a target="_blank" rel="noopener" href="https://www.pygame.org/news">PyGame</a> 模組製作一個簡單的打蚊子遊戲，在學習遊戲開發的基本觀念的同時，也讓我們在虛擬社會中可以彌補現實社會中的遺憾（喂）。好啦，就讓我們開始 PyGame 遊戲開發之旅吧！</p>
+<h1 id="PyGame-初體驗"><a href="#PyGame-初體驗" class="headerlink" title="PyGame 初體驗"></a>PyGame 初體驗</h1><p>PyGame 是一種 Python 用來製作遊戲的模組，它能讓開發者可以用更簡單的方式加入文字、圖案、聲音等元素並進行事件處理來開發遊戲。我們可以看到 <a target="_blank" rel="noopener" href="https://www.pygame.org/tags/all">PyGame 官方網站上有許多有趣的網友製作的有趣遊戲</a>。</p>
+<p>首先，我們先來進行環境設定，先確保你的作業系統有安裝 Python3，我們這邊使用的是 MacOS 作業系統。然後安裝我們的 pygame 模組。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install pygame</span><br></pre></td></tr></table></figure>
+
+<p>在開始 PyGame Hello World 之前我們先來認識 PyGame 幾大核心元素：</p>
+<ol>
+<li><code>pygame.Surface</code>：Surface 資料型別，代表一個矩形的影像，用來繪製在螢幕上</li>
+<li><code>pygame.Rect</code>：Rect 資料型別，用來定位矩形空間的位置和可以用來偵測物件是否碰撞的</li>
+<li><code>pygame.event</code>：事件模組，用來處理使用者觸發事件，包含自定義事件</li>
+<li><code>pygame.font</code>：文字模組，用來顯示文字，可用來顯示儀表板資料</li>
+<li><code>pygame.draw</code>：繪圖模組，可以畫出多邊形圖形，可當作背景物件</li>
+<li><code>pygame.image</code>：圖片模組，用來處理載入圖片等相關操作，可當作角色精靈（sprite）</li>
+<li><code>pygame.time</code>：時間模組，包含控制遊戲迴圈迭代速率，確保反饋不會太快消逝</li>
+</ol>
+<p>接著我們直接使用 PyGame 製作一個 hello world 畫面，這樣讀者可以更清楚整個設計的架構：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line"></span><br><span class="line">import pygame</span><br><span class="line">from pygame.locals import QUIT</span><br><span class="line"></span><br><span class="line"># 初始化</span><br><span class="line">pygame.init()</span><br><span class="line"># 建立 window 視窗畫布，大小為 800x600</span><br><span class="line">window_surface = pygame.display.set_mode((800, 600))</span><br><span class="line"># 設置視窗標題為 Hello World:)</span><br><span class="line">pygame.display.set_caption(&#x27;Hello World:)&#x27;)</span><br><span class="line"># 清除畫面並填滿背景色</span><br><span class="line">window_surface.fill((255, 255, 255))</span><br><span class="line"></span><br><span class="line"># 宣告 font 文字物件</span><br><span class="line">head_font = pygame.font.SysFont(None, 60)</span><br><span class="line"># 渲染方法會回傳 surface 物件</span><br><span class="line">text_surface = head_font.render(&#x27;Hello World!&#x27;, True, (0, 0, 0))</span><br><span class="line"># blit 用來把其他元素渲染到另外一個 surface 上，這邊是 window 視窗</span><br><span class="line">window_surface.blit(text_surface, (10, 10))</span><br><span class="line"></span><br><span class="line"># 更新畫面，等所有操作完成後一次更新（若沒更新，則元素不會出現）</span><br><span class="line">pygame.display.update()</span><br><span class="line"></span><br><span class="line"># 事件迴圈監聽事件，進行事件處理</span><br><span class="line">while True:</span><br><span class="line">    # 迭代整個事件迴圈，若有符合事件則對應處理</span><br><span class="line">    for event in pygame.event.get():</span><br><span class="line">        # 當使用者結束視窗，程式也結束</span><br><span class="line">        if event.type == QUIT:</span><br><span class="line">            pygame.quit()</span><br><span class="line">            sys.exit()</span><br></pre></td></tr></table></figure>
+
+<p>成果如下：</p>
+<p><img src="/img/kdchang/pygame101/hello-world.png" alt="使用 Python 和 PyGame 遊戲製作入門教學"></p>
+<h1 id="開始製作打蚊子小遊戲"><a href="#開始製作打蚊子小遊戲" class="headerlink" title="開始製作打蚊子小遊戲"></a>開始製作打蚊子小遊戲</h1><p>在開始正式製作我們的遊戲前我們先來看個遊戲成果動畫：<br><img src="/img/kdchang/pygame101/mosquito-gif.gif" alt="使用 Python 和 PyGame 遊戲製作入門教學"></p>
+<p>通常我們在設計遊戲之前我們會定義一下遊戲規則，而我們的打蚊子遊戲規則十分簡單，就是<code>打蚊子</code>，打到一隻加五分，遊戲不會結束（喂）。以下定義一下會用到的核心設計：</p>
+<ol>
+<li>左上方設有遊戲儀表板顯示目前分數</li>
+<li>中間畫面有一隻大蚊子每 3 秒會換位置</li>
+<li>當打到蚊子時會加五分，顯示 <code>hit!!</code> 在左上</li>
+</ol>
+<p><img src="/img/kdchang/pygame101/demo.png" alt="使用 Python 和 PyGame 遊戲製作入門教學"></p>
+<p>建立 <code>Mosquito</code> 類別（繼承 <code>pygame.sprite.Sprite</code>），讓我們可以生產蚊子物件（由於我們需要判斷是否使用者的滑鼠有點擊到物件，所以需要透過 <code>rect</code> 來定位）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class Mosquito(pygame.sprite.Sprite):</span><br><span class="line">    def __init__(self, width, height, random_x, random_y, widow_width, window_height):</span><br><span class="line">        super().__init__()</span><br><span class="line">        # 載入圖片</span><br><span class="line">        self.raw_image = pygame.image.load(&#x27;./mosquito.png&#x27;).convert_alpha()</span><br><span class="line">        # 縮小圖片</span><br><span class="line">        self.image = pygame.transform.scale(self.raw_image, (width, height))</span><br><span class="line">        # 回傳位置</span><br><span class="line">        self.rect = self.image.get_rect()</span><br><span class="line">        # 定位</span><br><span class="line">        self.rect.topleft = (random_x, random_y)</span><br><span class="line">        self.width = width</span><br><span class="line">        self.height = height</span><br><span class="line">        self.widow_width = widow_width</span><br><span class="line">        self.window_height = window_height</span><br></pre></td></tr></table></figure>
+
+<p>事件迴圈（其中我們主要偵測 <code>MOUSEBUTTONDOWN</code> 和 <code>reload_mosquito_event</code> 自定義事件）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">while True:</span><br><span class="line">    # 偵測事件</span><br><span class="line">    for event in pygame.event.get():</span><br><span class="line">        if event.type == QUIT:</span><br><span class="line">            pygame.quit()</span><br><span class="line">            sys.exit()</span><br><span class="line">        elif event.type == reload_mosquito_event:</span><br><span class="line">            # 偵測到重新整理事件，固定時間移除蚊子，換新位置</span><br><span class="line">            mosquito.kill()</span><br><span class="line">            # 蚊子新位置</span><br><span class="line">            random_x, random_y = get_random_position(WINDOW_WIDTH, WINDOW_HEIGHT, IMAGEWIDTH, IMAGEHEIGHT)</span><br><span class="line">            mosquito = Mosquito(IMAGEWIDTH, IMAGEHEIGHT, random_x, random_y, WINDOW_WIDTH, WINDOW_HEIGHT)</span><br><span class="line">        elif event.type == MOUSEBUTTONDOWN:</span><br><span class="line">            # 當使用者點擊滑鼠時，檢查是否滑鼠位置 x, y 有在蚊子圖片上，若有殺死蚊子並加分</span><br><span class="line">            if random_x &lt; pygame.mouse.get_pos()[0] &lt; random_x + IMAGEWIDTH and random_y &lt; pygame.mouse.get_pos()[1] &lt; random_y + IMAGEHEIGHT:</span><br><span class="line">                mosquito.kill()</span><br><span class="line">                random_x, random_y = get_random_position(WINDOW_WIDTH, WINDOW_HEIGHT, IMAGEWIDTH, IMAGEHEIGHT)</span><br><span class="line">                mosquito = Mosquito(IMAGEWIDTH, IMAGEHEIGHT, random_x, random_y, WINDOW_WIDTH, WINDOW_HEIGHT)</span><br><span class="line">                hit_text_surface = my_hit_font.render(&#x27;Hit!!&#x27;, True, (0, 0, 0))</span><br><span class="line">                points += 5</span><br><span class="line"></span><br><span class="line">    # 背景顏色，清除畫面</span><br><span class="line">    window_surface.fill(WHITE)</span><br><span class="line"></span><br><span class="line">    # 遊戲分數儀表板</span><br><span class="line">    text_surface = my_font.render(&#x27;Points: &#123;&#125;&#x27;.format(points), True, (0, 0, 0))</span><br><span class="line">    window_surface.blit(mosquito.image, mosquito.rect)</span><br><span class="line">    window_surface.blit(text_surface, (10, 0))</span><br><span class="line"></span><br><span class="line">    if hit_text_surface:</span><br><span class="line">        window_surface.blit(hit_text_surface, (10, 10))</span><br><span class="line">        hit_text_surface = None</span><br><span class="line"></span><br><span class="line">    pygame.display.update()</span><br><span class="line">    main_clock.tick(FPS)</span><br></pre></td></tr></table></figure>
+
+<p>隨機產生位置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def get_random_position(widow_width, window_height, image_width, image_height):</span><br><span class="line">    random_x = random.randint(image_width, widow_width - image_width)</span><br><span class="line">    random_y = random.randint(image_height, window_height - image_height)</span><br><span class="line"></span><br><span class="line">    return random_x, random_y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>完整程式碼如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">import sys, time</span><br><span class="line">import random</span><br><span class="line"></span><br><span class="line">import pygame</span><br><span class="line">from pygame.locals import Color, QUIT, MOUSEBUTTONDOWN, USEREVENT, USEREVENT</span><br><span class="line"></span><br><span class="line">WINDOW_WIDTH = 800</span><br><span class="line">WINDOW_HEIGHT = 600</span><br><span class="line">WHITE = (255, 255, 255)</span><br><span class="line">IMAGEWIDTH = 300</span><br><span class="line">IMAGEHEIGHT = 200</span><br><span class="line">FPS = 60</span><br><span class="line"></span><br><span class="line">def get_random_position(widow_width, window_height, image_width, image_height):</span><br><span class="line">    random_x = random.randint(image_width, widow_width - image_width)</span><br><span class="line">    random_y = random.randint(image_height, window_height - image_height)</span><br><span class="line"></span><br><span class="line">    return random_x, random_y</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># init mosquito random position</span><br><span class="line">class Mosquito(pygame.sprite.Sprite):</span><br><span class="line">    def __init__(self, width, height, random_x, random_y, widow_width, window_height):</span><br><span class="line">        super().__init__()</span><br><span class="line">        self.raw_image = pygame.image.load(&#x27;./mosquito.png&#x27;).convert_alpha()</span><br><span class="line">        self.image = pygame.transform.scale(self.raw_image, (width, height))</span><br><span class="line">        self.rect = self.image.get_rect()</span><br><span class="line">        self.rect.topleft = (random_x, random_y)</span><br><span class="line">        self.width = width</span><br><span class="line">        self.height = height</span><br><span class="line">        self.widow_width = widow_width</span><br><span class="line">        self.window_height = window_height</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    pygame.init()</span><br><span class="line"></span><br><span class="line">    # load window surface</span><br><span class="line">    window_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))</span><br><span class="line">    pygame.display.set_caption(&#x27;Mosquito War&#x27;)</span><br><span class="line">    random_x, random_y = get_random_position(WINDOW_WIDTH, WINDOW_HEIGHT, IMAGEWIDTH, IMAGEHEIGHT)</span><br><span class="line">    mosquito = Mosquito(IMAGEWIDTH, IMAGEHEIGHT, random_x, random_y, WINDOW_WIDTH, WINDOW_HEIGHT)</span><br><span class="line">    reload_mosquito_event = USEREVENT + 1</span><br><span class="line">    pygame.time.set_timer(reload_mosquito_event, 300)</span><br><span class="line">    points = 0</span><br><span class="line">    my_font = pygame.font.SysFont(None, 30)</span><br><span class="line">    my_hit_font = pygame.font.SysFont(None, 40)</span><br><span class="line">    hit_text_surface = None</span><br><span class="line">    main_clock = pygame.time.Clock()</span><br><span class="line"></span><br><span class="line">    while True:</span><br><span class="line">        # 偵測事件</span><br><span class="line">        for event in pygame.event.get():</span><br><span class="line">            if event.type == QUIT:</span><br><span class="line">                pygame.quit()</span><br><span class="line">                sys.exit()</span><br><span class="line">            elif event.type == reload_mosquito_event:</span><br><span class="line">                # 偵測到重新整理事件，固定時間移除蚊子，換新位置</span><br><span class="line">                mosquito.kill()</span><br><span class="line">                # 蚊子新位置</span><br><span class="line">                random_x, random_y = get_random_position(WINDOW_WIDTH, WINDOW_HEIGHT, IMAGEWIDTH, IMAGEHEIGHT)</span><br><span class="line">                mosquito = Mosquito(IMAGEWIDTH, IMAGEHEIGHT, random_x, random_y, WINDOW_WIDTH, WINDOW_HEIGHT)</span><br><span class="line">            elif event.type == MOUSEBUTTONDOWN:</span><br><span class="line">                # 當使用者點擊滑鼠時，檢查是否滑鼠位置 x, y 有在蚊子圖片上</span><br><span class="line">                if random_x &lt; pygame.mouse.get_pos()[0] &lt; random_x + IMAGEWIDTH and random_y &lt; pygame.mouse.get_pos()[1] &lt; random_y + IMAGEHEIGHT:</span><br><span class="line">                    mosquito.kill()</span><br><span class="line">                    random_x, random_y = get_random_position(WINDOW_WIDTH, WINDOW_HEIGHT, IMAGEWIDTH, IMAGEHEIGHT)</span><br><span class="line">                    mosquito = Mosquito(IMAGEWIDTH, IMAGEHEIGHT, random_x, random_y, WINDOW_WIDTH, WINDOW_HEIGHT)</span><br><span class="line">                    hit_text_surface = my_hit_font.render(&#x27;Hit!!&#x27;, True, (0, 0, 0))</span><br><span class="line">                    points += 5</span><br><span class="line"></span><br><span class="line">        # 背景顏色，清除畫面</span><br><span class="line">        window_surface.fill(WHITE)</span><br><span class="line">        </span><br><span class="line">        # 遊戲分數儀表板</span><br><span class="line">        text_surface = my_font.render(&#x27;Points: &#123;&#125;&#x27;.format(points), True, (0, 0, 0))</span><br><span class="line">        # 渲染物件</span><br><span class="line">        window_surface.blit(mosquito.image, mosquito.rect)</span><br><span class="line">        window_surface.blit(text_surface, (10, 0))</span><br><span class="line"></span><br><span class="line">        # 顯示打中提示文字</span><br><span class="line">        if hit_text_surface:</span><br><span class="line">            window_surface.blit(hit_text_surface, (10, 10))</span><br><span class="line">            hit_text_surface = None</span><br><span class="line"></span><br><span class="line">        pygame.display.update()</span><br><span class="line">        # 控制遊戲迴圈迭代速率</span><br><span class="line">        main_clock.tick(FPS)</span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:    </span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上就透過一個簡單的打蚊子遊戲來介紹 PyGame 遊戲開發的流程，其中包含了遊戲背景、物件製作以及事件處理等。這個遊戲主要為 demo 使用，尚有很多需要還需要調整改進的地方。相信讀者在學會了相關概念後也迫不及待的想要製作屬於自己的遊戲了吧！或許讀者也可以在下課下班後自己來製作打蟑螂遊戲來調劑身心。我們下回見囉！</p>
+<h1 id="參考文件"><a href="#參考文件" class="headerlink" title="參考文件"></a>參考文件</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://pixabay.com/vectors/bug-mosquito-sting-fly-insect-160025/">mosquito 圖片</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiaowuyi/archive/2012/06/26/2563990.html">pygame学习笔记（5）——精灵</a></li>
+<li><a target="_blank" rel="noopener" href="https://eyehere.net/2011/python-pygame-novice-professional-2/">pygame 教學</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.kdchang.cc/">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino&#x2F;Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/10/19/how-to-build-up-game-with-pygame-tutorial/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/10/19/how-to-build-up-game-with-pygame-tutorial/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/10/19/how-to-build-up-game-with-pygame-tutorial/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/10/19/how-to-build-up-game-with-pygame-tutorial/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/10/26/leetcode-pattern-next-greater-element/">
+        ← Leetcode 刷題 pattern - Next Greater Element
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/10/13/web-accessibility-intro/">
+        Web Accessibility 的重要性 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

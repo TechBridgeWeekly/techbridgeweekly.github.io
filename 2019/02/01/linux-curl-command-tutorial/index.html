@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Linux Curl Command 指令與基本操作入門教學 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-02-01T10:23:23.000Z" itemprop="datePublished">
+          2019-02-01
+      </time>
+    
+    
+    | 
+    <a href='/tags/軟體工程師/'>軟體工程師</a>,
+    
+    <a href='/tags/軟體工程/'>軟體工程</a>,
+    
+    <a href='/tags/software-engineering/'>software engineering</a>,
+    
+    <a href='/tags/bash/'>bash</a>,
+    
+    <a href='/tags/shell/'>shell</a>,
+    
+    <a href='/tags/linux/'>linux</a>,
+    
+    <a href='/tags/指令/'>指令</a>,
+    
+    <a href='/tags/命令列/'>命令列</a>,
+    
+    <a href='/tags/command-line/'>command line</a>,
+    
+    <a href='/tags/script/'>script</a>,
+    
+    <a href='/tags/unix/'>unix</a>,
+    
+    <a href='/tags/mac/'>mac</a>,
+    
+    <a href='/tags/os/'>os</a>,
+    
+    <a href='/tags/windows/'>windows</a>,
+    
+    <a href='/tags/curl/'>curl</a>
+    
+    
+</span>
+
+<meta name="generator" content="Linux Curl Command 指令與基本操作入門教學">
+<meta name="og:title" content="Linux Curl Command 指令與基本操作入門教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Linux Curl Command 指令與基本操作入門教學</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/cs101/terminal.jpg" alt="Linux Curl Command 指令與基本操作入門教學"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>身為一個 Web 開發者，往往需要開發不同的 Restful API （Application Programming Interface）來存取資源。在開發完 API 後測試則會使用類似 <a target="_blank" rel="noopener" href="https://www.getpostman.com/">Postman</a> 的測試工具來進行測試。除了使用 Postman 等 GUI Tool 外，身為一個軟體工程師，當然要學會使用 Linux 指令中的 Curl！這邊我們整理了 Curl 常用的指令，讓大家可以重新溫習，讀者也可以分享自己的常用的指令來提升工作效率。好，那我們就開始吧！</p>
+<h1 id="Curl-指令基本介紹與常見用法"><a href="#Curl-指令基本介紹與常見用法" class="headerlink" title="Curl 指令基本介紹與常見用法"></a>Curl 指令基本介紹與常見用法</h1><p>Curl 是一個在 Linux 上用來透過 HTTP Protocol（HTTP HyperText Transfer Protocol 定義存取網路資源的協定，讓我們可以使用 client &#x2F; server 模式來取得網路資源）下載和上傳檔案的指令（比起 wget 只能下載強大許多）。它基本的指令格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl [options] [URL...]</span><br></pre></td></tr></table></figure>
+
+<p>新手上路，我們來看看最基本的用法：</p>
+<p>打開終端機（terminal）然後，curl 後面加網址，就會在終端機內顯示回傳的 response，可能是 HTML、JSON 或是 XML 等格式，根據輸入的 URL 內容而定。 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://www.google.com</span><br></pre></td></tr></table></figure>
+
+<p>例如我想要下載：黃色小鴨的圖片，可以使用 <code>-o</code> 搭配欲下載的檔名和網址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -o duck.jpg https://im2.book.com.tw/image/getImage?i=https://www.books.com.tw/img/N00/040/56/N000405619.jpg&amp;v=522ff1cf&amp;w=348&amp;h=348</span><br></pre></td></tr></table></figure>
+
+<p>若是使用 <code>-O</code> 則可以直接使用下載網址的檔案檔名來命名下載的檔案（N000405619.jpg）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -O https://im2.book.com.tw/image/getImage?i=https://www.books.com.tw/img/N00/040/56/N000405619.jpg&amp;v=522ff1cf&amp;w=348&amp;h=348</span><br></pre></td></tr></table></figure>
+
+<p>有可能在下載過程中被中斷，若是想要從中斷的地方繼續的話，可以使用 <code>-C</code> 選項：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -C - -O http://releases.ubuntu.com/18.04/ubuntu-18.04-desktop-amd64.iso</span><br></pre></td></tr></table></figure>
+
+<p>若希望可以跟隨著網址 301&#x2F;302 redirect 的話，可以使用 <code>-L</code> 選項：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L http://google.com</span><br></pre></td></tr></table></figure>
+
+<p>可以比較沒有使用 -L 的回應：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ curl http://google.com</span><br><span class="line">&lt;HTML&gt;&lt;HEAD&gt;&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;</span><br><span class="line">&lt;TITLE&gt;301 Moved&lt;/TITLE&gt;&lt;/HEAD&gt;&lt;BODY&gt;</span><br><span class="line">&lt;H1&gt;301 Moved&lt;/H1&gt;</span><br><span class="line">The document has moved</span><br><span class="line">&lt;A HREF=&quot;http://www.google.com/&quot;&gt;here&lt;/A&gt;.</span><br><span class="line">&lt;/BODY&gt;&lt;/HTML&gt;</span><br></pre></td></tr></table></figure>
+
+<p>若我們要追蹤整個 curl 過程並將結果存入 debugdump.txt 檔案可以使用 <code>--trace-ascii</code> 指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --trace-ascii debugdump.txt http://www.example.com/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">$ cat debugdump.txt</span><br><span class="line">== Info:   Trying 93.184.216.34...</span><br><span class="line">== Info: TCP_NODELAY set</span><br><span class="line">== Info: Connected to www.example.com (93.184.216.34) port 80 (#0)</span><br><span class="line">=&gt; Send header, 142 bytes (0x8e)</span><br><span class="line">0000: GET / HTTP/1.1</span><br><span class="line">0010: Host: www.example.com</span><br><span class="line">0027: User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; T</span><br><span class="line">0067: rident/5.0)</span><br><span class="line">0074: Accept: */*</span><br><span class="line">0081: Referer:</span><br><span class="line">008c:</span><br><span class="line">&lt;= Recv header, 17 bytes (0x11)</span><br><span class="line">0000: HTTP/1.1 200 OK</span><br><span class="line">&lt;= Recv header, 31 bytes (0x1f)</span><br><span class="line">0000: Cache-Control: max-age=604800</span><br><span class="line">&lt;= Recv header, 40 bytes (0x28)</span><br><span class="line">0000: Content-Type: text/html; charset=UTF-8</span><br><span class="line">&lt;= Recv header, 37 bytes (0x25)</span><br><span class="line">0000: Date: Sat, 02 Feb 2019 13:54:23 GMT</span><br><span class="line">&lt;= Recv header, 31 bytes (0x1f)</span><br><span class="line">0000: Etag: &quot;1541025663+gzip+ident&quot;</span><br><span class="line">&lt;= Recv header, 40 bytes (0x28)</span><br><span class="line">0000: Expires: Sat, 09 Feb 2019 13:54:23 GMT</span><br><span class="line">&lt;= Recv header, 46 bytes (0x2e)</span><br><span class="line">0000: Last-Modified: Fri, 09 Aug 2013 23:54:35 GMT</span><br><span class="line">&lt;= Recv header, 24 bytes (0x18)</span><br><span class="line">0000: Server: ECS (sjc/4E44)</span><br><span class="line">&lt;= Recv header, 23 bytes (0x17)</span><br><span class="line">0000: Vary: Accept-Encoding</span><br><span class="line">&lt;= Recv header, 14 bytes (0xe)</span><br><span class="line">0000: X-Cache: HIT</span><br><span class="line">&lt;= Recv header, 22 bytes (0x16)</span><br><span class="line">0000: Content-Length: 1270</span><br><span class="line">&lt;= Recv header, 2 bytes (0x2)</span><br><span class="line">0000:</span><br><span class="line">&lt;= Recv data, 1270 bytes (0x4f6)</span><br><span class="line">0000: &lt;!doctype html&gt;.&lt;html&gt;.&lt;head&gt;.    &lt;title&gt;Example Domain&lt;/title&gt;.</span><br><span class="line">0040: .    &lt;meta charset=&quot;utf-8&quot; /&gt;.    &lt;meta http-equiv=&quot;Content-type</span><br><span class="line">0080: &quot; content=&quot;text/html; charset=utf-8&quot; /&gt;.    &lt;meta name=&quot;viewport</span><br><span class="line">00c0: &quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;.    &lt;style ty</span><br><span class="line">0100: pe=&quot;text/css&quot;&gt;.    body &#123;.        background-color: #f0f0f2;.</span><br><span class="line">0140:      margin: 0;.        padding: 0;.        font-family: &quot;Open S</span><br><span class="line">0180: ans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;.        .</span><br><span class="line">01c0:    &#125;.    div &#123;.        width: 600px;.        margin: 5em auto;.</span><br><span class="line">0200:        padding: 50px;.        background-color: #fff;.        bo</span><br><span class="line">0240: rder-radius: 1em;.    &#125;.    a:link, a:visited &#123;.        color: #</span><br><span class="line">0280: 38488f;.        text-decoration: none;.    &#125;.    @media (max-wid</span><br><span class="line">02c0: th: 700px) &#123;.        body &#123;.            background-color: #fff;.</span><br><span class="line">0300:         &#125;.        div &#123;.            width: auto;.            mar</span><br><span class="line">0340: gin: 0 auto;.            border-radius: 0;.            padding:</span><br><span class="line">0380: 1em;.        &#125;.    &#125;.    &lt;/style&gt;    .&lt;/head&gt;..&lt;body&gt;.&lt;div&gt;.</span><br><span class="line">03c0: &lt;h1&gt;Example Domain&lt;/h1&gt;.    &lt;p&gt;This domain is established to be</span><br><span class="line">0400: used for illustrative examples in documents. You may use this.</span><br><span class="line">0440:   domain in examples without prior coordination or asking for pe</span><br><span class="line">0480: rmission.&lt;/p&gt;.    &lt;p&gt;&lt;a href=&quot;http://www.iana.org/domains/exampl</span><br><span class="line">04c0: e&quot;&gt;More information...&lt;/a&gt;&lt;/p&gt;.&lt;/div&gt;.&lt;/body&gt;.&lt;/html&gt;.</span><br><span class="line">== Info: Curl_http_done: called premature == 0</span><br><span class="line">== Info: Connection #0 to host www.example.com left intact</span><br></pre></td></tr></table></figure>
+
+<h1 id="使用-Curl-來進行-HTTP-Request"><a href="#使用-Curl-來進行-HTTP-Request" class="headerlink" title="使用 Curl 來進行 HTTP Request"></a>使用 Curl 來進行 HTTP Request</h1><p>除了簡易的下載檔案或是取得網頁內容外，Curl 還支援各種不同 HTTP 請求方法（HTTP method），以下列出常用指令和選項參數：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-X/--request [GET|POST|PUT|DELETE|PATCH]  使用指定的 http method 來發出 http request</span><br><span class="line">-H/--header                           設定 request 裡所攜帶的 header</span><br><span class="line">-i/--include                          在 output 顯示 response 的 header</span><br><span class="line">-d/--data                             攜帶 HTTP POST Data </span><br><span class="line">-v/--verbose                          輸出更多的訊息方便 debug</span><br><span class="line">-u/--user                             攜帶使用者帳號、密碼</span><br><span class="line">-b/--cookie                           攜帶 cookie（可以是參數或是檔案位置）</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>GET</li>
+</ol>
+<p>簡易一個 URL 版本，可以攜帶 query string 參數取得網路資源：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl https://example.com?q1=123&amp;q2=abc</span><br></pre></td></tr></table></figure>
+
+<p>在同一個指令使用多個 URL：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl http://example1.com http://example2.com</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>Form POST</li>
+</ol>
+<p>一般而言我們 Form 表單的 HTML 會長這樣：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;form method=&quot;POST&quot; action=&quot;form.php&quot;&gt;</span><br><span class="line">   &lt;input type=text name=&quot;email&quot;&gt;</span><br><span class="line">   &lt;input type=submit name=press value=&quot; OK &quot;&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+
+<p>由於 Form post 是使用 <code>application/x-www-form-urlencoded</code> Content-Type，所以傳遞的值需要編碼：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">＄ curl -X POST --data &quot;email=test@example.com&amp;press=%20OK%20&quot;  http://www.example.com/form.php</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>File Upload POST<br>另一種常見 Form 表單是有涉及檔案上傳（使用 multipart&#x2F;form-data Content-Type）：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;form method=&quot;POST&quot; enctype=&#x27;multipart/form-data&#x27; action=&quot;upload.php&quot;&gt;</span><br><span class="line"> &lt;input type=file name=upload&gt;</span><br><span class="line"> &lt;input type=submit name=press value=&quot;OK&quot;&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到指令會需要攜帶 upload 檔案：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -X POST -F &#x27;file=@./upload.txt&#x27; http://www.example.com/upload.php</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><p>常見 Restful CRUD 指令：</p>
+<ol>
+<li><p>GET 單一和全部資源</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ curl -X GET &quot;http://www.example.com/api/resources&quot;</span><br><span class="line">$ curl -X GET &quot;http://www.example.com/api/resources/1&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>POST JSON 資料： </p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -X POST -H &quot;Content-Type: application/json&quot; -d &#x27;&#123;&quot;status&quot; : false, &quot;name&quot; : &quot;Jack&quot;&#125;&#x27; &quot;http://www.example.com/api/resources&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>PUT JSON 資料： </p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -X PUT -H &quot;Content-Type: application/json&quot; -d &#x27;&#123;&quot;status&quot; : false &#125;&#x27; &quot;http://www.example.com/api/resources&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>DELETE 資源：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -X DELETE &quot;http://www.example.com/api/resources/1&quot;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>攜帶 cookie</p>
+</li>
+</ol>
+<p>在指令中輸入 cookie：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl --cookie &quot;name=Jack&quot; http://www.example.com</span><br></pre></td></tr></table></figure>
+
+<p>從檔案讀取 cookie：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl --cookie stored_cookies_file_path http://www.example.com</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>攜帶 User Agent</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ curl --user-agent &quot;Mozilla/5.0 (compatible; MSIE 5.01; Windows NT 5.0)&quot; http://www.example.com</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>Basic Authentication</li>
+</ol>
+<p>若所存取網頁有使用 Basic Authentication，可以攜帶 <code>--user username:password</code> 來通過驗證：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -i --user secret:vary_secret http://www.example.com/api/resources</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上介紹了 Linux Curl 常用指令和基礎操作的入門教學介紹：</p>
+<ol>
+<li>GET&#x2F;POST&#x2F;PUT&#x2F;DELETE 操作</li>
+<li>下載檔案</li>
+<li>Form 表單操作</li>
+<li>檔案上傳</li>
+<li>Restful CRUD 指令</li>
+<li>User Agent</li>
+<li>Basic Authentication</li>
+</ol>
+<p>之後讀者除了使用 Postman 等 GUI Tool 外，也可以使用 Curl 來進行 HTTP endpoint 的測試和開發上！讀者也可以分享自己的常用的指令來提升工作效率！</p>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.kdchang.cc/">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino&#x2F;Android lover.:) </p>
+<h1 id="參考文件"><a href="#參考文件" class="headerlink" title="參考文件"></a>參考文件</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@petehouston/upload-files-with-curl-93064dcccc76">Upload files with CURL</a></li>
+</ol>
+<p>（image via <a target="_blank" rel="noopener" href="https://www.linuxinsider.com/story/84356.html">linuxinsider</a>）</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/02/01/linux-curl-command-tutorial/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/02/01/linux-curl-command-tutorial/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/02/01/linux-curl-command-tutorial/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/02/01/linux-curl-command-tutorial/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/02/04/vdom-from-scratch/">
+        ← 從頭打造一個簡單的 Virtual DOM
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/01/26/functional-css/">
+        邪魔歪道還是苦口良藥？Functional CSS 經驗分享 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

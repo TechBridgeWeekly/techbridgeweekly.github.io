@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>淺嚐 Web AR | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-07-16T17:40:44.000Z" itemprop="datePublished">
+          2019-07-16
+      </time>
+    
+    
+    | 
+    <a href='/tags/web/'>web</a>,
+    
+    <a href='/tags/javascript/'>javascript</a>,
+    
+    <a href='/tags/ar/'>ar</a>
+    
+    
+</span>
+
+<meta name="generator" content="淺嚐 Web AR">
+<meta name="og:title" content="淺嚐 Web AR">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">淺嚐 Web AR</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>近年 VR&#x2F;AR 一直不斷出現在大家的視線內，雖然一直沒有什麼殺手級的應用出現，但這阻止不了開發者們的雄心壯志，尤其是 JavaScript 社群，畢竟 Jeff Atwood 說過：</p>
+<blockquote>
+<p>“Any application that can be written in JavaScript, will eventually be written in JavaScript.” — Jeff Atwood, Author, Entrepreneur, Cofounder of StackOverflow</p>
+</blockquote>
+<p>隨著 a-frame 的出現，WebVR 成為現實，並且很容易開發；Web AR 部分進展則相對緩慢ㄧ些，瀏覽器原生支援的 API 還一直處於不穩定的開發階段，但即便如此，我們還是可以在特定版本的瀏覽器上使用，此外，也有像是 AR.js 這樣融合 artoolkit、three.js、ＷebGL 和 WebRTC 等技術的工具可以使用。</p>
+<p>今天就來稍稍研究一下，看看目前的技術能如何開發 Web AR！</p>
+<p>照慣例，開始前先看點 demo，把 Pokemon 帶到你家客應：</p>
+<p><img src="/img/arvinh/arjs-demo.jpg" alt="arjs demo"></p>
+<!--
+1. 簡介
+2. 介紹目前有的 WebAR 實作 lib 或 api
+2-1. 說明 WebXR Viewer on iOS 與 Google chrome 可以跑的 api
+3. 分別以 AR.js 與 Web 純 API 介紹
+-->
+
+<h2 id="目前的工具有哪些"><a href="#目前的工具有哪些" class="headerlink" title="目前的工具有哪些"></a>目前的工具有哪些</h2><p><a target="_blank" rel="noopener" href="https://createwebvr.com/webAR.html">CreateＷebVR</a> 這網站上列出了一些目前有的 library，以及目前支援 WebAR 的瀏覽器：</p>
+<p><img src="/img/arvinh/webar-libs.png" alt="常見 lib"></p>
+<p>其中 <a target="_blank" rel="noopener" href="https://github.com/jeromeetienne/AR.js">AR.js</a> 使用了 A-Frame (基於 Three.js) 以及 JSARTookit5（JavaScript 移植版的 <a target="_blank" rel="noopener" href="https://github.com/artoolkit/artoolkit5">ARToolKit</a>），而這兩個技術主要皆是利用 WebGL 為主，因此大多現行的瀏覽器都能直接支援，不需要特殊的 API。</p>
+<p>這大概也是為何 AR.js 能在 GitHub 上擁有一萬多顆星星，遠勝過上列其他套件的原因。再加上作者的實驗證明 AR.js 即便在<a target="_blank" rel="noopener" href="https://github.com/jeromeetienne/AR.js#performance">兩年的老舊手機上也能運行順暢，擁有良好的 Performance</a>。</p>
+<p>但 AR.js 也並非沒有缺點，由於是基於 ARToolKit，因此只能夠支援 Marker-based 的 AR 效果，也就是像最前面的 Demo 圖片一樣，是需要在鏡頭內放置一個設定好的 Marker，讓其辨識，取得環境的一些 Sensor 資訊，包含鏡頭的深淺遠近等等，才能讓 AR 物件渲染在視窗中。</p>
+<p>即便如此，AR.js 其簡潔、便利的使用方式（<a target="_blank" rel="noopener" href="https://github.com/jeromeetienne/AR.js#folders">有 a-frame 與 threejs 的 extension</a>），能讓你用<a target="_blank" rel="noopener" href="https://medium.com/arjs/augmented-reality-in-10-lines-of-html-4e193ea9fdbf">短短 10 行程式碼就產生出一個 WebAR 效果的網頁</a>，還是非常好用的。</p>
+<p><img src="/img/arvinh/webar-browsers.png" alt="支援的 browsers"></p>
+<p>如果你是使用 AR.js 的話，基本上現行有支援 WebGL 的手機瀏覽器就都能夠運行，不需要額外的 Polyfill 等等。</p>
+<p>但如果你想要使用非 Marker-based 效果的 AR 應用，你就得研究 <a target="_blank" rel="noopener" href="https://immersive-web.github.io/webxr/"><code>WebXR Device API</code></a>，其前身為 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API">WebAR API</a>。</p>
+<h2 id="WebXR-Device-API"><a href="#WebXR-Device-API" class="headerlink" title="WebXR Device API"></a>WebXR Device API</h2><p>WebXR Device API 現在還在不斷更新中，不是個穩定的 API。</p>
+<p>運用到 WebXR Device API 的有 Google 使用的 <a target="_blank" rel="noopener" href="https://github.com/google-ar/three.ar.js">three.ar.js</a> 與整合 A-Frame 的 <a target="_blank" rel="noopener" href="https://github.com/chenzlabs/aframe-ar">aframe-ar.js</a>，以及 Mozilla 主導的 <a target="_blank" rel="noopener" href="https://github.com/mozilla/aframe-xr">three.xr.js</a> 和 <a target="_blank" rel="noopener" href="https://github.com/mozilla/three.xr.js/">aframe-xr.js</a>。</p>
+<p>Google 提供了 <a target="_blank" rel="noopener" href="https://github.com/google-ar/WebARonARCore">WebARonARCore</a> 和 <a target="_blank" rel="noopener" href="https://github.com/google-ar/WebARonARKit">WebARonARKit</a> 兩種分別在 Android 與 iOS 平台上運行的特殊 browsers，讓你能在上面跑 WebXR Device 相關的 API：而 Mozilla 在 iOS 上也推出 <a target="_blank" rel="noopener" href="https://labs.mozilla.org/projects/webxr-viewer/">Mozilla WebXR Viewer</a> 來對應，三者皆是用到手機平台原生的 ARKit。</p>
+<p>如同剛剛所說，WebXR Device API 還很不穩定，而且 Google 與 Mozilla 各自在 Android 與 iOS 上有不同的實作，<a target="_blank" rel="noopener" href="https://codelabs.developers.google.com/codelabs/ar-with-webxr/#0">Google code lab 上的範例</a>只能運行在 version 為 70 - 72 的 Chrome canary 上，而 Mozilla 雖然有推出 <a target="_blank" rel="noopener" href="https://labs.mozilla.org/projects/webxr-viewer/">Mozilla WebXR Viewer</a>，但上面的<a target="_blank" rel="noopener" href="https://github.com/MozillaReality/webxr-ios-js/tree/master/examples">範例實作</a>也<strong>只能</strong>運行在 <a target="_blank" rel="noopener" href="https://labs.mozilla.org/projects/webxr-viewer/">Mozilla WebXR Viewer</a> 上頭…</p>
+<p>不過去看一下雙方的範例程式碼後，會發現其實用法蠻雷同的，大多都有下面這些流程（以 Google 的程式碼來當範例）：</p>
+<p>判斷是否支援 WebXR Device API，並初始設定：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Fetches the XRDevice, if available.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">init</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// `navigator.xr` 是 WebXR Device API 的入口，有必要確認其存在</span></span><br><span class="line">    <span class="comment">// 而 `XRSession` 中的 `requestHitTest` 則是要 enable #webxr-hit-test flag</span></span><br><span class="line">    <span class="comment">// 確認這兩個 API 存在，確保能夠製造出點擊畫面</span></span><br><span class="line">    <span class="keyword">if</span> (navigator.<span class="property">xr</span> &amp;&amp; <span class="title class_">XRSession</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">requestHitTest</span>) &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">device</span> = <span class="keyword">await</span> navigator.<span class="property">xr</span>.<span class="title function_">requestDevice</span>();</span><br><span class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="comment">// Error handling，通知使用者的瀏覽器並不支援</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">onNoXRDevice</span>();</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// Error handling，通知使用者的瀏覽器並不支援</span></span><br><span class="line">      <span class="variable language_">this</span>.<span class="title function_">onNoXRDevice</span>();</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 成功取得 XRDevice 物件後，需要 bind 一個 user gesture 的 event，然後呼叫</span></span><br><span class="line">    <span class="comment">// `device.requestSession()`，這是規範在 spec  中的</span></span><br><span class="line">    <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#enter-ar&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="variable language_">this</span>.<span class="property">onEnterAR</span>);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>取得 <code>XRDevice</code> 後，利用 <code>device.requestSession()</code> 製造出運行 XR 的環境：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="title function_">onEnterAR</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> outputCanvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;canvas&#x27;</span>);</span><br><span class="line">  <span class="keyword">const</span> ctx = outputCanvas.<span class="title function_">getContext</span>(<span class="string">&#x27;xrpresent&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// `device.requestSession()` 一定要是由 user 觸發，像是 click handler 內</span></span><br><span class="line">    <span class="keyword">const</span> session = <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="property">device</span>.<span class="title function_">requestSession</span>(&#123;</span><br><span class="line">      <span class="attr">outputContext</span>: ctx,</span><br><span class="line">      <span class="attr">environmentIntegration</span>: <span class="literal">true</span>,</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(outputCanvas);</span><br><span class="line">    <span class="comment">// 成功創建 Session 後就能開始運算 AR 了</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">onSessionStarted</span>(session)</span><br><span class="line">  &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    <span class="comment">// Error handling，通知使用者的瀏覽器並不支援</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">onNoXRDevice</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>當 XRSession 成功創建後，接著就是 set up three.js，撰寫 renderer，設定 scene、camera，並 attach 上 XRWebGLLayer，然後啟動 render loop：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="title function_">onSessionStarted</span>(<span class="params">session</span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">session</span> = session;</span><br><span class="line">  <span class="comment">// ...省略</span></span><br><span class="line">  <span class="comment">// 利用 Three.js 繪製 3D 物件，因此要借用 THREE.WebGLRenderer 來當作 XRSession 的 render layer</span></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">renderer</span> = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">WebGLRenderer</span>(&#123;</span><br><span class="line">    <span class="attr">alpha</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">preserveDrawingBuffer</span>: <span class="literal">true</span>,</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">// ...省略</span></span><br><span class="line">  <span class="comment">//  設定 render layer</span></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">session</span>.<span class="property">baseLayer</span> = <span class="keyword">new</span> <span class="title class_">XRWebGLLayer</span>(<span class="variable language_">this</span>.<span class="property">session</span>, <span class="variable language_">this</span>.<span class="property">gl</span>);</span><br><span class="line">  <span class="keyword">const</span> framebuffer = <span class="variable language_">this</span>.<span class="property">session</span>.<span class="property">baseLayer</span>.<span class="property">framebuffer</span>;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">renderer</span>.<span class="title function_">setFramebuffer</span>(framebuffer);</span><br><span class="line">  <span class="comment">// ...省略, 設定 scene</span></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">scene</span> = <span class="title class_">DemoUtils</span>.<span class="title function_">createLitScene</span>();</span><br><span class="line">  <span class="comment">// ...省略, 設定 camera</span></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">camera</span> = <span class="keyword">new</span> <span class="variable constant_">THREE</span>.<span class="title class_">PerspectiveCamera</span>();</span><br><span class="line">  <span class="comment">// ...省略, 更多的設定</span></span><br><span class="line">  <span class="comment">// 在 `requestAnimationFrame` 中啟動 render loop</span></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">session</span>.<span class="title function_">requestAnimationFrame</span>(<span class="variable language_">this</span>.<span class="property">onXRFrame</span>);</span><br><span class="line">  <span class="comment">// ...省略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>省略了很多細節，但大致的步驟就是這樣，<a target="_blank" rel="noopener" href="https://github.com/googlecodelabs/ar-with-webxr/archive/master.zip">詳細程式碼在此下載</a></p>
+<p>對 WebXR Device API 比較有興趣的讀者除了 <a target="_blank" rel="noopener" href="https://codelabs.developers.google.com/codelabs/ar-with-webxr/#0">Google code lab 上的範例程式</a>與 Mozilla 的 <a target="_blank" rel="noopener" href="https://github.com/MozillaReality/webxr-ios-js/tree/master/examples">webxr-ios-js 範例</a> 外，也可以到 <a target="_blank" rel="noopener" href="https://github.com/immersive-web/webxr/blob/master/explainer.md">immersive-web&#x2F;webxr</a> 看看該 WebXR Device API 的 Specs detail 與解釋，他們也有提供 <a target="_blank" rel="noopener" href="https://immersive-web.github.io/webxr-samples/">Sample Page</a> 可作參考。</p>
+<h2 id="AR-js"><a href="#AR-js" class="headerlink" title="AR.js"></a>AR.js</h2><p>由於手邊沒有適合的 Android 手機，不能嘗試利用 WebXR Device API，所以今天就先來看看 AR.js 有多簡單。</p>
+<p>你需要的就只有：</p>
+<ol>
+<li>準備好 Marker</li>
+<li>準備好 3D models</li>
+<li>撰寫十行簡單的程式碼</li>
+<li>host 你的 WebAR webapp</li>
+</ol>
+<p>AR.js 有提供一個 Marker generator - <a target="_blank" rel="noopener" href="https://jeromeetienne.github.io/AR.js/three.js/examples/marker-training/examples/generator.html">AR.js Marker Training</a></p>
+<p><img src="/img/arvinh/arjs-maker-traning.png" alt="ARjs marker training"></p>
+<p>你可以上傳想要的圖片放到 Marker 中，例如一個記載你的 WebVR webapp 網址的 QR code 就很適合。像<a target="_blank" rel="noopener" href="https://medium.com/%E9%AB%92%E6%A1%B6%E5%AD%90/%E7%94%A8ar-js%E5%81%9A%E4%B8%80%E5%80%8B%E8%AE%93%E5%8F%A6%E5%B0%8D%E6%96%B9-%E5%96%94%E5%96%94%E5%96%94%E5%96%94-%E7%9A%84%E5%B0%8F%E5%8D%A1%E7%89%87%E5%90%A7-4071ceea41dd">這篇文章</a>作者利用 AR.js 結合實體卡片送給他女友一個小驚喜。</p>
+<p>我建議把你做好的 Marker 下載下來，否則當你手機對著電腦中的 marker 時，3D Model 方位視角會跟你是垂直的，不是很好看。</p>
+<p>接著可以到 <a target="_blank" rel="noopener" href="https://poly.google.com/">Poly</a> 或是 <a target="_blank" rel="noopener" href="https://sketchfab.com/">sketchfab</a> 下載 <code>gltf</code> 的 3D 模型。(搜尋想要的 Model 時記得勾選 <code>downloadable</code>，比較不會選到需要付費才能下載的，當然你要付費也很棒！)</p>
+<p>以我最前面的例子來說，我在 <a target="_blank" rel="noopener" href="https://sketchfab.com/3d-models/squirtle-18caed58804943d7a839dcbd44d21b80">sketchfab 中載了一個傑尼龜的模型</a></p>
+<p><img src="/img/arvinh/sketchfb-usage.png" alt="sketchfab"></p>
+<p>接著用 AR.js 對應 AFrame 的 extension 撰寫簡單的 WebVR app:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://aframe.io/releases/0.9.2/aframe.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.5/aframe/build/aframe-ar.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">style</span>=<span class="string">&#x27;margin : 0px; overflow: hidden;&#x27;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a-scene</span> <span class="attr">embedded</span> <span class="attr">arjs</span>=<span class="string">&#x27;sourceType: webcam; debugUIEnabled: false;&#x27;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a-marker</span> <span class="attr">type</span>=<span class="string">&#x27;pattern&#x27;</span> <span class="attr">url</span>=<span class="string">&#x27;assets/pattern-marker.patt&#x27;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a-entity</span> <span class="attr">position</span>=<span class="string">&#x27;0 -6 -12&#x27;</span> <span class="attr">rotation</span>=<span class="string">&quot;-20 0 0&quot;</span> <span class="attr">gltf-model</span>=<span class="string">&quot;url(assets/scene.gltf)&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a-entity</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">a-marker</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">a-scene</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在 <code>&lt;a-scene /&gt;</code> 中，我們指定一個 attribute <code>arjs</code>，並且設定 <code>sourceType</code> 為 <code>webcam</code>，相關 attribute 設定其實來自 <code>artoolkit system</code>，有需要可以到 <a target="_blank" rel="noopener" href="https://github.com/jeromeetienne/AR.js/tree/master/aframe#artoolkit-system">GitHub 的列表</a>查看。</p>
+<p>接著我們透過 <code>&lt;a-marker /&gt;</code> 放入我們製作的 marker，副檔名為 <code>.patt</code>，這邊的 type attribute，如果你是單純用 barcode 的話，可以設為 <code>type=barcode</code>，但若是客製化的 marker，就要設為 <code>type=pattern</code>。</p>
+<p>最後在 <code>&lt;a-entity /&gt;</code> 上頭設定我們想要呈現的 AR 3D Model，<code>gltf-model</code> attribute 設定模型的路徑，再透過 <code>position</code> 與 <code>rotation</code> 來調整你的模型出現在鏡頭的位置。</p>
+<p>這邊特別要注意一下，因為你載下來的 3D Model，都有自己的位置屬性，所以你可能會需要自己多加調整出適合的 <code>position</code> 與 <code>rotation</code> 值，否則你的 3D Model 很可能一直成像在你手機的鏡頭外而看不到，然後你還以為是程式出問題…</p>
+<p>當手機鏡頭偵測到 <code>&lt;a-marker /&gt;</code> 內對應的 marker 時，就會在鏡頭內渲染出 <code>&lt;a-entiy /&gt;</code>。</p>
+<p>如果只是像我一樣想要嘗試一下的話，可以簡單利用 Chrome 的 webapp - <a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb">Web Server for Chrome</a> 來 host 你的 htlm file，然後利用 <a target="_blank" rel="noopener" href="https://ngrok.com/">ngork</a> 或是 <a target="_blank" rel="noopener" href="https://serveo.net/">serveo</a> 來當作你 localhost 的 proxy，讓你的手機可以方便相連。</p>
+<p>一切順利的話，你就會看到一隻傑尼龜出現在你家裡啦～</p>
+<p><img src="/img/arvinh/another-arjs-demo.jpg" alt="another arjs demo"></p>
+<p>如果你沒有手機可以玩，想用電腦 Browser 跑的話，會需要到 <code>chrome://flags</code> 中把 <code>WebVR</code> 的選項開啟，然後用 inpsecter 將 Browser 調整成手機模式。</p>
+<p><img src="/img/arvinh/chrome-flags.png" alt="chrome flags"></p>
+<p>並且需要加上 polyfill，因為普通的 chrome 是沒有支援 <code>navigator.xr</code> api 的：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&#x27;https://cdn.jsdelivr.net/npm/webxr-polyfill@latest/build/webxr-polyfill.js&#x27;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> polyfill = <span class="keyword">new</span> <span class="title class_">WebXRPolyfill</span>();</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/arvinh/arjs-run-mac.png" alt="run on chrome"></p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>雖然 WebXR Device API 還不穩定，但就是在這時候開始試用才更能給出回饋，高手們來試試吧！決定下次拿公司測試機來跟著 Code lab 上的範例改改看！<br>另外，AR.js 雖然目前是 Marker-based，但從 <a target="_blank" rel="noopener" href="https://github.com/jeromeetienne/AR.js/issues/190">GitHub 上的一些討論</a> 來看，之後應該是有機會支援 Markerless 的。</p>
+<p>AR 這樣牽扯到電腦視覺、硬體、演算法、Sensor 等複雜運算的技術，要實作到 Web 上更是困難，進度慢是可以理解的，但還是衷心期盼著那一天，能夠開啟網頁就能丈量傢俱尺寸或是試穿衣物！</p>
+<h2 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/immersive-web/webxr">Repository for the WebXR Device API Specification.</a></li>
+<li><a target="_blank" rel="noopener" href="https://createwebvr.com/webAR.html">CreateＷebVR</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/jeromeetienne/AR.js">AR.js</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/chialab-open-source/ar-js-the-simpliest-way-to-get-cross-browser-ar-on-the-web-8f670dd45462">AR.js — The Simplest Way to get Cross-Browser Augmented Reality on the Web</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.halolabs.io/building-ar-vr-with-javascript-and-html-97af4434bcf6">Building AR&#x2F;VR with Javascript and HTML</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/agora-io/web-vs-app-ar-edition-d9aafe988ba2">Web vs App (AR edition)</a></li>
+<li><a target="_blank" rel="noopener" href="https://poly.google.com/">Poly</a></li>
+<li><a target="_blank" rel="noopener" href="https://sketchfab.com/">sketchfab</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/%E9%AB%92%E6%A1%B6%E5%AD%90/%E7%94%A8ar-js%E5%81%9A%E4%B8%80%E5%80%8B%E8%AE%93%E5%8F%A6%E5%B0%8D%E6%96%B9-%E5%96%94%E5%96%94%E5%96%94%E5%96%94-%E7%9A%84%E5%B0%8F%E5%8D%A1%E7%89%87%E5%90%A7-4071ceea41dd">用ar-js做一個讓另對方-喔喔喔喔-的小卡片吧</a></li>
+<li><a target="_blank" rel="noopener" href="https://codelabs.developers.google.com/codelabs/ar-with-webxr/#0">google code lab - WebXR</a></li>
+<li><a target="_blank" rel="noopener" href="https://immersive-web.github.io/webxr-samples/">WebXR Sample page</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.arvinh.info/about/">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/07/16/web-ar/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/07/16/web-ar/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/07/16/web-ar/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/07/16/web-ar/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/07/26/how-to-use-taiwan-salary-data-to-do-python-data-analytics-and-data-visualization/">
+        ← 使用 Python 資料分析和視覺化上市櫃公司薪資公開資料
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/07/13/medium-crawler/">
+        Medium 爬蟲進化史 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

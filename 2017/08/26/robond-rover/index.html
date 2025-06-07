@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Udacity RoboND - Rover project 簡介 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-08-26T22:05:03.000Z" itemprop="datePublished">
+          2017-08-26
+      </time>
+    
+    
+    | 
+    <a href='/tags/robot-navigation-rover/'>robot, navigation, rover,</a>
+    
+    
+</span>
+
+<meta name="generator" content="Udacity RoboND - Rover project 簡介">
+<meta name="og:title" content="Udacity RoboND - Rover project 簡介">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Udacity RoboND - Rover project 簡介</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近 Udacity 的 nano degree 算是滿紅的，他們也有把很多教學資源放到 github 上面，例如 <a target="_blank" rel="noopener" href="https://github.com/udacity/RoboND-Rover-Project">Rover project</a>，我覺得拿來上手還不錯，以下就稍微來簡介一下這個 project 有趣的地方。</p>
+<h2 id="Project-簡介"><a href="#Project-簡介" class="headerlink" title="Project 簡介"></a>Project 簡介</h2><p><img src="https://github.com/udacity/RoboND-Rover-Project/blob/master/misc/rover_image.jpg?raw=true" alt="Rover圖"></p>
+<p>這個 project 是要讓 Rover 在世界中自由自在地行走，然後尋找特定的岩石樣本並收集，因為他們將岩石的顏色設計得跟背景很不一樣，所以我們只要可以在環境中走來走去，然後一直尋找畫面中有沒有黃黃的、像是黃金的石頭就好了：</p>
+<p><img src="https://raw.githubusercontent.com/udacity/RoboND-Rover-Project/master/calibration_images/example_rock1.jpg" alt="sample"></p>
+<h2 id="對收到的影像做處理，得到可以走的區塊"><a href="#對收到的影像做處理，得到可以走的區塊" class="headerlink" title="對收到的影像做處理，得到可以走的區塊"></a>對收到的影像做處理，得到可以走的區塊</h2><p>首先，機器人要知道哪邊可以走、哪邊不能走，所以在收到 camera 的影像後，要先處理一下，濾出可以走的區塊，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> matplotlib.image <span class="keyword">as</span> mpimg</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">image_name = <span class="string">&#x27;sample.jpg&#x27;</span></span><br><span class="line">image = mpimg.imread(image_name)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 因為可以走的區塊是白色的，使出color threshold大法</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">color_thresh</span>(<span class="params">img, rgb_thresh=(<span class="params"><span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span></span>)</span>):</span><br><span class="line">	color_select = np.zeros_like(img[:,:,<span class="number">0</span>])</span><br><span class="line">	above_thresh = (img[:,:,<span class="number">0</span>] &gt; rgb_thresh[<span class="number">0</span>]) \</span><br><span class="line">				   &amp; (img[:,:,<span class="number">1</span>] &gt; rgb_thresh[<span class="number">1</span>]) \</span><br><span class="line">	&amp; (img[:,:,<span class="number">2</span>] &gt; rgb_thresh[<span class="number">2</span>])</span><br><span class="line">	color_select[above_thresh] = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> color_select</span><br><span class="line">	red_threshold = <span class="number">150</span></span><br><span class="line">	green_threshold = <span class="number">150</span></span><br><span class="line">	blue_threshold = <span class="number">150</span></span><br><span class="line"></span><br><span class="line">	rgb_threshold = (red_threshold, green_threshold, blue_threshold)</span><br><span class="line"></span><br><span class="line"><span class="comment"># pixels below the thresholds</span></span><br><span class="line">colorsel = color_thresh(image, rgb_thresh=rgb_threshold)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Display the original image and binary</span></span><br><span class="line">f, (ax1, ax2) = plt.subplots(<span class="number">1</span>, <span class="number">2</span>, figsize=(<span class="number">21</span>, <span class="number">7</span>), sharey=<span class="literal">True</span>)</span><br><span class="line">f.tight_layout()</span><br><span class="line">ax1.imshow(image)</span><br><span class="line">ax1.set_title(<span class="string">&#x27;Original Image&#x27;</span>, fontsize=<span class="number">40</span>)</span><br><span class="line"></span><br><span class="line">ax2.imshow(colorsel, cmap=<span class="string">&#x27;gray&#x27;</span>)</span><br><span class="line">ax2.set_title(<span class="string">&#x27;Your Result&#x27;</span>, fontsize=<span class="number">40</span>)</span><br><span class="line">plt.subplots_adjust(left=<span class="number">0.</span>, right=<span class="number">1</span>, top=<span class="number">0.9</span>, bottom=<span class="number">0.</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>這樣就可以畫出結果了:</p>
+<p><img src="https://raw.githubusercontent.com/Po-Jen/RoboND/master/Term1/Project1/1_color_threshold/result.jpg" alt="color"></p>
+<h2 id="產生地圖"><a href="#產生地圖" class="headerlink" title="產生地圖"></a>產生地圖</h2><p>雖然我們從影像中，得知了目前可以走的區塊，但隨著機器人一直走來走去，就會得到一張張的影像，每張裡面都有可以走的區塊。如果可以把這一張張的影像接起來，變成地圖，那事情就會方便許多！所以我們可以透過 perspective transform 將影像變成從俯視的 view 觀看，然後再將影像轉換到以 Rover 為中心的坐標系就可以了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> matplotlib.image <span class="keyword">as</span> mpimg</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">perspect_transform</span>(<span class="params">img, src, dst</span>):</span><br><span class="line"></span><br><span class="line"><span class="comment"># Get transform matrix using cv2.getPerspectivTransform()</span></span><br><span class="line">	M = cv2.getPerspectiveTransform(src, dst)</span><br><span class="line"><span class="comment"># Warp image using cv2.warpPerspective()</span></span><br><span class="line"><span class="comment"># keep same size as input image</span></span><br><span class="line">warped = cv2.warpPerspective(img, M, (img.shape[<span class="number">1</span>], img.shape[<span class="number">0</span>]))</span><br><span class="line"><span class="comment"># Return the result</span></span><br><span class="line"><span class="keyword">return</span> warped</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">color_thresh</span>(<span class="params">img, rgb_thresh=(<span class="params"><span class="number">160</span>, <span class="number">160</span>, <span class="number">160</span></span>)</span>):</span><br><span class="line"><span class="comment"># Create an array of zeros same xy size as img, but single channel</span></span><br><span class="line">	color_select = np.zeros_like(img[:,:,<span class="number">0</span>])</span><br><span class="line"><span class="comment"># Require that each pixel be above all thre threshold values in RGB</span></span><br><span class="line"><span class="comment"># above_thresh will now contain a boolean array with &quot;True&quot;</span></span><br><span class="line"><span class="comment"># where threshold was met</span></span><br><span class="line">above_thresh = (img[:,:,<span class="number">0</span>] &gt; rgb_thresh[<span class="number">0</span>]) \</span><br><span class="line">			   &amp; (img[:,:,<span class="number">1</span>] &gt; rgb_thresh[<span class="number">1</span>]) \</span><br><span class="line">			   &amp; (img[:,:,<span class="number">2</span>] &gt; rgb_thresh[<span class="number">2</span>])</span><br><span class="line"><span class="comment"># Index the array of zeros with the boolean array and set to 1</span></span><br><span class="line">			   color_select[above_thresh] = <span class="number">1</span></span><br><span class="line"><span class="comment"># Return the binary image</span></span><br><span class="line">			   <span class="keyword">return</span> color_select</span><br><span class="line">			   image = mpimg.imread(<span class="string">&#x27;sample.jpg&#x27;</span>)</span><br><span class="line"></span><br><span class="line">			   dst_size = <span class="number">5</span></span><br><span class="line">			   bottom_offset = <span class="number">6</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 這邊的定義是要給 perspective transform 用的，先定義原圖中的某些點，再定義想要扭成某個形狀的圖中那些點的位置</span></span><br><span class="line">			   source = np.float32([[<span class="number">14</span>, <span class="number">140</span>], [<span class="number">301</span> ,<span class="number">140</span>],[<span class="number">200</span>, <span class="number">96</span>], [<span class="number">118</span>, <span class="number">96</span>]])</span><br><span class="line">destination = np.float32([[image.shape[<span class="number">1</span>]/<span class="number">2</span> - dst_size, image.shape[<span class="number">0</span>] - bottom_offset],</span><br><span class="line">		[image.shape[<span class="number">1</span>]/<span class="number">2</span> + dst_size, image.shape[<span class="number">0</span>] - bottom_offset],</span><br><span class="line">		[image.shape[<span class="number">1</span>]/<span class="number">2</span> + dst_size, image.shape[<span class="number">0</span>] - <span class="number">2</span>*dst_size - bottom_offset],</span><br><span class="line">		[image.shape[<span class="number">1</span>]/<span class="number">2</span> - dst_size, image.shape[<span class="number">0</span>] - <span class="number">2</span>*dst_size - bottom_offset],</span><br><span class="line">		])</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> matplotlib.image <span class="keyword">as</span> mpimg</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">from</span> extra_functions <span class="keyword">import</span> perspect_transform, color_thresh, source, destination</span><br><span class="line"></span><br><span class="line">image = mpimg.imread(<span class="string">&#x27;sample.jpg&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 轉換到以 Rover 為中心的座標系</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">rover_coords</span>(<span class="params">binary_img</span>):</span><br><span class="line">	y_pos, x_pos = binary_img.nonzero()</span><br><span class="line">	x_pixel = -(y_pos - binary_img.shape[<span class="number">0</span>])</span><br><span class="line">	y_pixel = -(x_pos - binary_img.shape[<span class="number">1</span>]/<span class="number">2</span> )</span><br><span class="line">	<span class="keyword">return</span> x_pixel, y_pixel</span><br><span class="line"></span><br><span class="line"><span class="comment"># Perform warping and color thresholding</span></span><br><span class="line">	warped = perspect_transform(image, source, destination)</span><br><span class="line">colorsel = color_thresh(warped, rgb_thresh=(<span class="number">160</span>, <span class="number">160</span>, <span class="number">160</span>))</span><br><span class="line">xpix, ypix = rover_coords(colorsel)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Plot the map in rover-centric coords</span></span><br><span class="line">fig = plt.figure(figsize=(<span class="number">5</span>, <span class="number">7.5</span>))</span><br><span class="line">plt.plot(xpix, ypix, <span class="string">&#x27;.&#x27;</span>)</span><br><span class="line">plt.ylim(-<span class="number">160</span>, <span class="number">160</span>)</span><br><span class="line">plt.xlim(<span class="number">0</span>, <span class="number">160</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;Rover-Centric Map&#x27;</span>, fontsize=<span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+
+<p>綜合起來，就可以得到</p>
+<p><img src="https://raw.githubusercontent.com/Po-Jen/RoboND/master/Term1/Project1/3_warp_threshold_map/rover_centric_map.png" alt="warped_map"></p>
+<h2 id="根據地圖產生新的移動方向"><a href="#根據地圖產生新的移動方向" class="headerlink" title="根據地圖產生新的移動方向"></a>根據地圖產生新的移動方向</h2><p>假設已經有了地圖，下一步就是希望得到要走的方向，最簡單的想法就是挑可以走的範圍的中線，因為離障礙物最遠。但我們前面的表示法，是把每個 pixel 用 (x,y) 這種笛卡爾坐標系下的定義來儲存位置，即便我們有這些可行走區域的 (x,y) 位置，要從這些 (x,y) pair 中找出中線還是頗麻煩的。</p>
+<p>所以這邊就會用到小時候學過的極座標啦，大家可以想一想，如果我們有每一個可走區域的 pixel 的極座標，那是不是把每一個點的角度都平均一下，就可以得到要行走的角度了呢？</p>
+<p>根據上面的觀念，我們就再寫一下從笛卡爾座標轉換成極座標的 function：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> matplotlib.image <span class="keyword">as</span> mpimg</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> extra_functions <span class="keyword">import</span> perspect_transform, color_thresh, rover_coords</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只要定義一個將pixel從笛卡爾座標轉成極座標的function就好</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">to_polar_coords</span>(<span class="params">xpix, ypix</span>):</span><br><span class="line">	dist = np.sqrt(xpix**<span class="number">2</span> + ypix**<span class="number">2</span>)</span><br><span class="line">	angles = np.arctan2(ypix, xpix)</span><br><span class="line">	<span class="keyword">return</span> dist, angles</span><br><span class="line"></span><br><span class="line">	image = mpimg.imread(<span class="string">&#x27;angle_example.jpg&#x27;</span>)</span><br><span class="line">	warped = perspect_transform(image) <span class="comment"># Perform perspective transform</span></span><br><span class="line">	colorsel = color_thresh(warped, rgb_thresh=(<span class="number">160</span>, <span class="number">160</span>, <span class="number">160</span>)) <span class="comment"># Threshold the warped image</span></span><br><span class="line">	xpix, ypix = rover_coords(colorsel) <span class="comment"># Convert to rover-centric coords</span></span><br><span class="line">	distances, angles = to_polar_coords(xpix, ypix) <span class="comment"># Convert to polar coords</span></span><br><span class="line">	avg_angle = np.mean(angles) <span class="comment"># Compute the average angle</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Plot</span></span><br><span class="line">	fig = plt.figure(figsize=(<span class="number">12</span>,<span class="number">9</span>))</span><br><span class="line">plt.subplot(<span class="number">221</span>)</span><br><span class="line">plt.imshow(image)</span><br><span class="line">plt.subplot(<span class="number">222</span>)</span><br><span class="line">plt.imshow(warped)</span><br><span class="line">plt.subplot(<span class="number">223</span>)</span><br><span class="line">plt.imshow(colorsel, cmap=<span class="string">&#x27;gray&#x27;</span>)</span><br><span class="line">plt.subplot(<span class="number">224</span>)</span><br><span class="line">plt.plot(xpix, ypix, <span class="string">&#x27;.&#x27;</span>)</span><br><span class="line">plt.ylim(-<span class="number">160</span>, <span class="number">160</span>)</span><br><span class="line">plt.xlim(<span class="number">0</span>, <span class="number">160</span>)</span><br><span class="line">arrow_length = <span class="number">100</span></span><br><span class="line">x_arrow = arrow_length * np.cos(avg_angle)</span><br><span class="line">y_arrow = arrow_length * np.sin(avg_angle)</span><br><span class="line">plt.arrow(<span class="number">0</span>, <span class="number">0</span>, x_arrow, y_arrow, color=<span class="string">&#x27;red&#x27;</span>, zorder=<span class="number">2</span>, head_width=<span class="number">10</span>, width=<span class="number">2</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>就可以畫出下圖:</p>
+<p><img src="https://raw.githubusercontent.com/Po-Jen/RoboND/master/Term1/Project1/5_steering_angle_decision/concept.png" alt="decision"></p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>今天跟大家簡單介紹了一下 Udacity 的學習資源，也簡介了一點點 Rover project 的內容，我自己覺得他們的 project 設計都還不錯，值得玩一玩，適合想要入門的讀者參考。</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/udacity/RoboND-Kinematics-Project">RoboND Kinematics Project</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/udacity/RoboND-Perception-Project">RoboND Perception Project</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="https://pojenlai.wordpress.com/">@pojenlai</a> 演算法工程師，對機器人跟電腦視覺有少許研究，最近在學習<a target="_blank" rel="noopener" href="https://buzzorange.com/techorange/2017/07/10/elon-musk-first-principle/">看清事物的本質與改進自己的觀念</a></p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/08/26/robond-rover/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/08/26/robond-rover/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/08/26/robond-rover/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/08/26/robond-rover/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/09/09/golang101-tutorial-introduction/">
+        ← Go Web 程式設計入門教學：基礎介紹與環境建置
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/08/26/canvas-path-map/">
+        D3v4 & Canvas 工作坊 - D3 + Canvas 繪製動態路線圖 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>用 JavaScript 學習資料結構和演算法：陣列（Array）篇 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-10-08T22:00:00.000Z" itemprop="datePublished">
+          2016-10-08
+      </time>
+    
+    
+    | 
+    <a href='/tags/JavaScript/'>JavaScript</a>,
+    
+    <a href='/tags/Algorithm/'>Algorithm</a>,
+    
+    <a href='/tags/演算法/'>演算法</a>,
+    
+    <a href='/tags/ECMAScript2015/'>ECMAScript2015</a>,
+    
+    <a href='/tags/ES6/'>ES6</a>,
+    
+    <a href='/tags/Data-Structure/'>Data Structure</a>,
+    
+    <a href='/tags/Queue/'>Queue</a>,
+    
+    <a href='/tags/資料結構/'>資料結構</a>,
+    
+    <a href='/tags/陣列/'>陣列</a>,
+    
+    <a href='/tags/Array/'>Array</a>
+    
+    
+</span>
+
+<meta name="generator" content="用 JavaScript 學習資料結構和演算法：陣列（Array）篇">
+<meta name="og:title" content="用 JavaScript 學習資料結構和演算法：陣列（Array）篇">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">用 JavaScript 學習資料結構和演算法：陣列（Array）篇</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/array.jpg" alt="用 JavaScript 學習資料結構和演算法：陣列（Array）篇 "></p>
+<h1 id="什麼是陣列（Array）？"><a href="#什麼是陣列（Array）？" class="headerlink" title="什麼是陣列（Array）？"></a>什麼是陣列（Array）？</h1><p>陣列可以說是程式語言中暫時儲存資料的櫃子，幾乎所有的程式語言都具備陣列這個廣泛運用的資料結構，但值得注意的是一般程式語言中陣列只能儲存同樣型別的值，但在 JavaScript 則可以儲存不同型別的值（但我們還是盡量避免）。</p>
+<p>下面是陣列的簡單使用情境，當今天我們想儲存整個班級的學生姓名時，我們不可能使用一個個變數去一個個儲存，這時候陣列的功能就派上用場了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> student1 = <span class="string">&#x27;Mark&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> student2 = <span class="string">&#x27;Zuck&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> student3 = <span class="string">&#x27;Woz&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> students[<span class="number">0</span>] = <span class="string">&#x27;Mark&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> students[<span class="number">1</span>] = <span class="string">&#x27;Zuck&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> students[<span class="number">2</span>] = <span class="string">&#x27;Woz&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="陣列初體驗"><a href="#陣列初體驗" class="headerlink" title="陣列初體驗"></a>陣列初體驗</h1><p><img src="/img/kdchang/method.png" alt="用 JavaScript 學習資料結構和演算法：陣列（Array）篇 "></p>
+<p>接下來我們將實際操作陣列，讓讀者感受一下陣列的使用方式：</p>
+<ol>
+<li><p>建立和初始化陣列</p>
+<p> 在 JavaScript 中建立陣列十分容易和彈性，主要有兩種方式：</p>
+<p> 使用 <code>new Array()</code>，可以自定陣列大小 </p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> newArray1 = <span class="keyword">new</span> <span class="title class_">Array</span>();</span><br><span class="line"><span class="keyword">let</span> newArray2 = <span class="keyword">new</span> <span class="title class_">Array</span>(<span class="number">3</span>);</span><br><span class="line"><span class="keyword">let</span> students = <span class="keyword">new</span> <span class="title class_">Array</span>(<span class="string">&#x27;Mark&#x27;</span>, <span class="string">&#x27;Zuck&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p> 使用 <code>[]</code> 宣告陣列，相對彈性</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> newArray1 = [];</span><br><span class="line"><span class="keyword">let</span> students = [<span class="string">&#x27;Mark&#x27;</span>, <span class="string">&#x27;Zuck&#x27;</span>];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新增、刪除陣列元素</p>
+<p> 在 JavaScript 有許多彈性好用的新增刪除陣列的方法，最簡單的新增方式就是把值直接賦值給陣列上最後一個元素：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> students = [<span class="string">&#x27;Mark&#x27;</span>, <span class="string">&#x27;Zuck&#x27;</span>, <span class="string">&#x27;Pony&#x27;</span>, <span class="string">&#x27;Elon&#x27;</span>];</span><br><span class="line"><span class="comment">// 由於陣列 index 是從 0 開始，使用陣列長度當 index 賦值就會新增一個元素 </span></span><br><span class="line">students[students.<span class="property">length</span>] = <span class="string">&#x27;Mary&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p> 使用 <code>push</code> 可以將元素新增到最後，<code>pop</code> 可以移除最後陣列元素：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> students = [<span class="string">&#x27;Mark&#x27;</span>, <span class="string">&#x27;Zuck&#x27;</span>, <span class="string">&#x27;Pony&#x27;</span>, <span class="string">&#x27;Elon&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 將 Mary 加入最後元素</span></span><br><span class="line">students.<span class="title function_">push</span>(<span class="string">&#x27;Mary&#x27;</span>);</span><br><span class="line"><span class="comment">// 將 Mary 移除</span></span><br><span class="line">students.<span class="title function_">pop</span>();</span><br></pre></td></tr></table></figure>
+
+<p> 整個移動陣列元素，以下示範想在首位插入元素 12：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = numbers.<span class="property">length</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">	numbers[i] = numbers[i - <span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line">numbers[<span class="number">0</span>] = <span class="number">12</span>;</span><br></pre></td></tr></table></figure>
+
+<p> <code>unshift</code>、<code>shift</code> 陣列可以分別將數值插入首位和移除首位元素：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> students = [<span class="string">&#x27;Mark&#x27;</span>, <span class="string">&#x27;Zuck&#x27;</span>, <span class="string">&#x27;Pony&#x27;</span>, <span class="string">&#x27;Elon&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 將 Mary 插入首位</span></span><br><span class="line">students.<span class="title function_">unshift</span>(<span class="string">&#x27;Mary&#x27;</span>);</span><br><span class="line"><span class="comment">// 將 Mary 移除</span></span><br><span class="line">students.<span class="title function_">shift</span>();</span><br></pre></td></tr></table></figure>
+
+<p> 使用 <code>splice</code> 方法可以指定 index 去新增、刪除元素：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// splice(起始 index, 刪除個數，若為0即為插入, 欲插入元素1, 欲插入元素2, 欲插入元素N)</span></span><br><span class="line"><span class="keyword">let</span> students = [<span class="string">&#x27;Mark&#x27;</span>, <span class="string">&#x27;Zuck&#x27;</span>, <span class="string">&#x27;Pony&#x27;</span>, <span class="string">&#x27;Elon&#x27;</span>];</span><br><span class="line">students.<span class="title function_">splice</span>(<span class="number">0</span>, <span class="number">2</span>); <span class="comment">// students =&gt; [&#x27;Pony&#x27;, &#x27;Elon&#x27;]</span></span><br><span class="line">students.<span class="title function_">splice</span>(<span class="number">1</span>, <span class="number">0</span>, <span class="string">&#x27;John&#x27;</span>, <span class="string">&#x27;Cath&#x27;</span>); <span class="comment">// students =&gt; [&#x27;Pony&#x27;, &#x27;John&#x27;, &#x27;Cath&#x27;, &#x27;Elon&#x27;];</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="二維陣列"><a href="#二維陣列" class="headerlink" title="二維陣列"></a>二維陣列</h1><p>事實上在 JavaScript 中只支援一維陣列，但我們可以用陣列嵌套陣列的方式來達成多維陣列：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 學生和他的成績</span></span><br><span class="line"><span class="keyword">let</span> students = [];</span><br><span class="line">students[<span class="number">0</span>] = [<span class="number">79</span>, <span class="number">74</span>, <span class="number">86</span>];</span><br><span class="line">students[<span class="number">1</span>] = [<span class="number">97</span>, <span class="number">54</span>, <span class="number">46</span>];</span><br></pre></td></tr></table></figure>
+
+<p>列印出結果：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; students.<span class="property">length</span>; i++) &#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; students[i].<span class="property">length</span>; j++) &#123;</span><br><span class="line">		<span class="variable language_">console</span>.<span class="title function_">log</span>(students[i][j]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上是二維陣列作法，若是多維則以此類推，但越多維維護起資料越複雜。</p>
+<h1 id="常見陣列方法"><a href="#常見陣列方法" class="headerlink" title="常見陣列方法"></a>常見陣列方法</h1><p>陣列相當彈性也功能強大的一種資料結構，除了上面介紹的方法外還擁有許多常用方法。我們這裡也借用 <a target="_blank" rel="noopener" href="https://github.com/tooto1985">@tooto1985</a> 所整理的圖解 JavaScript 陣列操作方法進行講解：</p>
+<p><img src="/img/kdchang/ja-array-operation.jpg" alt="用 JavaScript 學習資料結構和演算法：陣列（Array）篇 "></p>
+<h2 id="陣列合併和切割"><a href="#陣列合併和切割" class="headerlink" title="陣列合併和切割"></a>陣列合併和切割</h2><ol>
+<li><p>concat</p>
+<p> 連接兩個或多個陣列並回傳結果：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> hege = [<span class="string">&quot;Cecilie&quot;</span>, <span class="string">&quot;Leo&quot;</span>];</span><br><span class="line"><span class="keyword">var</span> stale = [<span class="string">&quot;Emil&quot;</span>, <span class="string">&quot;May&quot;</span>, <span class="string">&quot;Linus&quot;</span>];</span><br><span class="line"><span class="keyword">var</span> children = hege.<span class="title function_">concat</span>(stale);</span><br><span class="line"></span><br><span class="line"><span class="comment">// [&#x27;Cecilie&#x27;, &#x27;Leo&#x27;, &#x27;Emil&#x27;, &#x27;May&#x27;, &#x27;Linus&#x27;]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>slice</p>
+<p> 將 array 切片，回傳新的 array：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fruits = [<span class="string">&#x27;Banana&#x27;</span>, <span class="string">&#x27;Orange&#x27;</span>, <span class="string">&#x27;Lemon&#x27;</span>, <span class="string">&#x27;Apple&#x27;</span>, <span class="string">&#x27;Raspberry&#x27;</span>];</span><br><span class="line"><span class="keyword">var</span> citrus = fruits.<span class="title function_">slice</span>(<span class="number">1</span>, <span class="number">3</span>); <span class="comment">// [&#x27;Orange&#x27;, &#x27;Lemon&#x27;, &#x27;Apple&#x27;]	</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>join</p>
+<p> 將陣列用分隔符號（separator）串起來成字串</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fruits = [<span class="string">&#x27;Banana&#x27;</span>, <span class="string">&#x27;Orange&#x27;</span>, <span class="string">&#x27;Lemon&#x27;</span>, <span class="string">&#x27;Apple&#x27;</span>, <span class="string">&#x27;Raspberry&#x27;</span>];</span><br><span class="line"><span class="keyword">var</span> citrus = fruits.<span class="title function_">join</span>(); <span class="comment">// 預設使用 , 分隔：Banana,Orange,Lemon,Apple,Raspberry		</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="陣列迭代"><a href="#陣列迭代" class="headerlink" title="陣列迭代"></a>陣列迭代</h2><ol>
+<li><p>every</p>
+<p> 對陣列每個元素都進行迭代，若迭代函數內容皆為 true，則回傳 true，反之回傳 false：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ages = [<span class="number">32</span>, <span class="number">33</span>, <span class="number">16</span>, <span class="number">40</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">checkAdult</span>(<span class="params">age</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> (age &gt;= <span class="number">18</span>) ? <span class="literal">true</span> : <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ages.<span class="title function_">every</span>(checkAdult)); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>some</p>
+<p> 與 every 的用法類似，但不同的是若迭代函數中有一個為 true 即回傳 true，反之回傳 false：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ages = [<span class="number">3</span>, <span class="number">10</span>, <span class="number">18</span>, <span class="number">20</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">checkAdult</span>(<span class="params">age</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> (age &gt;= <span class="number">18</span>) ? <span class="literal">true</span> : <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ages.<span class="title function_">some</span>(checkAdult)); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>map</p>
+<p> 迭代每一個陣列元素：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> numbers = [<span class="number">4</span>, <span class="number">9</span>, <span class="number">16</span>, <span class="number">25</span>];</span><br><span class="line"></span><br><span class="line">numbers.<span class="title function_">map</span>(<span class="keyword">function</span>(<span class="params">value, index</span>) &#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(value, index);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>reduce</p>
+<p> 由左到右累加（reduce 方法的參數函數共有 previousValue, currentValue, index, array 四個參數）：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> numbers = [<span class="number">65</span>, <span class="number">44</span>, <span class="number">12</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getSum</span>(<span class="params">total, num</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> total + num;</span><br><span class="line">&#125;</span><br><span class="line">numbers.<span class="title function_">reduce</span>(getSum); <span class="comment">// 124</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>reduceRight</p>
+<p> 由右到左累加：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> numbers = [<span class="number">65</span>, <span class="number">44</span>, <span class="number">12</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getSum</span>(<span class="params">total, num</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> total + num;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">numbers.<span class="title function_">reduceRight</span>(getSum); <span class="comment">// 124</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>filter</p>
+<p> 依據條件回傳過濾後的陣列：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ages = [<span class="number">32</span>, <span class="number">33</span>, <span class="number">16</span>, <span class="number">40</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">checkAdult</span>(<span class="params">age</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> age &gt;= <span class="number">18</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ages.<span class="title function_">filter</span>(checkAdult); <span class="comment">// [32, 33, 40]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>forEach</p>
+<p> 迭代陣列元素：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">numbers.<span class="title function_">forEach</span>(<span class="keyword">function</span>(<span class="params">value, index</span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(value, index);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="搜尋和排序"><a href="#搜尋和排序" class="headerlink" title="搜尋和排序"></a>搜尋和排序</h2><ol>
+<li><p>indexOf</p>
+<p> 回傳值位於陣列內的位置，若值未在陣列中則回傳 -1：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fruits = [<span class="string">&quot;Banana&quot;</span>, <span class="string">&quot;Orange&quot;</span>, <span class="string">&quot;Apple&quot;</span>, <span class="string">&quot;Mango&quot;</span>];</span><br><span class="line"><span class="keyword">var</span> a = fruits.<span class="title function_">indexOf</span>(<span class="string">&quot;Orange&quot;</span>); <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>lastIndexOf</p>
+<p> 與 indexOf 類似，但是是回傳最後一次 match 到的 index，同樣若值未在陣列中則回傳 -1：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fruits = [<span class="string">&quot;Banana&quot;</span>, <span class="string">&quot;Orange&quot;</span>, <span class="string">&quot;Apple&quot;</span>, <span class="string">&quot;Mango&quot;</span>, <span class="string">&quot;Orange&quot;</span>];</span><br><span class="line"><span class="keyword">var</span> a = fruits.<span class="title function_">indexOf</span>(<span class="string">&quot;Orange&quot;</span>); <span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>reverse</p>
+<p> 反轉陣列元素：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fruits = [<span class="string">&quot;Banana&quot;</span>, <span class="string">&quot;Orange&quot;</span>, <span class="string">&quot;Apple&quot;</span>, <span class="string">&quot;Mango&quot;</span>];</span><br><span class="line">fruits.<span class="title function_">reverse</span>(); [<span class="string">&#x27;Mango&#x27;</span>, <span class="string">&#x27;Apple&#x27;</span>, <span class="string">&#x27;Orange&#x27;</span>, <span class="string">&#x27;Banana&#x27;</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>sort</p>
+<p> 將陣列內容進行排序，回傳排序後陣列，若為文字則根據 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-tw/ASCII">ASCII Code 編碼</a>大小進行比較：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fruits = [<span class="string">&quot;Banana&quot;</span>, <span class="string">&quot;Orange&quot;</span>, <span class="string">&quot;Apple&quot;</span>, <span class="string">&quot;Mango&quot;</span>];</span><br><span class="line">fruits.<span class="title function_">sort</span>();</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="輸出陣列為字串"><a href="#輸出陣列為字串" class="headerlink" title="輸出陣列為字串"></a>輸出陣列為字串</h2><ol>
+<li><p>toString</p>
+<p> 將陣列轉成字串，並回傳結果：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fruits = [<span class="string">&quot;Banana&quot;</span>, <span class="string">&quot;Orange&quot;</span>, <span class="string">&quot;Apple&quot;</span>, <span class="string">&quot;Mango&quot;</span>];</span><br><span class="line">fruits.<span class="title function_">toString</span>();	<span class="comment">// Banana,Orange,Apple,Mango</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>valueOf </p>
+<p> 回傳陣列內容：</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fruits = [<span class="string">&quot;Banana&quot;</span>, <span class="string">&quot;Orange&quot;</span>, <span class="string">&quot;Apple&quot;</span>, <span class="string">&quot;Mango&quot;</span>];</span><br><span class="line"><span class="keyword">var</span> v = fruits.<span class="title function_">valueOf</span>();	</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上就是 JavaScript 陣列（Array）介紹和操作方法，讀者們千萬別走看花，實際動手在 console 或是 JSBin 上感受一下，你就會知道 JavaScript Array 的彈性好用！接下來的資料結構介紹裡也會使用到許多 Array 的操作方式。</p>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><ol>
+<li><a target="_blank" rel="noopener" href="http://www.w3schools.com/jsref/jsref_obj_array.asp">JavaScript Array Reference</a></li>
+</ol>
+<p>（image via <a target="_blank" rel="noopener" href="http://2.bp.blogspot.com/-Ek2hzh7Uef8/VcseOEkfxaI/AAAAAAAAAIo/wkiGtnpZcGo/s1600/ArrayJS.JPG">speakingcs</a>、<a target="_blank" rel="noopener" href="https://dhananjay25.files.wordpress.com/2012/11/image7.png">dhananjay25</a>、<a target="_blank" rel="noopener" href="https://github.com/tooto1985/js-array-operations">tooto1985</a>）</p>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.kdchang.cc/">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino&#x2F;Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2016/10/08/javascript-data-structure-algorithm-array/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2016/10/08/javascript-data-structure-algorithm-array/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2016/10/08/javascript-data-structure-algorithm-array/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2016/10/08/javascript-data-structure-algorithm-array/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2016/10/14/hacktoberfest-2016/">
+        ← Hacktoberfest：一起踏入 open source 的世界吧！
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/09/28/ros-collision-avoiding-robot/">
+        使用 ROS 與 Gazebo 模擬一個自動避障機器人 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

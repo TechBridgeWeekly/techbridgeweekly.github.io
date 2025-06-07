@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>一看就懂的 React ES5、ES6+ 常見用法對照表 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-04-04T23:26:00.000Z" itemprop="datePublished">
+          2016-04-04
+      </time>
+    
+    
+    | 
+    <a href='/tags/React-React-Native-ES5-ES6-ES7-JavaScript-ECMAScript2015-Webpack/'>React, React Native, ES5, ES6, ES7, JavaScript, ECMAScript2015, Webpack</a>
+    
+    
+</span>
+
+<meta name="generator" content="一看就懂的 React ES5、ES6+ 常見用法對照表">
+<meta name="og:title" content="一看就懂的 React ES5、ES6+ 常見用法對照表">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">一看就懂的 React ES5、ES6+ 常見用法對照表</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/react-es6.jpg" alt="一看就懂的 React ES5、ES6+ 常見用法對照表"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><a target="_blank" rel="noopener" href="https://facebook.github.io/react/">React</a> 是 Facebook 推出的開源 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a> Library。自從 React 正式開源後，React 生態系開始蓬勃發展。事實上，透過學習 React 生態系（ecosystem）的過程中，可以讓我們順便學習現代化 Web 開發的重要觀念（例如：ES6、<a target="_blank" rel="noopener" href="https://github.com/webpack/webpack">Webpack</a>、<a target="_blank" rel="noopener" href="https://babeljs.io/">Babel</a>、模組化等），成為更好的開發者。雖然 ES6（ECMAScript2015）、ES7 是未來趨勢（本文將 ES6、ES7 稱為 ES6+），然而目前在網路上有許多的學習資源仍是以 ES5 為主，導致讀者在學習上遇到一些坑洞和迷惑（本文假設讀者對於 React 已經有些基本認識，若你對於 React 尚不熟悉，建議先行<a target="_blank" rel="noopener" href="https://facebook.github.io/react/">閱讀官方文件</a>和<a target="_blank" rel="noopener" href="https://scotch.io/tutorials/learning-react-getting-started-and-concepts">本篇入門教學</a>）。因此本文希望透過整理在 React 中 ES5、ES6+ 常見用法對照表，讓讀者們可以在實現功能時（尤其在 <a target="_blank" rel="noopener" href="https://facebook.github.io/react-native/">React Native</a>）可以更清楚兩者的差異，無痛轉移到 ES6+。 </p>
+<h2 id="大綱"><a href="#大綱" class="headerlink" title="大綱"></a>大綱</h2><ol>
+<li>Modules</li>
+<li>Classes</li>
+<li>Method definition</li>
+<li>Property initializers</li>
+<li>State</li>
+<li>Arrow functions</li>
+<li>Dynamic property names &amp; template strings</li>
+<li>Destructuring &amp; spread attributes</li>
+<li>Mixins</li>
+<li>Default Parameters</li>
+</ol>
+<h2 id="1-Modules"><a href="#1-Modules" class="headerlink" title="1. Modules"></a>1. Modules</h2><p>隨著 Web 技術的進展，模組化開發已經成為一個重要課題。關於 JavaScript 模組化我們這邊不詳述，建議讀者參考 <a target="_blank" rel="noopener" href="http://huangxuan.me/js-module-7day/#/">這份投影片</a> 和 <a target="_blank" rel="noopener" href="http://justineo.github.io/singles/writing-modular-js/">這篇文章</a>。</p>
+<p>ES5 若使用 CommonJS 標準，一般使用 <code>require()</code> 用法引入模組：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="title class_">React</span> = <span class="built_in">require</span>(<span class="string">&#x27;react&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> <span class="title class_">MyComponent</span> = <span class="built_in">require</span>(<span class="string">&#x27;./MyComponent&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>輸出則是使用 <code>module.exports</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="title class_">MyComponent</span>;</span><br></pre></td></tr></table></figure>
+
+
+<p>ES6+ <code>import</code> 用法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">MyComponent</span> <span class="keyword">from</span> <span class="string">&#x27;./MyComponent&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>輸出則是使用 <code>export default</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">MyComponent</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Compoent</span> &#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-Classes"><a href="#2-Classes" class="headerlink" title="2. Classes"></a>2. Classes</h2><p>在 React 中元件（Component）是組成視覺頁面的基礎。在 ES5 中我們使用 <code>React.createClass()</code> 來建立 Component，而在 ES6+ 則是用 <a target="_blank" rel="noopener" href="https://babeljs.io/docs/learn-es2015/#classes">Classes</a> 繼承 <code>React.Component</code> 來建立 Component。若是有寫過 Java 等物件導向語言（OOP）的讀者應該對於這種寫法比較不陌生，不過要注意的是 JavaScript 仍是原型繼承類型的物件導向程式語言，只是使用 <code>Classes</code> 讓物件導向使用上更加直觀。對於選擇 <code>class</code> 使用上還有疑惑的讀者建議可以閱讀 <a target="_blank" rel="noopener" href="https://toddmotto.com/react-create-class-versus-component/">React.createClass versus extends React.Component</a> 這篇文章。</p>
+<p>ES5 <code>React.createClass()</code> 用法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="title class_">Photo</span> = <span class="title class_">React</span>.<span class="title function_">createClass</span>(&#123;</span><br><span class="line">  <span class="attr">render</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">    	<span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    		<span class="tag">&lt;<span class="name">img</span> <span class="attr">alt</span>=<span class="string">&#123;this.props.description&#125;</span> <span class="attr">src</span>=<span class="string">&#123;this.props.src&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">    	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    	);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="title class_">ReactDOM</span>.<span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">Photo</span> /&gt;</span></span>, <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;main&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<p>ES6+ <code>class</code> 用法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Photo</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">img</span> <span class="attr">alt</span>=<span class="string">&#123;this.props.description&#125;</span> <span class="attr">src</span>=<span class="string">&#123;this.props.src&#125;</span> /&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title class_">ReactDOM</span>.<span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">Photo</span> /&gt;</span></span>, <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;main&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<p>在 ES5 我們會在 <code>componentWillMount </code> 生命週期定義希望在 <code>render</code> 前執行，且只會執行一次的任務：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="title class_">Photo</span> = <span class="title class_">React</span>.<span class="title function_">createClass</span>(&#123;</span><br><span class="line">  <span class="attr">componentWillMount</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>在 ES6+ 則是定義在 <code>constructor </code> 建構子中：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Photo</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">props</span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>(props);</span><br><span class="line">    <span class="comment">// 原本在 componentWillMount 操作的動作可以放在這</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Method-definition"><a href="#3-Method-definition" class="headerlink" title="3. Method definition"></a>3. Method definition</h2><p>在 ES6 中我們使用 <code>Method</code> 可以忽略 <code>function</code> 和 <code>,</code>，使用上更為簡潔！ES5 <code>React.createClass()</code> 用法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="title class_">Photo</span> = <span class="title class_">React</span>.<span class="title function_">createClass</span>(&#123;</span><br><span class="line">  <span class="attr">handleClick</span>: <span class="keyword">function</span>(<span class="params">e</span>) &#123;&#125;,</span><br><span class="line">  <span class="attr">render</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>ES6+ class 用法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Photo</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">  <span class="title function_">handleClick</span>(<span class="params">e</span>) &#123;&#125;</span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="4-Property-initializers"><a href="#4-Property-initializers" class="headerlink" title="4. Property initializers"></a>4. Property initializers</h2><p>Component 屬性值是資料傳遞重要的元素，在 ES5 中我們使用 <code>propTypes </code> 和  <code>getDefaultProps </code> 來定義屬性（props）的預設值和型別：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="title class_">Todo</span> = <span class="title class_">React</span>.<span class="title function_">createClass</span>(&#123;</span><br><span class="line">  <span class="attr">getDefaultProps</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">checked</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">maxLength</span>: <span class="number">10</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">propTypes</span>: &#123;</span><br><span class="line">    <span class="attr">checked</span>: <span class="title class_">React</span>.<span class="property">PropTypes</span>.<span class="property">bool</span>.<span class="property">isRequired</span>,</span><br><span class="line">    <span class="attr">maxLength</span>: <span class="title class_">React</span>.<span class="property">PropTypes</span>.<span class="property">number</span>.<span class="property">isRequired</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">render</span>: <span class="title function_">fucntion</span>(<span class="params"></span>) &#123;</span><br><span class="line">  	<span class="keyword">return</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>在 ES6+ 中我們則是參考 <a target="_blank" rel="noopener" href="https://github.com/jeffmo/es-class-fields-and-static-properties">ES7 property initializers</a> 使用 <code>class</code> 中的靜態屬性（static properties）來定義：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Todo</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">  <span class="keyword">static</span> defaultProps = &#123;</span><br><span class="line">    <span class="attr">checked</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">maxLength</span>: <span class="number">10</span>,</span><br><span class="line">  &#125;; <span class="comment">// 注意有分號</span></span><br><span class="line">  <span class="keyword">static</span> propTypes = &#123;</span><br><span class="line">    <span class="attr">checked</span>: <span class="title class_">React</span>.<span class="property">PropTypes</span>.<span class="property">bool</span>.<span class="property">isRequired</span>,</span><br><span class="line">    <span class="attr">maxLength</span>: <span class="title class_">React</span>.<span class="property">PropTypes</span>.<span class="property">number</span>.<span class="property">isRequired</span></span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">  	<span class="keyword">return</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ES6+ 另外一種寫法，可以留意一下，主要是看各團隊喜好和規範，選擇合適的方式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Todo</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">    <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            <span class="language-xml"><span class="tag">&lt;<span class="name">View</span> /&gt;</span></span></span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title class_">Todo</span>.<span class="property">defaultProps</span> = &#123;</span><br><span class="line">    <span class="attr">checked</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">maxLength</span>: <span class="number">10</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="title class_">Todo</span>.<span class="property">propTypes</span> = &#123;</span><br><span class="line">    <span class="attr">checked</span>: <span class="title class_">React</span>.<span class="property">PropTypes</span>.<span class="property">bool</span>.<span class="property">isRequired</span>,</span><br><span class="line">    <span class="attr">maxLength</span>: <span class="title class_">React</span>.<span class="property">PropTypes</span>.<span class="property">number</span>.<span class="property">isRequired</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="5-State"><a href="#5-State" class="headerlink" title="5. State"></a>5. State</h2><p>在 React 中 <code>Props</code> 和 <code>State</code> 是資料流傳遞的重要元素，不同的是 <code>state</code> 可更動，可以去執行一些運算。在 ES5 中我們使用 <code>getInitialState </code> 去初始化 <code>state</code>： </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="title class_">Todo</span> = <span class="title class_">React</span>.<span class="title function_">createClass</span>(&#123;</span><br><span class="line">    <span class="attr">getInitialState</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="attr">maxLength</span>: <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">maxLength</span>,</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>在 ES6+ 中我們初始化 <code>state</code> 有兩種寫法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Todo</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">    state = &#123;</span><br><span class="line">        <span class="attr">maxLength</span>: <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">maxLength</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另外一種寫法，使用在建構式初始化。比較推薦使用這種方式，方便做一些運算：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Todo</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">props</span>)&#123;</span><br><span class="line">        <span class="variable language_">super</span>(props);</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">state</span> = &#123;</span><br><span class="line">            <span class="attr">maxLength</span>: <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">maxLength</span>,</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="6-Arrow-functions"><a href="#6-Arrow-functions" class="headerlink" title="6. Arrow functions"></a>6. Arrow functions</h2><p>在講 <code>Arrow functions</code> 之前，我們先聊聊在 React 中 <code>this</code> 和它所代表的 <code>context</code>。在 ES5 中，我們使用 <code>React.createClass()</code> 來建立 Component，而在 <code>React.createClass()</code> 下，預設幫你綁定好 <code>method</code> 的 <code>this</code>，你毋須自行綁定。所以你可以看到像是下面的例子，<code>callback function</code> handleButtonClick 中的  <code>this</code> 是指到 component 的實例（instance），而非觸發事件的物件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="title class_">TodoBtn</span> = <span class="title class_">React</span>.<span class="title function_">createClass</span>(&#123;</span><br><span class="line">    <span class="attr">handleButtonClick</span>: <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">        <span class="comment">// 此 this 指到 component 的實例（instance），而非 button</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">setState</span>(&#123;<span class="attr">showOptionsModal</span>: <span class="literal">true</span>&#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">render</span>: <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                <span class="tag">&lt;<span class="name">Button</span> <span class="attr">onClick</span>=<span class="string">&#123;this.handleButtonClick&#125;</span>&gt;</span>&#123;this.props.label&#125;<span class="tag">&lt;/<span class="name">Button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">        )</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>然而自動綁定這種方式反而會讓人容易誤解，所以在 ES6+ 推薦使用 <code>bind </code> 綁定 <code>this</code> 或使用 <code>Arrow functions</code>（它會绑定當前 <code>scope</code> 的 <code>this context</code>）兩種方式，你可以參考下面例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TodoBtn</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="title function_">handleButtonClick</span>(<span class="params">e</span>)&#123;</span><br><span class="line">        <span class="comment">// 確認綁定 this 指到 component instance</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">setState</span>(&#123;<span class="attr">toggle</span>: <span class="literal">true</span>&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">render</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="comment">// 這邊可以用 this.handleButtonClick.bind(this) 手動綁定或是 Arrow functions () =&gt; &#123;&#125; 用法</span></span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                <span class="tag">&lt;<span class="name">Button</span> <span class="attr">onClick</span>=<span class="string">&#123;this.handleButtonClick.bind(this)&#125;</span> <span class="attr">onClick</span>=<span class="string">&#123;(e)</span>=&gt;</span> &#123;this.handleButtonClick(e)&#125; &#125;&gt;&#123;this.props.label&#125;<span class="tag">&lt;/<span class="name">Button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">        )</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Arrow functions</code> 雖然一開始看起來有點怪異，但其實觀念很簡單：一個簡化的函數。函數基本上就是參數（不一定要有參數）、表達式、回傳值（也可能是回傳 undefined）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// Arrow functions 的一些例子</span><br><span class="line">()=&gt;7</span><br><span class="line">e=&gt;e+2</span><br><span class="line">()=&gt;&#123;</span><br><span class="line">    alert(&#x27;XD&#x27;);</span><br><span class="line">&#125;</span><br><span class="line">(a,b)=&gt;a+b</span><br><span class="line">e=&gt;&#123;</span><br><span class="line">    if (e == 2)&#123;</span><br><span class="line">        return 2;</span><br><span class="line">    &#125;</span><br><span class="line">    return 100/e;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不過要注意的是無論是 <code>bind</code> 或是 <code>Arrow functions</code>，每次執行回傳都是指到一個新的函數，若需要再調用到這個函數，請記得先把它存起來：</p>
+<p>錯誤用法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TodoBtn</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&#123;</span><br><span class="line">    <span class="title function_">componentWillMount</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="title class_">Btn</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="variable language_">this</span>.<span class="property">handleButtonClick</span>.<span class="title function_">bind</span>(<span class="variable language_">this</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">componentDidmount</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="title class_">Btn</span>.<span class="title function_">removeEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="variable language_">this</span>.<span class="property">handleButtonClick</span>.<span class="title function_">bind</span>(<span class="variable language_">this</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">onAppPaused</span>(<span class="params">event</span>)&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正確用法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TodoBtn</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">props</span>)&#123;</span><br><span class="line">        <span class="variable language_">super</span>(props);</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">handleButtonClick</span> = <span class="variable language_">this</span>.<span class="property">handleButtonClick</span>.<span class="title function_">bind</span>(<span class="variable language_">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">componentWillMount</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="title class_">Btn</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="variable language_">this</span>.<span class="property">handleButtonClick</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">componentDidmount</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="title class_">Btn</span>.<span class="title function_">removeEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="variable language_">this</span>.<span class="property">handleButtonClick</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>更多 Arrows and Lexical This 特性可以<a target="_blank" rel="noopener" href="https://babeljs.io/docs/learn-es2015/#arrows">參考這個文件</a>。</p>
+<h2 id="7-Dynamic-property-names-template-strings"><a href="#7-Dynamic-property-names-template-strings" class="headerlink" title="7. Dynamic property names &amp; template strings"></a>7. Dynamic property names &amp; template strings</h2><p>以前在 ES5 我們要動態設定屬性名稱時，往往需要多寫幾行程式碼才能達到目標：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="title class_">Todo</span> = <span class="title class_">React</span>.<span class="title function_">createClass</span>(&#123;</span><br><span class="line">  <span class="attr">onChange</span>: <span class="keyword">function</span>(<span class="params">inputName, e</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> stateToSet = &#123;&#125;;</span><br><span class="line">    stateToSet[inputName + <span class="string">&#x27;Value&#x27;</span>] = e.<span class="property">target</span>.<span class="property">value</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">setState</span>(stateToSet);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>但在 ES6+中，透過 <a target="_blank" rel="noopener" href="https://babeljs.io/blog/2015/06/07/react-on-es6-plus">enhancements to object literals</a> 和 <a target="_blank" rel="noopener" href="https://babeljs.io/docs/learn-es2015/#template-strings">template strings</a> 可以輕鬆完成動態設定屬性名稱的任務：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Todo extends React.Component &#123;</span><br><span class="line">  onChange(inputName, e) &#123;</span><br><span class="line">    this.setState(&#123;</span><br><span class="line">      [`$&#123;inputName&#125;Value`]: e.target.value,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Template Strings 是一種語法糖（syntactic sugar），方便我們組織字串（這邊也用上 <code>let</code>、<code>const</code> 變數和常數宣告的方式，和 <code>var</code> 的 <code>function scope</code> 不同的是它們是屬於 <code>block scope</code>，亦即生存域存在於 <code>&#123;&#125;</code> 間）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Interpolate variable bindings</span></span><br><span class="line"><span class="keyword">const</span> name = <span class="string">&quot;Bob&quot;</span>, <span class="keyword">let</span> = <span class="string">&quot;today&quot;</span>;</span><br><span class="line"><span class="string">`Hello <span class="subst">$&#123;name&#125;</span>, how are you <span class="subst">$&#123;time&#125;</span>?`</span> \\ <span class="title class_">Hello</span> <span class="title class_">Bob</span>, how are you today?</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="8-Destructuring-spread-attributes"><a href="#8-Destructuring-spread-attributes" class="headerlink" title="8. Destructuring &amp; spread attributes"></a>8. Destructuring &amp; spread attributes</h2><p>在 React 的 Component 中，父元件利用 <code>props</code> 來傳遞資料到子元件是常見作法，然而我們有時會希望只傳遞部分資料，此時 ES6+ 中的 <a target="_blank" rel="noopener" href="https://babeljs.io/docs/learn-es2015/#destructuring">Destructuring</a> 和 <a target="_blank" rel="noopener" href="https://facebook.github.io/react/docs/jsx-spread.html">JSX 的 Spread Attributes
+</a> ，<code>...</code> Spread Attributes 主要是用來迭代物件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Todo</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> &#123;</span><br><span class="line">      className,</span><br><span class="line">      ...others,  <span class="comment">// ...others 包含 this.props 除了 className 外所有值。this.props = &#123;value: &#x27;true&#x27;, title: &#x27;header&#x27;, className: &#x27;content&#x27;&#125;</span></span><br><span class="line">    &#125; = <span class="variable language_">this</span>.<span class="property">props</span>;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&#123;className&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">TodoList</span> &#123;<span class="attr">...others</span>&#125; /&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;this.handleLoadMoreClick&#125;</span>&gt;</span>Load more<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但使用上要注意的是若是有重複的屬性值則以後來覆蓋，下面的例子中若 <code>...this.props</code>，有 <code>className</code>，則被後來的 <code>main</code> 所覆蓋：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div &#123;...<span class="variable language_">this</span>.<span class="property">props</span>&#125; className=<span class="string">&quot;main&quot;</span>&gt;</span><br><span class="line">  …</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>而 <code>Destructuring</code> 也可以用在簡化 <code>Module</code> 的引入上，這邊我們先用 ES5 中引入方式來看：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="title class_">React</span> = <span class="built_in">require</span>(<span class="string">&#x27;react-native&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> <span class="title class_">Component</span> = <span class="title class_">React</span>.<span class="property">component</span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HelloWorld</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Component</span> &#123;</span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">View</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">Text</span>&gt;</span>Hello, world!<span class="tag">&lt;/<span class="name">Text</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">View</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">HelloWorld</span>;</span><br></pre></td></tr></table></figure>
+
+<p>以下 ES5 寫法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var React = require(&#x27;react-native&#x27;);</span><br><span class="line">var View = React.View;</span><br></pre></td></tr></table></figure>
+
+<p>在 ES6+ 則可以直接使用 <code>Destructuring</code> 這種簡化方式來引入模組中的元件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 這邊等於上面的寫法</span><br><span class="line">var &#123; View &#125; = require(&#x27;react-native&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>更進一步可以使用 <code>import</code> 語法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123;</span><br><span class="line">	<span class="title class_">View</span>,</span><br><span class="line">	<span class="title class_">Component</span>,</span><br><span class="line">	<span class="title class_">Text</span>,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&#x27;react-native&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HelloWorld</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Component</span> &#123;</span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">View</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">Text</span>&gt;</span>Hello, world!<span class="tag">&lt;/<span class="name">Text</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">View</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">HelloWorld</span>;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="9-Mixins"><a href="#9-Mixins" class="headerlink" title="9. Mixins"></a>9. Mixins</h2><p>在 ES5 中，我們可以使用 <code>Mixins</code> 的方式去讓不同的 Component 共用相似的功能，重用我們的程式碼：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="title class_">PureRenderMixin</span> = <span class="built_in">require</span>(<span class="string">&#x27;react-addons-pure-render-mixin&#x27;</span>);</span><br><span class="line"><span class="title class_">React</span>.<span class="title function_">createClass</span>(&#123;</span><br><span class="line">  <span class="attr">mixins</span>: [<span class="title class_">PureRenderMixin</span>],</span><br><span class="line"></span><br><span class="line">  <span class="attr">render</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&#123;this.props.className&#125;</span>&gt;</span>foo<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>但由於官方不打算在 ES6+ 中繼續推行 <code>Mixins</code>，若還是希望使用，可以參考看看<a target="_blank" rel="noopener" href="https://www.npmjs.com/package/es6-class-mixin">第三方套件</a>或是<a target="_blank" rel="noopener" href="https://gist.github.com/sebmarkbage/ef0bf1f338a7182b6775">這個文件的用法</a>。</p>
+<h2 id="10-Default-Parameters"><a href="#10-Default-Parameters" class="headerlink" title="10. Default Parameters"></a>10. Default Parameters</h2><p>以前 ES5 我們函數要使用預設值需要這樣使用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> link = <span class="keyword">function</span> (<span class="params">height, color</span>) &#123;  </span><br><span class="line">    <span class="keyword">var</span> height = height || <span class="number">50</span>;  </span><br><span class="line">    <span class="keyword">var</span> color = color || <span class="string">&#x27;red&#x27;</span>;  </span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+
+<p>現在 ES6+ 的函數可以支援預設值，讓程式碼更為簡潔：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> link = <span class="keyword">function</span>(<span class="params">height = <span class="number">50</span>, color = <span class="string">&#x27;red&#x27;</span></span>) &#123;  </span><br><span class="line">  ...  </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>以上就是 React ES5、ES6+常見用法對照表，能看到這邊的你應該已經對於 React ES5、ES6 使用上有些認識，先給自己一些掌聲吧！確實從 ES6 開始，JavaScript 和以前我們看到的 JavaScript 有些不同，增加了許多新的特性，有些讀者甚至會很懷疑說這真的是 JavaScript 嗎？ES6 的用法對於初學者來說可能會需要寫一點時間吸收，下面我幫大家準備了延伸閱讀，方便大家進一步參考學習。接下來我們也會有一系列從零開始學 React 的文章來帶大家由淺入深學習 ReactJS 生態系，運用 JavaScript 打造跨平台應用程式。筆者才書學淺，若有疏漏歡迎大家一起交流討論：）</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a target="_blank" rel="noopener" href="http://bbs.reactnative.cn/topic/15/react-react-native-%E7%9A%84es5-es6%E5%86%99%E6%B3%95%E5%AF%B9%E7%85%A7%E8%A1%A8">React&#x2F;React Native 的ES5 ES6写法对照表</a></li>
+<li><a target="_blank" rel="noopener" href="https://babeljs.io/blog/2015/06/07/react-on-es6-plus">React on ES6+</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.ghugo.com/react-native-es6/">react native 中es6语法解析</a> </li>
+<li><a target="_blank" rel="noopener" href="https://babeljs.io/docs/learn-es2015/">Learn ES2015</a></li>
+<li><a target="_blank" rel="noopener" href="http://es6.ruanyifeng.com/">ECMAScript 6入门</a></li>
+<li><a target="_blank" rel="noopener" href="https://facebook.github.io/react/index.html">React官方網站</a></li>
+<li><a target="_blank" rel="noopener" href="http://fraserxu.me/intro-to-react/">React INTRO TO REACT.JS</a></li>
+<li><a target="_blank" rel="noopener" href="https://toddmotto.com/react-create-class-versus-component/">React.createClass versus extends React.Component</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/lzbSun/react-native-coding-style">react-native-coding-style</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/airbnb/javascript/tree/master/react">Airbnb React&#x2F;JSX Style Guide</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.gitbook.com/book/kdchang/react101/details">從零開始學 React（ReactJS 101）</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.kdchang.cc/">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校，目前專注在 Mobile 和 IoT 應用開發。A Starter &amp; Maker. JavaScript, Python &amp; Arduino&#x2F;Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2016/04/04/react-react-native-es5-es6-cheat-sheet/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2016/04/04/react-react-native-es5-es6-cheat-sheet/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2016/04/04/react-react-native-es5-es6-cheat-sheet/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2016/04/04/react-react-native-es5-es6-cheat-sheet/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2016/04/15/ros-2-dds/">
+        ← 用 DDS 開發 ROS 2.0
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/04/02/Browser-Rendering-Optimization/">
+        Browser Rendering Optimization →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

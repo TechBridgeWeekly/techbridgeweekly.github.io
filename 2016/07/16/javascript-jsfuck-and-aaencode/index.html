@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>讓 JavaSript 難以閱讀：jsfuck 與 aaencode | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-07-16T10:44:42.000Z" itemprop="datePublished">
+          2016-07-16
+      </time>
+    
+    
+    | 
+    <a href='/tags/JavaScript/'>JavaScript</a>,
+    
+    <a href='/tags/jsfuck/'>jsfuck</a>,
+    
+    <a href='/tags/aaencode/'>aaencode</a>
+    
+    
+</span>
+
+<meta name="generator" content="讓 JavaSript 難以閱讀：jsfuck 與 aaencode">
+<meta name="og:title" content="讓 JavaSript 難以閱讀：jsfuck 與 aaencode">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">讓 JavaSript 難以閱讀：jsfuck 與 aaencode</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在進入今天的主題之前，先推薦大家看一個影片 <a target="_blank" rel="noopener" href="https://www.destroyallsoftware.com/talks/wat">WAT：A lightning talk by Gary Bernhardt from CodeMash 2012</a>。在這個影片裡面，講者會為大家示範 JavaScript 到底有多「神奇」。而這些神奇的特性，也會跟我們之後所要介紹的兩個東西有關。</p>
+<h2 id="先從-Brainfuck-開始"><a href="#先從-Brainfuck-開始" class="headerlink" title="先從 Brainfuck 開始"></a>先從 Brainfuck 開始</h2><p>大家有聽過 <code>Brainfuck</code> 嗎？顧名思義，就是會讓你超級頭痛的一個程式語言，只用下面這八個字元就可以寫出一個完整的程式：</p>
+<ol>
+<li><blockquote>
+</blockquote>
+</li>
+<li>&lt;</li>
+<li><ul>
+<li></li>
+</ul>
+</li>
+<li><ul>
+<li></li>
+</ul>
+</li>
+<li>.</li>
+<li>,</li>
+<li>[</li>
+<li>]</li>
+</ol>
+<p>而這幾種字元如果對應到 C 的程式碼，就是：</p>
+<ol>
+<li>++ptr;</li>
+<li>–ptr;</li>
+<li>++*ptr;</li>
+<li>–*ptr;</li>
+<li>putchar(*ptr);</li>
+<li>*ptr &#x3D;getchar();</li>
+<li>while (*ptr) {</li>
+<li>}</li>
+</ol>
+<p>（資料來源：<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Brainfuck">wikipedia: Brainfuck</a>）<br>Brainfuck 內建會給你一組陣列，並且讓 <code>ptr</code> 指向陣列開頭，剩下的事情就交給我們自己了，舉例來說，輸出 <code>Hello World</code> 的程式長這樣：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">++++++++++[&gt;+++++++&gt;++++++++++&gt;+++&gt;+&lt;&lt;&lt;&lt;-]</span><br><span class="line">&gt;++.&gt;+.+++++++..+++.&gt;++.&lt;&lt;+++++++++++++++.</span><br><span class="line">&gt;.+++.------.--------.&gt;+.&gt;.</span><br></pre></td></tr></table></figure>
+
+<p>如果想看更多範例可以參考維基百科，上面有附一些說明。由於 <code>Brainfuck</code> 並不是今天的重點，因此只是稍微跟大家介紹一下而已。</p>
+<h2 id="JSfuck"><a href="#JSfuck" class="headerlink" title="JSfuck"></a>JSfuck</h2><p>接著就是我們今天的第一個主角：<code>JSfuck</code>，我們先來看一段 <code>JSfuck</code> 的程式碼：</p>
+<p><img src="/img/huli/jsfuck.jpg" alt="jsfunck" title="jsfuck"></p>
+<p>現在你知道它為什麼取做這個名稱了吧！<br>與 Brainfuck 相似，JSfuck 只有六個字元：</p>
+<ol>
+<li>[</li>
+<li>]</li>
+<li>(</li>
+<li>)</li>
+<li>!</li>
+<li><ul>
+<li></li>
+</ul>
+</li>
+</ol>
+<p>可是 JSfuck 與 Brainfuck 最大的差別就在於，JSfuck 其實是把你的 JavaScript 程式碼轉換成這樣的形式，而不是像 Brainfuck 那樣，每一個符號都有自己代表的動作。<br>接著就讓我們來看看 JSfuck 的原理到底是什麼吧！  </p>
+<h2 id="Function-Constructor"><a href="#Function-Constructor" class="headerlink" title="Function Constructor"></a>Function Constructor</h2><p>如果想要執行一段字串裡面的程式碼，可以怎麼做呢？你可能會用 <code>eval</code>，但其實還有一個方法，就是 <code>Function Constructor</code>，你可以傳入一段字串，那段字串就會被當做程式碼來運行，舉例來說：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new Function(&#x27;alert(1)&#x27;)();</span><br></pre></td></tr></table></figure>
+
+<p>上面這段程式碼就會做跟 <code>alert(1)</code> 一樣的事情<br>不只如此，其實連參數名稱都可以傳入！</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">new Function(&#x27;a&#x27;, &#x27;b&#x27;, &#x27;return a+b;&#x27;)(1, 2);</span><br><span class="line">// 3</span><br></pre></td></tr></table></figure>
+
+<p>這一段先到這邊暫時打住，等等再回來看。但是現在知道一個很重要的事實了：只要你有一段文字，就可以用 <code>Function Constructor</code> 的方式去執行。</p>
+<h2 id="如何湊出程式碼？"><a href="#如何湊出程式碼？" class="headerlink" title="如何湊出程式碼？"></a>如何湊出程式碼？</h2><p>那我們下一個要達成的目標就是，湊出所有的文字，並且都是用那六個字元組成，不就可以執行了嗎？</p>
+<p>先從數字開始吧，看看怎樣可以湊出數字。但其實我們也只要湊出 0 跟 1 就好，因為其他正整數都可以透過這兩個數字拼湊起來。  </p>
+<p><code>+[]</code>可以湊出 0，或者也可以換一個思路，<code>![]</code>會是 <code>false</code>，所以<code>+![]</code>也會是 0，有 0 之後，要變出 1 就不難了，因為 <code>![]</code> 是 <code>false</code>，所以 <code>!![]</code> 就是 <code>true</code>。那 <code>+!![]</code> 就是數字的 1。</p>
+<p>數字有了，接下來是文字跟符號，文字的話你可能會直接想到：<code>String.fromCharCode</code>，只要能湊出這段文字，你就能湊出其他任何文字或符號了。  </p>
+<p>但我們先來看看一個比較特別的方法，例如說 <code>![]</code> 是 <code>false</code>，然後 <code>[]+[]</code> 是空字串，所以把兩個加起來，<code>![]+[]+[]</code>就會是字串的 <code>&quot;false&quot;</code>（其實 <code>![]+[]</code> 就可以了），那我是不是可以用：<code>&quot;false&quot;[0]</code> 取得 <code>f</code> 這個字元？  </p>
+<p>把字串 <code>&quot;false&quot;</code> 用上面的那串取代，就會變成：<code>(![]+[]+[])[0]</code>，那 0 又可以用我們上面得出的<code>+[]</code>取代，就變：<code>(![]+[]+[])[+[]]</code>，這樣你就成功用這幾個字元湊出 f 這個字了，酷吧！</p>
+<p>其他的文字跟符號也是相同原理，你可以從各個 JavaScript 的程式碼裡面找到許多文字的蹤跡，例如說 <code>undefined</code>，如果你想知道所有的文字是怎麼湊出來的，可以參考：<a target="_blank" rel="noopener" href="https://github.com/aemkei/jsfuck/blob/master/jsfuck.js">JSfuck 原始碼</a>。</p>
+<h2 id="把上面結合起來"><a href="#把上面結合起來" class="headerlink" title="把上面結合起來"></a>把上面結合起來</h2><p>現在有了 <code>Function Constructor</code> 跟要執行的文字，是不是就可以完成我們想做的事了。可是 <code>new Function()</code> 要怎麼用這六個字元湊出來呢？  </p>
+<p>一個空的陣列<code>[]</code>有很多原生的 JavaScript function，像是 <code>map</code> 好了，<code>[].map</code> 就可以得到 <code>map</code> 這個 function，有了 function 之後，只要用 <code>map.function.constructor</code>，就可以拿到 <code>Function Constructor</code>了！ 就像 <code>&quot;&quot;.constructor</code> 也可以拿到 String Constructor 一樣。</p>
+<p>而且<code>.</code>可以用<code>[]</code>取代，<code>[].map</code>會變成<code>[][&#39;map&#39;]</code>，這樣結合下來，就變成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[][&#x27;map&#x27;][&#x27;constructor&#x27;]</span><br><span class="line">[][&#x27;map&#x27;][&#x27;constructor&#x27;](&#x27;alert(1)&#x27;)(); // 可以順利執行</span><br></pre></td></tr></table></figure>
+
+<p>接著就是把 <code>map</code> 跟 <code>constuctor</code> 這兩個字用上面的方法湊出來，不是就可以了嗎？  </p>
+<p>做到這裡，相信大家應該比較瞭解 <code>JSfuck</code> 的原理了，就是用許多特別的技巧湊出文字、湊出 <code>Function Constructor</code> 來執行那段文字。</p>
+<p>接著，我們介紹一個原理類似，但更可愛的東西！</p>
+<h2 id="用顏文字寫程式"><a href="#用顏文字寫程式" class="headerlink" title="用顏文字寫程式"></a>用顏文字寫程式</h2><p><img src="/img/huli/aaencode.jpg" alt="aaencode" title="aaencode"></p>
+<p>可愛吧！居然可以把 JavaScript 變成一堆顏文字！<br><code>aaencode</code> 跟 <code>JSfuck</code> 又有一點小差異了，因為<code>aaencode</code>可以用到的字元比較多，只是長得比較可愛而已，那既然<code>JSfuck</code>可以做到，<code>aaencode</code>沒什麼理由做不到。</p>
+<p>接著讓我們仔細看一段 <code>aaencode</code> 轉出來的程式碼：<br>（因為有些特殊字元的關係，可能會顯示不出來，但不影響整體的閱讀，看個感覺就好）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">ﾟωﾟﾉ= /｀ｍ´）ﾉ ~┻━┻   //*´∇｀*/ [&#x27;_&#x27;]; o=(ﾟｰﾟ)  =_=3; </span><br><span class="line">c=(ﾟΘﾟ) =(ﾟｰﾟ)-(ﾟｰﾟ); (ﾟДﾟ) =(ﾟΘﾟ)= (o^_^o)/ (o^_^o);</span><br><span class="line">(ﾟДﾟ)=&#123;ﾟΘﾟ: &#x27;_&#x27; ,ﾟωﾟﾉ : ((ﾟωﾟﾉ==3) +&#x27;_&#x27;) [ﾟΘﾟ] ,ﾟｰﾟﾉ :(ﾟωﾟﾉ+ &#x27;_&#x27;)[o^_^o -(ﾟΘﾟ)]</span><br><span class="line">,ﾟДﾟﾉ:((ﾟｰﾟ==3) +&#x27;_&#x27;) [ﾟｰﾟ] &#125;; (ﾟДﾟ) [ﾟΘﾟ] =((ﾟωﾟﾉ==3) +&#x27;_&#x27;) [c^_^o];(ﾟДﾟ) [&#x27;c&#x27;] = </span><br><span class="line">((ﾟДﾟ) +&#x27;_&#x27;) [ (ﾟｰﾟ)+(ﾟｰﾟ)-(ﾟΘﾟ) ];(ﾟДﾟ) [&#x27;o&#x27;] = ((ﾟДﾟ)+&#x27;_&#x27;) [ﾟΘﾟ];(ﾟoﾟ)=(ﾟДﾟ)  [&#x27;c&#x27;]+</span><br><span class="line">(ﾟДﾟ) [&#x27;o&#x27;]+(ﾟωﾟﾉ +&#x27;_&#x27;)[ﾟΘﾟ]+ ((ﾟωﾟﾉ==3) +&#x27;_&#x27;) [ﾟｰﾟ] + ((ﾟДﾟ)   +&#x27;_&#x27;) [(ﾟｰﾟ)+(ﾟｰﾟ)]+ (</span><br><span class="line">(ﾟｰﾟ==3) +&#x27;_&#x27;) [ﾟΘﾟ]+((ﾟｰﾟ==3) +&#x27;_&#x27;) [(ﾟｰﾟ) - (ﾟΘﾟ)]+(ﾟДﾟ) [&#x27;c&#x27;]+((ﾟДﾟ)+&#x27;_&#x27;) [(ﾟｰﾟ)+(</span><br><span class="line">ﾟｰﾟ)]+ (ﾟДﾟ) [&#x27;o&#x27;]+((ﾟｰﾟ==3) +&#x27;_&#x27;)    [ﾟΘﾟ];(ﾟДﾟ) [&#x27;_&#x27;] =(o^_^o) [ﾟoﾟ] [ﾟoﾟ];(ﾟεﾟ)=((</span><br><span class="line">ﾟｰﾟ==3) +&#x27;_&#x27;) [ﾟΘﾟ]+ (ﾟДﾟ) .ﾟДﾟﾉ+((ﾟДﾟ)+&#x27;_&#x27;) [(ﾟｰﾟ) + (ﾟｰﾟ)]+((ﾟｰﾟ==3) +&#x27;_&#x27;) [o^_^o -</span><br><span class="line">ﾟΘﾟ]+    ((ﾟｰﾟ==3) +&#x27;_&#x27;) [ﾟΘﾟ]+ (ﾟωﾟﾉ +&#x27;_&#x27;) [ﾟΘﾟ]; (ﾟｰﾟ)+=(ﾟΘﾟ); (ﾟДﾟ)[ﾟεﾟ]=&#x27;\\&#x27;; (</span><br><span class="line">ﾟДﾟ).ﾟΘﾟﾉ=(ﾟДﾟ+ ﾟｰﾟ)[o^_^o -(ﾟΘﾟ)];(oﾟｰﾟo)=(ﾟωﾟﾉ +&#x27;_&#x27;)[c^_^o];(ﾟДﾟ)     [ﾟoﾟ]=&#x27;\&quot;&#x27;;(</span><br><span class="line">ﾟДﾟ) [&#x27;_&#x27;] ( (ﾟДﾟ) [&#x27;_&#x27;] (ﾟεﾟ+(ﾟДﾟ)[ﾟoﾟ]+ (ﾟДﾟ)[ﾟεﾟ]+(ﾟΘﾟ)+ (ﾟｰﾟ)+ (ﾟΘﾟ)+ (ﾟДﾟ)[ﾟεﾟ]+(</span><br><span class="line">ﾟΘﾟ)+ ((ﾟｰﾟ) + (ﾟΘﾟ))+ (ﾟｰﾟ)+ (ﾟДﾟ)[ﾟεﾟ]+(ﾟ    Θﾟ)+ (ﾟｰﾟ)+ ((ﾟｰﾟ) + (ﾟΘﾟ))+ (ﾟДﾟ)[ﾟεﾟ]+</span><br><span class="line">(ﾟΘﾟ)+ ((o^_^o) +(o^_^o))+     ((o^_^o) - (ﾟΘﾟ))+ (ﾟДﾟ)[ﾟεﾟ]+(ﾟΘﾟ)+ ((o^_^o) +(</span><br><span class="line">o^_^o))+ (ﾟｰﾟ)+ (ﾟДﾟ)[ﾟεﾟ]+((ﾟｰﾟ) + (ﾟΘﾟ))+ (c^_^o)+ (ﾟДﾟ)[ﾟεﾟ]+((o^_^o) +(o^_^o))+ (</span><br><span class="line">ﾟΘﾟ)+ (ﾟДﾟ)[ﾟεﾟ]+((ﾟｰﾟ) + (ﾟΘﾟ))+ (ﾟΘﾟ)+ (ﾟДﾟ)[ﾟoﾟ]) (ﾟΘﾟ)) (&#x27;_&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>仔細觀察會發現裡面其實有很多分號，是把很多行組合在一起，我們挑裡面比較短的一行來看：<br>（底下的程式碼因為特殊字元的關係有多做一點處理，跟原本的有些許差異）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">o=（˙_˙）  =_=3; </span><br></pre></td></tr></table></figure>
+
+<p>看起是顏文字，但其實沒那麼簡單，我把空格隔多一點，你就知道我在講什麼了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">o = （˙_˙）   =  _  = 3; </span><br></pre></td></tr></table></figure>
+
+
+<p>其實就是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">_ = 3;</span><br><span class="line">（˙_˙） = _;</span><br><span class="line">o = （˙_˙）  ;</span><br></pre></td></tr></table></figure>
+
+<p>也就是讓 <code>o</code>, <code>（˙_˙）</code>, <code>_</code> 都是 3<br>所以 <code>˙_˙</code> 只是一個變數名稱，然後用 <code>()</code> 包起來變成顏文字，但這括弧在程式上其實沒有什麼意義</p>
+<p>至於其他段的程式碼，做的事情也都大同小異，有興趣的讀者們可以自己再去分析，或者直接右鍵-&gt;檢視原始碼去看看是怎麼 encode 的。</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>我第一次看到 <code>aaencode</code> 的時候也是：「哇！」嚇了一跳，不解為什麼用顏文字也可以寫程式，後來仔細看才了解到其實顏文字本來就是一堆符號組成的，可以寫出程式也是件很正常的事情。  </p>
+<p>但每次看到今天介紹的這兩種特別的寫法，還是很佩服作者，當初怎麼想到可以用這樣子來寫程式。希望這篇文章的介紹能讓大家對程式碼有點新的想法，說不定給了你靈感，可以開發出更厲害的寫法。</p>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://huli.logdown.com/">@huli</a> 野生工程師，相信分享與交流能讓世界變得更美好</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2016/07/16/javascript-jsfuck-and-aaencode/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2016/07/16/javascript-jsfuck-and-aaencode/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2016/07/16/javascript-jsfuck-and-aaencode/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2016/07/16/javascript-jsfuck-and-aaencode/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2016/07/23/progressive-web-app/">
+        ← Progressive Web App 會是未來趨勢嗎？
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/07/09/ros-ecto-second/">
+        ecto 簡介 (2) – tendrils 與 scheduler →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

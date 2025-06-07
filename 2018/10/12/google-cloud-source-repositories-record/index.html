@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Google Cloud Source Repositories 使用紀錄 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-10-12T14:23:21.000Z" itemprop="datePublished">
+          2018-10-12
+      </time>
+    
+    
+    | 
+    <a href='/tags/google-cloud/'>google cloud</a>
+    
+    
+</span>
+
+<meta name="generator" content="Google Cloud Source Repositories 使用紀錄">
+<meta name="og:title" content="Google Cloud Source Repositories 使用紀錄">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Google Cloud Source Repositories 使用紀錄</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>GCSR(Google Cloud Source Repositories) 是 Google 推出以 git 為基礎的程式碼代管服務。</p>
+<p>原先我的 Side Project 也是自己建 git server 來放，後來因為硬體故障等等，自己維護需要花費不少時間和成本(懶!)，加上本身也是 Google 的愛好者，最後選擇 GCSR 來試試。</p>
+<p>首先談談 GCSR 的缺點，基本上第 1 個缺點為 GCSR 必須依附於 Google Cloud Platform(GCP)。</p>
+<blockquote>
+<p>也就是說你必須先了解基本的 GCP 使用方式</p>
+</blockquote>
+<p>第 2 個缺點在於建立和拷貝 Repository 的動作必須透過 Google Cloud SDK。</p>
+<blockquote>
+<p>也就是說你必須先安裝 Google Cloud SDK</p>
+</blockquote>
+<p>第 3 個缺點在於 GCSR 免費版的限制</p>
+<blockquote>
+<ol>
+<li>Repository 最多 5 位使用者，每增加 1 人，每月 1 美金</li>
+<li>Repository 儲存空間最大 50 GB，每增加 1 GB，每月 0.10 美金</li>
+<li>Repository 最大 50 GB 輸出，每增加 1 GB 輸出，每月 0.10 美金</li>
+</ol>
+</blockquote>
+<p>缺點看完了，我們來看看優點吧。</p>
+<p>個人認為 GCSR 最大的優點在於可以連結 Google Cloud Platform 搭配不同工具以進行擴充。其次在於速度及安全性有一定的保障，加上內建 CI 功能和 User Interface，優於現今一般的程式碼託管服務。</p>
+<p>以上的優缺點若您都能接受，那就繼續往下看吧。</p>
+<p>首先提供官網 <a target="_blank" rel="noopener" href="https://cloud.google.com/source-repositories/">GCSR</a> 的說明。若想直接參考使用方式請看 <a target="_blank" rel="noopener" href="https://cloud.google.com/source-repositories/docs/quickstart">Quick Start</a>。</p>
+<h1 id="1-如何在-GCSR-上建立專案以及複製專案到本地端"><a href="#1-如何在-GCSR-上建立專案以及複製專案到本地端" class="headerlink" title="1. 如何在 GCSR 上建立專案以及複製專案到本地端"></a>1. 如何在 GCSR 上建立專案以及複製專案到本地端</h1><ol>
+<li><p><strong>在 Google Cloud Platform 建立專案</strong></p>
+<p> 建議新增獨立的 GCP 專案來放置 Repository 避免和其他的專案混淆。</p>
+</li>
+<li><p><strong>安裝 Google Cloud SDK</strong></p>
+<p> 安裝 SDK 的目的就是用來新增，複製專案。注意安裝完成之後還需要進行初始化的動作，參考<a target="_blank" rel="noopener" href="https://cloud.google.com/sdk/docs/#windows">這裡</a>。</p>
+</li>
+<li><p><strong>安裝 git</strong></p>
+<p> Windows 系統官方推薦使用 <a target="_blank" rel="noopener" href="https://git-scm.com/download/win">git-scm</a>，Linux 系統就用 <a target="_blank" rel="noopener" href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">command line</a> 安裝 git 吧</p>
+</li>
+<li><p><strong>建立 hello-world Repository(Google Cloud SDK)</strong></p>
+<p> <code>gcloud source repos create hello-world</code></p>
+</li>
+<li><p><strong>拷貝 hello-world Repository 到 local</strong></p>
+<p> <code>gcloud source repos clone hello-world</code></p>
+</li>
+</ol>
+<h1 id="2-加入-HelloWorld-script-和-Deploy-檔案"><a href="#2-加入-HelloWorld-script-和-Deploy-檔案" class="headerlink" title="2. 加入 HelloWorld script 和 Deploy 檔案"></a>2. 加入 HelloWorld script 和 Deploy 檔案</h1><p>1.<strong>移動到本地端 hello-world 目錄並新增 main.py 檔案，將下方內容複製到 main.py</strong></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">!/usr/<span class="built_in">bin</span>/env python</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> webapp2</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MainHandler</span>(webapp2.RequestHandler):</span><br><span class="line">   <span class="keyword">def</span> <span class="title function_">get</span>(<span class="params">self</span>):</span><br><span class="line">      <span class="variable language_">self</span>.response.write(<span class="string">&#x27;Hello World!&#x27;</span>)</span><br><span class="line"> </span><br><span class="line">app = webapp2.WSGIApplication([</span><br><span class="line">   (<span class="string">&#x27;/&#x27;</span>, MainHandler)</span><br><span class="line">], debug=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<p>2.<strong>新增 app.yaml 檔案，將下方內容複製到 app.yaml</strong></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">runtime: python27</span><br><span class="line">api_version: <span class="number">1</span></span><br><span class="line">threadsafe: yes</span><br><span class="line"> </span><br><span class="line">handlers:</span><br><span class="line">- url: .*</span><br><span class="line">script: main.app</span><br><span class="line"> </span><br><span class="line">libraries:</span><br><span class="line">- name: webapp2</span><br><span class="line">version: <span class="string">&quot;2.5.2&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>3.<strong>push 到遠端 hello-world Repository</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line"> </span><br><span class="line">git commit -m &quot;Add Hello World app to Cloud Source Repositories&quot;</span><br><span class="line"> </span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-部署到-App-Engine"><a href="#3-部署到-App-Engine" class="headerlink" title="3. 部署到 App Engine"></a>3. 部署到 App Engine</h1><p>1.<strong>輸入以下指令以部署到 App Engine</strong></p>
+<p><code>gcloud app deploy app.yaml</code></p>
+<p>2.<strong>確認部署內容是否成功</strong></p>
+<p><code>gcloud app browse</code></p>
+<p>完成後應該會開啟瀏覽器並顯示 Hello World!</p>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>經由上述的分享你就能進行基本的 GCSR 操作，但使用 GCSR 的優勢可不僅於此，你可以透過 App Engine 雲端部屬，整合 Cloud Build 自動編譯，使用 Cloud Debugger 進行除錯。</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/10/12/google-cloud-source-repositories-record/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/10/12/google-cloud-source-repositories-record/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/10/12/google-cloud-source-repositories-record/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/10/12/google-cloud-source-repositories-record/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/10/13/pwa-in-action/">
+        ← PWA 實戰經驗分享
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/10/05/how-to-use-python-manipulate-excel-spreadsheet/">
+        如何使用 Python 程式操作 Excel 試算表 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

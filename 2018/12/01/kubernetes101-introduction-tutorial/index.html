@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Kubernetes 與 minikube 入門教學 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-12-01T10:23:23.000Z" itemprop="datePublished">
+          2018-12-01
+      </time>
+    
+    
+    | 
+    <a href='/tags/container/'>container</a>,
+    
+    <a href='/tags/容器/'>容器</a>,
+    
+    <a href='/tags/Kubernetes/'>Kubernetes</a>,
+    
+    <a href='/tags/minikube/'>minikube</a>,
+    
+    <a href='/tags/雲端/'>雲端</a>,
+    
+    <a href='/tags/cloud-native/'>cloud native</a>
+    
+    
+</span>
+
+<meta name="generator" content="Kubernetes 與 minikube 入門教學">
+<meta name="og:title" content="Kubernetes 與 minikube 入門教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Kubernetes 與 minikube 入門教學</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/kubernetes101/kubernetes-logo.png" alt="Kubernetes 與 minikube 入門教學"> </p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><a target="_blank" rel="noopener" href="https://kubernetes.io/">Kubernetes</a>（又稱 K8s，類似於 i18n&#x2F;l10n，取中間字母的長度的簡寫命名）是一個協助我們自動化部署（automating deployment）、自動擴展（scaling）和管理容器應用程式（containerized applications）的指揮調度（Orchestration）工具。相比於傳統的手動部屬容器應用程式的方式，Kubernetes 主要有幾個好處：</p>
+<ol>
+<li><p>Automated rollouts and rollbacks<br>Kubernetes 可以很容易更新容器版本並 rollback 回之前版本</p>
+</li>
+<li><p>Service Scalability<br>當定義好部屬服務需求，可以很容易因應流量進行 Auto Scaling</p>
+</li>
+<li><p>Service discovery and load balancing<br>自動分配容器相對應的 IP 位址，透過 Service cluster 達到 load balancing 效果</p>
+</li>
+<li><p>Self-healing<br>當 Container Application 出現 crash 時，可以根據部屬定義的需求，自動偵測重啟服務</p>
+</li>
+</ol>
+<p><img src="/img/kdchang/kubernetes101/kubernetes-architecture.jpg" alt="Kubernetes 與 minikube 入門教學"> </p>
+<h2 id="Kubernetes-架構簡介"><a href="#Kubernetes-架構簡介" class="headerlink" title="Kubernetes 架構簡介"></a>Kubernetes 架構簡介</h2><p>Kubernetes cluster 主要可以分為 Master 和 Node 兩部份，Master 負責指揮調度 Node。在 Kubernetes 世界裡，Node 上的 Pod 是運行調度的最小單位，裡面可以放多個 container（一般以有緊密相關的服務為主，同一個 Pod 共享 IP），也可以只有單個 Container，同一個 Pod 的 container 是一起被調度。而 Deployment 為管理 Pod 的 Controller，我們可以視一組 Deployment 為一組應用服務。而 Service 可以固定住我們對外服務的 IP，不會因為 Pod 關閉重啟而喪失原來的 IP 位置。</p>
+<h2 id="環境設定"><a href="#環境設定" class="headerlink" title="環境設定"></a>環境設定</h2><blockquote>
+<p>Minikube is a tool that makes it easy to run Kubernetes locally. Minikube runs a single-node Kubernetes cluster inside a VM on your laptop for users looking to try out Kubernetes or develop with it day-to-day</p>
+</blockquote>
+<p>在開始學習跑步之前，我們先學會走路。首先，我們透過 <a target="_blank" rel="noopener" href="https://github.com/kubernetes/minikube">minikube</a> 這個可以在本地端跑 Kubernetes 工作，來在本地端部屬我們的 Kubernetes cluster，感受一下 k8s 的應用。由於 minikube 只提供 signle-node Kubernetes Cluster，本身並不支援 HA (High availability)，所以不推薦在實際應用上運行呦。</p>
+<p>在開始操作之前我們先準備好：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.virtualbox.org/">virtualbox</a>（可以根據對應作業系統下載對應版本），</li>
+<li>接著透過 homebrew 下指令來安裝 minikube<br>（我們這邊會以 macOS 為主，若是其他作業系統可以參考 <a target="_blank" rel="noopener" href="https://github.com/kubernetes/minikube">minikube</a> 官方 repo 教學）</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew cask install minikube</span><br></pre></td></tr></table></figure>
+
+<p>安裝好後可以透過以下指令確認版本，同時它也會一起安裝 kubectl 這個 Kubernetes 指令操作工具 kubectl</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ minikube version</span><br><span class="line">minikube version: v0.30.0</span><br></pre></td></tr></table></figure>
+
+<h2 id="創建-cluster"><a href="#創建-cluster" class="headerlink" title="創建 cluster"></a>創建 cluster</h2><p>接著啟動我們 Kubernetes cluster</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ minikube start</span><br><span class="line"></span><br><span class="line">Starting local Kubernetes v1.10.0 cluster...</span><br><span class="line">Starting VM...</span><br><span class="line">Downloading Minikube ISO</span><br><span class="line"> 170.78 MB / 170.78 MB [============================================] 100.00% 0s</span><br><span class="line">Getting VM IP address...</span><br><span class="line">Moving files into cluster...</span><br><span class="line">Downloading kubelet v1.10.0</span><br><span class="line">Downloading kubeadm v1.10.0</span><br><span class="line">Finished Downloading kubelet v1.10.0</span><br><span class="line">Finished Downloading kubeadm v1.10.0</span><br><span class="line">Setting up certs...</span><br><span class="line">Connecting to cluster...</span><br><span class="line">Setting up kubeconfig...</span><br><span class="line">Starting cluster components...</span><br><span class="line">Kubectl is now configured to use the cluster.</span><br><span class="line">Loading cached images from config file.</span><br></pre></td></tr></table></figure>
+
+<p>若是啟動完成可以透過以下指令觀看 cluster 情況：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl cluster-info</span><br></pre></td></tr></table></figure>
+
+<p>查看 minikube 的狀態：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ minikube status</span><br><span class="line">minikube: Running</span><br><span class="line">cluster: Running</span><br><span class="line">kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100</span><br></pre></td></tr></table></figure>
+
+<p>還可以透過圖形化介面來觀看和操作 Kubernetes</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ minikube dashboard</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/kdchang/kubernetes101/kubernetes-dashboard.png" alt="Kubernetes 與 minikube 入門教學"> </p>
+<h2 id="部屬應用"><a href="#部屬應用" class="headerlink" title="部屬應用"></a>部屬應用</h2><p>接著我們來部屬一個簡單範例應用到 Kubernetes。這個應用名稱叫 <a target="_blank" rel="noopener" href="https://hub.docker.com/r/kdchang/docker-python-flask-demo/tags/">docker-python-flask-demo</a>，是一個 Dockerize Simple Flask App 。kubectl run 可以讓我們啟動我們的 Pod，–image 後面接的是 docker image 位置和版本，–port 則是 container 對外的 port</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl run docker-python-flask-demo --image=docker.io/kdchang/docker-python-flask-demo:v1 --port 3000</span><br></pre></td></tr></table></figure>
+
+<p>應該可以看到 docker-python-flask-demo-xxxxxxxx 的 Pod 已經啟動：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pods</span><br></pre></td></tr></table></figure>
+
+<h2 id="對外公開應用"><a href="#對外公開應用" class="headerlink" title="對外公開應用"></a>對外公開應用</h2><p>由於 default 情況下 Pod 只允許 cluster 內部訪問，若是要讓外部可以訪問的話可以將容器的 port 對應到 Node 的 Port（Cluster IP 是只能內部訪問，kubectl expose 則是把 deployment expose 成為一個對外 service，type NodePort 可以把 Deployment 透過 Kubernetes Cluster 的 port 讓 Cluster 外部可以訪問）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl expose deployment/docker-python-flask-demo --type=&quot;NodePort&quot; --port 3000</span><br><span class="line">service/docker-python-flask-demo exposed</span><br></pre></td></tr></table></figure>
+
+<p>看一下 service 列表，發現已經隨機分配一個 port 31862 （注意讀者產生的 port 有可能不一樣）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get services</span><br><span class="line">NAME                       TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE</span><br><span class="line">docker-python-flask-demo   NodePort    10.100.20.174    &lt;none&gt;        3000:32743/TCP   2s</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl service docker-python-flask-demo --url</span><br><span class="line">http://192.168.99.100:32743</span><br></pre></td></tr></table></figure>
+
+<p>可以看到 service 將 deployment&#x2F;docker-python-flask-demo 的 port number 3000 與 minikube-vm 上的 port number 32743 做 mapping<br>接著可以使用 minukube service 的指令快速找到 docker-python-flask-demo 的 url，這樣我們就可以在瀏覽器輸入網址看到成果囉：</p>
+<p><img src="/img/kdchang/kubernetes101/docker-flask-demo-v1.png" alt="Kubernetes 與 minikube 入門教學"> </p>
+<h2 id="擴充應用"><a href="#擴充應用" class="headerlink" title="擴充應用"></a>擴充應用</h2><p>由於 default 情況下 deployment 只會有一個副本 replication，我們可以透過以下指令查看副本數：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get deployments</span><br><span class="line">NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">docker-python-flask-demo   1         1         1            1           23m</span><br></pre></td></tr></table></figure>
+
+<p>設定副本數量為 3：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl scale deployments/docker-python-flask-demo --replicas=3</span><br><span class="line">deployment.extensions/docker-python-flask-demo scaled</span><br></pre></td></tr></table></figure>
+
+<p>我們可以看到原本的副本數量從 1 變成了 3：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get deployments</span><br><span class="line">NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">docker-python-flask-demo   3         3         3            3           25m</span><br></pre></td></tr></table></figure>
+
+<p>設定副本數量為 2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get deployments</span><br><span class="line">NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">docker-python-flask-demo   2         2         2            2           26m</span><br></pre></td></tr></table></figure>
+
+<h2 id="更新應用"><a href="#更新應用" class="headerlink" title="更新應用"></a>更新應用</h2><p>若是我們想要更新 container 的版本的話可以下以下指令（也就是說原本 docker image tag v1 版本改進到 v2 版本，我們可以透過更新 docker image 來進行進版）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl set image deployments/docker-python-flask-demo docker-python-flask-demo=docker.io/kdchang/docker-python-flask-demo:v2</span><br><span class="line">deployment.extensions/docker-python-flask-demo image updated</span><br></pre></td></tr></table></figure>
+
+<p>此時我們在到瀏覽器重新整理 <a target="_blank" rel="noopener" href="http://192.168.99.100:32743/%EF%BC%8C%E5%B0%B1%E6%9C%83%E7%99%BC%E7%8F%BE%E7%95%AB%E9%9D%A2%E4%B8%AD%E7%9A%84">http://192.168.99.100:32743/，就會發現畫面中的</a> Flask Dockerized v1 變成了 Flask Dockerized v2！</p>
+<p><img src="/img/kdchang/kubernetes101/docker-flask-demo-v2.png" alt="Kubernetes 與 minikube 入門教學"> </p>
+<p>若要回到 v1 版本可以透過 rollout undo 指令來進行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl rollout undo deployments/docker-python-flask-demo</span><br><span class="line">deployment.extensions/docker-python-flask-demo</span><br></pre></td></tr></table></figure>
+
+<p>又回到 v1 惹！</p>
+<p><img src="/img/kdchang/kubernetes101/docker-flask-demo-v1.png" alt="Kubernetes 與 minikube 入門教學"> </p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>以上簡單透過 minikube 介紹 Kubernetes 的架構和部屬 cluster 和應用在本地端，實際上我們可以透過雲端服務來部屬我們的 Kubernetes 應用，minikube 主要是用在練習和教學使用，不建議使用在生產環境上。目前 Kubernetes 生態系發展非常快速，版本也持續更新。關於 Kubernetes 相關的實際應用，我們下回再繼續討論囉！</p>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.kdchang.cc/">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino&#x2F;Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/12/01/kubernetes101-introduction-tutorial/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/12/01/kubernetes101-introduction-tutorial/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/12/01/kubernetes101-introduction-tutorial/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/12/01/kubernetes101-introduction-tutorial/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/12/08/javascript-closure/">
+        ← 所有的函式都是閉包：談 JS 中的作用域與 Closure
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/11/24/intro-to-mdp-on-hri/">
+        如何用 Markov Decision Process 描述 Human-Robot Interaction 問題 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

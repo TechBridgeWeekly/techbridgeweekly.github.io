@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>如何使用 K8S 自動化定期 CronJob 抓網路公開資料 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-06-29T10:23:23.000Z" itemprop="datePublished">
+          2019-06-29
+      </time>
+    
+    
+    | 
+    <a href='/tags/Python/'>Python</a>,
+    
+    <a href='/tags/k8s/'>k8s</a>,
+    
+    <a href='/tags/cronjob/'>cronjob</a>,
+    
+    <a href='/tags/kubernetes/'>kubernetes</a>,
+    
+    <a href='/tags/crontab/'>crontab</a>
+    
+    
+</span>
+
+<meta name="generator" content="如何使用 K8S 自動化定期 CronJob 抓網路公開資料">
+<meta name="og:title" content="如何使用 K8S 自動化定期 CronJob 抓網路公開資料">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">如何使用 K8S 自動化定期 CronJob 抓網路公開資料</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/kubernetes101/cronjob.png" alt="如何使用 K8S 自動化定期 CronJob 抓網路公開資料"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>有使用 Linux 的讀者就知道，若是有定期需要執行的程式就可以 Crontab 把寫好的 script 透過定期的 scheduler 定期執行節省人力。一般常見的使用範疇就是定期更新檔案資料或是網路爬蟲等。今天我們則是要介紹，如何使用 Kubernetes（k8s） 的 CronJob 來自動化抓取網路公開資料（這邊我們使用<a target="_blank" rel="noopener" href="https://data.gov.tw/dataset/9177">政府公開資料的雨量資料 JSON 檔案</a>），我們想要的定期執行程式的效果。好的，那就讓我們開始吧！</p>
+<h1 id="環境設定"><a href="#環境設定" class="headerlink" title="環境設定"></a>環境設定</h1><p>若是對於 Kubernetes（k8s）比較不熟悉的讀者可以想成是 Kubernetes（k8s）是一個大型的 container 調度和管理工具，透過 config 設定可以管理你的 dockerize 後的 application。</p>
+<p>在這篇文章中我們會使用 minikube 這個 local 開發測試用的 Kubenetes（k8s）cluster 當作測試 demo 使用。若你的電腦還沒有安裝 Kubernetes（k8s）的相關環境的話，可以先<a target="_blank" rel="noopener" href="https://kubernetes.io/docs/tasks/tools/install-minikube/">參考官方網站的教學</a>和<a href="https://blog.techbridge.cc/2018/12/01/kubernetes101-introduction-tutorial/">我們之前的教學文章</a>。</p>
+<p>這邊我們使用 macOS 當作範例，需要安裝的有 virtual box、kubernetes-cli 和 minikube 並登入好你的 <a target="_blank" rel="noopener" href="https://hub.docker.com/">docker hub 帳戶</a>：</p>
+<p>確認一下若是你的 minikube 已經 start 成功，可以使用下列指令確認是否正常啟動：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl cluster-info</span><br></pre></td></tr></table></figure>
+
+<p>另外也可以安裝 <a target="_blank" rel="noopener" href="https://github.com/ahmetb/kubectx">kubectx 這個好用小工具</a>，方便你切換到不同 cluster，這邊我們要切換到 minikube。</p>
+<h1 id="撰寫-CronJob-程式和-Dockerfile"><a href="#撰寫-CronJob-程式和-Dockerfile" class="headerlink" title="撰寫 CronJob 程式和 Dockerfile"></a>撰寫 CronJob 程式和 Dockerfile</h1><p>因為範例為求簡單，這邊我們使用 Python 撰寫一個簡單每分鐘定期抓取政府公開資料的 python 程式，主要功能為：</p>
+<ol>
+<li>抓取網路公開資料</li>
+<li>根據時間儲存成 {datatime}.json 檔案到 &#x2F;data 資料夾下</li>
+</ol>
+<p>範例程式 <code>app.py</code>： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import json</span><br><span class="line">from datetime import datetime</span><br><span class="line">import glob</span><br><span class="line"></span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    url = &#x27;https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/O-A0002-001?Authorization=rdec-key-123-45678-011121314&amp;format=JSON&#x27;</span><br><span class="line">    resp = requests.get(url)</span><br><span class="line">    data = resp.json()</span><br><span class="line"></span><br><span class="line">    with open(&#x27;/data/&#123;&#125;.json&#x27;.format(datetime.utcnow()), &#x27;w&#x27;) as f:</span><br><span class="line">        json.dump(data, f)</span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>參考 <code>Dockerfile</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM python:3.7-alpine</span><br><span class="line">ADD . /code</span><br><span class="line">WORKDIR /code</span><br><span class="line">RUN pip install -r requirements.txt</span><br><span class="line">CMD [&quot;python&quot;, &quot;app.py&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>若是完成後可以透過將我們的程式打包成 docker image 然後上傳到 docker hub 上，讓之後的 k8s cronjob 可以抓下來（當然若是私人專案或是公司專案可以考慮使用 <a target="_blank" rel="noopener" href="https://cloud.google.com/container-registry/">google cloud registry</a> 來 host 你的 image）。</p>
+<p>打包 image 檔案（xxxx 為你的 docker hub id，k8s-cronjob-pvc-example 為 image 名稱，v1 為 tag 名稱）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t xxxx/k8s-cronjob-pvc-example:v1</span><br></pre></td></tr></table></figure>
+
+<p>若是完成後可以使用 <code>$ docker image list</code> 觀看是否有正常顯示</p>
+<p>接著就要推送到 docker hub 上面：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker push xxxx/k8s-cronjob-pvc-example:v1</span><br></pre></td></tr></table></figure>
+
+<p>成功後應該就可以在你自己的 docker hub 上面看到上傳的 image 檔案！</p>
+<h1 id="撰寫-k8s-CronJob-config-檔案"><a href="#撰寫-k8s-CronJob-config-檔案" class="headerlink" title="撰寫 k8s CronJob config 檔案"></a>撰寫 k8s CronJob config 檔案</h1><p>上傳 image 到 docker hub 後，我們要開始將我們的程式 deploy 到 minikube 這個 local k8s cluster 上面！</p>
+<p>首先我們先定義 schedule 格式為：<code>*/1 * * * *</code> （每分鐘執行一次）</p>
+<p>cron 主要格式 <code>* * * * *</code> 就是由左到右分別為：</p>
+<ul>
+<li>分鐘</li>
+<li>小時</li>
+<li>每月中第幾天</li>
+<li>月</li>
+<li>星期幾</li>
+</ul>
+<p>若是你對於 cronjob 格式比較不熟悉，可以<a target="_blank" rel="noopener" href="https://crontab.guru/">參考這個網站</a>，他可以透過輸入你的設定值告訴目前格式的效果，十分方便！</p>
+<p>以下是參考的 <code>cronjob.yaml</code> 檔案：</p>
+<ol>
+<li>我們設定 apiVersion 版本和 k8s config 類型 kind 為 CronJob</li>
+<li>從 kdchang&#x2F;k8s-cronjob-pvc-example:v1 抓下來我們的程式</li>
+<li>透過 &#x2F;bin&#x2F;sh 指令列印出 ls &#x2F;data 寫入檔案列表</li>
+<li>值得注意的是由於 k8s 資源利用的設計，每次 pod 重啟不一定會是在同一個 node 上部屬，另外隨著 pod 的重啟在 local 的檔案生命週期也會隨之消失。這對於定期產生的  pod 完成後就回收的 CronJob 來說會是一個問題：因為我們想要我們定期抓下來的網路資料可以持續存在。關於這個問題我們可以使用寫入資料庫或是宣告 k8s persistent volume 並掛載檔案路徑到 CronJob 中來解決。</li>
+</ol>
+<p>以下我們宣告 hostPath volumes 並把 volume mount 到 &#x2F;data 下面（hostPath 你可以想成若是 pod 重啟，會去找到上次的 pod 的檔案路徑和保留的檔案，當實務上會造成 pod 沒辦法有效 deploy 到適合的 node 上，此處因為使用 minikube 測試所以沒使用 GCP、AWS等 persistent volume 和外掛檔案系統）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: batch/v1beta1</span><br><span class="line">kind: CronJob</span><br><span class="line">metadata:</span><br><span class="line">  name: k8s-cronjob-pvc-example</span><br><span class="line">spec:</span><br><span class="line">  schedule: &quot;*/1 * * * *&quot;</span><br><span class="line">  jobTemplate:</span><br><span class="line">    spec:</span><br><span class="line">      template:</span><br><span class="line">        spec:</span><br><span class="line">          containers:</span><br><span class="line">          - name: k8s-cronjob-pvc-example</span><br><span class="line">            image: kdchang/k8s-cronjob-pvc-example:v1</span><br><span class="line">            args:</span><br><span class="line">            - /bin/sh</span><br><span class="line">            - -c</span><br><span class="line">            - ls /data</span><br><span class="line">            - date; echo Hello from the Kubernetes cluster</span><br><span class="line">            volumeMounts:</span><br><span class="line">            - mountPath: /data</span><br><span class="line">              name: crawl-data</span><br><span class="line">          restartPolicy: OnFailure</span><br><span class="line">          volumes:</span><br><span class="line">          - name: crawl-data</span><br><span class="line">            hostPath:</span><br><span class="line">              # directory location on host</span><br><span class="line">              path: /data</span><br><span class="line">              # this field is optional</span><br><span class="line">              type: Directory</span><br></pre></td></tr></table></figure>
+
+<p>接著執行我們的 <code>cronjob.yaml</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl create -f cronjob.yaml</span><br><span class="line">cronjob.batch/k8s-cronjob-pvc-example created</span><br></pre></td></tr></table></figure>
+
+<p>此時使用以下指令應該就會看到 cronjob 開始執行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get cronjob</span><br><span class="line">NAME                      SCHEDULE      SUSPEND   ACTIVE   LAST SCHEDULE   AGE</span><br><span class="line">k8s-cronjob-pvc-example   */1 * * * *   False     0        &lt;none&gt;          11s</span><br></pre></td></tr></table></figure>
+
+<p>一分鐘後看到 cronjob pod 成功開始執行！</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pod</span><br><span class="line">NAME                                       READY   STATUS      RESTARTS   AGE</span><br><span class="line">k8s-cronjob-pvc-example-1561892400-cbpc4   0/1     Completed   0          75s</span><br><span class="line">k8s-cronjob-pvc-example-1561892460-t9ckq   0/1     Completed   0          15s</span><br></pre></td></tr></table></figure>
+
+<p>觀看 log</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl logs -f k8s-cronjob-pvc-example-1561892400-cbpc4</span><br><span class="line">2019-06-29 10:27:57.140583.json</span><br><span class="line">2019-06-29 10:27:57.492762.json</span><br><span class="line">2019-06-29 10:27:57.737316.json</span><br><span class="line">2019-06-29 10:27:58.996981.json</span><br><span class="line">2019-06-29 10:27:59.125029.json</span><br><span class="line">2019-06-29 10:27:59.140703.json</span><br><span class="line">2019-06-29 10:28:12.885361.json</span><br><span class="line">2019-06-29 10:28:12.942726.json</span><br><span class="line">2019-06-29 10:28:15.883667.json</span><br><span class="line">2019-06-29 10:28:40.844267.json</span><br><span class="line">2019-06-29 10:28:43.823896.json</span><br><span class="line">2019-06-29 10:28:44.787840.json</span><br><span class="line">2019-06-29 10:28:47.097306.json</span><br><span class="line">2019-06-29 10:28:48.122653.json</span><br><span class="line">2019-06-29 10:29:02.764501.json</span><br><span class="line">2019-06-29 10:29:21.785981.json</span><br><span class="line">2019-06-29 10:29:29.779006.json</span><br><span class="line">2019-06-29 10:29:35.822945.json</span><br><span class="line">2019-06-29 10:30:10.770817.json</span><br><span class="line">2019-06-29 10:30:53.822591.json</span><br><span class="line">2019-06-29 10:31:09.812561.json</span><br></pre></td></tr></table></figure>
+
+<p>若你要移除的話可以使用以下指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl delete cronjob k8s-cronjob-pvc-example</span><br><span class="line">cronjob.batch &quot;k8s-cronjob-pvc-example&quot; deleted</span><br></pre></td></tr></table></figure>
+
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上簡單介紹了如何使用 K8S 自動化定期 CronJob 抓網路公開資料。有許多開發者在從裸機 bare metal server 轉換到 Kubenetes（k8s) 的過程中常常會覺得 deubg 不太習慣，主要原因就是原本可以隨便 ssh 進去主機和抓取最新的資料並重啟機器的簡單粗暴方式變得麻煩，但若是能克服這一點的話，就能享受 dockerize 的可攜性和 k8s 的簡單擴展和部屬特性，更加專注在業務邏輯上。我們下回見囉，掰撲！</p>
+<h1 id="參考文件"><a href="#參考文件" class="headerlink" title="參考文件"></a>參考文件</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/">Running Automated Tasks with a CronJob</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/jane-ai-engineering-blog/kubernetes-docker-and-cron-8e92e3b5640f">Kubernetes, Docker, and Cron</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.kdchang.cc/">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino&#x2F;Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/06/29/how-to-build-kubernetes-k8s-cronjob-crawler/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/06/29/how-to-build-kubernetes-k8s-cronjob-crawler/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/06/29/how-to-build-kubernetes-k8s-cronjob-crawler/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/06/29/how-to-build-kubernetes-k8s-cronjob-crawler/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/07/05/zooz-2018-oa/">
+        ← ZOOX 自動駕駛公司面試題目
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/06/21/actor-model-in-web/">
+        46 年老技術與 Web 的新火花 - Actor Model in Web →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

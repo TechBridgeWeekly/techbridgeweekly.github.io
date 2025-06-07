@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>如何使用 Python 進行字串格式化 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-05-03T20:23:23.000Z" itemprop="datePublished">
+          2019-05-03
+      </time>
+    
+    
+    | 
+    <a href='/tags/Python/'>Python</a>,
+    
+    <a href='/tags/tutorial/'>tutorial</a>,
+    
+    <a href='/tags/how-to/'>how-to</a>,
+    
+    <a href='/tags/string-format/'>string format</a>,
+    
+    <a href='/tags/Formatted-String-Literal/'>Formatted String Literal</a>,
+    
+    <a href='/tags/string/'>string</a>,
+    
+    <a href='/tags/Template-String/'>Template String</a>,
+    
+    <a href='/tags/字串格式化/'>字串格式化</a>
+    
+    
+</span>
+
+<meta name="generator" content="如何使用 Python 進行字串格式化">
+<meta name="og:title" content="如何使用 Python 進行字串格式化">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">如何使用 Python 進行字串格式化</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/python101/mac-cover.jpg" alt="如何使用 Python 進行字串格式化"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在開發應用程式時我們往往會需要把變數進行字串格式化，也就是說把字串中的變數替換成變數值。事實上，在 Python 中有許多方式可以進行，其中最常見的有四種方式（斯斯有三種，但 Python 字串格式化方式竟然有四種！）：</p>
+<ol>
+<li>舊式字串格式化</li>
+<li>新式字串格式化</li>
+<li>字串插值</li>
+<li>樣板字串</li>
+</ol>
+<p>字串插值是在 Python 3.6 之後有支援的方法，若是你的版本是在 Python 3.6 之後的話建議可以使用。若是需要讓使用者可以輸入變數來轉換成字串格式化的話，建議可以使用樣板字串來避免一些資訊安全上的問題。</p>
+<p>以下就上述提到的四種方法來各自說明其特色和使用方式：</p>
+<h1 id="舊式字串格式化（-）"><a href="#舊式字串格式化（-）" class="headerlink" title="舊式字串格式化（%）"></a>舊式字串格式化（%）</h1><p>相對於 Python 版本之後推薦使用的新式字串格式化，舊式版本使用 <code>%</code> 運算子來進行字串格式化，若是有 C 語言撰寫經驗的讀者或許會覺得的似曾相似（是不是有點像 printf？）。使用 <code>%</code> 格式是告訴 Python 直譯器要在那邊替換文字 text 並使用字串呈現。這就是所謂的舊式字串格式化（%s 是以字串輸出，%f 是以浮點數輸出、%d 是以十進位整數輸出）：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">text = <span class="string">&#x27;world&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;hello %s&#x27;</span> % text)</span><br><span class="line"><span class="comment"># hello world</span></span><br></pre></td></tr></table></figure>
+
+<p>若是希望把內容轉成十六進位的話可以使用：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%x&#x27;</span> % <span class="number">23</span>)</span><br><span class="line"><span class="comment"># 17</span></span><br></pre></td></tr></table></figure>
+
+<p>若是有多個變數要替換則使用 tuple 傳遞需要替代的內容值：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;hello %s %s&#x27;</span> % (<span class="string">&#x27;world&#x27;</span>, <span class="string">&#x27;go&#x27;</span>))</span><br><span class="line"><span class="comment"># hello world go</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="新式字串格式化（format-）"><a href="#新式字串格式化（format-）" class="headerlink" title="新式字串格式化（format()）"></a>新式字串格式化（format()）</h1><p>在 Python3 以後，開始引進新串格式化，也就是使用 <code>format()</code> 函式來讓字串格式化，其功能和舊式格式化相差無幾，但主要是捨去 <code>%</code> 讓字串格式化使用上可以更加正常、規律，可讀性也相對提升。</p>
+<p>一般基本用法：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">text = <span class="string">&#x27;world&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;hello &#123;&#125;&#x27;</span>.<span class="built_in">format</span>(text))</span><br><span class="line"><span class="comment"># hello world</span></span><br></pre></td></tr></table></figure>
+
+<p>也可以使用名稱來指定變數變換順序：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">name = <span class="string">&#x27;Jack&#x27;</span></span><br><span class="line">text = <span class="string">&#x27;world&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;hello &#123;name&#125;, hello &#123;text&#125;&#x27;</span>.<span class="built_in">format</span>(name=name, text=text))</span><br><span class="line"><span class="comment"># hello Jack, hello world</span></span><br></pre></td></tr></table></figure>
+
+<p>若是希望把內容轉成十六進位的話可以使用 format spec 在 <code>&#123;&#125;</code> 新增 <code>:x</code>：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;&#123;:x&#125;&#x27;</span>.<span class="built_in">format</span>(<span class="number">23</span>))</span><br><span class="line"><span class="comment"># 17</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="字串插值（Formatted-String-Literal）"><a href="#字串插值（Formatted-String-Literal）" class="headerlink" title="字串插值（Formatted String Literal）"></a>字串插值（Formatted String Literal）</h1><p>雖然已經有了新式字串格式化，然而在 Python 3.6 又新增了格式字串字面值（Formatted String Literal）此一作法可以把 Python 運算式嵌入在字串常數中。<br>眼尖的讀者可能會發現，咦，怎麼跟隔壁棚的 JavaScript ES6 字串模版有點像呀？</p>
+<p>現在我們來看一下一般的使用方式：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">text = <span class="string">&#x27;world&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Hello, <span class="subst">&#123;text&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>新的字串插值語法相當強大的點是，可以在裡面嵌入任何 Python 的運算式，舉例來說，我們想要呈現整數相加：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x = <span class="number">10</span></span><br><span class="line">y = <span class="number">27</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;x + y = <span class="subst">&#123;x + y&#125;</span>&#x27;</span>)</span><br><span class="line"><span class="comment"># 37</span></span><br></pre></td></tr></table></figure>
+
+<p>同樣，若是希望把內容轉成十六進位的話可以使用 format spec 在 <code>&#123;&#125;</code> 新增 <code>:x</code>：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;&#123;:x&#125;&#x27;</span>.<span class="built_in">format</span>(<span class="number">23</span>))</span><br><span class="line"><span class="comment"># 17</span></span><br></pre></td></tr></table></figure>
+
+<p>讀者可能會覺得很字串插值神奇，但事實上其背後原理是由 Python 語法解析器把 f-string 字串插值格式字串轉成一連串的字串常數和運算式，最後結合成最終的字串。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">hello</span>(<span class="params">text, name</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="string">f&#x27;hello <span class="subst">&#123;text&#125;</span>, hello <span class="subst">&#123;name&#125;</span>&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 實際上 Python 會把它變成字串常數和變數（過程中有優化）</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hello</span>(<span class="params">text, name</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;hello &#x27;</span> + text + <span class="string">&#x27;, hello&#x27;</span> + name</span><br></pre></td></tr></table></figure>
+
+<h1 id="樣板字串（Template-String）"><a href="#樣板字串（Template-String）" class="headerlink" title="樣板字串（Template String）"></a>樣板字串（Template String）</h1><p>樣板字串（Template String）機制相對簡單，也比較安全。</p>
+<p>以下是一般的使用情境，需要從 Python 內建模組 string 引入：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> Template</span><br><span class="line"></span><br><span class="line">text = <span class="string">&#x27;world&#x27;</span></span><br><span class="line">t = Template(<span class="string">&#x27;hello, $text&#x27;</span>)</span><br><span class="line">t.substitute(text=text)</span><br><span class="line"><span class="comment"># hello, world</span></span><br></pre></td></tr></table></figure>
+
+<p>然而若是希望把內容轉成十六進位的話需要自己使用 hex 函式自己轉換：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> Template</span><br><span class="line"></span><br><span class="line">number = <span class="number">23</span></span><br><span class="line">t = Template(<span class="string">&#x27;hello, $number&#x27;</span>)</span><br><span class="line">t.substitute(number=<span class="built_in">hex</span>(number))</span><br><span class="line"><span class="comment"># hello, 0x17</span></span><br></pre></td></tr></table></figure>
+
+<p>由於其他的字串格式化功能較為強大，所以反而會造成惡意使用者輸入變數替換成字串時造成不可預期的錯誤（一般來說使用者的輸入都是不可信的，要進行過濾）。</p>
+<p>舉例來說惡意使用者可能可以透過字串格式的惡意輸入來獲取敏感資訊（例如：密碼、token、金鑰等）；</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SECRET_TOKEN = <span class="string">&#x27;my-secret-token&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Error func</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Error</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">err = Error()</span><br><span class="line">malicious_input = <span class="string">&#x27;&#123;error.__init__.__globals__[SECRET_TOKEN]&#125;&#x27;</span></span><br><span class="line">malicious_input.<span class="built_in">format</span>(error=err)</span><br><span class="line"><span class="comment"># my-secret-token</span></span><br></pre></td></tr></table></figure>
+
+<p>沒想到，透過字串格式的方式竟然可以透過 <code>__globals__</code> 字典取出我們的 SECRET_TOKEN，若是一不留神，很可能機密資料就洩漏出去。此時若是使用 Template String 則會發生錯誤，是比較安全的選項：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> Template</span><br><span class="line"></span><br><span class="line">SECRET_TOKEN = <span class="string">&#x27;my-secret-token&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Error func</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Error</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">err = Error()</span><br><span class="line">malicious_input = <span class="string">&#x27;$&#123;error.__init__.__globals__[SECRET_TOKEN]&#125;&#x27;</span></span><br><span class="line">t = Template(malicious_input)</span><br><span class="line">t.substitute(error=err)</span><br><span class="line"><span class="comment"># ValueError: Invalid placeholder in string: line 1, col 1</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>雖然 Python 的信仰是能用簡單唯一的方式來完成任務，然而字串格式化卻有多種方式，也各有其優缺點，其主要原因或許在於版本不同變遷所致。所以你有可能在公司內部專案不同專案看到使用不同的字串格式化方式，若是看到同一個專案使用不同字串格式化方式也不要驚訝。</p>
+<p>一般情況我們會根據不同 Python 版本和使用情境去使用不同字串格式化方式，例如：若是使用 Python 3.6 之後的話建議可以使用字串插值，若版本比 3.6 舊，則使用新式字串格式化（format()）。若是需要讓使用者可以輸入變數來轉換成字串格式化的話，建議可以使用樣板字串來避免一些資訊安全上的問題。</p>
+<h1 id="參考文件"><a href="#參考文件" class="headerlink" title="參考文件"></a>參考文件</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/string.html">python string — Common string operations</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.louie.lu/2017/08/08/outdate-python-string-format-and-fstring/">(那些過時的) Python 字串格式化以及 f-string 字串格式化</a></li>
+<li><a target="_blank" rel="noopener" href="https://openhome.cc/Gossip/Python/StringFormat.html">字串格式化</a></li>
+<li><a target="_blank" rel="noopener" href="https://realpython.com/python-string-formatting/">Python String Formatting Best Practices</a></li>
+<li><a target="_blank" rel="noopener" href="https://officeguide.cc/python-string-formatters-tutorial/">Python 字串格式化教學與範例</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.techbeamers.com/python-format-string-list-dict/">A Quick Guide to Format String in Python</a></li>
+</ol>
+<p>（image via <a target="_blank" rel="noopener" href="https://unsplash.com/photos/HvYy5SEefC8?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">unsplash</a></p>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.kdchang.cc/">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino&#x2F;Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/05/03/how-to-use-python-string-format-method/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/05/03/how-to-use-python-string-format-method/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/05/03/how-to-use-python-string-format-method/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/05/03/how-to-use-python-string-format-method/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/05/10/intro-nengo/">
+        ← Nengo AI 入門
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/05/03/react-form/">
+        React Form: Redux Form vs React Final Form vs Formik and Yup →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

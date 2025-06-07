@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>用 TypeScript 輕鬆學 Design pattern - Command Pattern | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-03-31T02:38:00.000Z" itemprop="datePublished">
+          2019-03-31
+      </time>
+    
+    
+    | 
+    <a href='/tags/react/'>react</a>,
+    
+    <a href='/tags/Design-pattern/'>Design pattern</a>,
+    
+    <a href='/tags/Command/'>Command</a>,
+    
+    <a href='/tags/TypeScript/'>TypeScript</a>
+    
+    
+</span>
+
+<meta name="generator" content="用 TypeScript 輕鬆學 Design pattern - Command Pattern">
+<meta name="og:title" content="用 TypeScript 輕鬆學 Design pattern - Command Pattern">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">用 TypeScript 輕鬆學 Design pattern - Command Pattern</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>雖然直到最近才實際在工作上使用 TypeScript 進行開發，但是早在去年就有斷斷續續在自己的 side project 上玩玩 TypeScript，剛好後來公司讀書會在研讀<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Design_Patterns">經典的 Design Pattern 書籍</a>，就索性使用 TypeScript 來製作範例，意外發現 TypeScript 在講解一些 Design Pattern 的時候非常適合，不僅能夠有類別、物件等清楚的表示，也能夠直接在網頁上做出會動的範例。</p>
+<p>雖然這是蠻久之前製作的，但最近想想還是可以分享一下！所以今天就以 TypeScript 來製作範例，為大家講解 <strong>Command Pattern</strong>！</p>
+<h2 id="Command-Pattern"><a href="#Command-Pattern" class="headerlink" title="Command Pattern"></a>Command Pattern</h2><p>在 GoF Design Patterns（也就是 Design Patterns: Elements of Reusable Object-Oriented Software 這本書）中 <strong>Command Pattern</strong> 屬於 <strong>Behavioural Patterns</strong> 的一種，主要是定義類別與物件之間的溝通與互動方法。</p>
+<p>Command Pattern 的初衷，是希望能將各種對物件的操作（request）也都獨立包裝成物件，如此一來，這個 request，就能夠在各個物件對象之間傳遞，甚至提供 undoable 的 operation。</p>
+<p>我們可以從 UML 圖來理解：</p>
+<p><img src="/img/arvinh/Command_pattern.png" alt="UML - Command Pattern"></p>
+<p>By <a target="_blank" rel="noopener" href="//commons.wikimedia.org/wiki/User:Sae1962" title="User:Sae1962">Sae1962</a> - <span class="int-own-work" lang="en">Own work</span>, <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-sa/4.0" title="Creative Commons Attribution-Share Alike 4.0">CC BY-SA 4.0</a>, <a target="_blank" rel="noopener" href="https://commons.wikimedia.org/w/index.php?curid=55066657">Link</a></p>
+<ul>
+<li><p>Command</p>
+<ul>
+<li>定義出一個 Command 介面，用來執行操作，該介面只需要定義一個 <code>Execute()</code> 這個抽象 method。</li>
+</ul>
+</li>
+<li><p>Concrete Command</p>
+<ul>
+<li>從抽象的 Command 介面所實作的 Concrete Command，會實作該 Command 實際上要執行的動作內容，也就是實作 <code>Execute()</code>，此外，他還需要負責將 <em>接收操作的物件</em>（receiver） 與 動作（Action）本身連結起來。簡單來說，就是他會被傳遞進一個物件，並且在 <code>Execute()</code> 函數中，trigger receiver 執行相對的動作。這邊值得注意的是，Concrete Command 本身並不管也不知道 receiver 會怎麼實作他們的 action，他只需要告訴 receiver 他想要完成的是什麼命令即可。</li>
+</ul>
+</li>
+<li><p>Client</p>
+<ul>
+<li>負責創建 Concrete Command，並指定其 receiver。</li>
+</ul>
+</li>
+<li><p>Invoker</p>
+<ul>
+<li>就是下達指令的人，負責呼叫 Command。</li>
+</ul>
+</li>
+<li><p>Receiver</p>
+<ul>
+<li>知道接受到 Command 時，要執行什麼動作（Action）的人。</li>
+</ul>
+</li>
+</ul>
+<p>光看 UML，一定還不太清楚，接著我們從 sequence diagram 來看看這幾個對象彼此之間如何互動：</p>
+<p><img src="/img/arvinh/Command-sequence-diagram.png" alt="Sequence diagram"></p>
+<p>可以想像，Receiver 就是餐廳服務生，而 Client 就是顧客，顧客會知道要對服務生下達指令，所以會產生 <code>new Command(Receiver)</code>；但他可能需要透過服務鈴（Invoker)，才能讓服務生真正去執行他的指令。</p>
+<p>接著我們先來看看實際的範例。</p>
+<h2 id="TypeScript-實作範例"><a href="#TypeScript-實作範例" class="headerlink" title="TypeScript 實作範例"></a>TypeScript 實作範例</h2><iframe src="https://codesandbox.io/embed/5k2nyp66q4?fontsize=14" title="Tyscript-CommandPattern-II" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+<p>當顧客點選 “Give me food” 按鈕時，服務生就會接收到指令，並趕緊去找廚師；而當顧客想更改餐點時，可以透過 “Hey get back”，下達指令來回復服務生的上一個動作。</p>
+<p>很簡單暴力的範例吧XD</p>
+<p>實際上的程式怎麼寫呢？</p>
+<p>首先我們先從定義 <code>Command</code> 介面開始：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">Command</span> &#123;</span><br><span class="line">  public <span class="title function_">execute</span>(): <span class="keyword">void</span> &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&quot;Abstract method!&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  public <span class="title function_">unexecute</span>(): <span class="keyword">void</span> &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&quot;Abstract method!&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如同先前 UML 圖所描述，我們只定義抽象的 <code>execute()</code> method，在 TypeScript 中要模擬抽象方法的最簡單做法就是讓他 <code>throw</code> Error。<br>另外我們同時也定義一個 <code>unexecute()</code>，作為回復的操作。</p>
+<hr>
+
+<p><strong>[2019&#x2F;04&#x2F;22 - Update]</strong></p>
+<p>感謝 @pilagod 的補充，TypeScript 有提供 <code>Abstract</code> 類別，可以強迫繼承者去實作其抽象函數，所以我們的 Command class 可以寫成：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> abstract <span class="keyword">class</span> <span class="title class_">Command</span> &#123;</span><br><span class="line">  abstract <span class="title function_">execute</span>(): <span class="keyword">void</span>;</span><br><span class="line">  abstract <span class="title function_">unexecute</span>(): <span class="keyword">void</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Waiter</span> &#125; <span class="keyword">from</span> <span class="string">&quot;./Waiter&quot;</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">ConcreteOrderCommand</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Command</span> &#123;</span><br><span class="line">  private <span class="attr">receiver</span>: <span class="title class_">React</span>.<span class="property">RefObject</span>&lt;<span class="title class_">Waiter</span>&gt;;</span><br><span class="line">  private <span class="attr">position</span>: number;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">receiver: React.RefObject&lt;Waiter&gt;</span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>();</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">receiver</span> = receiver;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">position</span> = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  public <span class="title function_">execute</span>(): <span class="keyword">void</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;`execute` method of ConcreteOrderCommand is being called!&quot;</span>);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">position</span> = <span class="number">300</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">receiver</span>.<span class="property">current</span>.<span class="title function_">action</span>(<span class="variable language_">this</span>.<span class="property">position</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  public <span class="title function_">unexecute</span>(): <span class="keyword">void</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;`execut` method of ConcreteOrderCommand is being called!&quot;</span>);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">position</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">receiver</span>.<span class="property">current</span>.<span class="title function_">backAction</span>(<span class="variable language_">this</span>.<span class="property">position</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再來實作 <code>ConcreteCommand</code>，我們 <code>extend</code> 抽象的 <code>Command</code> 類別，指定兩個私有變數：<code>receiver</code> 與 <code>position</code>。</p>
+<p><code>receiver</code> 可以從其宣告的類別看出，就是 <code>Waiter</code>，這就是 TypeScript 適合說明 Design Pattern 的優點之一，可以很明確看到關聯性，我們待會會看到 <code>Waiter</code> 的實作。而 <code>position</code> 則是範例中我們用在 <code>execute()</code> 中，告訴 <code>receiver</code> 該如何 <code>action</code> 的工具，在範例中就是改變 Waiter 的位置。</p>
+<p>在 <code>ConcreteCommand</code> 的 <code>execute()</code> 實作中，我們定義出 “這個 Command” 要讓 “其受指定的 receiver” 進行怎樣的 “action”，也就是這行：</p>
+<p><code>this.receiver.current.action(this.position);</code></p>
+<p>我們告訴 <code>receiver</code> 說，請依照 <code>this.position</code> 這個參數去執行你的 <code>action</code>，但記住，你的 <code>action</code> 到底是怎麼實作的我並不管你。</p>
+<p>（這邊跟 React 相關的不做太多解釋，基本上因為我們需要在 <code>ConcreteCommand</code> 中去呼叫 <code>receiver</code> 的 <code>action</code> method，所以採用 <code>React.RefObject&lt;T&gt;</code> 作為 <code>receiver</code> 的類型，這樣我們能透過 <code>.current</code> 的 API 去取得 React 實體。）</p>
+<p>看到這邊可以發現，由於我們並不需要知道 receiver 本身怎麼實作 action，所以關注點可以分離，只要管好自己這邊如何呼叫 receiver 即可。</p>
+<p>到這邊為止，我們已經實作完 UML 中的 Command 介面與 ConcreteCommand 了，接著輪到 <code>Receiver</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> waiterStyle = &#123;</span><br><span class="line">  <span class="attr">display</span>: <span class="string">&quot;flex&quot;</span>,</span><br><span class="line">  <span class="attr">flexDirection</span>: <span class="string">&quot;column&quot;</span>,</span><br><span class="line">  <span class="attr">alignItems</span>: <span class="string">&quot;center&quot;</span>,</span><br><span class="line">  <span class="attr">transition</span>: <span class="string">&quot;all 1s ease-in-out&quot;</span></span><br><span class="line">&#125;;</span><br><span class="line">type <span class="title class_">WaiterProps</span> = &#123;</span><br><span class="line">  <span class="attr">ref</span>: <span class="title class_">React</span>.<span class="property">RefObject</span>&lt;<span class="title class_">Waiter</span>&gt;;</span><br><span class="line">&#125;;</span><br><span class="line">type <span class="title class_">WaiterState</span> = &#123;</span><br><span class="line">  <span class="attr">position</span>: number;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">Waiter</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;<span class="title class_">WaiterProps</span>, <span class="title class_">WaiterState</span>&gt; &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">props: any</span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>(props);</span><br><span class="line">  &#125;</span><br><span class="line">  state = &#123;</span><br><span class="line">    <span class="attr">position</span>: <span class="number">0</span></span><br><span class="line">  &#125;;</span><br><span class="line">  action = <span class="function">(<span class="params">position: number</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;command action!&quot;</span>);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">setState</span>(&#123;</span><br><span class="line">      position</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line">  backAction = <span class="function">(<span class="params">position: number</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;command back action!&quot;</span>);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">setState</span>(&#123;</span><br><span class="line">      position</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; position &#125; = <span class="variable language_">this</span>.<span class="property">state</span>;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">&#123;&#123;</span> <span class="attr">...waiterStyle</span>, <span class="attr">transform:</span> `<span class="attr">translateX</span>($&#123;<span class="attr">position</span>&#125;<span class="attr">px</span>)` &#125;&#125;&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">img</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">width</span>=<span class="string">&quot;100px&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">src</span>=<span class="string">&quot;https://image.flaticon.com/icons/svg/816/816577.svg&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        /&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Receiver 也很簡單，重點在於實作 <code>action</code>。以範例來說，我們會從 <code>ConcreteCommand</code> 接收到新的 position state，所以我們要執行的動作就是 <code>this.setState(&#123; position &#125;)</code>，將自身的狀態改變。透過 TypeScript，可以清楚定義 state 與 props 的型別。</p>
+<p><code>Waiter</code> 需要接收一個 <code>ref: React.RefObject&lt;Waiter&gt;;</code> 的 Props，則是與 React 實作相關，因為我是利用 <code>const WaiterRef = React.createRef&lt;Waiter&gt;();</code> 將 Waiter 的 ref 傳遞給 ConcreteCommand。（可參考 Codesandbox 內的完整程式碼）</p>
+<p>最後，有了指令（ConcreteCommand），有了接收指令的人（Waiter），我們來看看 Customer 要如何使用指令來呼叫 Waiter 吧：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有刪除一些不重要的 code，i.e. style, etc.</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Waiter</span> &#125; <span class="keyword">from</span> <span class="string">&quot;./Waiter&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Command</span>, <span class="title class_">ConcreteOrderCommand</span> &#125; <span class="keyword">from</span> <span class="string">&quot;./CommandPattern&quot;</span>;</span><br><span class="line">type <span class="title class_">CustomerProps</span> = &#123;</span><br><span class="line">  <span class="title class_">WaiterRef</span>: <span class="title class_">React</span>.<span class="property">RefObject</span>&lt;<span class="title class_">Waiter</span>&gt;;</span><br><span class="line">&#125;;</span><br><span class="line">type <span class="title class_">CustomerState</span> = &#123;</span><br><span class="line">  <span class="attr">orderCommand</span>: <span class="title class_">Command</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">Customer</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;<span class="title class_">CustomerProps</span>, <span class="title class_">CustomerState</span>&gt; &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">props: any</span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>(props);</span><br><span class="line">    <span class="keyword">const</span> &#123; <span class="title class_">WaiterRef</span> &#125; = props;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">state</span> = &#123;</span><br><span class="line">      <span class="attr">orderCommand</span>: <span class="keyword">new</span> <span class="title class_">ConcreteOrderCommand</span>(<span class="title class_">WaiterRef</span>)</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">&#123;CustomerStyle&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">div</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">onMouseEnter</span>=<span class="string">&#123;()</span> =&gt;</span> this.setState(&#123; btn1OnHover: true &#125;)&#125;</span></span><br><span class="line"><span class="language-xml">          onMouseLeave=&#123;() =&gt; this.setState(&#123; btn1OnHover: false &#125;)&#125;</span></span><br><span class="line"><span class="language-xml">          onClick=&#123;() =&gt; &#123;</span></span><br><span class="line"><span class="language-xml">            this.state.orderCommand.execute();</span></span><br><span class="line"><span class="language-xml">          &#125;&#125;</span></span><br><span class="line"><span class="language-xml">        &gt;</span></span><br><span class="line"><span class="language-xml">          Give me food!!</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">div</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">onMouseEnter</span>=<span class="string">&#123;()</span> =&gt;</span> this.setState(&#123; btn2OnHover: true &#125;)&#125;</span></span><br><span class="line"><span class="language-xml">          onMouseLeave=&#123;() =&gt; this.setState(&#123; btn2OnHover: false &#125;)&#125;</span></span><br><span class="line"><span class="language-xml">          onClick=&#123;() =&gt; &#123;</span></span><br><span class="line"><span class="language-xml">            this.state.orderCommand.unexecute();</span></span><br><span class="line"><span class="language-xml">          &#125;&#125;</span></span><br><span class="line"><span class="language-xml">        &gt;</span></span><br><span class="line"><span class="language-xml">          Hey get back!!</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>基本上 Customer 就是會保有 <code>ConcreteCommand</code> 在 state 當中，這樣才能合理的不斷下達指令。</p>
+<p>另外也需要取得 <code>WaiterRef</code> 這個 props，才能在初始 <code>ConcreteCommand</code> 時指定其 <code>receiver</code>。</p>
+<p>接著我們只要在不同功能的 button 上綁定 <code>command</code> 即可，分別呼叫 <code>this.state.orderCommand.execute();</code> 與 <code>this.state.orderCommand.unexecute();</code>。</p>
+<p>如此一來，我們就成功用 TypeScript 實作一個完整的 Command Pattern 範例啦！（完整的程式碼請看上方 CodeSandbox 連結）</p>
+<h2 id="Command-Pattern-的-Consequences"><a href="#Command-Pattern-的-Consequences" class="headerlink" title="Command Pattern 的 Consequences"></a>Command Pattern 的 Consequences</h2><ul>
+<li>Command Pattern 將呼叫指令的物件與執行指令的物件切割開來，降低彼此之間耦合度。</li>
+<li>Command 是 first-class objects，可以被傳遞、操作與繼承。</li>
+<li>可以 composite 多個 Command 到一個 Command 中，類似巨集概念。</li>
+<li>增加 Command 很容易，因為你不需要更改其他的現有 Class。</li>
+</ul>
+<h2 id="實作-Command-Pattern-上所需要注意的細節"><a href="#實作-Command-Pattern-上所需要注意的細節" class="headerlink" title="實作 Command Pattern 上所需要注意的細節"></a>實作 Command Pattern 上所需要注意的細節</h2><ul>
+<li>需要思考一個 Command 該擁有多少能力，是要單純作 receiver 與 action 之間的 binding，大部分實作擺在 receiver；抑或是將大多實作自己處理掉，receiver 只是一個命令的受體？</li>
+<li>是否需要支援 undo 功能，Command Pattern 設計上天生支援 undo，但實際實作上你可能會需要額外的儲存 state 來達成，會增加開發複雜度。</li>
+<li>若是支援 undo，還得注意發生 error 時，會不會不斷累積，難以 debug。</li>
+</ul>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>TypeScript 現在非常熱門，Design Pattern 則是萬年不敗，兩者搭配起來一起學習可說是天作之合！尤其是平常工作沒有機會碰觸到的話，透過這種方式學習不僅兩者皆能吸收，還能累積點小玩具。</p>
+<p>但說起來，TypeScript 的<a target="_blank" rel="noopener" href="https://medium.com/javascript-scene/the-typescript-tax-132ff4cb175b">爭議</a>也不少，最近參加了優秀新同事們主辦的幾場 Meetup，再次燃起我對 Elm 的興趣，可惜剛到新環境，瑣事太多，還來不及有個成果分享，不過也算是有點心得，希望之後能夠分享一下。</p>
+<h2 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Design_Patterns">Wiki - Design_Patterns</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Microsoft/TypeScript">TypeScript</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/torokmark/design_patterns_in_typescript">TypeScript Design Pattern</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.arvinh.info/about/">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/03/31/typescript-design-pattern-command/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/03/31/typescript-design-pattern-command/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/03/31/typescript-design-pattern-command/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/03/31/typescript-design-pattern-command/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/04/06/how-to-use-python-implement-least-recently-used/">
+        ← 如何使用 Python 實現 LRU Cache 快取置換機制
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/03/23/react-keyboard-event/">
+        從 React 原始碼看 keyPress 與 keyDown 事件 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

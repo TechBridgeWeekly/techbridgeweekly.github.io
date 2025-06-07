@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>用 Google Calendar 與 nivo 製作自己的年終檢討報告 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-12-15T15:15:09.000Z" itemprop="datePublished">
+          2018-12-15
+      </time>
+    
+    
+    | 
+    <a href='/tags/d3/'>d3</a>,
+    
+    <a href='/tags/data/'>data</a>,
+    
+    <a href='/tags/visualization/'>visualization</a>,
+    
+    <a href='/tags/nivo/'>nivo</a>,
+    
+    <a href='/tags/google-calendar/'>google calendar</a>,
+    
+    <a href='/tags/yearend/'>yearend</a>
+    
+    
+</span>
+
+<meta name="generator" content="用 Google Calendar 與 nivo 製作自己的年終檢討報告">
+<meta name="og:title" content="用 Google Calendar 與 nivo 製作自己的年終檢討報告">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">用 Google Calendar 與 nivo 製作自己的年終檢討報告</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>從 2017 年開始，我每天都會用 Google Calendar 紀錄生活，也在年底的時候利用 D3.js 與 Google api 將紀錄的資料視覺化出來做個年終回顧。（沒看過的讀者可以往這裡走：<a href="https://blog.techbridge.cc/2017/12/12/d3v4-calendar-yearendreview/">一起用 Google Calendar 與 D3.js 進行年終回顧吧！</a>）</p>
+<p>2018 當然也不例外，我依然持續記錄每天的日常，透過每週回顧自己的時間花費來調整目標與心理狀態。</p>
+<p>而既然我有了兩年的資料，不拿來比較看看就太可惜了，因此決定在我今年的最後一篇文章中，將 2017 年與 2018 年的資料做個視覺化的比較，看看我在工作、生活、娛樂以及自我進修等上面的時間調配是否有照著我去年所希望的步調進行。在一年的尾聲，好好面對自己！</p>
+<p>一樣先附上成果與 <a target="_blank" rel="noopener" href="https://blog.arvinh.info/YearEndReview-2018/">demo link</a>：</p>
+<p><img src="/img/arvinh/YearEndReview-2018_.png" alt="YearEndReview-2018"></p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>工具的使用上，這次並沒有使用 D3.js，畢竟以需求來說，D3.js 太大材小用了，加上我前陣子發現一個基於 D3.js 與 React 的視覺化 library - <a target="_blank" rel="noopener" href="https://nivo.rocks/">nivo</a>，看起來非常不錯，所以這次就拿這套來試試看，透過這套工具，整個作品大概不用花費一小時就可以完成了，大多的時間都是在處理資料格式上。</p>
+<p>而抓取 Google Calendar 資料的部分，一樣使用 Google 的 api，只不過一年過去，Google api 也是有所更新，不過問題不大，稍微修改一些小地方即可，稍後會帶到。</p>
+<h2 id="視覺化的第一步，取得資料"><a href="#視覺化的第一步，取得資料" class="headerlink" title="視覺化的第一步，取得資料"></a>視覺化的第一步，取得資料</h2><p>在<a href="https://blog.techbridge.cc/2017/12/12/d3v4-calendar-yearendreview/">一起用 Google Calendar 與 D3.js 進行年終回顧吧！</a>中我有提到過，雖然 Google 有提供一個 <a target="_blank" rel="noopener" href="https://takeout.google.com/settings/takeout">Google Takeout</a> 的功能，你也能直接匯出日曆，但是下載到的資料其格式都是 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/ICalendar"><code>iCalendar</code></a>，除非你在每個紀錄的項目上都有很詳細的紀錄內容，才有辦法去將每一項 task 都進行分類，像我只用顏色來區分的就沒辦法。</p>
+<p><img src="/img/arvinh/google-takeout.png" alt="Google Takeout"></p>
+<p>所以還是得靠 Google 提供的 Calendar API 來取得資料。</p>
+<p>而 Google Calendar API 的使用方式很簡單，只要照著<a target="_blank" rel="noopener" href="https://console.developers.google.com/start/api?id=calendar">說明</a>拿到憑證後，就可以從他們提供的<a target="_blank" rel="noopener" href="https://developers.google.com/google-apps/calendar/quickstart/nodejs">範例</a> 來修改實作。</p>
+<p>基本上跟我<a href="https://blog.techbridge.cc/2017/12/12/d3v4-calendar-yearendreview/">去年寫的</a>差不多，主要是在 auth 的套件（拿 cretential 的方式）以及 api 回傳的 schema 有所變動：</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="deletion">- var googleAuth = require(&#x27;google-auth-library&#x27;);</span></span><br><span class="line"><span class="addition">+ const &#123; google &#125; = require(&#x27;googleapis&#x27;);</span></span><br><span class="line">// If modifying these scopes, delete token.json.</span><br><span class="line">// The file token.json stores the user&#x27;s access and refresh tokens, and is</span><br><span class="line">// created automatically when the authorization flow completes for the first</span><br><span class="line">// time.</span><br><span class="line">var SCOPES = [&#x27;https://www.googleapis.com/auth/calendar.readonly&#x27;];</span><br><span class="line"><span class="deletion">- var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||</span></span><br><span class="line"><span class="deletion">-  process.env.USERPROFILE) + &#x27;/.credentials/&#x27;;</span></span><br><span class="line"><span class="deletion">- var TOKEN_PATH = TOKEN_DIR + &#x27;calendar-nodejs-quickstart.json&#x27;;</span></span><br><span class="line"><span class="addition">+ const TOKEN_PATH = &#x27;token.json&#x27;;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">function listEvents(auth, pageToken) &#123;</span><br><span class="line"><span class="deletion">- var calendar = google.calendar(&#x27;v3&#x27;);</span></span><br><span class="line"><span class="addition">+ const calendar = google.calendar(&#123;version: &#x27;v3&#x27;, auth&#125;);</span></span><br><span class="line">const queryOptions = &#123;</span><br><span class="line">  auth: auth,</span><br><span class="line">  calendarId: &#x27;primary&#x27;,</span><br><span class="line">  timeMax: (new Date()).toISOString(),</span><br><span class="line">  singleEvents: true,</span><br><span class="line">  orderBy: &#x27;startTime&#x27;</span><br><span class="line">&#125;;</span><br><span class="line">if (pageToken) &#123;</span><br><span class="line">  queryOptions.pageToken = pageToken;</span><br><span class="line">&#125;</span><br><span class="line">calendar.events.list(queryOptions, function (err, response) &#123;</span><br><span class="line">if (err) &#123;</span><br><span class="line">  console.log(&#x27;The API returned an error: &#x27; + err);</span><br><span class="line">  return;</span><br><span class="line">&#125;</span><br><span class="line"><span class="deletion">-var events = response.items;</span></span><br><span class="line"><span class="addition">+const resData = response.data || &#123;&#125;;</span></span><br><span class="line"><span class="addition">+const events = resData.items;</span></span><br><span class="line">if (events.length == 0) &#123;</span><br><span class="line">  console.log(&#x27;No upcoming events found.&#x27;);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br><span class="line">// ...</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完整的程式碼我一樣有放在 <a target="_blank" rel="noopener" href="https://gist.github.com/ArvinH/5960a33b54fb03d504bcba7a4d5982e5#file-fetchcalendardata-js-L86-L151">gist</a> 上，如果你也想要用 Google API 下載自己的 Calendar，基本上除了 <code>listEvents</code> 函數內的部分以外，都可以直接照抄，<code>listEvents</code> 內的程式碼是 API 的 callback，主要是負責後續資料的處理，將之轉化成我們視覺化所需要的格式。而關於 Calendar api 相關參數的介紹，可以參考<a href="https://blog.techbridge.cc/2017/12/12/d3v4-calendar-yearendreview/">去年的文章</a>。</p>
+<h1 id="nivo"><a href="#nivo" class="headerlink" title="nivo"></a>nivo</h1><p>接下來介紹一下 <a target="_blank" rel="noopener" href="https://nivo.rocks/">nivo</a> 這套工具。</p>
+<p>它是 <a target="_blank" rel="noopener" href="https://twitter.com/benitteraphael">Raphaël Benitte</a> 所製作，基於 D3.js 與 React.js 的視覺化套件。</p>
+<p><img src="/img/arvinh/nivo-cover.png" alt="nivo"></p>
+<p>比起市面上其他套件，我自己認為 nivo 的優勢有幾點：</p>
+<ul>
+<li><p>對於 Server-side render 的支援度很高。</p>
+</li>
+<li><p>由於支援 React SSR，nivo 提供了 api 介面，讓你能透過 http request 產生圖表 - 詳情可看 <a target="_blank" rel="noopener" href="https://github.com/plouc/nivo-api">nivo-api</a>。</p>
+</li>
+<li><p>Mono repo 的方式管理 packages，可以依照需求，只安裝你需要的圖表 package。</p>
+</li>
+<li><p>宣告式的寫法，加上他互動式的文件範例，套用他的圖表幾乎沒有學習曲線。</p>
+</li>
+</ul>
+<p><img src="/img/arvinh/nivo-bar-doc.png" alt="nivo 文件網站"></p>
+<ul>
+<li><p>部分元件提供 Canvas 實作的版本，大量數據也不怕！</p>
+</li>
+<li><p>動畫部分使用 <code>react-motion</code>，寫過 react 的人應該不陌生，<code>react-motion</code> 可說是 react 動畫界的翹楚啊！</p>
+</li>
+<li><p>每個元件都有對應的 <code>Storybook</code> 可以看，非常的 developer-friendly!</p>
+</li>
+</ul>
+<p>當然也是有缺點的：</p>
+<ul>
+<li><p>不是每個元件都支援動畫，這時候會知道 D3.js 的好(?</p>
+</li>
+<li><p>圖表種類固定，比較難有創意的發揮。</p>
+</li>
+</ul>
+<p>基於以上的優缺點，不難看出，如果是對於不熟悉 D3.js 或是想要快速產出圖表，但又想要有動畫效果或是互動性的人來說，直接採用 nivo 這類的 library 會是很不錯的選擇，也是我這次採用的原因。</p>
+<h1 id="開始進行我們的圖表製作吧！"><a href="#開始進行我們的圖表製作吧！" class="headerlink" title="開始進行我們的圖表製作吧！"></a>開始進行我們的圖表製作吧！</h1><p>基本的想法一樣是將資料用 Calendar 圖表呈現，觀察每種類別的 task 在一年中的分佈狀況，並且加入去年的資料來做對比。</p>
+<p>接著，想利用一個折線圖來觀察單一類別在每個月的波動，是不是在某些月份我比較勤奮工作、某些月份很認真在進修或玩樂。當然這些資訊從 Calendar 圖表也看得出來，但是用月加總的數值呈現在折線圖上，感覺會更直接一點。</p>
+<p>最後在把每種類別的資料集結起來，利用 Waffle 圖表，一目瞭然各個類別的比例關係。</p>
+<p>要達成上面三個想法，我們只需要使用 nivo 的 <a target="_blank" rel="noopener" href="https://github.com/plouc/nivo/tree/master/packages/calendar">@nivo&#x2F;calendar</a>、<a target="_blank" rel="noopener" href="https://github.com/plouc/nivo/tree/master/packages/line">@nivo&#x2F;line</a> 與 <a target="_blank" rel="noopener" href="https://github.com/plouc/nivo/tree/master/packages/waffle">@nivo&#x2F;waffle</a> 三種套件即可。</p>
+<p>使用方法都很簡單，基本上只要到對應的 doc 頁面，就直接有現成的程式碼可以<del>複製</del>參考。</p>
+<p>像是 <a target="_blank" rel="noopener" href="https://nivo.rocks/calendar">Calendar</a>:</p>
+<p><img src="/img/arvinh/nivo-calendar-doc.gif" alt="calendar doc demo"></p>
+<p>重點反而是資料格式，即便我們只是想繪製三種圖表，但就需要整理出三種資料格式，才能夠符合其各自的需求，一樣可以從 nivo 的 doc 中找到每個圖表所需要的資料格式（data tab）。</p>
+<p>我製作範例的 parser 放在 <a target="_blank" rel="noopener" href="https://github.com/ArvinH/YearEndReview-2018/tree/master/src/dataParser">github</a> 上，有興趣可以參考，不過就只是一些髒髒的資料轉換，是個耗時費力的工作啊…</p>
+<p>值得一提的是，這邊我除了轉化資料格式外，還花了不少時間在做資料的整理與同步。</p>
+<p>為什麼呢？</p>
+<p>因為每天的日誌是我自己手動輸入，顏色 label 也是我自己標記，有些事項的類別在 2017 年與 2018 年我用的是不同的顏色，但卻應該是分在同類中，這在做對比時，就會有問題了，因此花了不少時間從 2017 年一月開始過到 2018 年十二月…所以如果有人想跟我一樣這樣紀錄的話，或許可以用 Calendar 內建的分類功能，而不要像我一樣用手動標記顏色的方式。</p>
+<p>總之，當資料處理好以後，照著網站範例將我們想要的元件放到頁面上即可，這邊我是直接用 CRA 製作 React SPA，其中 <code>Calendar</code> 的例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">ResponsiveCalendar</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nivo/calendar&#x27;</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">Calendar</span> = (<span class="params">&#123;data&#125;</span>) =&gt; (</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">ResponsiveCalendar</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">data</span>=<span class="string">&#123;data&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">from</span>=<span class="string">&quot;2017-01-01&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">to</span>=<span class="string">&quot;2018-12-31&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">emptyColor</span>=<span class="string">&quot;#eeeeee&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">colors</span>=<span class="string">&#123;[</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            &quot;#<span class="attr">61cdbb</span>&quot;,</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            &quot;#<span class="attr">97e3d5</span>&quot;,</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            &quot;#<span class="attr">e8c1a0</span>&quot;,</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            &quot;#<span class="attr">f47560</span>&quot;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        ]&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">margin</span>=<span class="string">&#123;&#123;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            &quot;<span class="attr">top</span>&quot;<span class="attr">:</span> <span class="attr">100</span>,</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            &quot;<span class="attr">right</span>&quot;<span class="attr">:</span> <span class="attr">30</span>,</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            &quot;<span class="attr">bottom</span>&quot;<span class="attr">:</span> <span class="attr">60</span>,</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            &quot;<span class="attr">left</span>&quot;<span class="attr">:</span> <span class="attr">30</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        &#125;&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">yearSpacing</span>=<span class="string">&#123;45&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">monthBorderColor</span>=<span class="string">&quot;#ffffff&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">monthLegendOffset</span>=<span class="string">&#123;10&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">dayBorderWidth</span>=<span class="string">&#123;2&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">dayBorderColor</span>=<span class="string">&quot;#ffffff&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">legends</span>=<span class="string">&#123;[</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            &#123;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                &quot;<span class="attr">anchor</span>&quot;<span class="attr">:</span> &quot;<span class="attr">bottom-right</span>&quot;,</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                &quot;<span class="attr">direction</span>&quot;<span class="attr">:</span> &quot;<span class="attr">row</span>&quot;,</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                &quot;<span class="attr">translateY</span>&quot;<span class="attr">:</span> <span class="attr">36</span>,</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                &quot;<span class="attr">itemCount</span>&quot;<span class="attr">:</span> <span class="attr">4</span>,</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                &quot;<span class="attr">itemWidth</span>&quot;<span class="attr">:</span> <span class="attr">34</span>,</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                &quot;<span class="attr">itemHeight</span>&quot;<span class="attr">:</span> <span class="attr">36</span>,</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                &quot;<span class="attr">itemDirection</span>&quot;<span class="attr">:</span> &quot;<span class="attr">top-to-bottom</span>&quot;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            &#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        ]&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">    /&gt;</span></span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">Calendar</span>;</span><br></pre></td></tr></table></figure>
+
+<p>從上面的範例看得出來，你有許多 <code>options</code> 可以設定，像是資料的起始日期(<code>from</code>、<code>to</code>)、資料顏色的區間或是各種 margin 等都能調整，非常方便好用。</p>
+<p>唯一要注意的是，如果採用支援 RWD 的元件（像是這邊用的 <code>ResponsiveCalendar</code>），記得要給定這個 Component 的 Parent component 固定的高度，否則 nivo 的元件偵測到高度為零時，就不會 render 了，所以記得要多加個有高度的 Wrapper 在 nivo 的元件上。</p>
+<p>其他的實作細節基本上就是 React 而已，真的有興趣<del>（想看看 code 有多鳥）</del>可以到 <a target="_blank" rel="noopener" href="https://github.com/ArvinH/YearEndReview-2018/">github</a> 瞧瞧。</p>
+<h2 id="最後分享一下我的年終檢討"><a href="#最後分享一下我的年終檢討" class="headerlink" title="最後分享一下我的年終檢討"></a>最後分享一下我的年終檢討</h2><p>我記錄在 Google Calendar 上的 task，基本上分為六類：</p>
+<ul>
+<li>English - 包含上英文線上課程、背單字、唸英文等</li>
+<li>Entertainment - 所有娛樂事項</li>
+<li>Sick&#x2F;Rehabilitation - 生病、做物理復健</li>
+<li>Exercise - 運動</li>
+<li>Training - 一切我認為跟加強我自身實力有關的事，有可能是看文章、寫 code 或是刷題</li>
+<li>Work - 上班</li>
+</ul>
+<p><img src="/img/arvinh/nivo-waffle-explain.png" alt="waffle"></p>
+<p>Waffle 圖的數據是我將每個月的分類 task 加總後做平均所算出的比例。</p>
+<p>而從 Waffle 圖可以很明顯看到，2018 年我對於 <code>Training</code> 與 <code>English</code> 這兩部分的分類，加重了不少。回想過去半年，很急切的想要有所突破，雖然我不覺得有達到我心中的努力程度，但以結果論來說，這些多出的 <code>Training</code> 或許真的幫助了我，讓我在今年達成了人生中一個小小的目標，有了<del>逃離鬼島</del>前往海外的機會。</p>
+<p>若是從 Calendar 圖與折線圖來做兩個年度的對比，感受會更深一點：</p>
+<p><img src="/img/arvinh/review-explain.gif" alt="Review"></p>
+<p>首先，去年做完 year end review 後，我就發現假日也在工作的時間有點太多，除了有些時候的確是 project 較為忙碌，但大多是自己平日上班專注力沒有好好發揮。</p>
+<p>因此今年開始，我調整作息，除了早上運動外，也盡量在公司時保持專注，降低與社群媒體的接觸，從圖表結果來看，成效挺好的，明顯看到 2018 年的假日在 Work 這個分類，是比較空的。</p>
+<p>另外，<code>Training</code> 與 <code>English</code> 分類的差異從 Calendar 圖表非常明顯啊！</p>
+<p>2018 我幾乎每天都有抽出一點時間學習工作外的事，持續練英文的時間也變多了！</p>
+<h1 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h1><p>在製作第一年的 Year End Review 時，只是覺得好玩，可以把紀錄一年的資料做個整理跟視覺化呈現，但到了第二年，有了對照後，好像真的可以從中看出自己一年來的成長，也在整理資料的過程中，回顧了這一年所做的事情，並反省自己的缺失。雖然整體上來說，還是覺得自己浪費了許多時間，但套句李笑來的話：『所有對於現狀的解脫，最終都只能靠積累來實現。』從現在開始繼續努力、繼續積累，活在未來！</p>
+<h2 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://nivo.rocks/">nivo</a></li>
+<li><a href="https://blog.techbridge.cc/2017/12/12/d3v4-calendar-yearendreview/">一起用 Google Calendar 與 D3.js 進行年終回顧吧！</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.arvinh.info/about/">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/12/15/dataviz-yearendreview/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/12/15/dataviz-yearendreview/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/12/15/dataviz-yearendreview/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/12/15/dataviz-yearendreview/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/12/22/intro-to-mdp-program/">
+        ← Markov Decision Process 的程式範例
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/12/08/javascript-closure/">
+        所有的函式都是閉包：談 JS 中的作用域與 Closure →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

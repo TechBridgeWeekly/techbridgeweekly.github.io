@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Chrome devtools extension 實作介紹 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-02-10T11:04:27.000Z" itemprop="datePublished">
+          2018-02-10
+      </time>
+    
+    
+    | 
+    <a href='/tags/Chrome/'>Chrome</a>,
+    
+    <a href='/tags/devtools/'>devtools</a>,
+    
+    <a href='/tags/extension/'>extension</a>
+    
+    
+</span>
+
+<meta name="generator" content="Chrome devtools extension 實作介紹">
+<meta name="og:title" content="Chrome devtools extension 實作介紹">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Chrome devtools extension 實作介紹</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>身為工程師，想辦法提高自己的工作效率是一件很重要的事情，<del>畢竟這樣才有多餘的時間打電動</del>，除了平時加強各種知識與累積經驗外，撰寫工具的能力也值得培養。剛好在前不久，公司舉辦了一次內部的 hackday，我就利用這個時間針對公司內部的 framework 寫了一個簡單的 chrome devtools 的 extension，增加開發上的便利性。而在開發的過程中，發現關於 Chrome devtools extension 的文章並不是很多，中文的更少。總之，雖然<a target="_blank" rel="noopener" href="https://developer.chrome.com/extensions/devtools">官方文件</a>該有的都有，但跟 vscode extension 的文件比起來就是差了很多，光是排版就讓人不太想閱讀…<br>因此希望藉此篇文章介紹開發 chrome devtools extension 的方法與一些注意事項。（註：可能需要先有點 Chrome extension 的相關知識會比較好懂）</p>
+<p>先給大家看其中一個範例（共有兩個），主要是能自動將 DOM 物件的 element inline style 轉化為 <a target="_blank" rel="noopener" href="https://acss.io/">Atomic CSS</a> 的 class 名稱（<a href="https://blog.techbridge.cc/2017/04/29/css-methodology-atomiccss/">不知道 Atomic CSS 的可以看這篇</a>），如此一來，在 Inspector 中調整完 style 後，就能直接將轉換好的 Atomic CSS 複製貼上到 code 當中，省去一次自己轉換的時間（有時還會忘記 class name…）</p>
+<p><img src="/img/arvinh/devtools-acss-demo.gif" alt="Sidebar Demo"></p>
+<h1 id="Chrome-devtools-extension-基本介紹"><a href="#Chrome-devtools-extension-基本介紹" class="headerlink" title="Chrome devtools extension 基本介紹"></a>Chrome devtools extension 基本介紹</h1><p>有開發過 Chrome extension 的人應該都知道，我們會有所謂的 <code>Content Script</code> 與 <code>Background page</code> 兩種不同的 context 存在於我們的 extension 中，而 <code>Devtools page</code> 也是一個獨立的 context，從下面這張官方圖可以很清楚的看到其之間的差異：</p>
+<p><img src="/img/arvinh/devtools-extension-overview.png" alt="官方圖片"></p>
+<ul>
+<li>Content Script: 可以存取實際頁面的 DOM 物件與事件。</li>
+<li>Background page: 可以調用多數 extension API，像是 <code>chrome.runtime.*</code> 與 <code>chrome.tabs.onUpdated</code>，並負責 extension 與 Content script、Devtools page 之間的溝通。</li>
+<li>Devtools page: 可以調用 <code>chrome.extensions.*</code> 與 <code>chrome.devtools.*</code> Devtools API，其他的就都無法存取。可以透過 <code>chrome.devtools.inspectedWindow.eval</code> 能與目前開啟 inspector 的頁面互動。</li>
+</ul>
+<p>與一般 Extension 不同的地方就在於多了 Devtools API 需要了解，而主要的 Devtools API 其實也只有三種：</p>
+<h3 id="1-chrome-devtools-inspectedWindow"><a href="#1-chrome-devtools-inspectedWindow" class="headerlink" title="1. chrome.devtools.inspectedWindow"></a>1. chrome.devtools.inspectedWindow</h3><p>透過 <code>inspectedWindow.eval</code> 可以在當前開啟 inspector 的頁面 context 執行 javascript：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">chrome.<span class="property">devtools</span>.<span class="property">inspectedWindow</span>.<span class="built_in">eval</span>(</span><br><span class="line">  <span class="string">&quot;window.$0.style.cssText&quot;</span>,</span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">callback</span>(<span class="params">result, <span class="built_in">Error</span></span>) &#123;</span><br><span class="line">    <span class="comment">// result 為 window.$0.style.cssText</span></span><br><span class="line">    <span class="comment">// 在當前頁面的 context 下支執行結果 </span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="2-chrome-devtools-network"><a href="#2-chrome-devtools-network" class="headerlink" title="2. chrome.devtools.network"></a>2. chrome.devtools.network</h3><p>network api 可以取得你在 <code>Network panel</code> 看到的資訊。<br><img src="/img/arvinh/devtools-networkpanel.png" alt="network panel"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 取得當前開啟 inspector 的頁面所發出的 request 中，bodySize &gt; 40*1024 的 url</span></span><br><span class="line">chrome.<span class="property">devtools</span>.<span class="property">network</span>.<span class="property">onRequestFinished</span>.<span class="title function_">addListener</span>(</span><br><span class="line">      <span class="keyword">function</span>(<span class="params">request</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (request.<span class="property">response</span>.<span class="property">bodySize</span> &gt; <span class="number">40</span>*<span class="number">1024</span>) &#123;</span><br><span class="line">          chrome.<span class="property">devtools</span>.<span class="property">inspectedWindow</span>.<span class="built_in">eval</span>(</span><br><span class="line">              <span class="string">&#x27;console.log(&quot;Large request: &quot; + unescape(&quot;&#x27;</span> +</span><br><span class="line">              <span class="built_in">escape</span>(request.<span class="property">request</span>.<span class="property">url</span>) + <span class="string">&#x27;&quot;))&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="3-chrome-devtools-panels"><a href="#3-chrome-devtools-panels" class="headerlink" title="3. chrome.devtools.panels"></a>3. chrome.devtools.panels</h3><p>panels api 應該是最重要的一塊了，因為我們必須透過它來創建 Panel 或 Sidebar。</p>
+<p><img src="/img/arvinh/devtools-panel&sidebar.png" alt="panel-sidebar"></p>
+<p>Chrome devtools 的 extension UI 基本上就是分為上面這兩種類型，與上方 <code>Elements</code>、<code>Network</code> 和 <code>Sources</code> 同 Level 的稱為 Panel，而在每個 Panel 底下還可以另外創建 Sidebar，像是 Elements panel 右邊的 <code>style sidebar</code>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">chrome.<span class="property">devtools</span>.<span class="property">panels</span>.<span class="title function_">create</span>(<span class="string">&quot;Simple Panel&quot;</span>,</span><br><span class="line">  <span class="string">&quot;logo.png&quot;</span>,</span><br><span class="line">  <span class="string">&quot;Panel.html&quot;</span>,</span><br><span class="line">  <span class="keyword">function</span> (<span class="params">panel</span>) &#123;</span><br><span class="line">    <span class="comment">// code invoked on panel creation</span></span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>看完這些 API 應該也是一頭霧水，也不清楚到底要在哪裡呼叫，別急，接下來會針對這兩種 UI 個別實作一個範例來說明。</p>
+<h1 id="Chrome-devtools-extension-Sidebar-實作"><a href="#Chrome-devtools-extension-Sidebar-實作" class="headerlink" title="Chrome devtools extension - Sidebar 實作"></a>Chrome devtools extension - Sidebar 實作</h1><p>開頭的範例中，就是採取 Sidebar 的 UI，屬於 <code>ElementPanel</code> 底下的 sidebar。</p>
+<p>接著先看一下我們的檔案結構：</p>
+<img src="/img/arvinh/devtools-foldr-structure.png" style="width:50%;height:50%">
+
+<p>很簡單，重點只有三個檔案，ruleMap.js 是跟 Atomic CSS 相關的 mapping 檔案，這邊不需要理會：</p>
+<h3 id="1-manifest-json"><a href="#1-manifest-json" class="headerlink" title="1. manifest.json"></a>1. manifest.json</h3>  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Atomic CSS Devtool&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;devtool extension for making Acss users happier&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;devtools_page&quot;</span><span class="punctuation">:</span> <span class="string">&quot;devtools.html&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;manifest_version&quot;</span><span class="punctuation">:</span> <span class="number">2</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>  跟一般 extension 一樣，要在 manifest.json 中做相對應設定，既然是開發 Devtools extension，自然就要註冊 <code>devtools_page</code>，指定為 devtools.html，這份 html 就是用來載入相關 js 的入口頁面。</p>
+<h3 id="2-devtools-html"><a href="#2-devtools-html" class="headerlink" title="2. devtools.html"></a>2. devtools.html</h3>  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;ruleMap.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;devtools.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>  內容非常簡單，載入整個 devtools extension 需要的 javascript 檔案。如果你在 devtools.js 中有其他需要使用的 lib，也請記得在這個地方進行載入，像是 lodash 等等。<br>  但若你要載入非本地端的 javascript（透過 cdn 之類），會遇到 CSP(content security policy) 的錯誤，在 <a href="#notice">注意事項</a> 中我會再說明解法。</p>
+<h3 id="3-devtools-js"><a href="#3-devtools-js" class="headerlink" title="3. devtools.js"></a>3. devtools.js</h3>  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  chrome.<span class="property">devtools</span>.<span class="property">panels</span>.<span class="property">elements</span>.<span class="title function_">createSidebarPane</span>(</span><br><span class="line">    <span class="string">&quot;acss class&quot;</span>,</span><br><span class="line">    <span class="keyword">function</span> (<span class="params">sidebar</span>) &#123;</span><br><span class="line">      <span class="comment">// The function below is executed in the context of the inspected page.</span></span><br><span class="line">      <span class="keyword">var</span> page_generateAtomicClass = <span class="keyword">function</span> (<span class="params">selectedElementCssText</span>) &#123;</span><br><span class="line">        <span class="comment">// generate Atomic CSS</span></span><br><span class="line">        <span class="comment">// 略...</span></span><br><span class="line">        <span class="keyword">return</span> styleMap;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">function</span> <span class="title function_">updateElementProperties</span>(<span class="params">acssClass</span>) &#123;</span><br><span class="line">        sidebar.<span class="title function_">setObject</span>(acssClass);</span><br><span class="line">      &#125;;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">function</span> <span class="title function_">getAcssClass</span>(<span class="params"></span>) &#123;</span><br><span class="line">        chrome.<span class="property">devtools</span>.<span class="property">inspectedWindow</span>.<span class="built_in">eval</span>(</span><br><span class="line">          <span class="string">&quot;window.$0.style.cssText&quot;</span>,</span><br><span class="line">            <span class="keyword">function</span> (<span class="params">result, isException</span>) &#123;</span><br><span class="line">              <span class="keyword">const</span> selectedElementCssText = result;</span><br><span class="line">              <span class="keyword">const</span> acssClass = <span class="title function_">page_generateAtomicClass</span>(selectedElementCssText);</span><br><span class="line">              <span class="title function_">updateElementProperties</span>(acssClass);</span><br><span class="line">            &#125;</span><br><span class="line">        );</span><br><span class="line">      &#125;;</span><br><span class="line">      chrome.<span class="property">devtools</span>.<span class="property">panels</span>.</span><br><span class="line">        elements.<span class="property">onSelectionChanged</span>.<span class="title function_">addListener</span>(getAcssClass);</span><br><span class="line">      <span class="title function_">getAcssClass</span>();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p>devtool.js 就比較複雜了，所有主要功能都發生在這裡。</p>
+<p>首先，我們利用 <code>chrome.devtools.panels.elements.createSidebarPane(sidebarTitle, callbackFunc)</code> 來創建 Sidebar，在 callback 中我們會拿到一個 <code>sidebar</code> 物件，此物件是我們與右邊這個 sidebar 區塊互動的媒介，有四種 method 可以使用：</p>
+<ul>
+<li><p>sidebar.setObject()<br>  我們範例中就是使用 <code>setObject()</code> 來將運算完的資料（轉換後的 atomic css classname）傳到 sidebar 顯示，他會將傳入的 Object 展開：</p>
+<p>  <img src="/img/arvinh/devtools-setobj.png" alt="setObject"></p>
+</li>
+<li><p>sidebar.setPage() 與 sidebar.setHeight()<br>  若是覺得光是顯示 JS 的 Object 太單調，你也可以利用 <code>setPage()</code> 搭配 <code>setHeight()</code> 來在 sidebar 中塞入一個 html。</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">chrome.<span class="property">devtools</span>.<span class="property">panels</span>.<span class="property">elements</span>.<span class="title function_">createSidebarPane</span>(<span class="string">&quot;Atomic Css&quot;</span>,</span><br><span class="line">    <span class="keyword">function</span>(<span class="params">sidebar</span>) &#123;</span><br><span class="line">      sidebar.<span class="title function_">setPage</span>(<span class="string">&quot;Sidebar.html&quot;</span>);</span><br><span class="line">      sidebar.<span class="title function_">setHeight</span>(<span class="string">&quot;8ex&quot;</span>);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>  Sidebar.html 中，可以自由繪製畫面，但要注意的是，你是在 sidebar 的 context 中，不能取得當前頁面的 DOM 物件資料，需要的話得透過 background.js 以 <code>postMessage</code> 來傳遞，我們最後還會提到。</p>
+</li>
+<li><p>sidebar.setExpression()<br>  除了 <code>setObject</code> 以外，我們也能夠過 <code>setExpression</code> 直接 <code>eval()</code> js code 到當前的 inspected page。</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sidebar.<span class="title function_">setExpression</span>(<span class="string">&quot;(&quot;</span> + page_generateAtomicClass.<span class="title function_">toString</span>() + <span class="string">&quot;)()&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>  使用方法有點特殊，因為是 eval 的方式，你需要把函式 toString() 後再傳入，此外，在傳入的 <code>page_generateAtomicClass()</code> 中，你可以取得當前 inspected 頁面的資訊！<br>  例如：$0 (Chrome devtools 中特殊的變數，等同於 Element panel 中你目前選取的元素 DOM)。<br>  官方文件中 setExpression 還能傳入一個 callback，但是我怎麼傳都會有 Error 就是了…</p>
+</li>
+</ul>
+<p>接著，我用 <code>chrome.devtools.inspectedWindow.eval(&quot;window.$0.style.cssText&quot;, callback);</code> 的方式去取得 selected element 的 css 資訊，接著在 callback 中將其傳給 <code>page_generateAtomicClass()</code> 做運算，最後用 <code>sidebar.setObject()</code> 將結果輸出。</p>
+<p>等等，你不是說 <code>sidebar.setExpression</code> 就能直接取得 <code>$0</code> 了嗎？何必多此一舉？</p>
+<p>原因很簡單，因為在 <code>setExpression</code> 傳入的 function 中，你取不到 devtools.js 中的 context，所有你在 devtools.html 中 include 的 js 都無法取得，像是我需要用來轉換 Atomic css 的 <code>ruleMap.js</code> 就無法拿到，只好採此作法。在實作時需要特別注意 context 的問題！</p>
+<p>最後，我們註冊一個 <code>onSelectionChanged</code> 監聽事件 <code>chrome.devtools.panels.elements.onSelectionChanged.addListener(getAcssClass);</code>，只要選擇別的 elements 時就重新執行。</p>
+<p>到這邊為止，你就能夠做出如同一開始範例所展現功能的 Devtools extension 了！</p>
+<h1 id="Chrome-devtools-extension-Panel-實作"><a href="#Chrome-devtools-extension-Panel-實作" class="headerlink" title="Chrome devtools extension - Panel 實作"></a>Chrome devtools extension - Panel 實作</h1><p>這個範例是實作 Panel UI 的 extension，這邊我將功能降之最低，單純抓出目前頁面的 Page title，目的在展示如何將不同 context 的資訊呈現在 Devtools 的 Panel 中。</p>
+<p><img src="/img/arvinh/devtools-panel-demo.gif" alt="Panel Demo"></p>
+<p>一樣先來看檔案結構：</p>
+<img src="/img/arvinh/devtools-panel-structure.png" style="width:50%;height:50%">
+
+<p>可以看到基本上跟前一個範例差不多，只是多了 <code>Panel.html</code> 與 <code>background.js</code> 兩個檔案。</p>
+<p>另外的差別在於 <code>devtools.js</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  chrome.<span class="property">devtools</span>.<span class="property">inspectedWindow</span>.<span class="built_in">eval</span>(</span><br><span class="line">    <span class="string">&quot;document.title&quot;</span>,</span><br><span class="line">    <span class="keyword">function</span> (<span class="params">result, isException</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!isException &amp;&amp; result) &#123;</span><br><span class="line">        chrome.<span class="property">devtools</span>.<span class="property">panels</span>.<span class="title function_">create</span>(<span class="string">&quot;Panel Demo&quot;</span>,</span><br><span class="line">          <span class="string">&quot;logo.png&quot;</span>,</span><br><span class="line">          <span class="string">&quot;Panel.html&quot;</span>,</span><br><span class="line">          <span class="keyword">function</span> (<span class="params">panel</span>) &#123;</span><br><span class="line">            <span class="comment">// code invoked on panel creation</span></span><br><span class="line">          &#125;</span><br><span class="line">        );</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  );</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p>有別於前一個範例我們都將程式邏輯寫在 <code>devtools.js</code> 中，這次我們只在這邊進行創建 panel 的程式，可以從上面程式碼中看到，我們創建了一個 Title 叫做 “Panel Demo” 的 panel，並告訴 chrome devtool 是要用 <code>Panel.html</code> 這份檔案。</p>
+<p>在 <code>Panel.html</code> 中，我們載入主要程式邏輯 <code>getPageTitle.js</code>，你也可以看到，這邊就是繪製 Panel 的地方，因此可以載入 bootstrap 等 css style 來輔助。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css&quot;</span> <span class="attr">integrity</span>=<span class="string">&quot;sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">crossorigin</span>=<span class="string">&quot;anonymous&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span> <span class="attr">class</span>=<span class="string">&quot;container mt-3&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;getPageTitle.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接著來看主要程式邏輯，<code>getPageTitle.js</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// 與 background.js 建立 channel 連結</span></span><br><span class="line">  <span class="keyword">const</span> port = chrome.<span class="property">extension</span>.<span class="title function_">connect</span>(&#123;</span><br><span class="line">      <span class="attr">name</span>: <span class="string">&quot;Devtools.js Communication&quot;</span></span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">const</span> inspectedWindowId = chrome.<span class="property">devtools</span>.<span class="property">inspectedWindow</span>.<span class="property">tabId</span>;</span><br><span class="line">  <span class="comment">// Listen to messages from the background page</span></span><br><span class="line">  port.<span class="property">onMessage</span>.<span class="title function_">addListener</span>(<span class="keyword">function</span> (<span class="params">message</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (message.<span class="property">action</span> === <span class="string">&quot;reloadExtension&quot;</span> &amp;&amp; message.<span class="property">updatedTabId</span> === inspectedWindowId) &#123;</span><br><span class="line">          <span class="keyword">const</span> appNode = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#app&#x27;</span>);</span><br><span class="line">          <span class="title function_">removeHTMLChilds</span>(appNode);</span><br><span class="line">          <span class="title function_">getPageTitle</span>();</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">getPageTitle</span>(<span class="params"></span>) &#123;</span><br><span class="line">      chrome.<span class="property">devtools</span>.<span class="property">inspectedWindow</span>.<span class="built_in">eval</span>(</span><br><span class="line">          <span class="string">&quot;document.title&quot;</span>,</span><br><span class="line">          <span class="keyword">function</span> (<span class="params">result, isException</span>) &#123;</span><br><span class="line">              <span class="keyword">const</span> appNode = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#app&#x27;</span>);</span><br><span class="line">              <span class="keyword">const</span> titleWrapper = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;div&quot;</span>);</span><br><span class="line">              <span class="keyword">const</span> title = <span class="variable language_">document</span>.<span class="title function_">createTextNode</span>(result); </span><br><span class="line">              titleWrapper.<span class="title function_">appendChild</span>(title);</span><br><span class="line">              appNode.<span class="title function_">appendChild</span>(title);</span><br><span class="line">          &#125;</span><br><span class="line">      );</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">removeHTMLChilds</span>(<span class="params">HTMLNode</span>) &#123;</span><br><span class="line">      <span class="keyword">while</span> (<span class="title class_">HTMLNode</span>.<span class="property">firstChild</span>) &#123;</span><br><span class="line">          <span class="title class_">HTMLNode</span>.<span class="title function_">removeChild</span>(<span class="title class_">HTMLNode</span>.<span class="property">firstChild</span>);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// init</span></span><br><span class="line">  <span class="title function_">getPageTitle</span>();</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p>我們利用 <code>chrome.devtools.inspectedWindow.eval()</code> 來執行 <code>document.title</code>，取得 page title 資訊，並利用 <code>document.createElement</code> 等原生 Web API 來將資訊呈現在頁面上。</p>
+<p>接著這邊我們用到了 <code>port.onMessage.addListener()</code>，原因是我們想要 monitor 頁面的變化，像是 page reload 或是 page update。而這些資訊都只能透過 <code>content script</code> 或是 <code>Background.js</code> 才能取得，因此我們必須建立一個 messaging 的 channel，讓 <code>background.js</code> 告訴我們頁面是否更新了，若更新就重新繪製 <code>Panel.html</code> 的內容。</p>
+<figure class="highlight js"><figcaption><span>background.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">chrome.<span class="property">runtime</span>.<span class="property">onConnect</span>.<span class="title function_">addListener</span>(<span class="keyword">function</span> (<span class="params">port</span>) &#123;</span><br><span class="line">    chrome.<span class="property">tabs</span>.<span class="property">onUpdated</span>.<span class="title function_">addListener</span>(<span class="keyword">function</span> (<span class="params">tabId, changeInfo, tab</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (changeInfo.<span class="property">status</span> === <span class="string">&#x27;complete&#x27;</span>) &#123;</span><br><span class="line">            <span class="title function_">reloadExtension</span>(port, tabId);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">reloadExtension</span>(<span class="params">port, tabId</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> message = &#123; <span class="attr">action</span>: <span class="string">&quot;reloadExtension&quot;</span>, <span class="attr">updatedTabId</span>: tabId &#125;;</span><br><span class="line">        port.<span class="title function_">postMessage</span>(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// `background.js` 透過 `chrome.runtime.onConnect.addListener`</span></span><br><span class="line"><span class="comment">// 在與 devtools page 的 script 連接到後，監聽 `chrome.tabs.onUpdated` 事件，</span></span><br><span class="line"><span class="comment">// 當 update status 為 complete 後，`postMessage()` 給 `Panel.html` 中的 `getPageTitle.js`。</span></span><br></pre></td></tr></table></figure>
+
+<p>此外，由於 <code>Background.js</code> 存在於整個 Browser 中，因此在 <code>getPageTitle.js</code> 中，需要透過 <code>const inspectedWindowId = chrome.devtools.inspectedWindow.tabId;</code> 取得當前 inspected page 的 tab id 來過濾其他 tab 的 event change。</p>
+<p>就這樣我們就完成了一個可以取得頁面 Title 的 Devtools extension！雖然功能超廢但要是希望讓大家有個概念，知道要怎麼開始。<br>基本上所有程式碼都在這邊了，但如果還是想直接載範例 code 來看的話可以移駕至 github，但只是 demo 用就是了…<a target="_blank" rel="noopener" href="https://github.com/ArvinH/acss_devtool">Demo 1</a> <a target="_blank" rel="noopener" href="https://github.com/ArvinH/chrome-devtools-extension-panelDemo">Demo 2</a><br><span id="notice"></span></p>
+<h1 id="注意事項"><a href="#注意事項" class="headerlink" title="注意事項"></a>注意事項</h1><p>在 hackday 開發內部工具時其實踩到不少雷，而在上述的範例中比較難去說明，因此在文章的最後額外與大家分享：</p>
+<ol>
+<li><p>載入外部檔案的方式<br> 雖然在 <code>devtools.html</code> 或 <code>Panel.html</code> 中可以載入除了 <code>devtools.js</code> 外的檔案，但若是載入的檔案中存有 <code>eval()</code> 或著是透過 web 下載的 js，都會出現 CSP(content ecurity policy) 錯誤，而解法是在 <code>manifest.json</code> 中加上一行：<br> “content_security_policy”: “script-src ‘self’ ‘unsafe-eval’; object-src ‘self’”<br> 這樣就能解決 js 中存有 <code>eval()</code> 或是 <code>setTimeout()</code> 所造成的 CSP error </p>
+<p> 而若要載外部資源，則還要另外將其 domain 也加進去，當作 white list<br> “content_security_policy”: “script-src ‘self’ ‘unsafe-eval’ <a target="_blank" rel="noopener" href="https://maps.googleapis.com/">https://maps.googleapis.com/</a>; object-src ‘self’”</p>
+</li>
+<li><p>chrome.devtools.inspectedWindow.eval 長度限制<br> 在製作內部工具時，其實是需要從 inspected page 的 context 中取出大量資料到 Panel.html 中進行處理，而透過 <code>inspectedWindow.eval</code> 的方式並沒有辦法傳送太大量的 JSON object，因此我是先將其 <code>JSON.stringify()</code> 後才往後傳的。 eg. <code>chrome.devtools.inspectedWindow.eval( &quot;JSON.stringify(context.getStore())&quot;</code>。</p>
+</li>
+</ol>
+<h1 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h1><p>今天透過兩種範例介紹了如何用最主要的 Devtools API 來搭建 Devtools extension，但當然還有許多 API 或是 Event 沒有介紹到，像 panels 就有 <code>onShown</code>, <code>onHide</code> 等監聽 devtools 是否有開啟的事件可以用，不過很難從一次的範例中全部介紹到，有需要的話還是得去查看官方文件。至少希望能讓大家對於製作增加自己工作效率的工具有一個初步的開始方向，有任何問題也歡迎提出指教！</p>
+<!-- 資料來源 -->
+<h2 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://developer.chrome.com/extensions/devtools">Google offical doc</a></li>
+<li><a target="_blank" rel="noopener" href="https://div.io/topic/1669">Chrome Extension CSP 開發小記</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.360doc.com/content/17/1212/14/26662048_712402137.shtml">Chrome 插件(擴展)全攻略</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.arvinh.info/about/">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/02/10/chrome-devtool-extension/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/02/10/chrome-devtool-extension/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/02/10/chrome-devtool-extension/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/02/10/chrome-devtool-extension/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/02/14/how-to-make-a-good-node-module/">
+        ← 如何做出一個好的 NodeJS 模組？
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/02/03/github-classroom-and-travis-ci/">
+        利用 Github Classroom 加 Travis CI 打造改作業系統 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

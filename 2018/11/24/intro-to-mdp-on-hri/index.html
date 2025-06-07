@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>如何用 Markov Decision Process 描述 Human-Robot Interaction 問題 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-11-24T14:31:45.000Z" itemprop="datePublished">
+          2018-11-24
+      </time>
+    
+    
+    | 
+    <a href='/tags/Human-Robot-Interaction/'>Human-Robot Interaction</a>,
+    
+    <a href='/tags/Markov-Decision-Process/'>Markov Decision Process</a>
+    
+    
+</span>
+
+<meta name="generator" content="如何用 Markov Decision Process 描述 Human-Robot Interaction 問題">
+<meta name="og:title" content="如何用 Markov Decision Process 描述 Human-Robot Interaction 問題">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">如何用 Markov Decision Process 描述 Human-Robot Interaction 問題</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上次我們介紹了 <a href="https://blog.techbridge.cc/2018/10/27/intro-to-mdp-and-app/">Markov Decision Process 的基本概念</a>，雖然上次有簡單提到 MDP 的應用，但並不是很詳細，所以今天我們想嘗試把 MDP 跟 <a target="_blank" rel="noopener" href="https://github.com/Po-Jen/awesome-human-robot-interaction">Human-Robot Interaction</a> 問題連結起來，一起來看怎麼從一個簡單的 insight 出發，加上 MDP 的數學基礎，最後形成一篇嚴謹的論文 ( Human-Robot Interactive Planning using Cross-Training: A Human Team Training Approach ) 吧！</p>
+<h2 id="這篇論文要講什麼"><a href="#這篇論文要講什麼" class="headerlink" title="這篇論文要講什麼"></a>這篇論文要講什麼</h2><p>Human-Robot Interaction 是一個探討機器人跟人如何互動的學科，而目前最常討論的議題之一就是，如何讓機器人和人可以更有效率地一起完成工作。這篇論文嘗試讓機器人跟人進行 job rotation，讓彼此都處在對方的處境中，進而讓合作的效率提升。</p>
+<h2 id="這篇-paper-是源自於什麼-insight？"><a href="#這篇-paper-是源自於什麼-insight？" class="headerlink" title="這篇 paper 是源自於什麼 insight？"></a>這篇 paper 是源自於什麼 insight？</h2><p>Insight 1：同一個 team 裡面的成員，處理事情的方法（mental model）越接近，他們越容易理解彼此的需要，進而提升團隊的效率。</p>
+<p><img src="https://i.imgur.com/P0AzJ5N.jpg" alt="img"></p>
+<p>Insight 2: 進行 Cross-Training，也就是讓機器人和人輪流交換工作，讓他們都去做對方會做的事，可以讓他們的 mental model 更接近。</p>
+<p><img src="https://i.imgur.com/z1LqDGZ.jpg" alt="img"></p>
+<h2 id="這個-insight-怎麼用數學描述？"><a href="#這個-insight-怎麼用數學描述？" class="headerlink" title="這個 insight 怎麼用數學描述？"></a>這個 insight 怎麼用數學描述？</h2><p>看了上面的 insight，感覺頗符合直覺的，因為我們可以想像自己跟其他人合作，如果可以做做看對方的工作，就更容易體會對方做事情所感受到的需求，在合作時也更容易滿足對方的需求。</p>
+<p>但問題是，這樣的直覺怎麼跟數學接起來？</p>
+<p>這時候，就要用到我們上週學習的 <a href="https://blog.techbridge.cc/2018/10/27/intro-to-mdp-and-app/">MDP</a> 了，首先，這篇論文假設，人類的 mental model（或說白話一點，行為的偏好）可以用 MDP 來描述。</p>
+<ol>
+<li><strong>MDP 跟欲描述問題的初步關係</strong></li>
+</ol>
+<p>若我們仔細看 MDP 裡面的所有變數，真正需要我們煩惱的有兩件事 - reward 要怎麼定義？Transition probabilities 要怎麼定義？</p>
+<p>這兩個地方就是這篇論文要動手腳的地方了。首先，作者假設機器人已經有一點 prior knowledge，也就是有第一版的 reward 跟 transition probabilities，於是就可以用 value iteration 的演算法算出第一版機器人的 policy。</p>
+<p>這一版 policy 可以想成是機器人原本認為該怎麼完成任務的方法。但可能跟人類夥伴的工作方法不一樣，所以就需要來做 cross training。</p>
+<ol start="2">
+<li><strong>怎麼把 cross training 跟 MDP 接起來</strong></li>
+</ol>
+<p>接下來就是重點，我們先假設，機器人跟人是一起要鎖螺絲：<br><img src="https://i.imgur.com/Rgzyp1U.jpg" alt="img"><br>人負責放螺絲到三個要鎖的位置，機器人負責把螺絲鎖緊。<br>那 Cross training 有兩個階段，首先是 forward phase，也就是機器人跟人都負責自己該做的地方；接著是 rotation phase，也就是機器人跟人互換，這時人要負責鎖螺絲，機器人負責放螺絲。</p>
+<p>於是，雖然一開始機器人有第一版 policy，但機器人在 forward phase 可以觀察，從某個 state s，自己做完某個 action 後，人會讓 state 變成怎麼樣的 s’（這邊用 s’ 表示經過機器人和人的 action 後，state s 的下一個 state）。然後就用這樣的狀態變化來更新 MDP 的 transition function。<br>接著，在 rotation phase，這時機器人是要擺放螺絲，所以就可以由人來給予機器人 reward 的 feedback，讓機器人可以更新自己對各 state 的 reward 認知，所以就可以算出新的、較接近人類夥伴的 policy。（大家應該可以看出，即使不同人的 policy 偏好不同，機器人都可以透過這套演算法，去適應自己夥伴的偏好）</p>
+<h2 id="這篇論文的限制"><a href="#這篇論文的限制" class="headerlink" title="這篇論文的限制"></a>這篇論文的限制</h2><ol>
+<li><p>首先，人類的 mental model 相當複雜，用 MDP 來 model 有點像是把人類的偏好用 transition probabilities 跟 reward 表示，但這樣比較像是知其然不知其所以然。就像我們如果跟其他人合作，我們可以去猜想、甚至理解為什麼夥伴會有他的偏好。但用 MDP 顯然沒有這樣的描述能力。</p>
+</li>
+<li><p>如果今天要讓機器人融入人類社會，要做更多的事，這樣的 model 能夠更 general 嗎？目前的做法看起來是，一旦要做的事情變得很多，就得訓練很多套 MDP。</p>
+</li>
+</ol>
+<h2 id="這篇論文的貢獻"><a href="#這篇論文的貢獻" class="headerlink" title="這篇論文的貢獻"></a>這篇論文的貢獻</h2><p>雖然上面講了一些限制，但這篇論文其實是很讚，110 次的引用數不是掛著好看的。</p>
+<ol>
+<li><p>跳脫用單純 Reinforcement Learning 的方式來學習跟人合作，而是將合作問題巧妙地用 MDP 來表示人類 mental model，然後用 cross training 來改進合作的效率。</p>
+</li>
+<li><p>用嚴謹的數學方法精準地描述這過程，雖然若仔細看 paper，我們還是會看到不少假設，讓推導可以進行下去，但已經算是相對頗嚴謹的 paper 了。</p>
+</li>
+</ol>
+<h2 id="我這篇介紹沒-cover-到的問題"><a href="#我這篇介紹沒-cover-到的問題" class="headerlink" title="我這篇介紹沒 cover 到的問題"></a>我這篇介紹沒 cover 到的問題</h2><ol>
+<li><p>Transition probabilities 在上周介紹的 MDP 定義中，提到 MDP<br>是用來處理當採取一個 action，因為環境中有一些不確定的因素，讓我們採取完 action 會到達的 state s’ 有多種可能的問題。那這篇論文的意思是要機器人把人類 action 當做一個環境中的變因，然後機器人認知的 transition probabilities 盡量往人類的偏好靠近？（因為從 current state s 開始，機器人採取某個 action，人類也採取某個 action，讓 state 變成 s’）</p>
+</li>
+<li><p>實作上要怎麼定義 state 有多少？action 又有多少？</p>
+</li>
+</ol>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>今天跟大家介紹了一篇論文，來講怎麼使用 MDP 到 HRI 的問題上面，我覺得這個領域很有趣，也很值得投入，希望對想要入門的朋友有幫助。</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a target="_blank" rel="noopener" href="http://stefanosnikolaidis.net/papers/snikol_review_2017.pdf">Mathematical Models of Adaptation In Human-Robot Collaboration</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Po-Jen/awesome-human-robot-interaction">Github repository: awesome-human-robot-interaction</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="https://pojenlai.wordpress.com/">@pojenlai</a> 演算法工程師，對機器人、電腦視覺和人工智慧有少許研究，正在學習<a target="_blank" rel="noopener" href="https://buzzorange.com/techorange/2017/07/10/elon-musk-first-principle/">用心體會事物的本質</a>跟<a target="_blank" rel="noopener" href="https://www.ted.com/talks/eduardo_briceno_how_to_get_better_at_the_things_you_care_about">不斷進入學生心態改進</a>。</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/11/24/intro-to-mdp-on-hri/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/11/24/intro-to-mdp-on-hri/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/11/24/intro-to-mdp-on-hri/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/11/24/intro-to-mdp-on-hri/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/12/01/kubernetes101-introduction-tutorial/">
+        ← Kubernetes 與 minikube 入門教學
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/11/15/css-grid-art-generator/">
+        用 CSS Grid 創造蒙德里安藝術 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

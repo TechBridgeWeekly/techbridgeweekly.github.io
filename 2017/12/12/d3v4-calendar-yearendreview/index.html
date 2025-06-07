@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>一起用 Google Calendar 與 D3.js 進行年終回顧吧！ | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-12-12T21:10:27.000Z" itemprop="datePublished">
+          2017-12-12
+      </time>
+    
+    
+    | 
+    <a href='/tags/d3/'>d3</a>,
+    
+    <a href='/tags/google/'>google</a>,
+    
+    <a href='/tags/google-calendar-api/'>google calendar api</a>
+    
+    
+</span>
+
+<meta name="generator" content="一起用 Google Calendar 與 D3.js 進行年終回顧吧！">
+<meta name="og:title" content="一起用 Google Calendar 與 D3.js 進行年終回顧吧！">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">一起用 Google Calendar 與 D3.js 進行年終回顧吧！</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>大概是在 2016 年底的時候，我整個人的心理狀態很糟，一直覺得自己對生活的掌控力非常低落，庸庸碌碌的過著每一天，卻不曉得自己的目標在哪，對什麼都興致缺缺，似乎把生活遺失了。</p>
+<p>我試著想從過往日常生活中的所作所為來找出一些癥結點，結果發現記憶有限，越想越覺得自己好像什麼都沒完成，接著就進入無止盡的負面迴圈…</p>
+<p>為了打破這樣的心理狀態，我從 2017 年的一月開始記錄自己每天的生活，將一整天所做的事項記錄在 Google Calendar 中，有了這樣的紀錄後，我每週都會回顧一下自己這一整個星期所做的事情，花在工作、運動、娛樂、學習等等的時間如何，讓自己在負面情緒滿漲時，能看看自己其實還是達成了不少事，同時也能隨時警惕自己在時間管理與各種事項間的分配是否有需要調整的部分。</p>
+<p>好啦，說穿了就是用 Google Calendar 寫日記。</p>
+<p>而現在又接近年底了，在這近乎一年的紀錄中，我想應該可以來做個 Year End Review，利用 D3 來幫助我將記錄在 Google Calendar 上的資料視覺化出來！</p>
+<p>大致的想法是將不同分類的資料整理出來，然後看看 <strong><em>我在這一年當中，每一天花在每一個類別的事項的 Heat Map</em></strong> 會是長什麼樣子，並加上簡單的 Select box 方便切換。</p>
+<p>成果截圖如下：</p>
+<p><img src="/img/arvinh/arvin-yerr-calendar.png" alt="YERR"></p>
+<p>有興趣的可以連結到 <a target="_blank" rel="noopener" href="https://bl.ocks.org/ArvinH/56909246bd584743fa5ee7ad148ad1ac">bl.ocks 看 Demo 與完整的程式碼</a></p>
+<h1 id="資料視覺化的第一步，當然是取得資料"><a href="#資料視覺化的第一步，當然是取得資料" class="headerlink" title="資料視覺化的第一步，當然是取得資料"></a>資料視覺化的第一步，當然是取得資料</h1><p>Google 存了多少資料想必大家都心知肚明，而他老大哥也是願意把我們的資料還給我們，只要連結到 <a target="_blank" rel="noopener" href="https://takeout.google.com/settings/takeout">Google Takeout</a> 就可以將你在 Google 服務上的資料副本下載下來：</p>
+<p><img src="/img/arvinh/google-takeout.png" alt="Google Takeout"></p>
+<p>既然我要視覺化我在 Google Calendar 上的資料，當然就是選取 Calendar 來下載：</p>
+<p><img src="/img/arvinh/google_calendar_details.png" alt="Google Calendar download"></p>
+<p>或著，你也能直接從 Google Calendar 匯出你的日曆：</p>
+<p><img src="/img/arvinh/google_calendar_export.png" alt="Export from Google Calendar"></p>
+<p>仔細看一下，這兩種方式下載到的資料其格式都是 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/ICalendar"><code>iCalendar</code></a>。</p>
+<p>是 <code>iCalendar</code> 又如何呢？通用的標準格式不是很好嗎？代表我之後若換成 Apple 的 iCal，我這次的專案也能套用上去耶！</p>
+<p>But!</p>
+<p>在我當初紀錄日曆時，我每一項 item 的資訊很少，就只是單純的填入 Summary，並且依照分類給予顏色。</p>
+<p>而在 <code>iCalendar</code> 的標準中，並沒有 Google Calendar 的顏色資訊，所以我只好忍痛放棄這條方便的道路…（這告訴我們做事還是不能太懶）</p>
+<p>iCalendar 的內容大概長這樣，以 <code>BEGIN:VEVENT</code> 開始，<code>END:VEVENT</code> 為止：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">BEGIN:VEVENT</span><br><span class="line">DTSTART;VALUE=DATE:20171209</span><br><span class="line">DTEND;VALUE=DATE:20171210</span><br><span class="line">DTSTAMP:20171210T075750Z</span><br><span class="line">UID:839skadkfcd03812j3f0c030s0s@google.com</span><br><span class="line">CREATED:20171210T024308Z</span><br><span class="line">DESCRIPTION:</span><br><span class="line">LAST-MODIFIED:20171210T024310Z</span><br><span class="line">LOCATION:</span><br><span class="line">SEQUENCE:0</span><br><span class="line">STATUS:CONFIRMED</span><br><span class="line">SUMMARY:運動（主：背）</span><br><span class="line">TRANSP:TRANSPARENT</span><br><span class="line">BEGIN:VALARM</span><br><span class="line">ACTION:DISPLAY</span><br><span class="line">DESCRIPTION:This is an event reminder</span><br><span class="line">TRIGGER:-F0AB0H30C0D</span><br><span class="line">END:VALARM</span><br><span class="line">BEGIN:VALARM</span><br><span class="line">ACTION:EMAIL</span><br><span class="line">DESCRIPTION:This is an event reminder</span><br><span class="line">SUMMARY:Alarm notification</span><br><span class="line">ATTENDEE:mailto:arvin0731@gmail.com</span><br><span class="line">TRIGGER:-F0AB0H30C0D</span><br><span class="line">END:VALARM</span><br><span class="line">END:VEVENT</span><br></pre></td></tr></table></figure>
+
+<h2 id="既然是-Google，就會有-API"><a href="#既然是-Google，就會有-API" class="headerlink" title="既然是 Google，就會有 API"></a>既然是 Google，就會有 API</h2><p>沒辦法直接載到資料，那就從 API 取得吧！</p>
+<p>Google 最棒的一點就是有一堆 API，而為人詬病的剛好是這些 API 常常沒有完善的 Doc。</p>
+<p>幸運的是，Google Calendar API 的文件還蠻好懂的，因為給了一個<a target="_blank" rel="noopener" href="https://developers.google.com/google-apps/calendar/quickstart/nodejs">直接可以複製來用的範例 Sample</a>（笑</p>
+<p>直接照著步驟做就可以了，他有很多實作版本，我是用熟悉的 Node.js 來幫我爬取資料。</p>
+<p>唯一要注意的是步驟一中的 <a target="_blank" rel="noopener" href="https://console.developers.google.com/start/api?id=calendar">this wizard</a> 要好好照著說明執行，即便他步驟看起來有些匪夷所思，像是要你到某一頁後按下 <code>Cancel</code> button (eg. On the Add credentials to your project page, click the Cancel button.)</p>
+<p>當你設定好一切，取得 OAuth2 需要的 credentials 後，可以參照他下面的範例依據你想要的資料作修改，比較關鍵的程式是這幾行：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> calendar = google.<span class="title function_">calendar</span>(<span class="string">&#x27;v3&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> queryOptions = &#123;</span><br><span class="line">    <span class="attr">auth</span>: auth,</span><br><span class="line">    <span class="attr">calendarId</span>: <span class="string">&#x27;primary&#x27;</span>,</span><br><span class="line">    <span class="attr">timeMax</span>: (<span class="keyword">new</span> <span class="title class_">Date</span>()).<span class="title function_">toISOString</span>(),</span><br><span class="line">    <span class="attr">singleEvents</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">orderBy</span>: <span class="string">&#x27;startTime&#x27;</span>,</span><br><span class="line">    <span class="attr">maxResults</span>: <span class="number">2500</span> <span class="comment">// 不給 maxResults 的話，預設值就是 2500</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">if</span> (pageToken) &#123;</span><br><span class="line">    queryOptions.<span class="property">pageToken</span> = pageToken;</span><br><span class="line">&#125;</span><br><span class="line">calendar.<span class="property">events</span>.<span class="title function_">list</span>(queryOptions, <span class="keyword">function</span> (<span class="params">err, response</span>) &#123;</span><br><span class="line">    <span class="comment">// ... 從 response 中取得需要的資料</span></span><br><span class="line">    <span class="comment">// var events = response.items;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我們使用的是 v3 的 google calendar api，利用 <code>calendar.events.list</code> 可以取得某個 Calendar 的 events 列表，在 <code>queryOptions</code> 中，比較重要的有下面幾個:</p>
+<p><code>auth</code> 就是你在 <a target="_blank" rel="noopener" href="https://console.developers.google.com/start/api?id=calendar">this wizard</a> 中產生的 credentials，你在頁面上就能找到下載 json 的連結：</p>
+<p><img src="/img/arvinh/googleapi-credentials.png" alt="download credentials"></p>
+<p><code>calendarId</code> 是你想抓取的 Calendar 名稱，primary 指的是你登入帳號的主要日曆。</p>
+<p><code>timeMax</code> (or <code>timeMin</code>) 可以用來規範你想抓取哪段時間內的 events。</p>
+<p>最後是 <code>pageToken</code>，由於 Google Calendar API 有限制，你一次最多只能抓取 2500 個 events，即便你有設定 <code>maxResults</code> 這個參數也一樣。因此你會需要透過每次 API request 回傳的 <code>nextPageToken</code> 來進行下一頁的 Query。（沒錯，response 回來的是 <code>nextPageToken</code>，但你下 Query 時帶的是 <code>pageToken</code>，請注意！）</p>
+<p>可以設定的參數還非常多，可以從 Google 提供的 <a target="_blank" rel="noopener" href="https://developers.google.com/apis-explorer/#p/">API Explorer</a> 中選取 <code>Calendar API</code> 來測試看看哪樣的參數是你需要的！每個參數都有對應的說明，還算清楚。</p>
+<p>我在這部分的實作放在 <a target="_blank" rel="noopener" href="https://gist.github.com/ArvinH/a46f9af2df4316651d2056e610ba68b1">Gist</a> 上，有興趣可以參考，<br>寫得很暴力簡陋，畢竟這不是這次的重點～</p>
+<p>主要是依照日曆中每筆 Event 的時間與顏色做分類與統計，依照不同顏色（也就是不同類別）分別存放到不同檔案。</p>
+<p>資料格式也很簡單：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">date,colorIdNum</span><br><span class="line">2017-10-10,1</span><br><span class="line">2017-10-11,1</span><br><span class="line">2017-10-12,1</span><br><span class="line">2017-10-13,1</span><br><span class="line">2017-10-14,1</span><br><span class="line">2017-10-15,1</span><br><span class="line">...</span><br><span class="line">..</span><br><span class="line">.</span><br></pre></td></tr></table></figure>
+
+<h1 id="資料有了終於能開始畫圖了！"><a href="#資料有了終於能開始畫圖了！" class="headerlink" title="資料有了終於能開始畫圖了！"></a>資料有了終於能開始畫圖了！</h1><p>主要參考 <a target="_blank" rel="noopener" href="https://bl.ocks.org/mbostock/4063318">Mike Bostock 大神的作品</a>，改成只繪製單一年度圖表，並加上切換資料後的動畫。</p>
+<p>接下來是手把手說明：</p>
+<p>我們總共需要三個 Function：<code>DrawCalendar</code>、<code>UpdateCalendar</code> 與 <code>changeDataSrc</code>，分別用來繪製圖表、更新圖表與更新資料。</p>
+<p>最主要的當然就是 <code>DrawCalendar</code>。繪製日曆又可分為三個步驟：</p>
+<h3 id="Steps-I-設定日曆基本外觀（大小、顏色、svg-container）"><a href="#Steps-I-設定日曆基本外觀（大小、顏色、svg-container）" class="headerlink" title="Steps I: 設定日曆基本外觀（大小、顏色、svg container）"></a>Steps I: 設定日曆基本外觀（大小、顏色、svg container）</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">DrawCalendar</span>(<span class="params">dataSrc</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> width = <span class="number">960</span>,</span><br><span class="line">      height = <span class="number">136</span>,</span><br><span class="line">      cellSize = <span class="number">17</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> formatPercent = d3.<span class="title function_">format</span>(<span class="string">&quot;d&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> color = d3.<span class="title function_">scaleQuantize</span>()</span><br><span class="line">      .<span class="title function_">domain</span>([<span class="number">0</span>, <span class="number">10</span>])</span><br><span class="line">      .<span class="title function_">range</span>([<span class="string">&quot;#006837&quot;</span>, <span class="string">&quot;#1a9850&quot;</span>, <span class="string">&quot;#66bd63&quot;</span>, <span class="string">&quot;#a6d96a&quot;</span>, <span class="string">&quot;#d9ef8b&quot;</span>, <span class="string">&quot;#ffffbf&quot;</span>, <span class="string">&quot;#fee08b&quot;</span>, <span class="string">&quot;#fdae61&quot;</span>, <span class="string">&quot;#f46d43&quot;</span>, <span class="string">&quot;#d73027&quot;</span>, <span class="string">&quot;#a50026&quot;</span>]);</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="comment">// ..</span></span><br><span class="line">  <span class="comment">// .</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面這段很單純的就是設置好圖表的基本資訊，包含寬、高與日曆中每”天”的格子大小，利用 <code>d3.scaleQuantize()</code> 創建一個 color 函數，用來將之後的資料映射到對應的顏色。</p>
+<p>這邊有個 <code>d3.format(&quot;d&quot;)</code> 的函數，其實在這邊用不到，但還是想介紹一下。<br><code>d3.format()</code> 是個方便你正規化資料數值的函式，例如你想將數值侷限在小數點後兩位，就可以用 <code>d3.format(&quot;2f&quot;)</code>，或是想轉換成百分比，可以用 <code>d3.format(&quot;.2%&quot;)</code>，這樣會將你輸入的數值乘上 100 後，再加上百分比符號，並依照 % 前的數字來決定小數點後的位數。</p>
+<p>eg. d3.format(“.2%”)(0.234) &#x3D;&#x3D;&#x3D; 20.34% <a target="_blank" rel="noopener" href="http://www.oxxostudio.tw/articles/201501/svg-d3-12-formatting.html">(可參考此網站說明)</a></p>
+<p>接著是繪製主要的 calendar chart svg container：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> svg = d3.<span class="title function_">select</span>(<span class="string">&quot;#calendar-chart&quot;</span>)</span><br><span class="line">      .<span class="title function_">selectAll</span>(<span class="string">&quot;svg&quot;</span>)</span><br><span class="line">      .<span class="title function_">data</span>(d3.<span class="title function_">range</span>(<span class="number">2017</span>, <span class="number">2018</span>))</span><br><span class="line">      .<span class="title function_">enter</span>().<span class="title function_">append</span>(<span class="string">&quot;svg&quot;</span>)</span><br><span class="line">      .<span class="title function_">attr</span>(<span class="string">&quot;width&quot;</span>, width)</span><br><span class="line">      .<span class="title function_">attr</span>(<span class="string">&quot;height&quot;</span>, height)</span><br><span class="line">      .<span class="title function_">append</span>(<span class="string">&quot;g&quot;</span>)</span><br><span class="line">      .<span class="title function_">attr</span>(<span class="string">&quot;transform&quot;</span>, <span class="string">&quot;translate(&quot;</span> + ((width - cellSize * <span class="number">53</span>) / <span class="number">2</span>) + <span class="string">&quot;,&quot;</span> + (height - cellSize * <span class="number">7</span> - <span class="number">1</span>) + <span class="string">&quot;)&quot;</span>);</span><br><span class="line"></span><br><span class="line">  svg.<span class="title function_">append</span>(<span class="string">&quot;text&quot;</span>)</span><br><span class="line">      .<span class="title function_">attr</span>(<span class="string">&quot;transform&quot;</span>, <span class="string">&quot;translate(-6,&quot;</span> + cellSize * <span class="number">3.5</span> + <span class="string">&quot;) rotate(-90)&quot;</span>)</span><br><span class="line">      .<span class="title function_">attr</span>(<span class="string">&quot;font-family&quot;</span>, <span class="string">&quot;sans-serif&quot;</span>)</span><br><span class="line">      .<span class="title function_">attr</span>(<span class="string">&quot;font-size&quot;</span>, <span class="number">10</span>)</span><br><span class="line">      .<span class="title function_">attr</span>(<span class="string">&quot;text-anchor&quot;</span>, <span class="string">&quot;middle&quot;</span>)</span><br><span class="line">      .<span class="title function_">text</span>(<span class="keyword">function</span> (<span class="params">d</span>) &#123; <span class="keyword">return</span> d; &#125;);</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/d3/d3-array#range"><code>d3.range()</code></a> 會回傳根據你傳入的區間，回傳一段連續數值陣列。</p>
+<p>我們利用 <code>d3.range(2017, 2018)</code> 取得陣列資料，會回傳長度為一，包含 2017 這個數值的陣列 <code>[2017]</code>。</p>
+<p>你可能會想，為什麼我要這樣做？</p>
+<p>只需要一年的資料，就直接 append svg 就好呀，何必 binding 2017 這個值到 svg 的 <code>__data__</code> 裡面呢？</p>
+<p>賣個關子，待會看到 Steps II 你就會知道了！</p>
+<p>而剩下的部分就是利用 <code>transform</code> 來位移 svg，為整個圖表保留空間，並加上文字標記。</p>
+<h3 id="Steps-II-繪製日曆中的每一天（也就是每個小格子啦～）"><a href="#Steps-II-繪製日曆中的每一天（也就是每個小格子啦～）" class="headerlink" title="Steps II: 繪製日曆中的每一天（也就是每個小格子啦～）"></a>Steps II: 繪製日曆中的每一天（也就是每個小格子啦～）</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> rect = svg.<span class="title function_">append</span>(<span class="string">&quot;g&quot;</span>)</span><br><span class="line">  .<span class="title function_">attr</span>(<span class="string">&quot;fill&quot;</span>, <span class="string">&quot;none&quot;</span>)</span><br><span class="line">  .<span class="title function_">attr</span>(<span class="string">&quot;stroke&quot;</span>, <span class="string">&quot;#ccc&quot;</span>)</span><br><span class="line">  .<span class="title function_">selectAll</span>(<span class="string">&quot;rect&quot;</span>)</span><br><span class="line">  .<span class="title function_">data</span>(<span class="keyword">function</span> (<span class="params">d</span>) &#123; <span class="keyword">return</span> d3.<span class="title function_">timeDays</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(d, <span class="number">0</span>, <span class="number">1</span>), <span class="keyword">new</span> <span class="title class_">Date</span>(d + <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>)); &#125;)</span><br><span class="line">  .<span class="title function_">enter</span>().<span class="title function_">append</span>(<span class="string">&quot;rect&quot;</span>)</span><br><span class="line">  .<span class="title function_">attr</span>(<span class="string">&quot;width&quot;</span>, cellSize)</span><br><span class="line">  .<span class="title function_">attr</span>(<span class="string">&quot;height&quot;</span>, cellSize)</span><br><span class="line">  .<span class="title function_">attr</span>(<span class="string">&quot;x&quot;</span>, <span class="keyword">function</span> (<span class="params">d</span>) &#123; <span class="keyword">return</span> d3.<span class="property">timeWeek</span>.<span class="title function_">count</span>(d3.<span class="title function_">timeYear</span>(d), d) * cellSize; &#125;)</span><br><span class="line">  .<span class="title function_">attr</span>(<span class="string">&quot;y&quot;</span>, <span class="keyword">function</span> (<span class="params">d</span>) &#123; <span class="keyword">return</span> d.<span class="title function_">getDay</span>() * cellSize; &#125;)</span><br><span class="line">  .<span class="title function_">datum</span>(d3.<span class="title function_">timeFormat</span>(<span class="string">&quot;%Y-%m-%d&quot;</span>));</span><br><span class="line"></span><br><span class="line">  svg.<span class="title function_">append</span>(<span class="string">&quot;g&quot;</span>)</span><br><span class="line">    .<span class="title function_">attr</span>(<span class="string">&quot;fill&quot;</span>, <span class="string">&quot;none&quot;</span>)</span><br><span class="line">    .<span class="title function_">attr</span>(<span class="string">&quot;stroke&quot;</span>, <span class="string">&quot;#000&quot;</span>)</span><br><span class="line">    .<span class="title function_">selectAll</span>(<span class="string">&quot;path&quot;</span>)</span><br><span class="line">    .<span class="title function_">data</span>(<span class="keyword">function</span> (<span class="params">d</span>) &#123; <span class="keyword">return</span> d3.<span class="title function_">timeMonths</span>(<span class="keyword">new</span> <span class="title class_">Date</span>(d, <span class="number">0</span>, <span class="number">1</span>), <span class="keyword">new</span> <span class="title class_">Date</span>(d + <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>)); &#125;)</span><br><span class="line">    .<span class="title function_">enter</span>().<span class="title function_">append</span>(<span class="string">&quot;path&quot;</span>)</span><br><span class="line">    .<span class="title function_">attr</span>(<span class="string">&quot;d&quot;</span>, pathMonth);</span><br></pre></td></tr></table></figure>
+
+<p>要繪製出一年中的 “每一天”，我們可以直接 for loop 跑 365 次，或是產生 365 筆資料，但更聰明的做法是利用 <a target="_blank" rel="noopener" href="https://github.com/d3/d3-time#timeDays">d3-time 提供的 timeDays 函數</a> 來幫我們產生出特定日期區間的日期資料！</p>
+<p><code>d3.timeDays(new Date(d, 0, 1), new Date(d + 1, 0, 1));</code></p>
+<p>其中 <code>new Date()</code> 的第一個參數 <code>d</code> 代表年，<code>0</code> 代表第一個月（月份從 0 開始），<code>1</code> 則是第一天，因此這邊會回傳 d 年到 d + 1 年間的每一天。</p>
+<p>好那問題來了，這個 <code>d</code> 是什麼呢？</p>
+<p>要回答這個問題，必須先了解一下 d3 中的 <code>selection.data()</code>。</p>
+<p>我以前都以為 <code>data()</code> 只能夠丟入資料陣列，但是在這次的實作過程中才發現，原來他可以接受函數！</p>
+<p>但他是怎麼運作的呢？我們偷看一下 <a target="_blank" rel="noopener" href="https://github.com/d3/d3-selection/blob/master/src/selection/data.js#L94">d3-selection 的原始碼</a></p>
+<p><img src="/img/arvinh/d3-selection-src.png" alt="d3-selection src"></p>
+<p>真的蠻有趣的，他其實是先判斷你傳入的 <code>value</code> 是不是函數，若不是，會先利用 <code>constants()</code> 將你的值包裹過，讓他變成可執行的函數：</p>
+<figure class="highlight js"><figcaption><span>constants.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span>(<span class="params">x</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>他會將 <code>parent.__data__</code> 傳入該函數中執行，回傳的就會是該 <code>selector</code> 的 <code>__data__</code>。所以直接傳入 function 也是可行的！</p>
+<p>以我們的例子來說，<code>rect</code> 的 parent 就是 <code>svg</code>，而你們記得在 Steps I 時，我們 binding 陣列 <code>[2017]</code> 到 <code>svg</code> 的 <code>__data__</code> 中嗎？這邊就派上用場了！在 rect 的 <code>data()</code> 中的函數所接收到的 <code>d</code> 值就是 <code>2017</code>。</p>
+<p>而上述的 <code>d3.timeDays(new Date(d, 0, 1), new Date(d + 1, 0, 1));</code> 就會回傳 2017 到 2018 中間 365 筆的日期資料！我們也因此得到 365 個小方塊啦！</p>
+<p>接著，利用類似的概念，使用 <code>d3.timeMonths()</code> 產生 12 筆月份資料，接著實作 <code>pathMonth()</code> 來畫出 svg path：</p>
+<figure class="highlight js"><figcaption><span>pathMonth()</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">pathMonth</span>(<span class="params">t0</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> t1 = <span class="keyword">new</span> <span class="title class_">Date</span>(t0.<span class="title function_">getFullYear</span>(), t0.<span class="title function_">getMonth</span>() + <span class="number">1</span>, <span class="number">0</span>),</span><br><span class="line">    d0 = t0.<span class="title function_">getDay</span>(), w0 = d3.<span class="property">timeWeek</span>.<span class="title function_">count</span>(d3.<span class="title function_">timeYear</span>(t0), t0),</span><br><span class="line">    d1 = t1.<span class="title function_">getDay</span>(), w1 = d3.<span class="property">timeWeek</span>.<span class="title function_">count</span>(d3.<span class="title function_">timeYear</span>(t1), t1);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&quot;M&quot;</span> + (w0 + <span class="number">1</span>) * cellSize + <span class="string">&quot;,&quot;</span> + d0 * cellSize</span><br><span class="line">    + <span class="string">&quot;H&quot;</span> + w0 * cellSize + <span class="string">&quot;V&quot;</span> + <span class="number">7</span> * cellSize</span><br><span class="line">    + <span class="string">&quot;H&quot;</span> + w1 * cellSize + <span class="string">&quot;V&quot;</span> + (d1 + <span class="number">1</span>) * cellSize</span><br><span class="line">    + <span class="string">&quot;H&quot;</span> + (w1 + <span class="number">1</span>) * cellSize + <span class="string">&quot;V&quot;</span> + <span class="number">0</span></span><br><span class="line">    + <span class="string">&quot;H&quot;</span> + (w0 + <span class="number">1</span>) * cellSize + <span class="string">&quot;Z&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這段邏輯看似複雜，其實很直覺。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/d3/d3-time#interval_count"><code>d3.timeWeek.count(start, end)</code></a> 可以計算出 start 到 end 這兩個日期間有幾週。</p>
+<p><code>t0</code> 是目前傳入的時間，依照 d3.timeMonths() 的產出，會是一個月的第一天，<code>t1</code> 則是該月的月底。<br><code>d0</code> 與 <code>d1</code> 就是單純的 <code>t0</code>、<code>t1</code> 對應的 day，就是星期幾。<br><code>w0</code> 算出從 <code>t0</code> 該年的第一天到 <code>t0</code> 有幾週，依此類推 <code>w1</code> 就是相對於 <code>t1</code>。</p>
+<p>用這些數值就能夠 <code>M(移動)</code> 到月初的位置，並往下移動 7 天 <code>V 7*cellSize</code>，接著在水平位移(H) 到月底的位置，然後垂直位移到月底日期的星期位置<code>(d1 +1) * cellSize</code>，最後為到原點把整個月份框起來。</p>
+<p>svg path 的繪製方法可以[參考這篇](<a target="_blank" rel="noopener" href="http://www.oxxostudio.tw/articles/201406/svg-04-path-1.html%E3%80%82">http://www.oxxostudio.tw/articles/201406/svg-04-path-1.html。</a></p>
+<p>到目前為止可以畫出如下的圖：</p>
+<p><img src="/img/arvinh/months-outline.png" alt="outline"></p>
+<h3 id="Steps-III-該開始-Binding-資料了"><a href="#Steps-III-該開始-Binding-資料了" class="headerlink" title="Steps III: 該開始 Binding 資料了"></a>Steps III: 該開始 Binding 資料了</h3><p>再來算是最後一步了，我們將資料綁定並填入剛剛產生的格子中！</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">d3.<span class="title function_">csv</span>(dataSrc, <span class="keyword">function</span> (<span class="params">error, csv</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (error) <span class="keyword">throw</span> error;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> data = d3.<span class="title function_">nest</span>()</span><br><span class="line">    <span class="comment">// 將 date 抽到外層當 key</span></span><br><span class="line">    .<span class="title function_">key</span>(<span class="keyword">function</span> (<span class="params">d</span>) &#123; <span class="keyword">return</span> d.<span class="property">date</span>; &#125;)</span><br><span class="line">    <span class="comment">// 透過 rollup 將 value 設為 colorId</span></span><br><span class="line">    .<span class="title function_">rollup</span>(<span class="keyword">function</span> (<span class="params">d</span>) &#123; <span class="keyword">return</span> +d[<span class="number">0</span>].<span class="property">colorIdNum</span>; &#125;)</span><br><span class="line">    .<span class="title function_">object</span>(csv);</span><br><span class="line"></span><br><span class="line">  rect.<span class="title function_">filter</span>(<span class="keyword">function</span> (<span class="params">d</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> d <span class="keyword">in</span> data; <span class="comment">// 找出有 match 到的日期，表示那天我有做事 XD</span></span><br><span class="line">  &#125;)</span><br><span class="line">    .<span class="title function_">attr</span>(<span class="string">&quot;fill&quot;</span>, <span class="keyword">function</span> (<span class="params">d</span>) &#123; <span class="keyword">return</span> <span class="title function_">color</span>(data[d]); &#125;)</span><br><span class="line">    .<span class="title function_">append</span>(<span class="string">&quot;title&quot;</span>)</span><br><span class="line">    .<span class="title function_">text</span>(<span class="keyword">function</span> (<span class="params">d</span>) &#123; <span class="keyword">return</span> d + <span class="string">&quot;: &quot;</span> + <span class="title function_">formatPercent</span>(data[d]); &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>這邊主要就兩個步驟，第一步先用 <a target="_blank" rel="noopener" href="https://github.com/d3/d3-collection#nests">d3.nest</a> 來整理資料，我們需要把陣列中每筆資料的 “date” 抓出來當 Key，如此一來，在第二步中，我們可以直接利用 <code>d in data</code> 的語法在 <code>selection.filter()</code> 中進行過濾，選出 365 個格子中，哪些有跟我們真正的 csv 日期資料 match，有 match 到的格子，我們填入顏色！（使用最前面的 color 函數來做映射）</p>
+<p>填入和顏色後：</p>
+<p><img src="/img/arvinh/color-calendar.png" alt="填入資料顏色後的 calendar"></p>
+<h3 id="Steps-IV-加入動態切換資料的功能"><a href="#Steps-IV-加入動態切換資料的功能" class="headerlink" title="Steps IV: 加入動態切換資料的功能"></a>Steps IV: 加入動態切換資料的功能</h3><p>最後我們實作一下綁定在 <code>&lt;select&gt;</code> 元素上的 <code>onchange</code> 函數來做資料切換，而在圖表方面，我們只需要選取出 <code>rect</code> 並重新 <code>filter</code> 資料即可：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 切換資料</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">changeDataSrc</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> x = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;dataSrcSelector&quot;</span>).<span class="property">value</span>;</span><br><span class="line">    <span class="title class_">UpdateCalendar</span>(<span class="string">`calendarData-<span class="subst">$&#123;x&#125;</span>.csv`</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 更新圖表，加上 `transition()` 與 `duration()` 讓過程滑順一些</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">UpdateCalendar</span>(<span class="params">dataSrc</span>) &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="comment">// ..</span></span><br><span class="line">  d3.<span class="title function_">selectAll</span>(<span class="string">&#x27;rect&#x27;</span>).<span class="title function_">filter</span>(<span class="keyword">function</span> (<span class="params">d</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> d <span class="keyword">in</span> data;</span><br><span class="line">  &#125;)</span><br><span class="line">    .<span class="title function_">transition</span>()</span><br><span class="line">    .<span class="title function_">duration</span>(<span class="number">500</span>)</span><br><span class="line">    .<span class="title function_">attr</span>(<span class="string">&quot;fill&quot;</span>, <span class="keyword">function</span> (<span class="params">d</span>) &#123; <span class="keyword">return</span> <span class="title function_">color</span>(data[d]); &#125;);</span><br><span class="line">  </span><br><span class="line">  d3.<span class="title function_">selectAll</span>(<span class="string">&#x27;rect&#x27;</span>).<span class="title function_">filter</span>(<span class="keyword">function</span> (<span class="params">d</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> !(d <span class="keyword">in</span> data);</span><br><span class="line">  &#125;)</span><br><span class="line">    .<span class="title function_">transition</span>()</span><br><span class="line">    .<span class="title function_">duration</span>(<span class="number">500</span>)</span><br><span class="line">    .<span class="title function_">attr</span>(<span class="string">&quot;fill&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123; <span class="keyword">return</span> <span class="string">&#x27;#fff&#x27;</span>; &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="成果"><a href="#成果" class="headerlink" title="成果"></a>成果</h2><p><img src="/img/arvinh/calendar-d3.gif" alt="final demo"><br><a target="_blank" rel="noopener" href="https://bl.ocks.org/ArvinH/56909246bd584743fa5ee7ad148ad1ac">Demo 與完整的程式碼</a></p>
+<p>嗯～看起來我工作頗認真，不過等等…怎麼好像週末顏色都比較深啊哈哈哈…哈哈..哈..嗚嗚嗚</p>
+<h1 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h1><p>當初開始在 Google Calendar 上紀錄日誌時，並沒有想到可以在年終的時候進行整年的 review，所以每天的紀錄都很隨性，並沒有很完整的進行分類，有些可惜，但還是能透過資料視覺化的結果，看出我在時間分配的掌控度有相當的進步空間，像是花在工作與培養額外興趣（娛樂）的時間有蠻大的落差。</p>
+<p>不管怎麼說，有了這次的經驗，相信明年的 Year End Review 會更好！<br>如果你也覺得這樣做有趣，或許可以加入我的行列，也或許想想有什麼方式可以為你自己進行一次年終 Review，相信都會有所收穫！</p>
+<h3 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h3><ol>
+<li><a target="_blank" rel="noopener" href="http://www.oxxostudio.tw/articles/201501/svg-d3-12-formatting.html">d3 formatting</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/d3/d3-time">d3-time</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/d3/d3-array">d3-array</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/d3/d3-collection">d3-collection</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Date">MDN Date</a></li>
+<li><a target="_blank" rel="noopener" href="https://bl.ocks.org/mbostock/4063318">mbostock calendar view</a></li>
+<li><a target="_blank" rel="noopener" href="https://developers.google.com/google-apps/calendar/quickstart/nodejs">Google Calendar API</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="https://blog.arvinh.info/about/">@arvinh</a> 前端攻城獅，熱愛數據分析和資訊視覺化</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/12/12/d3v4-calendar-yearendreview/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/12/12/d3v4-calendar-yearendreview/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/12/12/d3v4-calendar-yearendreview/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/12/12/d3v4-calendar-yearendreview/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/12/23/linux-commnd-line-tutorial/">
+        ← Linux Command 命令列指令與基本操作入門教學
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/12/08/rxjs/">
+        希望是最淺顯易懂的 RxJS 教學 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

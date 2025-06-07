@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>搶救茶壺大作戰：418 I am a teapot | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-06-15T08:00:00.000Z" itemprop="datePublished">
+          2019-06-15
+      </time>
+    
+    
+    | 
+    <a href='/tags/HTTP/'>HTTP</a>
+    
+    
+</span>
+
+<meta name="generator" content="搶救茶壺大作戰：418 I am a teapot">
+<meta name="og:title" content="搶救茶壺大作戰：418 I am a teapot">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">搶救茶壺大作戰：418 I am a teapot</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>有許多的 HTTP Status Code 大家都耳熟能詳，例如說 404 Not Found、500 Internal Server Error 以及 200 OK 等等。</p>
+<p>在眾多的狀態碼之中，有一個擺明就是來搞笑的：418 I’m a teapot。</p>
+<p>但你知道嗎，它不在 HTTP 標準裡面，所以根本不是標準的 HTTP 狀態碼。你可能會想說：「我都看過 RFC 了，怎麼會不是？」。但那份 RFC 也跟 HTTP 一點關係都沒有，不過滿多人都沒注意到這點。</p>
+<p>我一開始也沒注意到這件事，以為 418 是 HTTP 標準的其中一部分，一直到 2017 年 8 月時有人在 Node.js 的 GitHub 發了一個 Issue：<a target="_blank" rel="noopener" href="https://github.com/nodejs/node/issues/14644">418 I’m A Teapot</a> 我才注意到。</p>
+<p>Issue 裡面提到希望能移除對 418 的 support，而發起 Issue 的作者在被人告知 Go 也這樣搞的時候，也跑去 Go 發了一個 Issue。</p>
+<p>那時候這起要求移除 418 狀態碼的事件其實引發了不小的風波，而大部分人其實是反對移除這個狀態碼的。甚至還有人做了一個 <a target="_blank" rel="noopener" href="http://save418.com/">save418.com</a>，想要拯救 418。</p>
+<p>前陣子花了點時間研究一下整件事情的來龍去脈，在整理的過程中也發現無論贊成或是反對，這其中的理由都很值得我們去思考，因此在此總結成一篇文章跟大家分享。</p>
+<h2 id="418-的由來"><a href="#418-的由來" class="headerlink" title="418 的由來"></a>418 的由來</h2><p>418 的由來可以追溯到 1998 年 4 月 1 日愚人節的這一份文件：<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc2324">RFC2324, Hyper Text Coffee Pot Control Protocol (HTCPCP&#x2F;1.0)</a>，HTCPCP 是 Hyper Text Coffee Pot Control Protocol 的簡稱，總之這份 RFC 描述了一個叫做 HTCPCP 的協定，建立在 HTTP 之上，並且可以利用這個協定來泡咖啡。</p>
+<p>講到 418 的部分在 Section 2.3.2：</p>
+<blockquote>
+<p>2.3.2 418 I’m a teapot</p>
+</blockquote>
+<blockquote>
+<p>  Any attempt to brew coffee with a teapot should result in the error<br>   code “418 I’m a teapot”. The resulting entity body MAY be short and<br>   stout.</p>
+</blockquote>
+<p>大意就是如果有人想用茶壺來泡咖啡，你應該回個它一個 418 的狀態碼，我是個茶壺，你幹嘛拿我來泡咖啡？</p>
+<p>這邊值得注意的只有一件事，那就是 418 是在 HTCPCP 這個協定裡面，並不是 HTTP。所以 418 並不是 HTTP 協定的標準狀態碼。</p>
+<h2 id="移除-418-的風波"><a href="#移除-418-的風波" class="headerlink" title="移除 418 的風波"></a>移除 418 的風波</h2><p>在 2017 年 8 月 5 日，Mark Nottingham 在 Node.js 的 GitHub 發了這樣的一個 <a target="_blank" rel="noopener" href="https://github.com/nodejs/node/issues/14644">Issue</a>：</p>
+<blockquote>
+<p>Node implements the 418 I’m a Teapot status code in a few places.</p>
+</blockquote>
+<blockquote>
+<p>Its source is RFC2324, Hyper Text Coffee Pot Control Protocol (HTCPCP&#x2F;1.0). Note the title - HTCPCP&#x2F;1.0 is not HTTP&#x2F;1.x.</p>
+</blockquote>
+<blockquote>
+<p>HTCPCP was an April 1 joke by Larry to illustrate how people were abusing HTTP in various ways. Ironically, it’s not being used to abuse HTTP itself – people are implementing parts of HTCPCP in their HTTP stacks.</p>
+</blockquote>
+<blockquote>
+<p>In particular, Node’s support for the HTCPCP 418 I’m a Teapot status code has been used as an argument in the HTTP Working Group to preclude use of 418 in HTTP for real-world purposes.</p>
+</blockquote>
+<blockquote>
+<p>While we have a number of spare 4xx HTTP status codes that are unregistered now, the semantics of HTTP are something that (hopefully) are going to last for a long time, so one day we may need this code point.</p>
+</blockquote>
+<blockquote>
+<p>Please consider removing support for 418 from Node, since it’s not a HTTP status code (even by its own definition). I know it’s amusing, I know that a few people have knocked up implementations for fun, but it shouldn’t pollute the core protocol; folks can extend Node easily enough if they want to play with non-standard semantics.</p>
+</blockquote>
+<blockquote>
+<p>Thanks,</p>
+</blockquote>
+<p>裡面請求 Node 把 418 的支援移除，理由是 418 並不是 HTTP 標準的狀態碼，而且 4xx 的狀態碼雖然還有很多，但若是我們希望 HTTP 能盡量活得長久，我們終究有一天需要用到這個狀態碼的。</p>
+<p>底下引起了一番討論之後，有人指出 Go 也實作了 418，因此 Mark Nottingham 就跑到了 Go 的 GitHub 去，也發了一個相似的 Issue：<a target="_blank" rel="noopener" href="https://github.com/golang/go/issues/21326">net&#x2F;http: remove support for status code 418 I’m a Teapot</a>。</p>
+<p>這兩個 Issue 其實都很值得一看，裡面有許多很有建設性的討論。下面我整理幾個支持與反對的論點。</p>
+<h3 id="反對移除：418-是無害的"><a href="#反對移除：418-是無害的" class="headerlink" title="反對移除：418 是無害的"></a>反對移除：418 是無害的</h3><blockquote>
+<p>418 是個無害的彩蛋，而且很有趣，離我家的 418 遠一點！</p>
+</blockquote>
+<p>我覺得這論點滿無力的，只要證明 418 其實是有害的就好。</p>
+<h3 id="支持移除：萬一以後有人要用-418-怎麼辦？"><a href="#支持移除：萬一以後有人要用-418-怎麼辦？" class="headerlink" title="支持移除：萬一以後有人要用 418 怎麼辦？"></a>支持移除：萬一以後有人要用 418 怎麼辦？</h3><blockquote>
+<p>你說 418 無害，不對啊，如果我們希望 HTTP 能活得久，那遲早會有 418 會需要被用到的一天，到那天他就是別的意思了。就算你把 418 保留起來，也是少了一個狀態碼可以用</p>
+</blockquote>
+<p>這一點我覺得滿有趣的。的確，照這種說法 418 佔了一個位置，以後能用的狀態碼就少了一個。但問題是這「一個」重要嗎？可以搭配下面的反對論點一起看。</p>
+<h3 id="反對移除：418-只佔了一個空間，問題不在-418"><a href="#反對移除：418-只佔了一個空間，問題不在-418" class="headerlink" title="反對移除：418 只佔了一個空間，問題不在 418"></a>反對移除：418 只佔了一個空間，問題不在 418</h3><p>如果 4xx 都快用完的那天真的來臨了，該檢討的是 HTTP 的設計，還是檢討狀態碼不夠用？如果真的只剩一個可以用，是不是代表還有更大的問題該解決？</p>
+<p>之所以這點我覺得很有趣，是因為這跟我們平時在寫程式會碰到的問題滿像的。有時候你會擔心自己是不是過早最佳化（Premature Optimization）或是過度工程化（Over Engineering），做了完全不需要用到的優化。</p>
+<blockquote>
+<p>假設今天有一個程式，用 1~100 這 100 個數字來表示不同狀態。隨著時間我們會需要不同的數字來表示不同狀態，所以能用的數字會愈來愈少，而我們又希望這程式能夠活得長久。在這種情況下，你贊成我們拿其中一個數字來當彩蛋嗎？</p>
+</blockquote>
+<p>如果你反對，認為每一個數字都很重要，不該隨意拿一個數字出來當彩蛋，就代表你認為 418 是該被移除的。</p>
+<p>但我自己對這題的看法是一個數字根本無關緊要。</p>
+<p>理由是，若是你真的把 99 個數字用完了，就算我拿去當彩蛋的數字還你，你依然在不久後會用完所有的數字。到那個時候，你還是需要找新的解法。所以只差一個數字根本差不了多少。</p>
+<h3 id="支持移除：418-不在-HTTP-標準內"><a href="#支持移除：418-不在-HTTP-標準內" class="headerlink" title="支持移除：418 不在 HTTP 標準內"></a>支持移除：418 不在 HTTP 標準內</h3><p>這是我覺得最有力的論點。</p>
+<p>大家都知道 418 是個彩蛋，也知道它很有趣，可是它終究不是 HTTP 標準的一部分。今天你如果要實作一個「遵循 HTTP 標準」的程式，你就不應該把 418 放進去，因為它不在裡面。在 <a target="_blank" rel="noopener" href="https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml">IANA</a> 裡面 418 也是 Unassigned 的狀態。</p>
+<p>如果你今天是市井小民，想要在自己家的伺服器或是 App 裡面實作 418，那沒有人會干擾你。但對於 Node.js、Go 這種專案來說，就應該遵守規範來開發。</p>
+<p>這點也可以延伸到平常開發產品時會碰到的問題。如果 PM 規格寫不清楚，工程師要嘛自己通靈，要嘛就叫 PM 把模糊的地方寫清楚一點，最好是不要有任何個人的解釋空間，越清楚越好。</p>
+<p>當今天 PM 把規格書寫得超級清楚，工程師卻自己偷偷加了一個額外的彩蛋，這是合理的嗎？這彩蛋可能無關緊要，可能只有工程師自己知道怎麼打開，但無論如何還是超出了規格之外。</p>
+<p>在思考 418 的去留問題時，你可能只看見 418。但我認為你在碰到 418 問題時所做出的選擇，都跟你平時開發會碰到的問題有關。而且有趣的是，你有可能在 418 時選了 A，卻在類似的開發問題上選了 B，兩者是互相衝突的。</p>
+<p>以我個人的立場來說，418 不在標準內這個理由很有力。不過以情感上來說我是不希望它被移除的，幸好還有一個反對的論點也滿有力的。</p>
+<h3 id="反對移除：418-已經被誤用太久了"><a href="#反對移除：418-已經被誤用太久了" class="headerlink" title="反對移除：418 已經被誤用太久了"></a>反對移除：418 已經被誤用太久了</h3><p>在做版本更新時，有一個很重要的點是要維持向下相容（backward compatible），如果不是什麼太重要的事，盡量不要有 breaking change。</p>
+<p>而這個論點講的是 418 作為一個「被誤認為是 HTTP 標準」的狀態碼已經十幾年了，所以每一個主流的函式庫幾乎都有支援 418（你看 Node.js 跟 Go 都有支援），若是今天把 418 的支援拔掉了，那以前使用到 418 的 Server 怎麼辦？  </p>
+<p>這論點我也覺得滿有力的，418 已經被誤用太久，拔掉之後會產生的問題似乎比維持現狀還要多。從這點來看，它是不該被移除的。</p>
+<h2 id="418-的後續發展及現況"><a href="#418-的後續發展及現況" class="headerlink" title="418 的後續發展及現況"></a>418 的後續發展及現況</h2><p>當初 Mark Nottingham 發表了希望移除 418 的 Issue 之後，有些人覺得他是來鬧的，吃飽太閒才會把想法動到 418 身上去。</p>
+<p>但如果你點進他的 GitHub，可以看到他的自我介紹：</p>
+<blockquote>
+<p>I work on HTTP specifications and implementations.</p>
+</blockquote>
+<p>他原本就參與了各個跟 HTTP 標準相關的組織，而且在這個領域做了不少的貢獻。</p>
+<p>在社群掀起了反對聲浪以後，他也決定從原本的移除 418 轉變為保留 418 的立場：</p>
+<blockquote>
+<p>So, I poked a couple of implementations to see if they’d remove 418’s “teapot” semantics, and there was a reaction (to put it mildly).</p>
+</blockquote>
+<blockquote>
+<p>I think we need to reserve 418 to make it clear it can’t be used for the foreseeable future</p>
+</blockquote>
+<p>（來源：<a target="_blank" rel="noopener" href="https://lists.w3.org/Archives/Public/ietf-http-wg/2017JulSep/0332.html">http-wg 的 mailing list: Reserving 418
+</a>）</p>
+<p>於是起草了一份文件：<a target="_blank" rel="noopener" href="https://tools.ietf.org/id/draft-nottingham-thanks-larry-00.html">Reserving the 418 HTTP Status Code</a>，裡面說明要把 418 的狀態設定為保留，不能被其他人註冊走：</p>
+<blockquote>
+<p>[RFC2324] was an April 1 RFC that lampooned the various ways HTTP was abused; one such abuse was the definition of the application-specific 418 (I’m a Teapot) status code.</p>
+</blockquote>
+<blockquote>
+<p>In the intervening years, this status code has been widely implemented as an “easter egg”, and therefore is effectively consumed by this use.</p>
+</blockquote>
+<blockquote>
+<p>This document changes 418 to the status of “Reserved” in the IANA HTTP Status Code registry to reflect that.</p>
+</blockquote>
+<p>當初研究這整件事情到這裡時，看到這份草稿的資訊發現已經過期了（Expires: February 12, 2018），到 <a target="_blank" rel="noopener" href="https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml">IANA HTTP Status Code registry</a> 看，發現 418 一樣是 Unassigned。</p>
+<p>線索就到這邊全部斷掉了，所以 418 最後到底怎麼樣了？會變成保留中嗎？</p>
+<p>於是我寫了封信去問 Mark Nottingham 本人，他只丟給我一個連結：<a target="_blank" rel="noopener" href="https://github.com/httpwg/http-core/issues/43%E3%80%82">https://github.com/httpwg/http-core/issues/43。</a></p>
+<p>從這個 Issue 可以找到這個 PR：<a target="_blank" rel="noopener" href="https://github.com/httpwg/http-core/pull/149/files">Reserve 418 status code</a>，裡面更動了<code>draft-ietf-httpbis-semantics-latest.xml</code>這個檔案。而在 httpwg 的網站上也可以找到現在最新的草稿：<a target="_blank" rel="noopener" href="https://httpwg.org/http-core/draft-ietf-httpbis-semantics-latest.html%E3%80%82">https://httpwg.org/http-core/draft-ietf-httpbis-semantics-latest.html。</a></p>
+<p>在最新的草稿裡面，多了這段：</p>
+<blockquote>
+<p>9.5.19. 418 (Unused)</p>
+<p>[RFC2324] was an April 1 RFC that lampooned the various ways HTTP was abused; one such abuse was the definition of an application-specific 418 status code. In the intervening years, this status code has been widely implemented as an “Easter Egg”, and therefore is effectively consumed by this use.</p>
+</blockquote>
+<blockquote>
+<p>Therefore, the 418 status code is reserved in the IANA HTTP Status Code registry. This indicates that the status code cannot be assigned to other applications currently. If future circumstances require its use (e.g., exhaustion of 4NN status codes), it can be re-assigned to another use.</p>
+</blockquote>
+<p>看起來是把 418 先保留起來，但如果日後 4XX 的狀態碼真的用完，還是可以把 418 拿去做其他的用途。</p>
+<p>而 httpwg 的網站上也能找到目前最新的 HTTP&#x2F;1.1 的標準：<a target="_blank" rel="noopener" href="https://httpwg.org/specs/rfc7231.html">Hypertext Transfer Protocol (HTTP&#x2F;1.1): Semantics and Content</a>，裡面是沒有 418 的。</p>
+<p>因此我自己的猜測是在最新的草稿裡面已經把 418 放進去了並且設成保留，但是還沒有正式發表（背後應該還有一堆流程，這部分要去研究 HTTP Working Group 的規章才能知道），不過在日後應該可以看見草稿發布並成為正式的標準。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>這樣看下來，418 I am a teapot 依舊不會是 HTTP 的標準。畢竟應該有些人跟我想的一樣，只要把 418 I am a teapot 變成 HTTP 標準的一部分，問題就解決了，但最後沒有這樣做我猜是會碰到一些問題（至於是什麼問題我也不知道，有人知道的話麻煩提點，感謝）。</p>
+<p>最後的結論應該是 418 這個狀態碼依然會繼續以 I am a teapot 存在於各個主流的 HTTP 實作裡面，但依舊不是 HTTP 標準的一部分。在標準裡面 418 狀態碼是被設定為 (Unused) 而且暫時被保留著，不會被其他用途給取代。</p>
+<p>這篇的目的主要就是想記錄一下 418 狀態碼的過去以及現在，並且讓大家知道它並不是 HTTP 標準的一部分。除此之外，在研究的過程中也聯想到了許多開發上會碰到的問題，其實背後的核心概念都是差不多的。</p>
+<p>其實在寫這篇的時候猶豫了許久，因為很怕自己有地方會寫錯（參考資料太多太豐富），不過想起了之前忘記在哪看到的一句話：「比起提問，有個更快能得到正確答案的方法。那就是講一個錯的答案，就會有人來糾正你了」。</p>
+<p>延伸閱讀：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://news.ycombinator.com/item?id=14987460">HN 的討論</a></li>
+<li><a target="_blank" rel="noopener" href="https://news.ycombinator.com/item?id=15004907">HN 的討論 - 2 </a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://huli.logdown.com/">@huli</a> 野生工程師，相信分享與交流能讓世界變得更美好</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/06/15/iam-a-teapot-418/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/06/15/iam-a-teapot-418/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/06/15/iam-a-teapot-418/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/06/15/iam-a-teapot-418/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/06/16/javascript-obj-compare/">
+        ← 理解 JavaScript 中物件的比大小行為
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/06/08/silicon-valley-robotics-company/">
+        矽谷機器人公司一覽 & 相關資源 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

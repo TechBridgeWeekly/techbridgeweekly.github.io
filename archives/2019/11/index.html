@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Archives: 2019/11 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="home-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+<main class="content" role="main">
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2019-11-30T19:49:03.000Z" itemprop="datePublished">
+          2019-11-30
+      </time>
+    
+    
+    | 
+    <a href='/tags/Web/'>Web</a>
+    
+    
+</span>
+
+<meta name="generator" content="Don’t break the Web：以 SmooshGate 以及 keygen 為例">
+<meta name="og:title" content="Don’t break the Web：以 SmooshGate 以及 keygen 為例">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2019/11/30/smooshgate-and-keygen/">Don’t break the Web：以 SmooshGate 以及 keygen 為例</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近 YDKJS（You Don’t Know JS 的縮寫，中譯版翻成：你所不知道的JS）有了第二版，名叫 <a target="_blank" rel="noopener" href="https://twitter.com/ydkjsy">YDKJSY</a>，Y 是 Yet 的意思（中文版可能可以翻叫：你還是不知道的 JS）。這個第二版還沒全部完成，但在 <a target="_blank" rel="noopener" href="https://github.com/getify/You-Dont-Know-JS">GitHub</a> 上面已經公開了最前面的一些章節。</p>
+<p>搶先讀了一下第一章，在講與 JS 相關的歷史，其中提到一段讓我很感興趣的議題：</p>
+<blockquote>
+<p> As such, sometimes the JS engines will refuse to conform to a specification-dictated change because it would break that web content.</p>
+</blockquote>
+<blockquote>
+<p>In these cases, often TC39 will backtrack and simply choose to conform the specification to the reality of the web. For example, TC39 planned to add a contains(..) method for Arrays, but it was found that this name conflicted with old JS frameworks still in use on some sites, so they changed the name to a non-conflicting includes(..). The same happened with a comedic&#x2F;tragic JS community crisis dubbed “smooshgate”, where the planned flatten(..) method was eventually renamed flat(..).</p>
+</blockquote>
+<p>大意是在說有時候 JS 的規格必須跟現實（已經存在的那些舊的實作）妥協。例如說原本 Array 要加上一個叫做 contains 的 method，但因為會有問題所以改叫 includes，flatten 也改名叫做 flat。</p>
+<p>還有一個上面特別標起來的詞「smooshgate」，用這個當關鍵字去找才發現是去年三月左右發生的事件，至於發生了什麼，底下會詳述，跟上面提的 flatten 有關。看到有這件事的時候我第一個反應是：「咦，我怎麼什麼都不知道？」，查了一下繁體中文的資料，大概也只有這篇有提到：<a target="_blank" rel="noopener" href="https://blog.othree.net/log/2018/05/28/smooshgate/">SmooshGate</a>，以及<a target="_blank" rel="noopener" href="https://medium.com/@liuderchi/%E7%AD%86%E8%A8%98-3-%E7%A8%AE-javascript-%E7%89%A9%E4%BB%B6%E5%B1%AC%E6%80%A7%E7%9A%84%E7%89%B9%E6%80%A7-3b982f4c5695">[筆記] 3 種 JavaScript 物件屬性的特性</a>這篇有擦到邊而已。</p>
+<p>在仔細研究了一下事情的來龍去脈之後，覺得是個滿有趣的議題，因此寫了這篇跟大家分享。</p>
+      
+      </p>
+      
+      <p>
+          <a href="/2019/11/30/smooshgate-and-keygen/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2019-11-22T21:51:34.000Z" itemprop="datePublished">
+          2019-11-22
+      </time>
+    
+    
+    | 
+    <a href='/tags/Algorithm/'>Algorithm</a>,
+    
+    <a href='/tags/Leetcode/'>Leetcode</a>,
+    
+    <a href='/tags/Software-Engineer/'>Software Engineer</a>
+    
+    
+</span>
+
+<meta name="generator" content="Leetcode 刷題 pattern - Fast & Slow Pointer">
+<meta name="og:title" content="Leetcode 刷題 pattern - Fast & Slow Pointer">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2019/11/22/leetcode-pattern-fast-and-slow-pointer/">Leetcode 刷題 pattern - Fast & Slow Pointer</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言身在大 CS 時代，有越來越多人投入刷題的行列，在眼花撩亂的題海中，要想有效率地刷題，掌握並通達題目解法背後，可以不斷被拿來使用的觀念，才能做到以簡禦繁。之前 Huli 寫的 程式解題新手入門注意事項 也講得非常好，寫題目是為了學會解題的思考方法，確保自己掌握重要的資料結構跟演算法。這也是為什麼我想要寫這系列的文章，把多個散落在各處的題目銜接起來，以後看到相似的問題就可以舉一反三，而不是去背各題目的解法。
+舉例來說，之前遇過一題電話
+      
+      </p>
+      
+      <p>
+          <a href="/2019/11/22/leetcode-pattern-fast-and-slow-pointer/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2019-11-15T10:23:23.000Z" itemprop="datePublished">
+          2019-11-15
+      </time>
+    
+    
+    | 
+    <a href='/tags/軟體工程師/'>軟體工程師</a>,
+    
+    <a href='/tags/軟體工程/'>軟體工程</a>,
+    
+    <a href='/tags/software-engineering/'>software engineering</a>,
+    
+    <a href='/tags/bash/'>bash</a>,
+    
+    <a href='/tags/shell/'>shell</a>,
+    
+    <a href='/tags/linux/'>linux</a>,
+    
+    <a href='/tags/指令/'>指令</a>,
+    
+    <a href='/tags/命令列/'>命令列</a>,
+    
+    <a href='/tags/command-line/'>command line</a>,
+    
+    <a href='/tags/script/'>script</a>,
+    
+    <a href='/tags/unix/'>unix</a>,
+    
+    <a href='/tags/mac/'>mac</a>,
+    
+    <a href='/tags/os/'>os</a>,
+    
+    <a href='/tags/windows/'>windows</a>,
+    
+    <a href='/tags/curl/'>curl</a>,
+    
+    <a href='/tags/shell-script/'>shell script</a>
+    
+    
+</span>
+
+<meta name="generator" content="簡明 Linux Shell Script 入門教學">
+<meta name="og:title" content="簡明 Linux Shell Script 入門教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2019/11/15/linux-shell-script-tutorial/">簡明 Linux Shell Script 入門教學</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        
+前言Shell 是一種讓使用者可以和作業系統 Kernel（核心用來控制 CPU、記憶體、硬碟等硬體）互動溝通的橋樑。Shell Script 主要是使用在 Linux 和 MacOS 等 Unix-like 作業系統的自動化操作指令的程式語言。其透過 Unix shell 命令列直譯器來執行（我們這邊主要使用 bash shell，其他的 Unix shell 觀念大致類似），使用方式有點類似直譯式程式語言（不用編譯直接執行）。在 
+      
+      </p>
+      
+      <p>
+          <a href="/2019/11/15/linux-shell-script-tutorial/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2019-11-06T08:56:40.000Z" itemprop="datePublished">
+          2019-11-06
+      </time>
+    
+    
+    | 
+    <a href='/tags/web/'>web</a>,
+    
+    <a href='/tags/animation/'>animation</a>,
+    
+    <a href='/tags/svg/'>svg</a>,
+    
+    <a href='/tags/TimelineMax/'>TimelineMax</a>,
+    
+    <a href='/tags/GSAP/'>GSAP</a>
+    
+    
+</span>
+
+<meta name="generator" content="十分鐘、五步驟，SVG 動起來！">
+<meta name="og:title" content="十分鐘、五步驟，SVG 動起來！">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2019/11/06/svg-animation-in-10mins/">十分鐘、五步驟，SVG 動起來！</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言在 Codepen 上常常看到很多會設計又懂寫前端的高手，用 SVG 畫出很漂亮的圖案後，還能讓他們產生可愛的動畫，我一直很好奇他們是怎麼實作的，總覺得很困難，好像得對 SVG 透徹了解，並且自己畫出那些 SVG 圖案，才有辦法實作動畫。但其實不然，今天就來分享一個簡單的小技巧，讓你在短短十分鐘內就能讓一個靜態的 SVG 圖案活躍起來！
+簡單看個成品，你可以點選下面範例中的 build 按鈕，可以看到原本靜止的 SVG 房子動了起來
+      
+      </p>
+      
+      <p>
+          <a href="/2019/11/06/svg-animation-in-10mins/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2019-11-02T10:34:52.000Z" itemprop="datePublished">
+          2019-11-02
+      </time>
+    
+    
+    | 
+    <a href='/tags/JavaScript/'>JavaScript</a>,
+    
+    <a href='/tags/Algorithm/'>Algorithm</a>
+    
+    
+</span>
+
+<meta name="generator" content="程式解題新手入門注意事項">
+<meta name="og:title" content="程式解題新手入門注意事項">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2019/11/02/before-start-leetcode/">程式解題新手入門注意事項</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在這兩三年之間，「刷題」似乎成為了一種風潮。本科系要去面試大公司的時候要刷題，非本科系出去面試也要刷題，好像只要沒有刷題就會落後他人，就會被公司刷掉。</p>
+<p>其實我一直不是很喜歡「刷題」這個詞，主要是因為「刷」這個字。不知道大家對這個字的解讀是什麼，但我會認為有種「為了寫題目而寫題目」的感覺，就好像題海戰術那樣。雖然說題海戰術用得好的話成效滿顯著的，但總感覺很多人刷到最後會變成「看過的題目就會，沒看過的就一定不會」，如果是這樣子的話，那我覺得不是一件好事。</p>
+<p>之前我有寫了一篇文章：<a target="_blank" rel="noopener" href="https://medium.com/@hulitw/learn-coding-9c572c2fb2">當我們在學程式時，要學的到底是什麼？</a>，稍微談了一下這件事情。</p>
+<p>總之呢，比起刷題這個詞，我更喜歡用「程式解題」四個字來表達我想表達的意思。</p>
+      
+      </p>
+      
+      <p>
+          <a href="/2019/11/02/before-start-leetcode/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <nav class="pagination" role="pagination">
+    
+    <span class="page-number">Page 1 of 1</span>
+    
+  </nav>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

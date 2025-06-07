@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>如何在 Windows 打造 Python 開發環境設定基礎入門教學 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-04-14T20:23:23.000Z" itemprop="datePublished">
+          2018-04-14
+      </time>
+    
+    
+    | 
+    <a href='/tags/Web/'>Web</a>,
+    
+    <a href='/tags/Python/'>Python</a>,
+    
+    <a href='/tags/程式設計/'>程式設計</a>,
+    
+    <a href='/tags/coding/'>coding</a>,
+    
+    <a href='/tags/自學程式設計/'>自學程式設計</a>,
+    
+    <a href='/tags/code/'>code</a>,
+    
+    <a href='/tags/Django/'>Django</a>,
+    
+    <a href='/tags/MVC/'>MVC</a>,
+    
+    <a href='/tags/MTV/'>MTV</a>,
+    
+    <a href='/tags/Web-Backend/'>Web Backend</a>,
+    
+    <a href='/tags/Web-Framework/'>Web Framework</a>,
+    
+    <a href='/tags/教學/'>教學</a>,
+    
+    <a href='/tags/Flask/'>Flask</a>,
+    
+    <a href='/tags/框架/'>框架</a>,
+    
+    <a href='/tags/CS/'>CS</a>,
+    
+    <a href='/tags/Computer/'>Computer</a>,
+    
+    <a href='/tags/Computer-Science/'>Computer Science</a>
+    
+    
+</span>
+
+<meta name="generator" content="如何在 Windows 打造 Python 開發環境設定基礎入門教學">
+<meta name="og:title" content="如何在 Windows 打造 Python 開發環境設定基礎入門教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">如何在 Windows 打造 Python 開發環境設定基礎入門教學</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>如何設定開發環境應該是每個初學程式設計者的痛（即便是老手有時也會覺得苦惱），尤其當你需要在終端機（terminal）輸入指令（command）來操控你的指令時（好吧，若你完全只走圖形化介面，習慣 GUI 操作就另當別論，但若你有志於往程式設計領域發展，建議還是熟悉一下指令碼）。</p>
+<p>要在 <a href="https:#zh.wikipedia.org/zh-tw/Linux">Linux</a>、<a href="https:#zh.wikipedia.org/zh-tw/MacOS">Mac OS</a> 這種屬於<a href="https:#zh.wikipedia.org/wiki/%E7%B1%BBUnix%E7%B3%BB%E7%BB%9F">類 Unix 系統</a>（指各種 Unix 的衍生系統，而 <a href="https:#zh.wikipedia.org/wiki/UNIX">Unix</a> 指的是一種電腦作業系統，具有多工、多使用者的特色，是許多作業系統的父親）上打造 Python 開發環境相對容易，但當你使用 Windows 作業系統並希望在終端機下指令操作或開發應用程式時，往往受限於環境而產生許多困難和誤踩地雷。因此，接下來本文將教大家如何在 Windows 打造屬於自己的 Python 開發環境（包含一般 Winodows 安裝和使用虛擬機在 Windows 環境下建立 Linux&#x2F;Ubuntu 作業系統，開發 Python 程式一般建議使用 Linux&#x2F;Ubuntu 環境避免環境設定除錯困擾）！</p>
+<h1 id="開始建置-Python-開發環境"><a href="#開始建置-Python-開發環境" class="headerlink" title="開始建置 Python 開發環境"></a>開始建置 Python 開發環境</h1><p>所謂工欲善其事，必先利其器，在開始之前我們必須先建置相關的開發環境，讓自己從麻瓜（不會寫程式的人）變成擁有程式魔力的魔法師。以下介紹我們在接下來開發 Python Web 應用程式所需要安裝的開發環境工具（強烈建議使用 Virtual Box 虛擬機搭配 Linux&#x2F;Ubuntu 環境，若你真的很想使用 Windows 環境就繼續往下看吧！）。</p>
+<ol>
+<li><p>Microsoft VSCode 編輯器<br> <a href="https:#code.visualstudio.com/">Microsoft VSCode</a> 是 Microsoft 推出的編輯器（非整合開發環境 IDE），夾帶著 Microsoft 過去打造 Visual studio 整合開發環境的豐富經驗，相比 Sublime Text 和其他編輯器，VSCode 的優勢在於開源且活躍的開發社群、內建 debugger 框架、原生 Git 整合、套件整合容易等特性。綜合以上幾點，對於初學者來說 VSCode 是一個蠻適合入門的開發環境。它的安裝方式也十分簡易，在官網下載後按照指示安裝完成即可，下載完成後可以打開看看。</p>
+<p> <img src="/img/kdchang/python101/vscode-index.png" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+<p> 我們可以點選左邊 icon 欄的第五個（長得像正方形拼圖），安裝 Python 語法和格式檢查的相關套件幫助除錯（搜尋 Python），選擇 Python 並點選 install 安裝：</p>
+<p> <img src="/img/kdchang/python101/vscode-python.png" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+<p> 你也可以於<code>檔案（file）-&gt; 開啟（open）</code>打開你在電腦中已經準備好的專案資料夾，同時也可以在資料夾中新增檔案，我們之後的程式也會希望在建立好的專案資料夾中進行開發。這邊我們建立一個 hello.py 的檔案並印出 hello 訊息。</p>
+ <figure class="highlight py"><figcaption><span>hello.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;hello python&#x27;</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>終端機環境（iTterm&#x2F;內建 terminal）<br> terminal（終端機）是我們下指令的地方，許多時候我們進行程式開發時不會使用 GUI 圖形化介面而是使用下指令方式請電腦做相對應的行為（記得寫程式就是下指令請電腦做事情！）。在 Linux 和 Mac 裡面都有內建的 terminal 的應用程式，以下為 MacOS 的 iTerm2 終端機下指令示意圖（iTerm2 中 $ 為提示字元，不用輸入）：</p>
+<p> <img src="/img/kdchang/python101/iterm2-example.png" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+<p> 使用 Windows 讀者可以使用 <a href="http:#cmder.net/">Cmder</a> 這個軟體當做終端機環境。</p>
+<p> <img src="/img/kdchang/python101/cmder1.png" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+<p> 比起 Winodws 內建的命令列 CMD，cmder 更貼近 Unix 的命令列指令碼：</p>
+<p> <img src="/img/kdchang/python101/cmder2.jpg" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+<p> 首先到 <a href="http:#cmder.net/">Cmder 官網</a>先安裝 Cmder Full 版本（含 git），安裝完成後解壓縮資料夾到桌面，執行裡面的 <code>cmder.exe</code> 檔案即可。</p>
+<p> <img src="/img/kdchang/python101/cmder4.png" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+<p> Cmder 預設是 <code>λ</code>，如果不習慣可以改成 Mac &#x2F; Linux 環境下的 <code>$</code>，具體流程請<a href="https:#jeffjade.com/2016/01/13/2016-01-13-windows-software-cmder/">參考這份文件</a>。</p>
+<p> <img src="/img/kdchang/python101/cmder3.png" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+<p> 對於有志於從事程式開發相關工作的讀者建議可以多熟悉指令碼的輸入，更多指令碼可以參考鳥哥撰寫的 <a href="http:#linux.vbird.org/linux_basic/redhat6.1/linux_06command.php">Linux 基本指令介紹</a> 和 <a href="http:#www.linux.org.tw/resource.html">Linux 學習資源</a>。</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">以下是常用指令</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">移動到桌面</span></span><br><span class="line">cd \Users\XXXX\Desktop</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">列出資料夾下檔案</span></span><br><span class="line">ls</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">刪除檔案</span></span><br><span class="line">rm 檔名</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">複製檔案</span></span><br><span class="line">cp 檔名</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>Git 版本控制系統&#x2F;註冊 GitHub 帳戶<br> Git 是一種分散式版本控制系統，可以讓我們可以更方便地管理我們的程式碼。在網路上有非常多優秀的 Git 教學文件（<a href="https:#backlogtool.com/git-guide/tw/">連猴子都能懂的Git入門指南</a>、<a href="https:#www.slideshare.net/littlebtc/git-5528339">寫給大家的 Git 教學</a>、<a href="https:#www.slideshare.net/lkiral/git-34157836">初心者 Git 上手攻略</a>）。安裝 Git 方式是到官網下載軟體，依照指示安裝（若您使用 Cmder 的完整安裝 Download Full 的版本就不用安裝 git，因為已經幫你安裝好了）。</p>
+<p> <img src="/img/kdchang/python101/git-index.png" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+<p> 互動式語法學習：</p>
+<p> <img src="/img/kdchang/python101/try-git.png" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+<p> 在介紹完 git 之後我們來了解一下 GitHub。GitHub 是一個可以存放 git 程式碼專案的平台，透過 GitHub 我們可以接觸到最新的開放原始碼資訊，也可以將我們的程式碼開源出來。</p>
+<p> <img src="/img/kdchang/python101/github-index.png" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+<p> 從 GitHub 上複製程式碼</p>
+ <!--![title: 如何在 Windows 打造 Python 開發環境設定](/img/kdchang/python101/github-clone.png) -->
+
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 複製一份到本地端</span><br><span class="line">$ git clone https:#github.com/kdchang/python101.git</span><br><span class="line"># 移動到資料夾</span><br><span class="line">$ cd python101</span><br></pre></td></tr></table></figure>
+
+<p> 常見 Git 指令：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 初始化專案</span><br><span class="line">$ git init</span><br><span class="line"># 查看狀態</span><br><span class="line">$ git status</span><br><span class="line"># 檢查差異</span><br><span class="line">$ git diff </span><br><span class="line"># 將變更檔案放入暫存區</span><br><span class="line">$ git add index.py</span><br><span class="line"># 使用 commit -m 提交變更</span><br><span class="line">$ git -a -m &#x27;init commit&#x27;</span><br><span class="line"># 查看歷史</span><br><span class="line">$ git log</span><br><span class="line"># 放棄已經 commit 的檔案重回暫存區</span><br><span class="line">$ git reset HEAD index.py</span><br><span class="line"># 放棄檔案變更</span><br><span class="line">$ git checkout index.py</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Anaconda Python3 版本<br> Anaconda 是一個 all-in-one 的 Python 開發環境，對於初學者來說是個十分合適的開發環境包。Anaconda 具備了幾項特點：</p>
+<pre><code> - 便於安裝許多流行的科學、數學、工程、資料分析的 Python 模組  
+ - 免費並支援跨平台：Linux、Windows、Mac
+ - 內建 Spyder 編輯器和 Jupyter Notebook 環境 
+ - 方便建立不同的虛擬開發環境
+</code></pre>
+<p> 安裝流程也十分簡單，進入 Anaconda 首頁，選擇對應作業系統（這邊使用 Windows）和是屬於 64 還是 32 位元：<br> <img src="/img/kdchang/python101/anaconda-index.png" alt="title: 如何在 Windows 打造 Python 開發環境設定"></p>
+<p> Windows10 可以在<code>系統</code>看到位元資訊；<br> <img src="/img/kdchang/python101/about-64bit-windows-10.jpg" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+<p> Windows7 可以在<code>控制台-&gt;系統與安全-&gt;系統</code>觀看作業系統位元資訊：<br> <img src="/img/kdchang/python101/windows-64-bit.png" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+<p> 選擇對應 Python 版本下載（這裡選擇 Python3 以上版本），我們使用 Graphical Installer（圖像介面安裝方式），接著在下載完成時按照預設的安裝方式完成安裝；<br> <img src="/img/kdchang/python101/anaconda-install.png" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+<p> 記得安裝時要注意建議在安裝 anaconda 時勾選把環境變數加入（path environment variable），這樣在使用 cmder 時使用 conda 相關指令才不會出現錯誤，若一開始沒有勾選的話建議解除安裝後再重新安裝 anaconda 勾選加入環境變數。</p>
+<p> <img src="/img/kdchang/python101/windows-anaconda-path.png" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+<p> 若是完整安裝成功，可以打開 Cmder 終端機輸入，若是顯示 Python 3.6.0 :: Anaconda 4.3.0 (x86_64) 版本號即安裝成功（若沒成功可能要檢查一下是不是環境變數路徑的問題）：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ python -V</span><br><span class="line">Python 3.6.0 :: Anaconda 4.3.0 (x86_64)</span><br></pre></td></tr></table></figure>
+
+<p> 接著要建立我們專案虛擬環境，這樣在安裝操作套件時比較不容易被污染到 root 全域的環境（因為你可能會有很多專案，專案使用的套件不盡相同，正式上線時只要把相關套件資訊透過 <code>pip freeze &gt; requirements.txt</code> 存起來，然後在正式上線的伺服器安裝 <code>pip install -r requirements.txt</code> 即可），啟動後會出現（套件名稱）的提示字元：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">顯示目前虛擬環境列表</span><br><span class="line">conda info -e </span><br><span class="line">創建虛擬環境</span><br><span class="line">conda create -n 套件名稱 python=3.6</span><br><span class="line">進入虛擬環境（若是非 Windows cmder 環境加 source 於開頭） ，成功後提示字元變成：（套件名稱）$</span><br><span class="line">activate 虛擬環境名稱</span><br><span class="line">離開虛擬環境（若是非 Windows cmder 環境加 source 於開頭） </span><br><span class="line">deactivate </span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="建立虛擬環境（virtual-environment）"><a href="#建立虛擬環境（virtual-environment）" class="headerlink" title="建立虛擬環境（virtual environment）"></a>建立虛擬環境（virtual environment）</h2><p>接著我們正式來建立一個 Python 的專案，打開終端機移動到桌面，建立專案資料夾（在輸入指令時可以使用 tab 自動補完指令）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 移動到桌面</span><br><span class="line">cd \Users\XXXX\Desktop</span><br><span class="line"># 建立資料夾</span><br><span class="line">mkdir python_examples</span><br><span class="line"># 移動到資料夾</span><br><span class="line">cd python_examples</span><br></pre></td></tr></table></figure>
+
+<p>建立獨立虛擬環境，並進入虛擬環境：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 創立虛擬環境</span><br><span class="line">conda create -n python_examples_venv python</span><br><span class="line"># 啟動虛擬環境</span><br><span class="line">activate python_examples_venv</span><br></pre></td></tr></table></figure>
+
+<p>成功進入虛擬環境後（會出現小括號 python_examples_venv）代表已經進入虛擬環境，即可以在裡面執行 Python 程式並安裝相關套件於該虛擬環境下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 安裝 django web 框架套件</span><br><span class="line">pip install django</span><br><span class="line"># 執行 python 檔案</span><br><span class="line">python hello.py</span><br></pre></td></tr></table></figure>
+
+<p>事實上，在 Python3 中還有另外兩種建立虛擬開發環境的方式，包括使用 Python 內建工具：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用 Python3 內建工具建立名為 example_venv 的虛擬開發環境</span></span><br><span class="line">python -m venv example_venv</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>virtualenv</code>，和 anaconda 不同的是 virtualenv 會在建立虛擬環境的專案資料夾下建立一個資料夾裡面放虛擬環境的東西：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">先安裝 virtualenv</span></span><br><span class="line">pip install virtualenv</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用 virtualenv 產生一個名為 example_venv 的</span></span><br><span class="line">virtualenv example_venv</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">移動到 example_venv 的外面資料夾，執行進入虛擬環境</span></span><br><span class="line">example_venv\Scripts\activate</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">安裝 django web 框架套件到虛擬環境中（只會安裝在該虛擬環境中）</span></span><br><span class="line">pip install django</span><br></pre></td></tr></table></figure>
+
+<h1 id="整合在一起：在-Windows-撰寫你的第一個-Python-程式"><a href="#整合在一起：在-Windows-撰寫你的第一個-Python-程式" class="headerlink" title="整合在一起：在 Windows 撰寫你的第一個 Python 程式"></a>整合在一起：在 Windows 撰寫你的第一個 Python 程式</h1><p>確認安裝好以下工具後，我們就可以開始撰寫你的第一個 Python 程式</p>
+<ol>
+<li>安裝 Microsoft VSCode</li>
+<li>安裝 Cmder</li>
+<li>安裝 Anaconda（記得勾選加入環境變數）</li>
+<li>安裝 virtualenv (在終端機使用：<code>pip install virtualenv</code> 安裝)</li>
+<li>在桌面創建一個 python_example 資料夾，打開 Microsoft VSCode 後開啟該專案資料夾，創建一個 <code>hello.py</code> 的檔案並在裡面打上 <code>print(&#39;hello python!!&#39;)</code></li>
+<li>打開 cmder 終端機 cd 移動到 <code>hello.py</code> 所在資料夾</li>
+<li>執行 <code>python hello.py</code>，恭喜你完成第一個 Python 程式！</li>
+</ol>
+<h1 id="在-Windows-上安裝-Linux-Ubuntu"><a href="#在-Windows-上安裝-Linux-Ubuntu" class="headerlink" title="在 Windows 上安裝 Linux&#x2F;Ubuntu"></a>在 Windows 上安裝 Linux&#x2F;Ubuntu</h1><ol>
+<li><p><a href="https:#www.virtualbox.org/wiki/Downloads">安裝 VirtualBox</a> 對應版本虛擬機（這邊安裝 Windows 版本，若你是 Mac 想嘗試 Linux 也可以安裝 Mac 版本），下載完按照步驟安裝完成</p>
+<p> <img src="/img/kdchang/python101/virtualbox1.png" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+</li>
+<li><p>到<a href="https:#www.ubuntu-tw.org/modules/tinyd0/">官網下載 Linux&#x2F;Ubuntu 光碟映像檔案</a>，請根據電腦位元架構選擇最新桌面穩定版本 16.04 LTS（for windows）</p>
+<p> <img src="/img/kdchang/python101/virtualbox2.png" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+</li>
+<li><p>建立 Linux Ubuntu 虛擬機，可以參考<a href="https:#www.pcsetting.com/linux/29">這篇 VirtualBox 虛擬機器安裝 Ubuntu 設定教學</a>，設定一下名稱、作業系統類型和版本，欲分配給虛擬的記憶體大小（建議調整為大約實體記憶體的 1&#x2F;3，舉例來說你有 30G 記憶體，可以分配 10G 給虛擬機）。接著選擇立即建立虛擬硬碟、VDI (VirtualBox 磁碟映像)、動態配置硬碟大小不會造成浪費（虛擬硬碟容量建議 30G 以上）。</p>
+<p> <img src="/img/kdchang/python101/virtualbox3.jpg" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+</li>
+<li><p>選擇建立好的虛擬機並選設定值按鈕，選擇存放位置選項，控制器中選擇虛擬 CD&#x2F;DVD 檔案選擇剛剛從官網下載下來的檔案，確定後接著選擇虛擬機並啟動，接下來選擇安裝 Linux&#x2F;Ubuntu，選擇立即安裝和預設值，需要一段時間安裝和設定（中間會有語言相關的選擇和密碼設定）</p>
+<p> <img src="/img/kdchang/python101/virtualbox4.jpg" alt="title: 如何在 Windows 打造 Python 開發環境設定"> </p>
+</li>
+<li><p>啟動使用 Linux&#x2F;Ubuntu，按照上面教學安裝 Microsoft VSCode 編輯器，安裝 Anaconda，建立第一個 Python 檔案、打開終端機（termical）安裝 ，執行 Python 程式</p>
+<p> <img src="/img/kdchang/python101/virtualbox5.png" alt="title: 如何在 Windows 打造 Python 開發環境設定"></p>
+</li>
+</ol>
+<p>網路上也有許多相關參考教學文章：<a href="http:#blog.xuite.net/yh96301/blog/list-view/432341564">VirtualBox 5.2安裝Ubuntu 16.04 相關教學</a>、<a href="https:#www.pcsetting.com/linux/29">VirtualBox 虛擬機器安裝 Ubuntu 設定教學</a></p>
+<p>若是螢幕太小可以在上排選單中選擇：<code>裝置-&gt;插入 Guest Additions CD 映像...-&gt;執行-&gt;重開虛擬機-&gt;可以調整大小</code>。</p>
+<h1 id="整合在一起：用-Linux-撰寫你的第一個-Python-程式"><a href="#整合在一起：用-Linux-撰寫你的第一個-Python-程式" class="headerlink" title="整合在一起：用 Linux 撰寫你的第一個 Python 程式"></a>整合在一起：用 Linux 撰寫你的第一個 Python 程式</h1><p>確認安裝好以下工具後，我們就可以開始撰寫你的第一個 Python 程式</p>
+<ol>
+<li>進入虛擬機的 Linux&#x2F;Ubuntu </li>
+<li>安裝 Microsoft VSCode</li>
+<li>安裝 Anaconda（記得勾選加入環境變數）</li>
+<li>安裝 virtualenv (在終端機使用：<code>pip install virtualenv</code> 安裝)</li>
+<li>在桌面創建一個 python_example 資料夾，打開 Microsoft VSCode 後開啟該專案資料夾，創建一個 <code>hello.py</code> 的檔案並在裡面打上 <code>print(&#39;hello python!!&#39;)</code></li>
+<li>打開 terminal 終端機 cd 移動到 <code>hello.py</code> 所在資料夾</li>
+<li>執行 <code>python hello.py</code>，恭喜你完成第一個 Python 程式！</li>
+</ol>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>如何設定開發環境應該是每個初學程式設計者的痛（強烈建議使用 Virtual Box 虛擬機搭配 Linux&#x2F;Ubuntu 環境），以上介紹了如何在 Windows 打造 Python 開發環境設定，請讀者務必照著自己的電腦作業系統環境安裝一次，當然若你有志於往程式設計領域發展，也要熟悉一下指令碼操作。</p>
+<h1 id="參考文件"><a href="#參考文件" class="headerlink" title="參考文件"></a>參考文件</h1><ol>
+<li><a href="http:#blog.xuite.net/yh96301/blog/432341564-VirtualBox+5.1%E5%AE%89%E8%A3%9DUbuntu+16.04">VirtualBox 5.2安裝Ubuntu 16.04</a></li>
+<li><a href="https:#uoa-eresearch.github.io/eresearch-cookbook/recipe/2014/11/20/conda/">Create virtual environments for python with conda</a></li>
+<li><a href="http:#stuarteberg.github.io/conda-docs/_downloads/conda-pip-virtualenv-translator.html">conda vs. pip vs. virtualenv</a></li>
+<li><a href="https:#segmentfault.com/a/1190000005828284">Anacodna之conda VS Virtualenv VS Python 3 venv 对比使用教程，创建虚拟环境</a></li>
+<li><a href="https:#ss64.com/">命令列指令碼查詢</a></li>
+</ol>
+<p>（image via <a href="https:#camo.githubusercontent.com/812b2647d6cd216ecddfb3f0ec71639473717955/687474703a2f2f692e696d6775722e636f6d2f67316e4e6630492e706e67">githubusercontent</a>、<a href="https:#i.ytimg.com/vi/Xm790AkFeK4/maxresdefault.jpg">websiteoptimization</a>、<a target="_blank" rel="noopener" href="https://i.ytimg.com/vi/GGorVpzZQwA/maxresdefault.jpg">ytimg</a>、<a target="_blank" rel="noopener" href="https://i.ytimg.com/vi/DPIPC25xzUM/maxresdefault.jpg">ytimg</a>、<a target="_blank" rel="noopener" href="https://www.ostechnix.com/wp-content/uploads/2017/03/VirtualBox_Ubuntu-16.04-LTS-Desktop_20_03_2017_19_44_58.png">ostechnix</a>）</p>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.kdchang.cc/">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino&#x2F;Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/04/14/how-to-setup-python-development-environment-in-windows/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/04/14/how-to-setup-python-development-environment-in-windows/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/04/14/how-to-setup-python-development-environment-in-windows/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/04/14/how-to-setup-python-development-environment-in-windows/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/04/22/intro-to-pinhole-camera-model/">
+        ← 清晰說明針孔相機的內部參數與外部參數矩陣
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/04/07/deeplearnjs-logistic-regression/">
+        用 Javascript 進行邏輯迴歸分析 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

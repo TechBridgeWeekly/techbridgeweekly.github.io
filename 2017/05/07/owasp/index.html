@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Top issues on OWASP | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-05-07T07:12:25.000Z" itemprop="datePublished">
+          2017-05-07
+      </time>
+    
+    
+    | 
+    <a href='/tags/security/'>security</a>
+    
+    
+</span>
+
+<meta name="generator" content="Top issues on OWASP">
+<meta name="og:title" content="Top issues on OWASP">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Top issues on OWASP</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p>今天來講講 web application security。基本上這篇講的是所有開發者都要知道的最基本知識。最近電腦工程領域實在太過火紅，網頁開發更是前仆後繼，但並不是每個開發者都對網路安全有 sense，如果你搜尋 “password ext:xls” 就會發現挺多不可思議的連結。</p>
+<p><img src="/img/jyt0532/awkward.gif" alt="Alt text"></p>
+<p>但誰無年少，誰不輕狂。看完後把冷汗擦一擦，讓這篇文章介紹目前最常見的幾個安全問題。</p>
+<h3 id="OWASP"><a href="#OWASP" class="headerlink" title="OWASP"></a>OWASP</h3><p>講到網路安全一定要知道的 <a target="_blank" rel="noopener" href="https://www.owasp.org/index.php/Main_Page">Project OWASP: Open Web Application Security Project</a>。裡面介紹了各種不同的網路安全問題、每幾年的十大安全問題排名跟範例，完全免費，基本上是所有做 security 的聖經。</p>
+<p>值得一提的是他們每幾年就會統計最常見的網路安全問題，<br>先來看一下 2010 的跟 2013 的( 2013 是最新的 list )。</p>
+<img src="/img/jyt0532/owasp.jpg" width="800">
+
+<p>基本上榜上有名的都挺固定的，劉伯溫說忠臣要比奸臣更奸，要擋住駭客的唯一方式就是比駭客厲害。今天就來瞭解一下這些到底是什麼。以下的 code sample 主要來自於 <a target="_blank" rel="noopener" href="https://www.youtube.com/channel/UC5xIEA6L0C2IG3iWgs8M2cA">AppsecTutorialSeries</a>。</p>
+<h3 id="A1-SQL-Injection"><a href="#A1-SQL-Injection" class="headerlink" title="A1: SQL Injection"></a>A1: SQL Injection</h3><p>其實 Injection 包含了很多種，除了 SQL injection 之外還有 code injection、os command injection、xml injection 等等。<br>但最惡名昭彰的當然就是 sql injection。簡單的 code 如下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">queryDB</span><span class="params">(string name)</span></span>&#123;</span><br><span class="line">	string sql = <span class="string">&quot;select * from users where name = &#x27;&quot;</span> + name + <span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line">	<span class="built_in">doQuery</span>(sql);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>很好，簡單易懂。</p>
+<p>如果 server 拿到的 name 是 <strong>John</strong>，那 sql 就是 “select * from users where name &#x3D; John”。</p>
+<p>如果 server 拿到的 name 是 <strong>Steve</strong>，那 sql 就是 “select * from users where name &#x3D; Steve”。</p>
+<p>如果 server 拿到的 name 是 <strong>John or 1 &#x3D; 1</strong>，那 sql 就是 “select * from users where name &#x3D; John or 1 &#x3D; 1”。</p>
+<p>這下 high 了，因為 where 的 condition always true。第三個 sql 回傳 database 的所有 row 的所有 column。</p>
+<p><img src="/img/jyt0532/laugh.gif" alt="Alt text"></p>
+<p>現在還笑得出來，那要是 server 拿到的 name 是 **John;DROP TABLE users;**。</p>
+<p><img src="/img/jyt0532/screaming.gif" alt="Alt text"></p>
+<p>要是這真的發生了怎麼辦，別怕！這時候還有一個辦法，趕快上這個網站 <a target="_blank" rel="noopener" href="https://www.linkedin.com/jobs/">Linkedin</a> 找份新工作吧！你的 user 都不見了。</p>
+<p>同樣的 case 可以 apply 到很多地方。如果你把使用者輸入給你的東西原封不動拿去 run os command line 就是 command injection。把 user 輸入給你的東西原封不動寫進 log 就會有 log injection。<br>很多初出茅廬的 developer 不知道或是忘記預防 injection 的問題，這也是為什麼 injection 是 OWASP 多年來的不動榜首。</p>
+<h3 id="SQL-Injection-預防"><a href="#SQL-Injection-預防" class="headerlink" title="SQL Injection 預防"></a>SQL Injection 預防</h3><p>最基本的一件事情就是把你 web server 的 error log 關起來(不要 return 給 client)。不要讓任何訊息洩露。如果你沒關起來，hacker 大概隨便試兩次就知道你的 table name 了。</p>
+<p>然後要怎麼防呢？當然就是要好好 validate user input。在 CS 領域有個用來嚇初學者的冠冕堂皇的名詞，叫做 parameterized query。</p>
+<p>其實概念也很簡單，就是你 server 端先把你的 sql query 寫好。至於 username 之類的變數呢？就等 validate 之後再丟進去，好處就是 code 有 code 的 syntax 跟允許的 character，data 有 data 的 syntax 跟允許的 character，code 跟 data 分清楚你之後的 test 也會比較好寫。</p>
+<p>至於各種語言怎麼 implement 請參考 <a target="_blank" rel="noopener" href="https://www.owasp.org/index.php/Query_Parameterization_Cheat_Sheet">Query Parameterization Cheat Sheet</a></p>
+<h3 id="A2-Broken-Authentication-and-Session-Management"><a href="#A2-Broken-Authentication-and-Session-Management" class="headerlink" title="A2: Broken Authentication and Session Management"></a>A2: Broken Authentication and Session Management</h3><p>這個 category 包含所有的盜帳號，不論你帳密是被猜到還是被竊聽到都算。</p>
+<p>這裡要先介紹 session，session 可以抽象的想成 client 跟 server 的一次 conversation，每次的 conversation 開始的時候會先問帳密，認證了之後會生成一個 session id，也就是這次對話的 id。只要是同一個 session id 你就不需要每傳一次訊息都重新登入。</p>
+<p>懂了之後呢，開始介紹這個類型的可能被攻擊的點。這個 category 有幾種類型：</p>
+<p>1.<strong>傳輸未加密</strong>，傳輸內容被中間人竊聽。之前都有提過，解法就是用 <a target="_blank" rel="noopener" href="https://www.jyt0532.com/2017/03/08/https/">https</a> 或 <a target="_blank" rel="noopener" href="https://www.jyt0532.com/2017/03/09/ssh/">ssh</a>。</p>
+<p>2.<strong>session 在 user 登出之後沒有清理掉，或是 session id 不會 time out</strong>，更慘的是 session id 直接寫在 URL 裡面。比如說：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/myprofile?sessionid=abcde</span><br></pre></td></tr></table></figure>
+
+<p>任何人只要拿到這個 session id，他根本不用知道你的帳密，就可以直接假裝是你，把你戶頭的錢轉走之類的。</p>
+<p>3.<strong>存密碼的時候沒有 hash 或是 hash 的時候沒有 add salt</strong>。關於資料庫密碼存儲安全問題可以參考 <a target="_blank" rel="noopener" href="https://www.jyt0532.com/2017/02/19/password-security/">用什麼樣的密碼比較安全呢</a> 可以暴力硬破。</p>
+<h3 id="A3-Cross-Site-Scripting-XSS"><a href="#A3-Cross-Site-Scripting-XSS" class="headerlink" title="A3: Cross-Site Scripting(XSS)"></a>A3: Cross-Site Scripting(XSS)</h3><p>XSS 是 injection 的一種。也就是 Script injection。<br>那為什麼要從 Injection 的 category 單獨出來呢？因為剛剛 A1 講的 Injection 的攻擊目標是 server。比如 SQL injection 的目標是 database server、command injection 的目標是 webserver 等等。但 XSS 的目標是<strong>其他使用者</strong>。</p>
+<p>那要怎麼 inject 呢？也是很簡單，比如說一個網站的某頁有很多 comments。每個人都可以寫 comment，而且寫的 comment 都會被其他人看到。 </p>
+<p>那今天如果 hacker 也寫了 comment，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I like this post&lt;script&gt;/*Bad code*/&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>因為 webserver 會 load 所有 comment 給所有在瀏覽這一頁的 user，所以這個 script 就會被執行。而且 user 不知道(因為 html 不會 show script tag)，那你想得到的 javascript 能做的事他都能做了，偷 cookie、session 或是覆蓋一個假的 login panel 在真的 login panel 上。你帳密輸入完就直接傳到 hacker 的 server 去，完全看不出來，因為你 browser 的網址是正確的。</p>
+<p>inject 到 HTML element 只是其中一種可能，也可能 inject 到 html tag 的 attribute，也可以 inject 到 CSS，也可以inject 到網站要 redirect 的 URL。</p>
+<h3 id="Cross-Site-Scripting-預防"><a href="#Cross-Site-Scripting-預防" class="headerlink" title="Cross-Site Scripting 預防"></a>Cross-Site Scripting 預防</h3><p><a target="_blank" rel="noopener" href="http://bit.ly/1iVkGlc">XSS Prevention Cheat Sheet</a>洋洋灑灑寫了 7 個 rule，但其實 Rule#0 最重要。就是好好 validate 所有的 user input，剩下的都是防禦各個可能被 inject 的點的實作細節。</p>
+<h3 id="A4-Insecure-Direct-Object-Reference"><a href="#A4-Insecure-Direct-Object-Reference" class="headerlink" title="A4: Insecure Direct Object Reference"></a>A4: Insecure Direct Object Reference</h3><p>如果 server 直接用 user 給的變數去 access 檔案，就可以去猜 server 存其他檔案的檔名或資料夾，舉個例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/showimage?image=img1</span><br></pre></td></tr></table></figure>
+<p>這是網站要給你看的 image1 的 link，那你想看 img2 就直接把後面改成 img2，如果可以看得到那就是 A4。</p>
+<p>更慘的是如果允許輸入這種：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/showimage?image=../../password/password.txt</span><br></pre></td></tr></table></figure>
+<p>那就更精彩了。</p>
+<h3 id="Insecure-Direct-Object-Reference-預防"><a href="#Insecure-Direct-Object-Reference-預防" class="headerlink" title="Insecure Direct Object Reference 預防"></a>Insecure Direct Object Reference 預防</h3><p>Access control 也就是每個檔案的存取權限設定好，或是最重要的 validate user input。</p>
+<h3 id="A5-Security-Misconfiguration"><a href="#A5-Security-Misconfiguration" class="headerlink" title="A5: Security Misconfiguration"></a>A5: Security Misconfiguration</h3><p>像是你安裝一個 database，會有 default 的帳密比如說 user: admin，密碼: admin 你沒有把它拿掉，或是 server error 的時候你把所有 error message 全部傳給client。</p>
+<h3 id="Security-Misconfiguration-解法"><a href="#Security-Misconfiguration-解法" class="headerlink" title="Security Misconfiguration 解法"></a>Security Misconfiguration 解法</h3><ol>
+<li><p>認真看doc。</p>
+</li>
+<li><p>所有檔案等等的權限都開到最低，不需要的 port 都關掉，只提供需要提供的東西。</p>
+</li>
+</ol>
+<h3 id="A6-Sensitive-Data-Exposure"><a href="#A6-Sensitive-Data-Exposure" class="headerlink" title="A6: Sensitive Data Exposure"></a>A6: Sensitive Data Exposure</h3><p>傳輸未加密或密碼沒有用 hash 或沒有加 salt：<a target="_blank" rel="noopener" href="https://www.jyt0532.com/2017/02/19/password-security/">老問題</a></p>
+<h3 id="A7-Missing-Function-Level-Access-Control"><a href="#A7-Missing-Function-Level-Access-Control" class="headerlink" title="A7: Missing Function Level Access Control"></a>A7: Missing Function Level Access Control</h3><p>網頁沒有做好 access control，比如說一些 webserver 的 default path：</p>
+<p>&#x2F;log</p>
+<p>&#x2F;phpmyadmin </p>
+<p>&#x2F;admin等等，這些權限沒關就屬於這類。</p>
+<p>有沒有開始覺得都大同小異了。</p>
+<h3 id="A8-Cross-Site-Request-Forgery"><a href="#A8-Cross-Site-Request-Forgery" class="headerlink" title="A8: Cross Site Request Forgery"></a>A8: Cross Site Request Forgery</h3><p>這個比較有名，我覺得排在 A8 算是低估它了，因為通常這個攻擊如果成功了，傷害會比較巨大。</p>
+<p>基本上我們跟 server 能做的互動，取決於 server 開放給我們的權限。<br>比如說 A 可以轉錢到別人信箱，可是不能改 B 的密碼，也不能把 C 的錢轉給自己。</p>
+<p>可是今天要是有權限的話就不一樣了，什麼時候會有權限呢？就是你的 cookie&#x2F;session 還有效的時候(比如你現在開 facebook 不用輸入密碼，因為你 cookie 還有效)，讓你在你不知情的情況下送 http request。</p>
+<p>這就是你很常收到垃圾郵件或惡意郵件的時候，他都會要你點個 link，那絕不是只是要你點廣告衝流量而已。如果你點了，剛好你另外一個網站(比如銀行)的 cookie 沒有到期，他就可以假裝是你，送 http request。</p>
+<h3 id="CSRF-解法"><a href="#CSRF-解法" class="headerlink" title="CSRF 解法"></a>CSRF 解法</h3><ol>
+<li><p>一個 request 過來前先看一下他的 header，先看 Origin 的值跟現在這個網頁的網址或 Domain 一不一樣，沒有 Origin 值就看 Referer值。不一樣的話就很可能是CSRF。</p>
+</li>
+<li><p>對於非 get 的重要 request，要求提供驗證碼，或是重新驗證使用者。</p>
+</li>
+</ol>
+<h3 id="A9-Using-Components-with-Known-Vulnerabilities"><a href="#A9-Using-Components-with-Known-Vulnerabilities" class="headerlink" title="A9: Using Components with Known Vulnerabilities"></a>A9: Using Components with Known Vulnerabilities</h3><p>就是你用了不安全的第三方軟體，明明他們已經承認有問題了你還不換或不更新，就會被攻擊。</p>
+<h3 id="A10-Unvalidated-Redirects-and-Forwards"><a href="#A10-Unvalidated-Redirects-and-Forwards" class="headerlink" title="A10: Unvalidated Redirects and Forwards"></a>A10: Unvalidated Redirects and Forwards</h3><p>有些 request 會把使用者導到其他網站或頁面，他直接抓取網址的 url 的 parameter 來 redirect，就很好被攻擊。因為任何人都可以 fake http request 裡的 parameter。比如說如果你的網站有一個會自動 redirect 的 code：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.sendRedirect(request.getParameter(<span class="string">&quot;url&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<p>那 hacker 就可以生一個超連結給你的使用者。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://example.com/example.php?url=http://malicious.example.com</span><br></pre></td></tr></table></figure>
+<p>你的使用者看到網址前面，選擇信任你。但是你卻把他導到惡意網站，身敗名裂。</p>
+<h3 id="Unvalidated-Redirects-and-Forwards-解法"><a href="#Unvalidated-Redirects-and-Forwards-解法" class="headerlink" title="Unvalidated Redirects and Forwards 解法"></a>Unvalidated Redirects and Forwards 解法</h3><p>就是乖乖 validate，不然就不要 redirect。</p>
+<h3 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h3><p>做學問最重要的就是總結，異中求同，同中求異。</p>
+<p>A1 A4 A7 A10: user 的 input 可能是惡意的，網址亂打、檔案亂存取等等。</p>
+<p>A2 A6: 密碼學沒學好。</p>
+<p>A3 A8: 偷偷拿你的 cookie&#x2F;session 做壞事。</p>
+<p>A5 A9: 乖乖看 doc 乖乖更新。</p>
+<p>我認為這主題的投資報酬率實在是挺高的，因為重要的問題都是換湯不換藥，即使之後會出新的top10也大概就是這十項再交換順序。如果有幾項沒聽過，總覺得跟人家聊天搭不上話，手腳不好施展。這篇文章的都看懂就夠了，真的有需要寫 server 的時候你再去深入研究細節即可。</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a href="http://blog.techbridge.cc/2017/04/16/simple-cryptography/">網路安全(1) - 基礎密碼學</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jyt0532.com/2017/02/19/password-security/">用什麼樣的密碼比較安全呢</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="https://www.jyt0532.com/">@jyt0532</a> 後端工程師，喜歡學習新知挑戰新事物，最近覺得 Anti pattern 比 Design pattern 有趣。</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/05/07/owasp/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/05/07/owasp/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/05/07/owasp/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/05/07/owasp/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/05/13/lsd-slam-3/">
+        ← 深入學習 lsd-slam - 3
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/05/06/back-end-engineer-toolbox-database-sql-orm/">
+        後端軟體工程工具箱：資料庫/SQL/ORM篇 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>用 Python 自學資料科學與機器學習入門實戰：Pandas 基礎入門 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-10-28T09:54:49.000Z" itemprop="datePublished">
+          2017-10-28
+      </time>
+    
+    
+    | 
+    <a href='/tags/Python/'>Python</a>,
+    
+    <a href='/tags/Machine-Learning/'>Machine Learning</a>,
+    
+    <a href='/tags/機器學習/'>機器學習</a>,
+    
+    <a href='/tags/AI/'>AI</a>,
+    
+    <a href='/tags/Artificial-Intelligence/'>Artificial Intelligence</a>,
+    
+    <a href='/tags/NLP/'>NLP</a>,
+    
+    <a href='/tags/Data-Mining/'>Data Mining</a>,
+    
+    <a href='/tags/人工智慧/'>人工智慧</a>,
+    
+    <a href='/tags/監督式學習/'>監督式學習</a>,
+    
+    <a href='/tags/Supervised-learning/'>Supervised learning</a>,
+    
+    <a href='/tags/Numpy/'>Numpy</a>,
+    
+    <a href='/tags/資料科學/'>資料科學</a>,
+    
+    <a href='/tags/data-science/'>data science</a>,
+    
+    <a href='/tags/data-scientist/'>data scientist</a>,
+    
+    <a href='/tags/pandas/'>pandas</a>
+    
+    
+</span>
+
+<meta name="generator" content="用 Python 自學資料科學與機器學習入門實戰：Pandas 基礎入門">
+<meta name="og:title" content="用 Python 自學資料科學與機器學習入門實戰：Pandas 基礎入門">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">用 Python 自學資料科學與機器學習入門實戰：Pandas 基礎入門</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/data-science101/pandas/pandas.jpg" alt=" 如何使用 Python 學習機器學習（Machine Learning）"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本系列文章將透過 Python 及其資料科學生態系（Numpy、Scipy、Pandas、Scikit-learn、Statsmodels、Matplotlib、Scrapy、Keras、TensorFlow 等）來系統性介紹資料科學和相關的知識，透過 Python 帶領讀者進入資料科學的世界和機器學習的世界。在這個單元中我們將介紹 Pandas 這個基於 Numpy 的資料處理和分析神兵利器。</p>
+<p>事實上，真實世界並非如此美好，大部分資料分析的工作時間有很大一部分都是在處理髒資料，希望讓資料可以符合模型輸入的需求，而 Pandas 正是扮演這個資料預處理和資料清洗的核心角色，是 Python 在和 R 爭奪資料科學第一程式語言霸主時的生力軍，接下來我們將介紹 Pandas 核心功能和資料的操作方式。</p>
+<p><img src="/img/kdchang/data-science101/pandas/pandas_logo.png" alt=" 如何使用 Python 學習機器學習（Machine Learning）"></p>
+<h1 id="Pandas-核心功能介紹"><a href="#Pandas-核心功能介紹" class="headerlink" title="Pandas 核心功能介紹"></a>Pandas 核心功能介紹</h1><h2 id="創建資料結構"><a href="#創建資料結構" class="headerlink" title="創建資料結構"></a>創建資料結構</h2><p>在 Pandas 中主要有兩大資料結構：Series、DataFrame，與 Numpy 中的 ndarray 比較不同的是 Pandas DataFrame 可以存異質資料（不同資料型別）。</p>
+<p>Series 類似於 Python 本身的 list 資料結構，不同的是每個元素有自己的 index（可以自己命名）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">%matplotlib inline</span><br><span class="line"><span class="comment"># 引入 numpy 和 pandas 模組</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np </span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">s1 = pd.Series([<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, np.nan, <span class="number">6</span>, <span class="number">8</span>]) <span class="comment"># 使用 Python lits 產生 Series，其中包含一個值為 NaN </span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(s1)</span><br></pre></td></tr></table></figure>
+
+<pre><code>0    1.0
+1    3.0
+2    5.0
+3    NaN
+4    6.0
+5    8.0
+dtype: float64
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s2 = pd.Series(np.random.randint(<span class="number">2</span>, size=[<span class="number">3</span>])) <span class="comment"># 使用 np.random.randint 產生 3 個 0-2（不含 2）的數組</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(s2)</span><br></pre></td></tr></table></figure>
+
+<pre><code>0    1
+1    1
+2    1
+dtype: int64
+</code></pre>
+<p>DataFrame 可以使用 np.random.randn 產生值來創建，也可以使用 Python dict 進行創建：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 產生 20170101-20170106 的值，DatetimeIndex([&#x27;2017-01-01&#x27;, &#x27;2017-01-02&#x27;, &#x27;2017-01-03&#x27;, &#x27;2017-01-04&#x27;, &#x27;2017-01-05&#x27;, &#x27;2017-01-06&#x27;], dtype=&#x27;datetime64[ns]&#x27;, freq=&#x27;D&#x27;)</span></span><br><span class="line">dates = pd.date_range(<span class="string">&#x27;20170101&#x27;</span>, periods=<span class="number">6</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 產生 row6,column4 個 standard normal distribution 隨機值，使用 ABCD 當 columns，使用 dates 當 index</span></span><br><span class="line">df0 = pd.DataFrame(np.random.randn(<span class="number">6</span>,<span class="number">4</span>), index=dates, columns=<span class="built_in">list</span>(<span class="string">&#x27;ABCD&#x27;</span>)) </span><br><span class="line"><span class="built_in">print</span>(df0)</span><br></pre></td></tr></table></figure>
+
+<pre><code>                   A         B         C         D
+2017-01-01  1.112542 -0.142577  0.832830 -2.755133
+2017-01-02 -0.218838 -0.304488  1.437599 -0.402454
+2017-01-03  0.295245 -0.786898 -1.231896 -0.224959
+2017-01-04 -0.346745 -1.582944 -0.464175 -0.410576
+2017-01-05  0.163782  0.948795 -0.420505 -0.641032
+2017-01-06  0.515806 -0.935421 -0.701349 -0.820109
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 dict 來創建 DataFrame</span></span><br><span class="line">teams = [<span class="string">&#x27;Web&#x27;</span>, <span class="string">&#x27;Mobile&#x27;</span>, <span class="string">&#x27;Data&#x27;</span>]</span><br><span class="line">nums = [<span class="number">12</span>, <span class="number">14</span>, <span class="number">34</span>]</span><br><span class="line">rd_team_dict = &#123;</span><br><span class="line">                <span class="string">&#x27;teams&#x27;</span>: teams,</span><br><span class="line">                <span class="string">&#x27;nums&#x27;</span>: nums</span><br><span class="line">&#125;</span><br><span class="line">rd_team_df = pd.DataFrame(rd_team_dict)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(rd_team_df)</span><br></pre></td></tr></table></figure>
+
+<pre><code>   nums   teams
+0    12     Web
+1    14  Mobile
+2    34    Data
+</code></pre>
+<h1 id="觀察資料"><a href="#觀察資料" class="headerlink" title="觀察資料"></a>觀察資料</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 觀察資料型態、結構、內容值</span></span><br><span class="line">df = pd.DataFrame(&#123; <span class="string">&#x27;A&#x27;</span> : <span class="number">1.</span>,</span><br><span class="line">                    <span class="string">&#x27;B&#x27;</span> : pd.Timestamp(<span class="string">&#x27;20170102&#x27;</span>),</span><br><span class="line">                    <span class="string">&#x27;C&#x27;</span> : pd.Series(<span class="number">1</span>,index=<span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">4</span>)),dtype=<span class="string">&#x27;float32&#x27;</span>),</span><br><span class="line">                    <span class="string">&#x27;D&#x27;</span> : np.array([<span class="number">3</span>] * <span class="number">4</span>,dtype=<span class="string">&#x27;int32&#x27;</span>),</span><br><span class="line">                    <span class="string">&#x27;E&#x27;</span> : pd.Categorical([<span class="string">&quot;test&quot;</span>,<span class="string">&quot;train&quot;</span>,<span class="string">&quot;test&quot;</span>,<span class="string">&quot;train&quot;</span>]),</span><br><span class="line">                    <span class="string">&#x27;F&#x27;</span> : <span class="string">&#x27;foo&#x27;</span> &#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 印出內容值資料型別</span></span><br><span class="line"><span class="built_in">print</span>(df.dtypes)</span><br></pre></td></tr></table></figure>
+
+<pre><code>A           float64
+B    datetime64[ns]
+C           float32
+D             int32
+E          category
+F            object
+dtype: object
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 印出資料維度</span></span><br><span class="line"><span class="built_in">print</span>(df.shape)</span><br></pre></td></tr></table></figure>
+
+<pre><code>(4, 6)
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 印出每行資料長度</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(df))</span><br></pre></td></tr></table></figure>
+
+<pre><code>4
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 印出 DataFrame 資料概況</span></span><br><span class="line"><span class="built_in">print</span>(df.info())</span><br></pre></td></tr></table></figure>
+
+<pre><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Int64Index: 4 entries, 0 to 3
+Data columns (total 6 columns):
+A    4 non-null float64
+B    4 non-null datetime64[ns]
+C    4 non-null float32
+D    4 non-null int32
+E    4 non-null category
+F    4 non-null object
+dtypes: category(1), datetime64[ns](1), float32(1), float64(1), int32(1), object(1)
+memory usage: 180.0+ bytes
+None
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 印出基本敘述統計數據</span></span><br><span class="line"><span class="built_in">print</span>(df.describe())</span><br></pre></td></tr></table></figure>
+
+<pre><code>         A    C    D
+count  4.0  4.0  4.0
+mean   1.0  1.0  3.0
+std    0.0  0.0  0.0
+min    1.0  1.0  3.0
+25%    1.0  1.0  3.0
+50%    1.0  1.0  3.0
+75%    1.0  1.0  3.0
+max    1.0  1.0  3.0
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 印出首 i 個數據</span></span><br><span class="line"><span class="built_in">print</span>(df.head(<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+
+<pre><code>     A          B    C  D      E    F
+0  1.0 2017-01-02  1.0  3   test  foo
+1  1.0 2017-01-02  1.0  3  train  foo
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 印出尾 i 個數據</span></span><br><span class="line"><span class="built_in">print</span>(df.tail(<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+
+<pre><code>     A          B    C  D      E    F
+2  1.0 2017-01-02  1.0  3   test  foo
+3  1.0 2017-01-02  1.0  3  train  foo
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 印出 index 值</span></span><br><span class="line"><span class="built_in">print</span>(df.index)</span><br></pre></td></tr></table></figure>
+
+<pre><code>Int64Index([0, 1, 2, 3], dtype=&#39;int64&#39;)
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 印出 columns 值</span></span><br><span class="line"><span class="built_in">print</span>(df.columns)</span><br></pre></td></tr></table></figure>
+
+<pre><code>Index([&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;], dtype=&#39;object&#39;)
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 印出 values 值</span></span><br><span class="line"><span class="built_in">print</span>(df.values)</span><br></pre></td></tr></table></figure>
+
+<pre><code>[[1.0 Timestamp(&#39;2017-01-02 00:00:00&#39;) 1.0 3 &#39;test&#39; &#39;foo&#39;]
+ [1.0 Timestamp(&#39;2017-01-02 00:00:00&#39;) 1.0 3 &#39;train&#39; &#39;foo&#39;]
+ [1.0 Timestamp(&#39;2017-01-02 00:00:00&#39;) 1.0 3 &#39;test&#39; &#39;foo&#39;]
+ [1.0 Timestamp(&#39;2017-01-02 00:00:00&#39;) 1.0 3 &#39;train&#39; &#39;foo&#39;]]
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 印出轉置 DataFrame</span></span><br><span class="line"><span class="built_in">print</span>(df.T)</span><br></pre></td></tr></table></figure>
+
+<pre><code>                     0                    1                    2  \
+A                    1                    1                    1   
+B  2017-01-02 00:00:00  2017-01-02 00:00:00  2017-01-02 00:00:00   
+C                    1                    1                    1   
+D                    3                    3                    3   
+E                 test                train                 test   
+F                  foo                  foo                  foo   
+
+                     3  
+A                    1  
+B  2017-01-02 00:00:00  
+C                    1  
+D                    3  
+E                train  
+F                  foo  
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sort by the index labels。axis=0 使用 index 進行 sort，axis=1 使用 columns 進行 sort。ascending 決定是否由小到大</span></span><br><span class="line"><span class="built_in">print</span>(df.sort_index(axis=<span class="number">0</span>, ascending=<span class="literal">False</span>))</span><br></pre></td></tr></table></figure>
+
+<pre><code>     A          B    C  D      E    F
+3  1.0 2017-01-02  1.0  3  train  foo
+2  1.0 2017-01-02  1.0  3   test  foo
+1  1.0 2017-01-02  1.0  3  train  foo
+0  1.0 2017-01-02  1.0  3   test  foo
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sort by the values of columns</span></span><br><span class="line"><span class="built_in">print</span>(df.sort_values(by=<span class="string">&#x27;E&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<pre><code>     A          B    C  D      E    F
+0  1.0 2017-01-02  1.0  3   test  foo
+2  1.0 2017-01-02  1.0  3   test  foo
+1  1.0 2017-01-02  1.0  3  train  foo
+3  1.0 2017-01-02  1.0  3  train  foo
+</code></pre>
+<h2 id="選取資料"><a href="#選取資料" class="headerlink" title="選取資料"></a>選取資料</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 選取值的方式一般建議使用 1. loc, 2. iloc, 3. ix</span></span><br><span class="line"><span class="comment"># label-location based 行列標籤值取值，以下取出 index=1 那一欄，[列, 行]</span></span><br><span class="line"><span class="built_in">print</span>(df.loc[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+
+<pre><code>A                      1
+B    2017-01-02 00:00:00
+C                      1
+D                      3
+E                   test
+F                    foo
+Name: 0, dtype: object
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># iloc 則通過行列數字索引取值，[列，行]</span></span><br><span class="line"><span class="built_in">print</span>(df.iloc[<span class="number">0</span>:<span class="number">3</span>, <span class="number">1</span>:<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
+
+<pre><code>           B
+0 2017-01-02
+1 2017-01-02
+2 2017-01-02
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 兼容 loc 和 iloc</span></span><br><span class="line"><span class="built_in">print</span>(df.ix[<span class="number">0</span>, <span class="string">&#x27;B&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<pre><code>2017-01-02 00:00:00
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 兼容 loc 和 iloc</span></span><br><span class="line"><span class="built_in">print</span>(df.ix[<span class="number">1</span>, <span class="number">3</span>])</span><br></pre></td></tr></table></figure>
+
+<pre><code>3
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 布林取值，取出 A 行大於 0 的資料</span></span><br><span class="line"><span class="built_in">print</span>(df[df.A &gt; <span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+
+<pre><code>     A          B    C  D      E    F
+0  1.0 2017-01-02  1.0  3   test  foo
+1  1.0 2017-01-02  1.0  3  train  foo
+2  1.0 2017-01-02  1.0  3   test  foo
+3  1.0 2017-01-02  1.0  3  train  foo
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 產生 Series 值</span></span><br><span class="line">s1 = pd.Series([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>], index=pd.date_range(<span class="string">&#x27;20170102&#x27;</span>, periods=<span class="number">6</span>))</span><br><span class="line"><span class="built_in">print</span>(s1)</span><br></pre></td></tr></table></figure>
+
+<pre><code>2017-01-02    1
+2017-01-03    2
+2017-01-04    3
+2017-01-05    4
+2017-01-06    5
+2017-01-07    6
+Freq: D, dtype: int64
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新值</span></span><br><span class="line">df.loc[:,<span class="string">&#x27;D&#x27;</span>] = np.array([<span class="number">5</span>] * <span class="built_in">len</span>(df))</span><br><span class="line"><span class="built_in">print</span>(df)</span><br></pre></td></tr></table></figure>
+
+<pre><code>     A          B    C  D      E    F
+0  1.0 2017-01-02  1.0  5   test  foo
+1  1.0 2017-01-02  1.0  5  train  foo
+2  1.0 2017-01-02  1.0  5   test  foo
+3  1.0 2017-01-02  1.0  5  train  foo
+</code></pre>
+<h2 id="處理遺失資料"><a href="#處理遺失資料" class="headerlink" title="處理遺失資料"></a>處理遺失資料</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查缺補漏</span></span><br><span class="line">df2 = pd.DataFrame(index=dates[<span class="number">0</span>:<span class="number">4</span>], columns=<span class="built_in">list</span>(df.columns) + [<span class="string">&#x27;E&#x27;</span>])</span><br><span class="line"></span><br><span class="line">df2.loc[dates[<span class="number">0</span>]:dates[<span class="number">1</span>], :] = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># drop 掉 NaN 值</span></span><br><span class="line"><span class="built_in">print</span>(df2.dropna(how=<span class="string">&#x27;any&#x27;</span>))</span><br><span class="line"><span class="comment"># 補充 NaN 為 3</span></span><br><span class="line"><span class="built_in">print</span>(df2.fillna(value=<span class="number">3</span>))</span><br><span class="line"><span class="built_in">print</span>(df2)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回傳 NaN 布林值 </span></span><br><span class="line"><span class="built_in">print</span>(pd.isnull(df2))</span><br><span class="line"></span><br><span class="line"><span class="comment"># inplace 為 True 為直接操作資料，不是操作 copy 副本</span></span><br><span class="line">df2.dropna(how=<span class="string">&#x27;any&#x27;</span>, inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>            A  B  C  D  E  F  E
+2017-01-01  1  1  1  1  1  1  1
+2017-01-02  1  1  1  1  1  1  1
+            A  B  C  D  E  F  E
+2017-01-01  1  1  1  1  1  1  1
+2017-01-02  1  1  1  1  1  1  1
+2017-01-03  3  3  3  3  3  3  3
+2017-01-04  3  3  3  3  3  3  3
+              A    B    C    D    E    F    E
+2017-01-01    1    1    1    1    1    1    1
+2017-01-02    1    1    1    1    1    1    1
+2017-01-03  NaN  NaN  NaN  NaN  NaN  NaN  NaN
+2017-01-04  NaN  NaN  NaN  NaN  NaN  NaN  NaN
+                A      B      C      D      E      F      E
+2017-01-01  False  False  False  False  False  False  False
+2017-01-02  False  False  False  False  False  False  False
+2017-01-03   True   True   True   True   True   True   True
+2017-01-04   True   True   True   True   True   True   True
+</code></pre>
+<h2 id="資料操作"><a href="#資料操作" class="headerlink" title="資料操作"></a>資料操作</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 針對每一個值進行操作</span></span><br><span class="line">df.apply(<span class="keyword">lambda</span> x: x.<span class="built_in">max</span>() - x.<span class="built_in">min</span>())</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>A    2.696944
+B    5.285329
+C    1.948946
+D    2.615037
+dtype: float64
+</code></pre>
+<h2 id="串接資料"><a href="#串接資料" class="headerlink" title="串接資料"></a>串接資料</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 串接資料</span></span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(np.random.randn(<span class="number">10</span>, <span class="number">4</span>))</span><br><span class="line"><span class="built_in">print</span>(df)</span><br><span class="line">pieces = [df[:<span class="number">3</span>], df[<span class="number">3</span>:<span class="number">7</span>], df[<span class="number">7</span>:]]</span><br><span class="line"><span class="built_in">print</span>(pieces)</span><br><span class="line"><span class="built_in">print</span>(pd.concat(pieces))</span><br></pre></td></tr></table></figure>
+
+<pre><code>          0         1         2         3
+0 -0.171208  2.200967  0.385574 -0.481588
+1  1.447335  1.756239  0.083053  0.255434
+2 -0.508576  0.818774 -0.438210 -0.819860
+3  1.704828 -0.329642 -1.059202 -0.820319
+4 -1.792491 -0.761873 -1.090574 -0.484552
+5  0.166621  1.704577 -1.613185 -0.391985
+6  0.806292  0.699608 -1.768223 -1.081318
+7 -1.168532  0.768302  0.831701  0.422367
+8  0.065940 -0.038649 -0.060712 -0.500365
+9  0.623535  0.558461 -0.956861  1.229675
+[          0         1         2         3
+0 -0.171208  2.200967  0.385574 -0.481588
+1  1.447335  1.756239  0.083053  0.255434
+2 -0.508576  0.818774 -0.438210 -0.819860,           0         1         2         3
+3  1.704828 -0.329642 -1.059202 -0.820319
+4 -1.792491 -0.761873 -1.090574 -0.484552
+5  0.166621  1.704577 -1.613185 -0.391985
+6  0.806292  0.699608 -1.768223 -1.081318,           0         1         2         3
+7 -1.168532  0.768302  0.831701  0.422367
+8  0.065940 -0.038649 -0.060712 -0.500365
+9  0.623535  0.558461 -0.956861  1.229675]
+          0         1         2         3
+0 -0.171208  2.200967  0.385574 -0.481588
+1  1.447335  1.756239  0.083053  0.255434
+2 -0.508576  0.818774 -0.438210 -0.819860
+3  1.704828 -0.329642 -1.059202 -0.820319
+4 -1.792491 -0.761873 -1.090574 -0.484552
+5  0.166621  1.704577 -1.613185 -0.391985
+6  0.806292  0.699608 -1.768223 -1.081318
+7 -1.168532  0.768302  0.831701  0.422367
+8  0.065940 -0.038649 -0.060712 -0.500365
+9  0.623535  0.558461 -0.956861  1.229675
+</code></pre>
+<h2 id="合併資料"><a href="#合併資料" class="headerlink" title="合併資料"></a>合併資料</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 合併資料</span></span><br><span class="line">left = pd.DataFrame(&#123;<span class="string">&#x27;key&#x27;</span>: [<span class="string">&#x27;foo&#x27;</span>, <span class="string">&#x27;foo&#x27;</span>], <span class="string">&#x27;lval&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>]&#125;)</span><br><span class="line">right = pd.DataFrame(&#123;<span class="string">&#x27;key&#x27;</span>: [<span class="string">&#x27;foo&#x27;</span>, <span class="string">&#x27;foo&#x27;</span>], <span class="string">&#x27;rval&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>]&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(pd.merge(left, right, on=<span class="string">&#x27;key&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<pre><code>   key  lval  rval
+0  foo     1     4
+1  foo     1     5
+2  foo     2     4
+3  foo     2     5
+</code></pre>
+<h2 id="新增資料"><a href="#新增資料" class="headerlink" title="新增資料"></a>新增資料</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 新增資料於最後</span></span><br><span class="line">df = pd.DataFrame(np.random.randn(<span class="number">8</span>, <span class="number">4</span>), columns=[<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>,<span class="string">&#x27;C&#x27;</span>,<span class="string">&#x27;D&#x27;</span>])</span><br><span class="line"><span class="built_in">print</span>(df)</span><br><span class="line">s = df.iloc[<span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(df.append(s, ignore_index=<span class="literal">True</span>))</span><br></pre></td></tr></table></figure>
+
+<pre><code>          A         B         C         D
+0  1.780499  1.207626  0.631475 -1.747506
+1 -0.603999 -2.364099  1.153066  0.504784
+2  0.721924  0.199784 -0.158318 -0.882946
+3 -0.378070 -0.379311  0.478997  0.271056
+4  0.620888 -0.366262 -0.738695 -0.380854
+5 -0.587604 -1.728096  0.279645 -0.927843
+6 -0.916445  2.921231 -0.795880  0.867531
+7 -0.373190  1.526771  0.136712  0.015765
+          A         B         C         D
+0  1.780499  1.207626  0.631475 -1.747506
+1 -0.603999 -2.364099  1.153066  0.504784
+2  0.721924  0.199784 -0.158318 -0.882946
+3 -0.378070 -0.379311  0.478997  0.271056
+4  0.620888 -0.366262 -0.738695 -0.380854
+5 -0.587604 -1.728096  0.279645 -0.927843
+6 -0.916445  2.921231 -0.795880  0.867531
+7 -0.373190  1.526771  0.136712  0.015765
+8 -0.378070 -0.379311  0.478997  0.271056
+</code></pre>
+<h2 id="群組操作"><a href="#群組操作" class="headerlink" title="群組操作"></a>群組操作</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 群組操作</span></span><br><span class="line"><span class="built_in">print</span>(df.groupby([<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>]).<span class="built_in">sum</span>())</span><br></pre></td></tr></table></figure>
+
+<pre><code>                            C         D
+A         B                            
+-1.232691  0.489020  0.436602 -1.439868
+-0.259460 -0.269874  1.655001  0.530137
+-0.256261 -0.743254  0.128837  1.050430
+ 0.015723  0.596866 -0.232503  1.247810
+ 0.049633 -0.093130  0.895723  1.049938
+ 0.458667  0.348883 -0.681931 -0.517437
+ 1.446492  0.007736  0.208870  0.211517
+ 2.357912 -0.187805 -0.376578 -0.459085
+</code></pre>
+<h2 id="繪圖"><a href="#繪圖" class="headerlink" title="繪圖"></a>繪圖</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 印出圖表</span></span><br><span class="line">ts = pd.Series(np.random.randn(<span class="number">1000</span>), index=pd.date_range(<span class="string">&#x27;1/1/2000&#x27;</span>, periods=<span class="number">1000</span>))</span><br><span class="line">ts = ts.cumsum()</span><br><span class="line">ts.plot()</span><br></pre></td></tr></table></figure>
+
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x11bc50f98&gt;
+</code></pre>
+<p><img src="/img/kdchang/data-science101/pandas/pandas_output.png" alt="png"></p>
+<h2 id="輸入-輸出"><a href="#輸入-輸出" class="headerlink" title="輸入&#x2F;輸出"></a>輸入&#x2F;輸出</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 讀取檔案/輸出檔案，支援 csv, h5, xlsx 檔案格式</span></span><br><span class="line">df.to_csv(<span class="string">&#x27;foo.csv&#x27;</span>)</span><br><span class="line">pd.read_csv(<span class="string">&#x27;foo.csv&#x27;</span>)</span><br><span class="line">df.to_excel(<span class="string">&#x27;foo.xlsx&#x27;</span>, sheet_name=<span class="string">&#x27;Sheet1&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(pd.read_excel(<span class="string">&#x27;foo.xlsx&#x27;</span>, <span class="string">&#x27;Sheet1&#x27;</span>, index_col=<span class="literal">None</span>, na_values=[<span class="string">&#x27;NA&#x27;</span>]))</span><br></pre></td></tr></table></figure>
+
+<pre><code>          A         B         C         D
+0  1.446492  0.007736  0.208870  0.211517
+1  0.049633 -0.093130  0.895723  1.049938
+2 -1.232691  0.489020  0.436602 -1.439868
+3 -0.259460 -0.269874  1.655001  0.530137
+4  0.015723  0.596866 -0.232503  1.247810
+5  0.458667  0.348883 -0.681931 -0.517437
+6  2.357912 -0.187805 -0.376578 -0.459085
+7 -0.256261 -0.743254  0.128837  1.050430
+</code></pre>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上整理了一些 Pandas 核心功能和如何操作資料，接下來我們將介紹其他 Python 資料科學和機器學習生態系和相關工具。</p>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><ol>
+<li><a target="_blank" rel="noopener" href="http://pandas.pydata.org/pandas-docs/stable/10min.html">10 Minutes to pandas</a></li>
+<li><a target="_blank" rel="noopener" href="http://wiki.jikexueyuan.com/project/start-learning-python/311.html">Pandas 使用 (1)</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/43893457/python-pandas-understanding-inplace-true">Python Pandas - Understanding inplace&#x3D;True</a></li>
+<li><a target="_blank" rel="noopener" href="http://x-wei.github.io/pandas%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html">pandas学习笔记</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/en-heng/p/5630849.html">【Python实战】Pandas：让你像写SQL一样做数据分析（一）</a></li>
+</ol>
+<p>（image via <a target="_blank" rel="noopener" href="http://pandas.pydata.org/_static/pandas_logo.png">pydata</a>、<a target="_blank" rel="noopener" href="https://media4.s-nbcnews.com/j/newscms/2016_36/1685951/ss-160826-twip-05_8cf6d4cb83758449fd400c7c3d71aa1f.nbcnews-ux-2880-1000.jpg">nbcnews</a>）</p>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.kdchang.cc/">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino&#x2F;Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/10/28/python-data-science-and-machine-learning-pandas-tutorial/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/10/28/python-data-science-and-machine-learning-pandas-tutorial/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/10/28/python-data-science-and-machine-learning-pandas-tutorial/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/10/28/python-data-science-and-machine-learning-pandas-tutorial/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/11/04/openai-gym-intro-and-q-learning/">
+        ← Open AI Gym 簡介與 Q learning 演算法實作
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/10/21/d3v4-sketchy-plugin/">
+        D3v4 工作坊 - 製作 D3 plugin 來繪製草圖風格長條圖 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

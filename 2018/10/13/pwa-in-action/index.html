@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>PWA 實戰經驗分享 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2018-10-13T09:14:47.000Z" itemprop="datePublished">
+          2018-10-13
+      </time>
+    
+    
+    | 
+    <a href='/tags/pwa/'>pwa</a>
+    
+    
+</span>
+
+<meta name="generator" content="PWA 實戰經驗分享">
+<meta name="og:title" content="PWA 實戰經驗分享">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">PWA 實戰經驗分享</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前些日子在忙公司的產品改版，從原本的 PHP 換成後端 Go + 前端 React SPA，分成桌面版跟手機版兩個不同的 Project，而既然都改版了，自然要把最新最潮的 PWA 也放在目標裡面，之前耳聞 PWA 很久但卻沒有實作過的我也有了機會來嘗試這個東西。</p>
+<p>如今產品已經改版完畢且上線了兩三個月，慢慢穩定下來，在優化 PWA 的過程中也讓我有了一些心得可以讓大家分享。</p>
+<p>在舉一些實際案例之前，先讓我們來談談到底怎樣才算是 PWA。</p>
+<h1 id="PWA-到底是什麼？"><a href="#PWA-到底是什麼？" class="headerlink" title="PWA 到底是什麼？"></a>PWA 到底是什麼？</h1><p>從 Google 官方的文件：<a target="_blank" rel="noopener" href="https://developers.google.com/web/fundamentals/codelabs/your-first-pwapp/?hl=zh-tw">你的首個 Progressive Web App</a> 中可以看出 PWA 的一些詳細定義，但我不太喜歡這種制式的規則，對我來說，PWA 就是一個很像 Native App 的 Web App，而其中瀏覽器的支援也佔了很大的一部分。</p>
+<p>在以往儘管你的網站做得再怎麼像 Native App，你還是有兩個難關沒辦法克服：離線的時候就 GG 以及沒辦法安裝在手機上，所以不管怎麼看，人家都知道你就是個 Web App，永遠都不會長得像 Native。</p>
+<p>可是自從瀏覽器開始支援 Service Worker 以及 manifest 之後，上面這兩點就被克服了！得益於 Service Worker，讓網頁離線的時候也能夠運作，可以自己寫 code 來決定要渲染什麼畫面；而瀏覽器的「新增到主畫面」的功能更是讓安裝 Web App 成為可能，開發者也可以用 manifest.json 來自訂一些內容，像是啟動畫面以及安裝在主畫面上的名稱等等。</p>
+<p>對我來說，如果你能夠利用上面這兩項技術，讓你的 Web App 成功安裝在手機上並且看起來跟 Native App 沒兩樣，我覺得就能稱作是 PWA。</p>
+<p>我在之前的文章（<a href="https://blog.techbridge.cc/2018/08/18/cors-issue/">原來 CORS 沒有我想像中的簡單</a>）已經有分享過 PWA 在手機上面的樣子了，這邊就不再贅述。還記得我第一次體驗安裝 PWA 的時候也被嚇到了，因為看起來就跟 Native App 沒兩樣，如果真的做得好，應該是很難區分出來的。明明是個網頁可是看起來卻跟 Native App 一樣，這就是 PWA。</p>
+<p>接著來介紹幾個 PWA 的重要因素，你要做 PWA 就一定要有下面幾個東西。</p>
+<h1 id="manifest-json"><a href="#manifest-json" class="headerlink" title="manifest.json"></a>manifest.json</h1><p>首先先來談<code>manifest.json</code>，有寫過 Android 的都知道有個東西叫做<code>AndroidManifest.xml</code>，其實兩個本質上是一樣的東西，就是去描述這個 App 的一些特性。</p>
+<p>我們先來看看 Google 官方文件：<a target="_blank" rel="noopener" href="https://developers.google.com/web/fundamentals/web-app-manifest/">The Web App Manifest</a>裡面給的範例：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;short_name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Maps&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Google Maps&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;icons&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;src&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/images/icons-192.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;image/png&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;sizes&quot;</span><span class="punctuation">:</span> <span class="string">&quot;192x192&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;src&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/images/icons-512.png&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;image/png&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;sizes&quot;</span><span class="punctuation">:</span> <span class="string">&quot;512x512&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;start_url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/maps/?source=pwa&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;background_color&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#3367D6&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;display&quot;</span><span class="punctuation">:</span> <span class="string">&quot;standalone&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;scope&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/maps/&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;theme_color&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#3367D6&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>裡面給的資訊很簡單，然後會跟你把 PWA 新增到主畫面時出現的東西息息相關。<code>name</code>的話就是你 App 的名稱，他在主畫面上面就會顯示這個<code>name</code>，但如果你也有提供<code>short_name</code>的話會優先使用<code>short_name</code>。</p>
+<p>再來<code>icons</code>就是主畫面上面會出現的 logo 囉，這沒什麼好多談的。<code>start_url</code>則是你從主畫面上開啟時會連線到的地方，很多人會加個<code>?source=pwa</code>之類的，這樣就可以知道這個使用者是使用 PWA，方便做一些統計。</p>
+<p>這邊有個小地方要注意，那就是在某一版的 iOS Safari（抱歉我忘記是哪一版，但總之最新的已經沒有這個問題了），它是不會遵守<code>start_url</code>的！他會根據的是你在安裝 PWA 時的網址，例如說你在<code>https://example.com/test/123</code>的時候按下「新增到主畫面」，你在主畫面開啟 PWA 時就會連線到這個畫面。</p>
+<p>這部分其實滿困擾的，但幸好最新的 iOS Safari 已經沒有這個問題了，大家可以不用擔心。</p>
+<p>還有一個要特別提的就是<code>name</code>、<code>background_color</code>跟<code>icon</code>會自動組成<code>Splash screens</code>，就是你在打開 PWA 的時候會看到的一個畫面，是由這三個資訊自動被 Chrome 所組成的，意思就是你沒辦法客製化這個啟動畫面。</p>
+<p>它就是會顯示你指定的背景顏色、然後中間放一個 icon 下面放你 App 的名稱，沒有其他東西可以調了，至少現在是這樣。</p>
+<p>在這點上面 iOS 就不一樣，iOS 是不支援這種啟動畫面的，但好處就是你可以自己透過 html 的 tag 來設定！</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span></span></span><br><span class="line"><span class="tag">    <span class="attr">rel</span>=<span class="string">&#x27;apple-touch-startup-image&#x27;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">href</span>=<span class="string">&#x27;/assets/splash/splash-1125x2436.png&#x27;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">media</span>=<span class="string">&#x27;(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)&#x27;</span></span></span><br><span class="line"><span class="tag">/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>會有一些尺寸相關的設定你因為要幫每一種不同的 device 都準備一張圖片，詳情可參考：<a target="_blank" rel="noopener" href="https://medium.com/@applification/progressive-web-app-splash-screens-80340b45d210">Progressive Web App Splash Screens</a> 或是 <a target="_blank" rel="noopener" href="https://www.netguru.co/codestories/few-tips-that-will-make-your-pwa-on-ios-feel-like-native">Few Tips That Will Make Your PWA on iOS Feel Like Native</a>。</p>
+<p>iOS 跟 Android 的差別在於 iOS 的啟動畫面你可以放一張圖片，因此可以完全客製化，你想放什麼就放什麼，自由度比 Android 來得高。</p>
+<p>還有就是 icon 的部分，iOS 也不會看你<code>mainfest.json</code>的設定，而是會看自己的 html tag，所以你必須額外設置給 iOS 使用的 icon：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span></span></span><br><span class="line"><span class="tag">    <span class="attr">rel</span>=<span class="string">&#x27;apple-touch-icon&#x27;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">sizes</span>=<span class="string">&#x27;192x192&#x27;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">href</span>=<span class="string">&#x27;/assets/favicons/iOS192x192.png&#x27;</span></span></span><br><span class="line"><span class="tag">/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>對於<code>manifest.json</code>，該注意的點差不多就這些。其實最大的問題還是支援度，所以 Google 出了一個<code>PWACompat</code>，可以自動幫你針對舊的瀏覽器調整你的檔案以及 html 的 tag，不過也有人寫了一篇：<a target="_blank" rel="noopener" href="https://medium.com/@firt/you-shouldnt-use-chrome-s-pwacompat-library-in-your-progressive-web-apps-6b3496faab62">You shouldn’t use Chrome’s PWACompat library in your Progressive Web Apps</a> 來告訴大家不要用，論點大概是不能這樣一概論之，你必須針對每種不同的平台跟瀏覽器去了解他的差異再來做適配，才能得到最好的使用者體驗，這種統一調整的做法會在很多地方看起來 ok 但是怪怪的。</p>
+<p>既然上面都提到 iOS 了，就來講講 iOS 的一些不同之處。其實 iOS 開始提供 PWA 的支援是今年（2018 年）的事情而已，而且剛推出的時候支援度滿差的，不過有在慢慢改善就是了。</p>
+<p>關於那些 iOS 不同的地方，這兩篇文章都講得很清楚了：<a target="_blank" rel="noopener" href="https://medium.com/@firt/pwas-are-coming-to-ios-11-3-cupertino-we-have-a-problem-2ff49fd7d6ea">PWAs are coming to iOS 11.3: Cupertino, we have a problem</a>、<a target="_blank" rel="noopener" href="https://medium.com/@firt/progressive-web-apps-on-ios-are-here-d00430dee3a7">Progressive Web Apps on iOS are here 🚀</a>。</p>
+<p>最大的差異之一大概就是很多時候都不看<code>manifest.json</code>，你要自己額外設置一些相對應的 html tag 才有用，這點是要特別注意的。</p>
+<p>再來就是<code>&lt;meta name=”apple-mobile-web-app-capable” content=”yes”&gt;</code>這個 tag 也很重要，主要是告訴瀏覽器説：「我準備好提供全螢幕的體驗了，就算隱藏瀏覽器的 UI 也沒關係」，而這篇：<a target="_blank" rel="noopener" href="https://medium.com/@firt/dont-use-ios-web-app-meta-tag-irresponsibly-in-your-progressive-web-apps-85d70f4438cb">Don’t use iOS meta tags irresponsibly in your Progressive Web Apps</a> 則告訴你千萬不要濫用這個 tag，不然你的 Web App 在 Safari 上的體驗會變得很差，因為很多東西都不支援。</p>
+<p>至於 Safari 最大的一點問題我直接引用上面 <a target="_blank" rel="noopener" href="https://medium.com/@firt/pwas-are-coming-to-ios-11-3-cupertino-we-have-a-problem-2ff49fd7d6ea">PWAs are coming to iOS 11.3: Cupertino, we have a problem</a> 的其中一段：</p>
+<blockquote>
+<p>Also, it’s a massive problem for apps with two-factor authentication, such as Twitter. If you need to go to another app to get a token or to open a text message or an email, you will get out of the PWA. When you go back to paste the code, you are out of context and, you need to start the login process again losing the validity of that code. It happened to me on Twitter! Which means, the Twitter PWA on iOS is completely unusable for me.</p>
+</blockquote>
+<p>這是什麼意思呢？我直接舉一個實際範例，假如你的 PWA 有提供 Facebook 登入的功能而且是用重新導向的方式，你一點下去他就會開一個新的 Safari 視窗連到 Facebook 讓你授權，可是當你授權完之後回到 PWA，你會發現什麼事情都沒發生。</p>
+<p>這一點真的超傷，而且現在應該都還沒修好，只能期待 Safari 之後會把問題修掉了。而 Android Chrome 則是會在同一個視窗底下打開 Facebook，因此結束之後能夠順利完成登入流程。</p>
+<p>有關於 iOS 的問題跟<code>manifest.json</code>的注意事項差不多就到這邊，再來我們談談 PWA 的第二個重點：Service Worker。</p>
+<h1 id="Service-Worker"><a href="#Service-Worker" class="headerlink" title="Service Worker"></a>Service Worker</h1><p>加入 Service Worker 的目的就只有一個，那就是快取。透過 Service Worker（以下簡稱 SW），可以幫助我們在發送 request 之前就先攔截到並且做處理，而離線運行的原理也是這樣的，我們先在第一次開啟時註冊 SW，並且利用 SW 下載靜態檔案並快取住，之後若使用者離線，我們再用已經快取住的檔案來回覆，就不會發送真的 request，自然也不會發生無法連線的情況。</p>
+<p>而 Google 有提供了一個方便的工具：<a target="_blank" rel="noopener" href="https://developers.google.com/web/tools/workbox/">Workbox</a> 來幫助我們自動產生出 SW 以及利用更方便的語法來攔截 request。</p>
+<p>舉例來說，我自己用的是 Webpack 的 plugin：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> workboxPlugin.<span class="title class_">InjectManifest</span>(&#123;</span><br><span class="line">    <span class="attr">swSrc</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;..&#x27;</span>, <span class="variable constant_">SRC_DIR</span>, <span class="string">&#x27;sw.js&#x27;</span>),</span><br><span class="line">    <span class="attr">swDest</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;..&#x27;</span>, <span class="variable constant_">DIST_DIR</span>, <span class="string">&#x27;sw.js&#x27;</span>),</span><br><span class="line">    <span class="attr">globDirectory</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;..&#x27;</span>, <span class="variable constant_">DIST_DIR</span>),</span><br><span class="line">    <span class="attr">globPatterns</span>: [<span class="string">&#x27;**/*.&#123;js,css&#125;&#x27;</span>]</span><br><span class="line">&#125;),</span><br><span class="line">  </span><br><span class="line"><span class="comment">//sw.js</span></span><br><span class="line"><span class="keyword">let</span> precacheList = self.<span class="property">__precacheManifest</span> || []</span><br><span class="line">workbox.<span class="property">precaching</span>.<span class="title function_">precacheAndRoute</span>(precacheList)</span><br></pre></td></tr></table></figure>
+
+<p>只要這樣一寫，就會自動去找符合規則的檔案並且加入快取清單裡面，你只要一註冊 SW 的時候就會把那些檔案給快取起來。</p>
+<p>除此之外呢，Workbox 也可以針對 URL 來監聽：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// sw.js</span></span><br><span class="line">workbox.<span class="property">routing</span>.<span class="title function_">registerRoute</span>(<span class="regexp">/(https?:\/\/)(.*)\/api\/(.*)/</span>, <span class="function"><span class="params">args</span> =&gt;</span></span><br><span class="line">    workbox.<span class="property">strategies</span></span><br><span class="line">        .<span class="title function_">networkFirst</span>(&#123;</span><br><span class="line">            <span class="attr">cacheName</span>: <span class="string">&#x27;data-cache&#x27;</span>,</span><br><span class="line">            <span class="attr">plugins</span>: [</span><br><span class="line">                <span class="keyword">new</span> workbox.<span class="property">expiration</span>.<span class="title class_">Plugin</span>(&#123;</span><br><span class="line">                    <span class="attr">maxEntries</span>: <span class="number">100</span>,</span><br><span class="line">                    <span class="attr">maxAgeSeconds</span>: <span class="number">2592000</span></span><br><span class="line">                &#125;)</span><br><span class="line">            ]</span><br><span class="line">        &#125;)</span><br><span class="line">        .<span class="title function_">handle</span>(args)</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function"><span class="params">response</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> response</span><br><span class="line">        &#125;)</span><br><span class="line">        .<span class="title function_">catch</span>(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;err:&#x27;</span>, err)</span><br><span class="line">        &#125;)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>像上面的程式碼就是針對路徑中含有<code>api</code>的 request 做快取，這樣在離線時也可以利用以前快取住的 API response。</p>
+<p>Workbox 針對這種動態的快取提供幾種策略，分別是：<code>staleWhileRevalidate</code>、<code>cacheFirst</code>、<code>networkFirst</code>、<code>networkOnly </code>與<code>cacheOnly</code>，其實看名字就可以大概理解策略是什麼了，想知道詳細的內容可以參考官方文件：<a target="_blank" rel="noopener" href="https://developers.google.com/web/tools/workbox/modules/workbox-strategies">Workbox Strategies</a>。</p>
+<p>總之自從有了 Workbox 之後，基本上就不用自己手寫 SW 了，都靠著它提供的 API 以及功能就行了，就可以自動產生出符合需求的 SW。</p>
+<h1 id="Add-to-home-screen-banner"><a href="#Add-to-home-screen-banner" class="headerlink" title="Add to home screen banner"></a>Add to home screen banner</h1><p>最後要來談的是「安裝 PWA」這一塊，在 iOS Safari 上面別無他法，就只能自己叫出選單然後選取「Add to home screen」，可是在 Android Chrome 上面，如果你符合一定的條件（有設置<code>mainfest.json</code>以及有註冊 Service Worker），就會自動幫你跳出一個可愛的 Install banner。</p>
+<p><img src="/img/huli/pwa.png"><br>（圖片來自：<a target="_blank" rel="noopener" href="https://developers.google.com/web/updates/2018/06/a2hs-updates">Changes to Add to Home Screen Behavior</a>）</p>
+<p>根據 Chrome 版本的不同，行為也有所不同。</p>
+<p>在 Chrome 67（含）以前的版本，如果你在<code>beforeinstallprompt</code>事件裡面沒有特別用<code>preventDefault()</code>，或是顯式的呼叫了<code>prompt()</code>，就會出現最左邊那個頗大的 A2HS banner。</p>
+<p>然後在 Chrome 68（含）之後的版本，無論你做了什麼，系統都會自動出現那個 Mini-infobar，但如果使用者關掉的話，要隔三個月才會再出現一次，實在是有夠久。</p>
+<p>接著呢，上面這兩個 A2HS banner 跟 Mini-infobar，使用者點擊之後都會出現最右邊的 A2HS Dialog，提示使用者要不要安裝 PWA。</p>
+<p>但是在 Chrome 68 以後，你也可以利用程式去呼叫<code>beforeinstallprompt</code>裡面拿到的<code>event.prompt()</code>把這個 dialog 顯示出來。</p>
+<p>聽起來有點複雜對吧？</p>
+<p>先來介紹<code>beforeinstallprompt</code>這個 event 好了，這個 event 在一切都準備就緒，確認你滿足條件可以顯示 prompt 的時候會被觸發，會傳來一個 event，你可以阻止顯示 prompt，把這個 event 存起來：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 此範例來自上面的官方文件</span></span><br><span class="line"><span class="keyword">let</span> installPromptEvent;</span><br><span class="line">  </span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;beforeinstallprompt&#x27;</span>, <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// Prevent Chrome &lt;= 67 from automatically showing the prompt</span></span><br><span class="line">  event.<span class="title function_">preventDefault</span>();</span><br><span class="line">  <span class="comment">// Stash the event so it can be triggered later.</span></span><br><span class="line">  installPromptEvent = event;</span><br><span class="line">  <span class="comment">// Update the install UI to notify the user app can be installed</span></span><br><span class="line">  <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#install-button&#x27;</span>).<span class="property">disabled</span> = <span class="literal">false</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>為什麼要存起來呢？因為使用者可能不想一打開網站就看到這個彈窗，或者他可能正在結帳結果你跳這個東西來干擾他，所以先把它存起來，等適當的時機再呼叫<code>installPromptEvent.prompt()</code>來跳出 Dialog。</p>
+<p>但要注意的事情是你直接呼叫<code>installPromptEvent.prompt()</code>是沒用的，你必須要<code>within a user gesture</code>，意思就是你要放在按鈕的 click 事件（或其他由使用者觸發的事件）裡才有效，直接呼叫是沒有用的，而且會看到 console 跳出錯誤訊息。</p>
+<p>我之前一度很好奇它是怎麼做判斷的，後來發現原來有<code>event.isTrusted</code>可以用，可以判斷一個事件是不是被使用者主動觸發的，參考資料：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/Event/isTrusted">MDN - Event.isTrusted</a>。</p>
+<p>總之呢，因為在不同版本上的 Chrome 有不同行為，所以最後我們決定用下面的程式碼針對不同版本有不同的反應：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 把 event 存起來</span></span><br><span class="line"><span class="keyword">var</span> installPromptEvent</span><br><span class="line">  </span><br><span class="line"><span class="comment">// 要顯示 prompt 的延遲</span></span><br><span class="line"><span class="keyword">var</span> showTime = <span class="number">30</span> * <span class="number">1000</span></span><br><span class="line">  </span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;beforeinstallprompt&#x27;</span>, <span class="keyword">function</span> (<span class="params">e</span>) &#123;</span><br><span class="line">  e.<span class="title function_">preventDefault</span>()</span><br><span class="line">  installPromptEvent = e</span><br><span class="line">  <span class="keyword">var</span> data = navigator.<span class="property">userAgent</span>.<span class="title function_">match</span>(<span class="regexp">/Chrom(e|ium)\\/</span>([<span class="number">0</span>-<span class="number">9</span>]+)\\./)</span><br><span class="line">  <span class="keyword">var</span> version = (data &amp;&amp; data.<span class="property">length</span> &gt;= <span class="number">2</span>) ? <span class="built_in">parseInt</span>(data[<span class="number">2</span>], <span class="number">10</span>) : <span class="literal">null</span></span><br><span class="line">  <span class="keyword">if</span> (version &amp;&amp; installPromptEvent.<span class="property">prompt</span>) &#123;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 延遲一段時間才顯示 prompt</span></span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="comment">// 如果 Chrome 版本是 67（含）以下，可以直接呼叫</span></span><br><span class="line">        <span class="keyword">if</span> (version &lt;= <span class="number">67</span>) &#123;</span><br><span class="line">            installPromptEvent.<span class="title function_">prompt</span>()</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">  </span><br><span class="line">        <span class="comment">// 否則的話必須透過 user action 主動觸發</span></span><br><span class="line">        <span class="comment">// 這邊幫 #root 加上 event listener，代表點擊螢幕任何一處都會顯示 prompt</span></span><br><span class="line">        <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#root&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, addToHomeScreen)    </span><br><span class="line">    &#125;, showTime)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line">  </span><br><span class="line"><span class="keyword">function</span> <span class="title function_">addToHomeScreen</span>(<span class="params">e</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (installPromptEvent) &#123;</span><br><span class="line">        installPromptEvent.<span class="title function_">prompt</span>()</span><br><span class="line">        installPromptEvent = <span class="literal">null</span></span><br><span class="line">        <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#root&#x27;</span>).<span class="title function_">removeEventListener</span>(<span class="string">&#x27;click&#x27;</span>, addToHomeScreen) </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果是 67 以下，直接呼叫就可以顯示 prompt，否則的話還要再一步，要加個 event listener 才行，而我們也選擇延遲 30 秒才顯示。</p>
+<p>出乎意料地，這樣一個小改動帶來驚人的成長，原本一天大概才 20、30 個人安裝 PWA，經過這樣調整之後瞬間變成八到十倍，看到 GA 的那個統計圖我也嚇了一跳，沒想到效果這麼好。</p>
+<p>與其一直積極地要別人快點安裝 PWA，還不如只要求真的對你產品有興趣（停留超過 30 秒鐘）的人。</p>
+<h1 id="manifest-觀摩"><a href="#manifest-觀摩" class="headerlink" title="manifest 觀摩"></a>manifest 觀摩</h1><p>最後我們來看看幾個知名的 PWA 都是怎麼寫他們的<code>manifest.json</code>。</p>
+<p>第一個是 PWA 界中很有名的 <a target="_blank" rel="noopener" href="https://www.flipkart.com/">flipkart</a>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Flipkart Lite&quot;</span>,</span><br><span class="line">    <span class="string">&quot;short_name&quot;</span>: <span class="string">&quot;Flipkart Lite&quot;</span>,</span><br><span class="line">    <span class="string">&quot;icons&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">&quot;src&quot;</span>: <span class="string">&quot;https://img1a.flixcart.com/www/linchpin/batman-returns/logo_lite-cbb3574d.png&quot;</span>,</span><br><span class="line">            <span class="string">&quot;sizes&quot;</span>: <span class="string">&quot;192x192&quot;</span>,</span><br><span class="line">            <span class="string">&quot;type&quot;</span>: <span class="string">&quot;image/png&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">&quot;gcm_sender_id&quot;</span>: <span class="string">&quot;656085505957&quot;</span>,</span><br><span class="line">    <span class="string">&quot;gcm_user_visible_only&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">&quot;start_url&quot;</span>: <span class="string">&quot;/?start_url=homescreenicon&quot;</span>,</span><br><span class="line">    <span class="string">&quot;permissions&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;gcm&quot;</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">&quot;orientation&quot;</span>: <span class="string">&quot;portrait&quot;</span>,</span><br><span class="line">    <span class="string">&quot;display&quot;</span>: <span class="string">&quot;standalone&quot;</span>,</span><br><span class="line">    <span class="string">&quot;theme_color&quot;</span>: <span class="string">&quot;#2874f0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;background_color&quot;</span>: <span class="string">&quot;#2874f0&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再來是鼎鼎大名的 <a target="_blank" rel="noopener" href="https://mobile.twitter.com/manifest.json">twitter</a>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;background_color&quot;</span>: <span class="string">&quot;#ffffff&quot;</span>,</span><br><span class="line">  <span class="string">&quot;description&quot;</span>: <span class="string">&quot;It&#x27;s what&#x27;s happening. From breaking news and entertainment, sports and politics, to big events and everyday interests.&quot;</span>,</span><br><span class="line">  <span class="string">&quot;display&quot;</span>: <span class="string">&quot;standalone&quot;</span>,</span><br><span class="line">  <span class="string">&quot;gcm_sender_id&quot;</span>: <span class="string">&quot;49625052041&quot;</span>,</span><br><span class="line">  <span class="string">&quot;gcm_user_visible_only&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="string">&quot;icons&quot;</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;src&quot;</span>: <span class="string">&quot;https://abs.twimg.com/responsive-web/web/ltr/icon-default.604e2486a34a2f6e.png&quot;</span>,</span><br><span class="line">      <span class="string">&quot;sizes&quot;</span>: <span class="string">&quot;192x192&quot;</span>,</span><br><span class="line">      <span class="string">&quot;type&quot;</span>: <span class="string">&quot;image/png&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;src&quot;</span>: <span class="string">&quot;https://abs.twimg.com/responsive-web/web/ltr/icon-default.604e2486a34a2f6e.png&quot;</span>,</span><br><span class="line">      <span class="string">&quot;sizes&quot;</span>: <span class="string">&quot;512x512&quot;</span>,</span><br><span class="line">      <span class="string">&quot;type&quot;</span>: <span class="string">&quot;image/png&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Twitter&quot;</span>,</span><br><span class="line">  <span class="string">&quot;share_target&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;action&quot;</span>: <span class="string">&quot;compose/tweet&quot;</span>,</span><br><span class="line">    <span class="string">&quot;params&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;title&quot;</span>: <span class="string">&quot;title&quot;</span>,</span><br><span class="line">      <span class="string">&quot;text&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">      <span class="string">&quot;url&quot;</span>: <span class="string">&quot;url&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;short_name&quot;</span>: <span class="string">&quot;Twitter&quot;</span>,</span><br><span class="line">  <span class="string">&quot;start_url&quot;</span>: <span class="string">&quot;/&quot;</span>,</span><br><span class="line">  <span class="string">&quot;theme_color&quot;</span>: <span class="string">&quot;#ffffff&quot;</span>,</span><br><span class="line">  <span class="string">&quot;scope&quot;</span>: <span class="string">&quot;/&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後則是 <a target="_blank" rel="noopener" href="https://events.google.com/io">Google I&#x2F;O 2018</a>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Google I/O 2018&quot;</span>,</span><br><span class="line">  <span class="string">&quot;short_name&quot;</span>: <span class="string">&quot;I/O 2018&quot;</span>,</span><br><span class="line">  <span class="string">&quot;start_url&quot;</span>: <span class="string">&quot;./?utm_source=web_app_manifest&quot;</span>,</span><br><span class="line">  <span class="string">&quot;display&quot;</span>: <span class="string">&quot;standalone&quot;</span>,</span><br><span class="line">  <span class="string">&quot;theme_color&quot;</span>: <span class="string">&quot;#6284F3&quot;</span>,</span><br><span class="line">  <span class="string">&quot;background_color&quot;</span>: <span class="string">&quot;#6284F3&quot;</span>,</span><br><span class="line">  <span class="string">&quot;icons&quot;</span>: [&#123;</span><br><span class="line">    <span class="string">&quot;src&quot;</span>: <span class="string">&quot;static/images/homescreen/homescreen57.png&quot;</span>,</span><br><span class="line">    <span class="string">&quot;sizes&quot;</span>: <span class="string">&quot;57x57&quot;</span>,</span><br><span class="line">    <span class="string">&quot;type&quot;</span>: <span class="string">&quot;image/png&quot;</span></span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    <span class="string">&quot;src&quot;</span>: <span class="string">&quot;static/images/homescreen/homescreen114.png&quot;</span>,</span><br><span class="line">    <span class="string">&quot;sizes&quot;</span>: <span class="string">&quot;114x114&quot;</span>,</span><br><span class="line">    <span class="string">&quot;type&quot;</span>: <span class="string">&quot;image/png&quot;</span></span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    <span class="string">&quot;src&quot;</span>: <span class="string">&quot;static/images/homescreen/homescreen128.png&quot;</span>,</span><br><span class="line">    <span class="string">&quot;sizes&quot;</span>: <span class="string">&quot;128x128&quot;</span>,</span><br><span class="line">    <span class="string">&quot;type&quot;</span>: <span class="string">&quot;image/png&quot;</span></span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    <span class="string">&quot;src&quot;</span>: <span class="string">&quot;static/images/homescreen/homescreen144.png&quot;</span>,</span><br><span class="line">    <span class="string">&quot;sizes&quot;</span>: <span class="string">&quot;144x144&quot;</span>,</span><br><span class="line">    <span class="string">&quot;type&quot;</span>: <span class="string">&quot;image/png&quot;</span></span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    <span class="string">&quot;src&quot;</span>: <span class="string">&quot;static/images/homescreen/homescreen192.png&quot;</span>,</span><br><span class="line">    <span class="string">&quot;sizes&quot;</span>: <span class="string">&quot;192x192&quot;</span>,</span><br><span class="line">    <span class="string">&quot;type&quot;</span>: <span class="string">&quot;image/png&quot;</span></span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    <span class="string">&quot;src&quot;</span>: <span class="string">&quot;static/images/homescreen/homescreen512.png&quot;</span>,</span><br><span class="line">    <span class="string">&quot;sizes&quot;</span>: <span class="string">&quot;512x512&quot;</span>,</span><br><span class="line">    <span class="string">&quot;type&quot;</span>: <span class="string">&quot;image/png&quot;</span></span><br><span class="line">  &#125;],</span><br><span class="line">  <span class="string">&quot;prefer_related_applications&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="string">&quot;related_applications&quot;</span>: [&#123;</span><br><span class="line">    <span class="string">&quot;platform&quot;</span>: <span class="string">&quot;play&quot;</span>,</span><br><span class="line">    <span class="string">&quot;id&quot;</span>: <span class="string">&quot;com.google.samples.apps.iosched&quot;</span></span><br><span class="line">  &#125;],</span><br><span class="line">  <span class="string">&quot;gcm_sender_id&quot;</span>: <span class="string">&quot;103953800507&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我滿喜歡觀察別人家的這些東西，因為你會發現很多你查資料時遺漏或是根本找不到的資訊，而且這些看久了你也會有個概念，知道哪些屬性特別常用，除了<code>manifest.json</code>以外，也可以參考 html 裡面的 tag，一樣能學習到很多。</p>
+<h1 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h1><p>前陣子在與 PWA 奮戰以及被 PM 的夾擊之下，搜集了很多跟 PWA 有關的資料，也參考了許多很有用的文章，真心感謝那些前輩們的分享，才能避免後人踩一大堆坑。</p>
+<p>雖然在 iOS 上的體驗差了點，但整體來說我還是很看好 PWA 的發展，第一個是 Google 強力推動，第二個是瀏覽器的支援度愈來愈高，就像我上面說的，iOS Safari 已經有慢慢把 Bug 給修掉了，之後的功能會比較完整一些。</p>
+<p>再者，PWA 的使用者體驗是很不錯的，有可以接受的速度以及 Web 的彈性，重點是不用去 Google Play 特地下載就少了一道轉換的門檻（雖然還是有安裝 PWA 的門檻就是了，但我覺得比較容易一些），而 Chrome 也提供了許多機制給 PWA，希望使用者能安裝 PWA 在手機上。</p>
+<p>總之呢，這篇主要是跟大家分享我在做 PWA 時候的一些小小心得，如果你也有什麼心得歡迎在底下留言跟我分享，感謝。</p>
+<p>延伸閱讀與參考資料：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://developers.google.com/web/updates/2018/06/a2hs-updates">Changes to Add to Home Screen Behavior</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@applification/progressive-web-app-splash-screens-80340b45d210">Progressive Web App Splash Screens</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.netguru.co/codestories/few-tips-that-will-make-your-pwa-on-ios-feel-like-native">Few Tips That Will Make Your PWA on iOS Feel Like Native</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@firt/pwas-are-coming-to-ios-11-3-cupertino-we-have-a-problem-2ff49fd7d6ea">PWAs are coming to iOS 11.3: Cupertino, we have a problem</a></li>
+<li><a href="https://blog.techbridge.cc/2016/07/23/progressive-web-app/">Progressive Web App 會是未來趨勢嗎？</a></li>
+<li><a target="_blank" rel="noopener" href="https://developers.google.com/web/showcase/">PWA case studies</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/dev-channel/a-pinterest-progressive-web-app-performance-case-study-3bd6ed2e6154">A Pinterest Progressive Web App Performance Case Study</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://huli.logdown.com/">@huli</a> 野生工程師，相信分享與交流能讓世界變得更美好</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2018/10/13/pwa-in-action/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2018/10/13/pwa-in-action/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2018/10/13/pwa-in-action/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2018/10/13/pwa-in-action/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2018/10/20/flip-your-animation/">
+        ← FLIP 技巧總複習
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2018/10/12/google-cloud-source-repositories-record/">
+        Google Cloud Source Repositories 使用紀錄 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

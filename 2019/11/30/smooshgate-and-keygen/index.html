@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Don’t break the Web：以 SmooshGate 以及 keygen 為例 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-11-30T19:49:03.000Z" itemprop="datePublished">
+          2019-11-30
+      </time>
+    
+    
+    | 
+    <a href='/tags/Web/'>Web</a>
+    
+    
+</span>
+
+<meta name="generator" content="Don’t break the Web：以 SmooshGate 以及 keygen 為例">
+<meta name="og:title" content="Don’t break the Web：以 SmooshGate 以及 keygen 為例">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Don’t break the Web：以 SmooshGate 以及 keygen 為例</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近 YDKJS（You Don’t Know JS 的縮寫，中譯版翻成：你所不知道的JS）有了第二版，名叫 <a target="_blank" rel="noopener" href="https://twitter.com/ydkjsy">YDKJSY</a>，Y 是 Yet 的意思（中文版可能可以翻叫：你還是不知道的 JS）。這個第二版還沒全部完成，但在 <a target="_blank" rel="noopener" href="https://github.com/getify/You-Dont-Know-JS">GitHub</a> 上面已經公開了最前面的一些章節。</p>
+<p>搶先讀了一下第一章，在講與 JS 相關的歷史，其中提到一段讓我很感興趣的議題：</p>
+<blockquote>
+<p> As such, sometimes the JS engines will refuse to conform to a specification-dictated change because it would break that web content.</p>
+</blockquote>
+<blockquote>
+<p>In these cases, often TC39 will backtrack and simply choose to conform the specification to the reality of the web. For example, TC39 planned to add a contains(..) method for Arrays, but it was found that this name conflicted with old JS frameworks still in use on some sites, so they changed the name to a non-conflicting includes(..). The same happened with a comedic&#x2F;tragic JS community crisis dubbed “smooshgate”, where the planned flatten(..) method was eventually renamed flat(..).</p>
+</blockquote>
+<p>大意是在說有時候 JS 的規格必須跟現實（已經存在的那些舊的實作）妥協。例如說原本 Array 要加上一個叫做 contains 的 method，但因為會有問題所以改叫 includes，flatten 也改名叫做 flat。</p>
+<p>還有一個上面特別標起來的詞「smooshgate」，用這個當關鍵字去找才發現是去年三月左右發生的事件，至於發生了什麼，底下會詳述，跟上面提的 flatten 有關。看到有這件事的時候我第一個反應是：「咦，我怎麼什麼都不知道？」，查了一下繁體中文的資料，大概也只有這篇有提到：<a target="_blank" rel="noopener" href="https://blog.othree.net/log/2018/05/28/smooshgate/">SmooshGate</a>，以及<a target="_blank" rel="noopener" href="https://medium.com/@liuderchi/%E7%AD%86%E8%A8%98-3-%E7%A8%AE-javascript-%E7%89%A9%E4%BB%B6%E5%B1%AC%E6%80%A7%E7%9A%84%E7%89%B9%E6%80%A7-3b982f4c5695">[筆記] 3 種 JavaScript 物件屬性的特性</a>這篇有擦到邊而已。</p>
+<p>在仔細研究了一下事情的來龍去脈之後，覺得是個滿有趣的議題，因此寫了這篇跟大家分享。</p>
+<span id="more"></span>
+
+<h2 id="SmooshGate-事件"><a href="#SmooshGate-事件" class="headerlink" title="SmooshGate 事件"></a>SmooshGate 事件</h2><p>有關這個事件以及這篇文章的靈感，大多數來自於：<a target="_blank" rel="noopener" href="https://developers.google.com/web/updates/2018/03/smooshgate">#SmooshGate FAQ</a> 這篇文章，裡面其實解釋得很好，建議大家可以去看這篇。</p>
+<p>但懶得看也沒關係，底下我簡單講一下事情的來龍去脈。</p>
+<p>有一個組織叫做 TC39，全名為 Technical Committee 39，第 39 號技術委員會，負責與 ECMAScript 規範相關的事項，例如說決定哪些提案可以過關之類的，而最後那些提案就會被納入新的 ECMAScript 標準之中。</p>
+<p>提案一共分成五個 stage，從 stage0 到 stage4，詳情我就不多說明了，可以參考 <a target="_blank" rel="noopener" href="https://github.com/tc39/how-we-work/blob/master/champion.md">Championing a proposal at TC39</a> 或是 <a target="_blank" rel="noopener" href="https://tc39.es/process-document/">The TC39 Process</a>。</p>
+<p>TC39 之前有一個提案是 <a target="_blank" rel="noopener" href="https://github.com/tc39/proposal-flatMap">Array.prototype.{flatten,flatMap}</a>（flatten 現在已經改為 flat）。</p>
+<p>這邊先幫不清楚什麼是 flatten 的讀者簡單介紹一下它的功用，簡單來說就是把巢狀的東西攤平。</p>
+<p>例如說底下範例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, [<span class="number">3</span>], [<span class="number">4</span>], [<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]]</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(arr.<span class="title function_">flatten</span>()) <span class="comment">// [1, 2, 3, 4, 5, 6, 7]</span></span><br></pre></td></tr></table></figure>
+
+<p>原本巢狀的陣列會被攤平，這就是 flatten 的意思，跟 lodash 裡面的 <a target="_blank" rel="noopener" href="https://lodash.com/docs/4.17.15#flatten">flatten</a> 是差不多的。</p>
+<p>詳細的使用方法可以參考 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/flat">MDN</a>，就只是多了一個參數 depth 可以讓你指定展開的深度。</p>
+<p>而 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap">flatMap</a> 就是先 map 之後再 flat，熟悉 RxJS 的朋友們應該會感到滿親切的（在 RxJS 裡面又稱作 mergeMap，而且 mergeMap 比較常用，有興趣的朋友也可以參考這篇：<a target="_blank" rel="noopener" href="https://github.com/tc39/proposal-flatMap/issues/60">concatAll and concatMap rather than flatten and flatMap</a>）。</p>
+<p>好，這個提案看似很不錯，但到底會有什麼問題呢？</p>
+<p>問題就出在一個前端新鮮人可能沒聽過的工具：<a target="_blank" rel="noopener" href="https://mootools.net/">MooTools</a>，而我也只有聽過而已，完全沒用過。想要快速知道它可以幹嘛的，請看這篇十年前的比較文：<a target="_blank" rel="noopener" href="http://www.jqueryvsmootools.com/index_cn.html">jQuery vs MooTools</a>。</p>
+<p>在 MooTools 裡面，他們定義了自己的 flatten method，在 code 裡面做了類似下面的事：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">flatten</span> = <span class="comment">/* ... */</span>;</span><br></pre></td></tr></table></figure>
+
+<p>這聽起來沒什麼問題，因為就算 flatten 正式列入標準並且變成原生的 method，也只是把它覆蓋掉而已，沒事兒沒事兒。</p>
+<p>但麻煩的事情是，MooTools 還有一段 code 是把 Array 的 method 都複製到 Elements（MooTools 自定義的 API）上面去：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>) &#123;</span><br><span class="line">  <span class="title class_">Elements</span>.<span class="property"><span class="keyword">prototype</span></span>[key] = <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>[key];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>for…in 這個語法會遍歷所有可列舉的（enumerable）屬性，而原生的 method 並不包含在裡面。</p>
+<p>例如說在 Chrome devtool 的 console 執行以下這段 code：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(key)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>會發現什麼都沒有印出來。</p>
+<p>但如果你加上了幾個自定義的屬性之後：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">foo</span> = <span class="number">123</span></span><br><span class="line"><span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">sort</span> = <span class="number">456</span></span><br><span class="line"><span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">you_can_see_me</span> = <span class="number">789</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> <span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(key) <span class="comment">// foo, you_can_see_me</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>會發現只有自定義的屬性會是 enumerable 的，而原生的方法你就算覆寫，也還是不會變成 enumerable。</p>
+<p>那問題是什麼呢？問題就出在當 flatten 還沒正式變成 Array 的 method 時，它就只是一個 MooTools 自定義的屬性，是 enumerable 的，所以會被複製到 Elements 去。但是當 flatten 納入標準並且被瀏覽器正式支援以後，flatten 就不是 enumerable 的了。</p>
+<p>意思就是，<code>Elements.prototype.flatten</code> 就會變成 undefined，所有使用到這個 method 的 code 都會掛掉。</p>
+<p>此時天真的你可能會想說：「那就把 flatten 變成 enumerable 的吧！」，但這樣搞不好會產生更多問題，因為一堆舊的 for…in 就會突然多出一個 flatten 的屬性，很有可能會造成其他的 bug。</p>
+<p>當初發現這個 bug 的討論串可以看這裡：<a target="_blank" rel="noopener" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1443630">Implementing array.prototype.flatten broke MooTools’ version of it.</a></p>
+<p>確認有了這個問題以後，大家就開始討論要把 flatten 換成什麼詞，有人在 Issues 裡面提議說：<a target="_blank" rel="noopener" href="https://github.com/tc39/proposal-flatMap/pull/56">rename flatten to smoosh</a>，引起了廣大討論，也就是 #SmooshGate 事件的起源。除了討論改名以外，也有人認為乾脆就讓那些網站壞掉好了。</p>
+<p>smoosh 這個字其實跟 flatten 或是其他人提議的 squash 差不多，都有把東西弄平的意思在，不過這個字實在是非常少見，聽到這事件以前我也完全沒聽過這個單字。不過這個提議其實從來沒有正式被 TC39 討論過就是了。</p>
+<p>TC39 在 2018 年 5 月的會議上，正式把 flatten 改成 flat，結束了這個事件。</p>
+<p>這個提案的時間軸大概是這樣：</p>
+<ol>
+<li>2017 年 7 月：stage 0</li>
+<li>2017 年 7 月：stage 1</li>
+<li>2017 年 9 月：stage 2</li>
+<li>2017 年 11 月：stage 3</li>
+<li>2018 年 3 月：發現 flatten 會讓 MooTools 壞掉</li>
+<li>2018 年 3 月：有人提議改名為 smoosh</li>
+<li>2018 年 5 月：flatten 改名為 flat</li>
+<li>2019 年 1 月：stage 4</li>
+</ol>
+<p>我因為好奇去找了 V8 的 commit 來看，V8 是在 2018 年 3 月的時候實作這個功能的：<a target="_blank" rel="noopener" href="https://github.com/v8/v8/commit/697d39abff90510523f297bb8577d5c64322229f">[esnext] Implement Array.prototype.{flatten,flatMap}</a>，其中我覺得最值得大家學習的其實是測試的部分：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> elements = <span class="keyword">new</span> <span class="title class_">Set</span>([</span><br><span class="line">  -<span class="title class_">Infinity</span>,</span><br><span class="line">  -<span class="number">1</span>,</span><br><span class="line">  -<span class="number">0</span>,</span><br><span class="line">  +<span class="number">0</span>,</span><br><span class="line">  +<span class="number">1</span>,</span><br><span class="line">  <span class="title class_">Infinity</span>,</span><br><span class="line">  <span class="literal">null</span>,</span><br><span class="line">  <span class="literal">undefined</span>,</span><br><span class="line">  <span class="literal">true</span>,</span><br><span class="line">  <span class="literal">false</span>,</span><br><span class="line">  <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;foo&#x27;</span>,</span><br><span class="line">  <span class="regexp">/./</span>,</span><br><span class="line">  [],</span><br><span class="line">  &#123;&#125;,</span><br><span class="line">  <span class="title class_">Object</span>.<span class="title function_">create</span>(<span class="literal">null</span>),</span><br><span class="line">  <span class="keyword">new</span> <span class="title class_">Proxy</span>(&#123;&#125;, &#123;&#125;),</span><br><span class="line">  <span class="title class_">Symbol</span>(),</span><br><span class="line">  <span class="function"><span class="params">x</span> =&gt;</span> x ** <span class="number">2</span>,</span><br><span class="line">  <span class="title class_">String</span></span><br><span class="line">]);</span><br><span class="line">  </span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> value <span class="keyword">of</span> elements) &#123;</span><br><span class="line">  <span class="title function_">assertEquals</span>(</span><br><span class="line">    [value].<span class="title function_">flatMap</span>(<span class="function">(<span class="params">element</span>) =&gt;</span> [element, element]),</span><br><span class="line">    [value, value]</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>直接丟了各種奇形怪狀的東西進去測。</p>
+<p>在 flatten 改名為 flat 的隔天，V8 也立刻做出修正：<a target="_blank" rel="noopener" href="https://github.com/v8/v8/commit/72f1abfbec0b8c798bc4cf150c774b5411d522ae">[esnext] Rename <code>Array#flatten</code> to <code>flat</code></a>。</p>
+<p>簡單總結一下，總之 #SmooshGate 事件就是：</p>
+<ol>
+<li>有人提議新的 method：<code>Array.prototype.flatten</code></li>
+<li>發現會讓 MooTools 壞掉，因此要改名</li>
+<li>有人提議改名 smoosh，也有人覺得不該改名，引起一番討論</li>
+<li>TC39 決議改成 flat，事情落幕</li>
+</ol>
+<p>其中的第二點可能有些人會很疑惑，想說 MooTools 都是這麼古早的東西了，為什麼不直接讓它壞掉就好，反正都是一些老舊的網站了。</p>
+<p>這就要談論到制定 Web 相關標準時的原則了：Don’t break the web。</p>
+<h2 id="Don’t-break-the-Web"><a href="#Don’t-break-the-Web" class="headerlink" title="Don’t break the Web"></a>Don’t break the Web</h2><p>這個網站：<a target="_blank" rel="noopener" href="https://www.spacejam.com/archive/spacejam/movie/jam.htm">Space Jam</a> 過了 22 年，依舊可以順利執行，就是因為在制定網頁相關新標準時都會注意到「Don’t break the Web」這個大原則。</p>
+<p>仔細想想，好像會發現 Web 的領域沒有什麼 breaking change，你以前可以用的 JS 語法現在還是可以用，只是多了一些新的東西，而不是把舊的東西改掉或者是拿掉。</p>
+<p>因為一旦出現 breaking change，就可能會有網站遭殃，像是出現 bug 甚至是整個壞掉。其實有很多網站好幾年都沒有在維護了，但我們也不應該讓它就這樣壞掉。如果今天制定新標準時有了 breaking change，最後吃虧的還是使用者，使用者只會知道網站壞了，卻不知道是為什麼壞掉。</p>
+<p>所以在 SmooshGate 事件的選擇上，比起「flatten 就是最符合語義，讓那些使用 MooTools 的老舊網站壞掉有什麼關係！」，TC39 最終選擇了「把 flatten 改一下名字就好，雖然不是最理想的命名，但我們不能讓那些網頁壞掉」。</p>
+<p>不過話雖如此，這不代表糟糕的設計一旦出現以後，就完全沒有辦法被移除。</p>
+<p>事實上，有些東西就悄悄地被移除掉了，但因為這些東西太過冷門所以你我可能都沒注意到。</p>
+<p><a target="_blank" rel="noopener" href="https://whatwg.org/faq#removing-bad-ideas">WHATWG 的 FAQ</a> 有寫到：</p>
+<blockquote>
+<p>That said, we do sometimes remove things from the platform! This is usually a very tricky effort, involving the coordination among multiple implementations and extensive telemetry to quantify how many web pages would have their behavior changed. But when the feature is sufficiently insecure, harmful to users, or is used very rarely, this can be done. And once implementers have agreed to remove the feature from their browsers, we can work together to remove it from the standard.</p>
+</blockquote>
+<p>底下有提到了兩個範例：<code>&lt;applet&gt;</code> 與 <code>&lt;keygen&gt;</code>。</p>
+<p>也是因為好奇，所以我又去找了一些相關資料來看。</p>
+<h2 id="被淘汰的-HTML-標籤"><a href="#被淘汰的-HTML-標籤" class="headerlink" title="被淘汰的 HTML 標籤"></a>被淘汰的 HTML 標籤</h2><p>有聽過<code>&lt;keygen&gt;</code>這個標籤的請舉手一下？舉手的人麻煩大家幫他們鼓鼓掌，你很厲害，封你為冷門 HTML 標籤之王。</p>
+<p>我就算看了 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/keygen">MDN</a> 上面的範例，也沒有很清楚這個標籤在幹嘛。只知道這是一個可以用在表單裡的標籤，人如其名，是用來產生與憑證相關的 key 用的。</p>
+<p>從 MDN 給的資料 <a target="_blank" rel="noopener" href="https://html.spec.whatwg.org/multipage/obsolete.html#non-conforming-features">Non-conforming features</a> 裡面，我們可以進一步找到其他也被淘汰的標籤，例如說：</p>
+<ol>
+<li>applet</li>
+<li>acronym</li>
+<li>bgsound</li>
+<li>dir</li>
+<li>isindex</li>
+<li>keygen</li>
+<li>nextid</li>
+</ol>
+<p>不過被標示為 obsolete 不代表就沒有作用，應該只是說明你不該再使用這些標籤，因為我猜根據 don’t break the web 的原則，裡面有些標籤還是可以正常運作，例如說小時候很愛用的跑馬燈 marquee 也在 Non-conforming features 裡面。 </p>
+<p>在另外一份 <a target="_blank" rel="noopener" href="https://html.spec.whatwg.org/multipage/dom.html#elements-in-the-dom">DOM 相關的標準</a>當中，有說明了該如何處理 HTML 的 tag，我猜這些才是真的被淘汰而且沒作用的標籤：</p>
+<blockquote>
+<p>If name is applet, bgsound, blink, isindex, keygen, multicol, nextid, or spacer, then return HTMLUnknownElement.</p>
+</blockquote>
+<p>如果你拿這些標籤到 Chrome 上面去試，例如說這樣：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bgsound</span>&gt;</span>123<span class="tag">&lt;/<span class="name">bgsound</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">isindex</span>&gt;</span>123<span class="tag">&lt;/<span class="name">isindex</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">multicol</span>&gt;</span>123<span class="tag">&lt;/<span class="name">multicol</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">foo</span>&gt;</span>123<span class="tag">&lt;/<span class="name">foo</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>就會發現表現起來跟<code>&lt;span&gt;</code>差不多，猜測 Chrome 應該會把這些不認識的 tag 當作 span 來看待。</p>
+<p>再來因為好奇，所以也去找了一下 chromium 裡相關的程式碼，我以前都是直接在 GitHub 上面去搜尋 code 的內容，但因為這次要搜的關鍵字重複性太高，因此改成搜 commit message。這個時候就完全突顯 commit message 的重要性了，發現 chromium 的 commit message 寫得滿好的。</p>
+<p>例如說這個 commit：<a target="_blank" rel="noopener" href="https://github.com/chromium/chromium/commit/dfd5125a0002df42aa6c6133b3aa591953880f4e">Remove support for the obsolete <isindex> tag.</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">This patch removes all special-casing for the &lt;isindex&gt; tag; it</span><br><span class="line">now behaves exactly like &lt;foo&gt; in all respects. This additionally</span><br><span class="line">means that we can remove the special-casing for forms containing</span><br><span class="line">&lt;input name=&quot;isindex&quot;&gt; as their first element.</span><br><span class="line">  </span><br><span class="line">The various tests for &lt;isindex&gt; have been deleted, with the</span><br><span class="line">exception of the imported HTML5Lib tests. It&#x27;s not clear that</span><br><span class="line">we should send them patches to remove the &lt;isindex&gt; tests, at</span><br><span class="line">least not while the element is (an obsolete) part of HTML5, and</span><br><span class="line">supported by other vendors.</span><br><span class="line">  </span><br><span class="line">I&#x27;ve just landed failing test results here. That seems like</span><br><span class="line">the right thing to do.</span><br><span class="line">  </span><br><span class="line">&quot;Intent to Remove&quot; discussion: https://groups.google.com/a/chromium.org/d/msg/blink-dev/14q_I06gwg8/0a3JI0kjbC0J</span><br></pre></td></tr></table></figure>
+
+<p>有附上當初的討論串，資訊給的很詳細。而 code 的改動除了測試的部分以外，就是把有關這個 tag 的地方都刪掉，當作是一個不認識的 tag，所以 message 才會說：「it now behaves exactly like <code>&lt;foo&gt;</code> in all respects.」</p>
+<p>再來我們看另外一個 commit：<a target="_blank" rel="noopener" href="https://github.com/chromium/chromium/commit/5d916f6c6b47472770e03cb483f06a18ca79a0c2">Remove support for the keygen tag</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">This removes support for &lt;keygen&gt; by updating it</span><br><span class="line">to be an HTMLUnknownElement. As a result, it&#x27;s</span><br><span class="line">no longer a form-associated element and no</span><br><span class="line">longer has IDL-assigned properties.</span><br><span class="line">  </span><br><span class="line">The &lt;keygen&gt; tag is still left in the parser,</span><br><span class="line">similar to &lt;applet&gt;, so that it maintains the</span><br><span class="line">document parse behaviours (such as self-closing),</span><br><span class="line">but is otherwise a neutered element.</span><br><span class="line">  </span><br><span class="line">Tests that were relying on &lt;keygen&gt; having its</span><br><span class="line">own browser-created shadow root (for its custom</span><br><span class="line">select element) have been updated to use</span><br><span class="line">progress bars, while other tests (such as</span><br><span class="line">&lt;keygen&gt;-related crash tests) have been</span><br><span class="line">fully removed.</span><br><span class="line">  </span><br><span class="line">As Blink no longer treats this tag as special,</span><br><span class="line">all the related IPC infrastructure is removed,</span><br><span class="line">including preferences and enterprise flags,</span><br><span class="line">and all localized strings, as they&#x27;re all now</span><br><span class="line">unreachable.</span><br><span class="line">  </span><br><span class="line">This concludes the &quot;Intent to Remove&quot; thread</span><br><span class="line">for &lt;keygen&gt; at</span><br><span class="line">https://groups.google.com/a/chromium.org/d/msg/blink-dev/z_qEpmzzKh8/BH-lkwdgBAAJ</span><br></pre></td></tr></table></figure>
+
+<p>因為<code>&lt;keygen&gt;</code>這個 tag 原本的處理就比較複雜，比起剛剛的<code>&lt;isindex&gt;</code>，改動的檔案多了很多，看起來是把相關的東西全部都拿掉了。</p>
+<p>最後來看這一個：<a target="_blank" rel="noopener" href="https://github.com/chromium/chromium/commit/98bc944d07152ab42d41eca79de79c207f7f0f29">bgsound must use the HTMLUnknownElement interface</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">As specified here:</span><br><span class="line">https://html.spec.whatwg.org/#bgsound</span><br><span class="line">  </span><br><span class="line">This causes one less fail on:</span><br><span class="line">http://w3c-test.org/html/semantics/interfaces.html</span><br></pre></td></tr></table></figure>
+
+<p>裡面給的測試連結：<a target="_blank" rel="noopener" href="http://w3c-test.org/html/semantics/interfaces.html">Test of interfaces</a> 滿有趣的，會去測試一大堆元素的 interface 是不是正確的，在 <a target="_blank" rel="noopener" href="http://w3c-test.org/html/semantics/interfaces.js">interfaces.js</a> 裡面可以看到它測試的列表：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> elements = [</span><br><span class="line">  [<span class="string">&quot;a&quot;</span>, <span class="string">&quot;Anchor&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;abbr&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;acronym&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;address&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;applet&quot;</span>, <span class="string">&quot;Unknown&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;area&quot;</span>, <span class="string">&quot;Area&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;article&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;aside&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;audio&quot;</span>, <span class="string">&quot;Audio&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;b&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;base&quot;</span>, <span class="string">&quot;Base&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;basefont&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;bdi&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;bdo&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;bgsound&quot;</span>, <span class="string">&quot;Unknown&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;big&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;blink&quot;</span>, <span class="string">&quot;Unknown&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;blockquote&quot;</span>, <span class="string">&quot;Quote&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;body&quot;</span>, <span class="string">&quot;Body&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;br&quot;</span>, <span class="string">&quot;BR&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;button&quot;</span>, <span class="string">&quot;Button&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;canvas&quot;</span>, <span class="string">&quot;Canvas&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;caption&quot;</span>, <span class="string">&quot;TableCaption&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;center&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;cite&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;code&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;col&quot;</span>, <span class="string">&quot;TableCol&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;colgroup&quot;</span>, <span class="string">&quot;TableCol&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;command&quot;</span>, <span class="string">&quot;Unknown&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;data&quot;</span>, <span class="string">&quot;Data&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;datalist&quot;</span>, <span class="string">&quot;DataList&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;dd&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;del&quot;</span>, <span class="string">&quot;Mod&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;details&quot;</span>, <span class="string">&quot;Details&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;dfn&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;dialog&quot;</span>, <span class="string">&quot;Dialog&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;dir&quot;</span>, <span class="string">&quot;Directory&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;directory&quot;</span>, <span class="string">&quot;Unknown&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;div&quot;</span>, <span class="string">&quot;Div&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;dl&quot;</span>, <span class="string">&quot;DList&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;dt&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;em&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;embed&quot;</span>, <span class="string">&quot;Embed&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;fieldset&quot;</span>, <span class="string">&quot;FieldSet&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;figcaption&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;figure&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;font&quot;</span>, <span class="string">&quot;Font&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;foo-BAR&quot;</span>, <span class="string">&quot;Unknown&quot;</span>], <span class="comment">// not a valid custom element name</span></span><br><span class="line">  [<span class="string">&quot;foo-bar&quot;</span>, <span class="string">&quot;&quot;</span>], <span class="comment">// valid custom element name</span></span><br><span class="line">  [<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;Unknown&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;footer&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;form&quot;</span>, <span class="string">&quot;Form&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;frame&quot;</span>, <span class="string">&quot;Frame&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;frameset&quot;</span>, <span class="string">&quot;FrameSet&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;h1&quot;</span>, <span class="string">&quot;Heading&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;h2&quot;</span>, <span class="string">&quot;Heading&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;h3&quot;</span>, <span class="string">&quot;Heading&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;h4&quot;</span>, <span class="string">&quot;Heading&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;h5&quot;</span>, <span class="string">&quot;Heading&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;h6&quot;</span>, <span class="string">&quot;Heading&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;head&quot;</span>, <span class="string">&quot;Head&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;header&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;hgroup&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;hr&quot;</span>, <span class="string">&quot;HR&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;html&quot;</span>, <span class="string">&quot;Html&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;i&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;iframe&quot;</span>, <span class="string">&quot;IFrame&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;image&quot;</span>, <span class="string">&quot;Unknown&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;img&quot;</span>, <span class="string">&quot;Image&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;input&quot;</span>, <span class="string">&quot;Input&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;ins&quot;</span>, <span class="string">&quot;Mod&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;isindex&quot;</span>, <span class="string">&quot;Unknown&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;kbd&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;keygen&quot;</span>, <span class="string">&quot;Unknown&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;label&quot;</span>, <span class="string">&quot;Label&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;legend&quot;</span>, <span class="string">&quot;Legend&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;li&quot;</span>, <span class="string">&quot;LI&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;link&quot;</span>, <span class="string">&quot;Link&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;listing&quot;</span>, <span class="string">&quot;Pre&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;main&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;map&quot;</span>, <span class="string">&quot;Map&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;mark&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;marquee&quot;</span>, <span class="string">&quot;Marquee&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;menu&quot;</span>, <span class="string">&quot;Menu&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;meta&quot;</span>, <span class="string">&quot;Meta&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;meter&quot;</span>, <span class="string">&quot;Meter&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;mod&quot;</span>, <span class="string">&quot;Unknown&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;multicol&quot;</span>, <span class="string">&quot;Unknown&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;nav&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;nextid&quot;</span>, <span class="string">&quot;Unknown&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;nobr&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;noembed&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;noframes&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;noscript&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;object&quot;</span>, <span class="string">&quot;Object&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;ol&quot;</span>, <span class="string">&quot;OList&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;optgroup&quot;</span>, <span class="string">&quot;OptGroup&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;option&quot;</span>, <span class="string">&quot;Option&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;output&quot;</span>, <span class="string">&quot;Output&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;p&quot;</span>, <span class="string">&quot;Paragraph&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;param&quot;</span>, <span class="string">&quot;Param&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;picture&quot;</span>, <span class="string">&quot;Picture&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;plaintext&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;pre&quot;</span>, <span class="string">&quot;Pre&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;progress&quot;</span>, <span class="string">&quot;Progress&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;q&quot;</span>, <span class="string">&quot;Quote&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;quasit&quot;</span>, <span class="string">&quot;Unknown&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;rb&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;rp&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;rt&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;rtc&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;ruby&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;s&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;samp&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;script&quot;</span>, <span class="string">&quot;Script&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;section&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;select&quot;</span>, <span class="string">&quot;Select&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;slot&quot;</span>, <span class="string">&quot;Slot&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;small&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;source&quot;</span>, <span class="string">&quot;Source&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;spacer&quot;</span>, <span class="string">&quot;Unknown&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;span&quot;</span>, <span class="string">&quot;Span&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;strike&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;strong&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;style&quot;</span>, <span class="string">&quot;Style&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;sub&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;summary&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;sup&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;table&quot;</span>, <span class="string">&quot;Table&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;tbody&quot;</span>, <span class="string">&quot;TableSection&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;td&quot;</span>, <span class="string">&quot;TableCell&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;textarea&quot;</span>, <span class="string">&quot;TextArea&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;tfoot&quot;</span>, <span class="string">&quot;TableSection&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;th&quot;</span>, <span class="string">&quot;TableCell&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;thead&quot;</span>, <span class="string">&quot;TableSection&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;time&quot;</span>, <span class="string">&quot;Time&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;title&quot;</span>, <span class="string">&quot;Title&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;tr&quot;</span>, <span class="string">&quot;TableRow&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;track&quot;</span>, <span class="string">&quot;Track&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;tt&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;u&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;ul&quot;</span>, <span class="string">&quot;UList&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;var&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;video&quot;</span>, <span class="string">&quot;Video&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;wbr&quot;</span>, <span class="string">&quot;&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;xmp&quot;</span>, <span class="string">&quot;Pre&quot;</span>],</span><br><span class="line">  [<span class="string">&quot;\u00E5-bar&quot;</span>, <span class="string">&quot;Unknown&quot;</span>], <span class="comment">// not a valid custom element name</span></span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>像是 applet、bgsound、blink 等等這些元素，就應該回傳 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-TW/docs/Web/API/HTMLUnknownElement">HTMLUnknownElement</a>。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>這一趟旅程一樣收穫滿滿，從一個議題持續向外延伸，就能挖到更多有趣的東西。</p>
+<p>例如說我們從 SmooshGate 事件，學到了 TC39 的運作流程、flatten 壞掉的原因以及 V8 當初實作 flatten 的 commit 還有學到怎麼寫測試。也學習到了 don’t break the web 的原則，再從這個原則去看了 HTML 的規格，看到了那些被淘汰的 tag，最後去看了在 chromium 裡面怎麼做處理。</p>
+<p>制定規格的人要注重的層面以及要考慮的問題真的很多，因為一旦做下去，就很難再回頭了；規格書也要寫得清楚又明白，而且不能有錯誤。</p>
+<p>真心佩服那些制定標準的人。</p>
+<p>參考資料：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/get-started/ch1.md">You Don’t Know JS Yet: Get Started - 2nd Edition Chapter 1: What Is JavaScript?</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.othree.net/log/2018/05/28/smooshgate/">SmooshGate</a></li>
+<li><a target="_blank" rel="noopener" href="https://developers.google.com/web/updates/2018/03/smooshgate">#SmooshGate FAQ</a></li>
+<li><a target="_blank" rel="noopener" href="https://html.spec.whatwg.org/multipage/obsolete.html#non-conforming-features">Non-conforming features</a></li>
+<li><a target="_blank" rel="noopener" href="https://html.spec.whatwg.org/multipage/dom.html#elements-in-the-dom">3.2.2 Elements in the DOM</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="https://blog.huli.tw/">@huli</a> 野生工程師，相信分享與交流能讓世界變得更美好</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/11/30/smooshgate-and-keygen/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/11/30/smooshgate-and-keygen/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/11/30/smooshgate-and-keygen/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/11/30/smooshgate-and-keygen/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/11/22/leetcode-pattern-fast-and-slow-pointer/">
+        Leetcode 刷題 pattern - Fast & Slow Pointer →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

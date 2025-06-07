@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>基礎電腦科學：演算法概要 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-03-01T22:18:20.000Z" itemprop="datePublished">
+          2019-03-01
+      </time>
+    
+    
+    | 
+    <a href='/tags/algorithm/'>algorithm</a>,
+    
+    <a href='/tags/程式設計/'>程式設計</a>,
+    
+    <a href='/tags/programming/'>programming</a>,
+    
+    <a href='/tags/coding/'>coding</a>,
+    
+    <a href='/tags/演算法/'>演算法</a>,
+    
+    <a href='/tags/算法/'>算法</a>,
+    
+    <a href='/tags/computer-science/'>computer science</a>,
+    
+    <a href='/tags/電腦科學/'>電腦科學</a>
+    
+    
+</span>
+
+<meta name="generator" content="基礎電腦科學：演算法概要">
+<meta name="og:title" content="基礎電腦科學：演算法概要">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">基礎電腦科學：演算法概要</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/cs101/algorithm/algorithm-cover.png" alt="電腦科學概論：演算法入門概要"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>隨著資訊科技發展，演算法已經無所不在存在我們的生活當中。舉凡上網 google 搜尋資料、下載檔案的壓縮方法、檔案的加密傳輸等，都可以看到演算法運作的蹤跡。一般來說資料結構和演算法是程式設計最基本的內涵，所以有人說：<code>程式設計 = 資料結構 + 演算法</code>。那究竟什麼是演算法&#x2F;算法呢？</p>
+<p>咱們維基百科給了個非常需要慧根才能理解的解釋：</p>
+<blockquote>
+<p>演算法（algorithm），在數學（算學）和電腦科學之中，為任何良定義的具體計算步驟的一個序列，常用於計算、資料處理和自動推理。精確而言，演算法是一個表示爲有限長，列表的有效方法。演算法應包含清晰定義的指令，用於計算函式。</p>
+</blockquote>
+<p>我們把它翻譯成人話吧：</p>
+<blockquote>
+<p>演算法是一個有輸入且有輸出的解決問題的步驟，它具有明確和有限步驟且有效的特性</p>
+</blockquote>
+<p>舉例來說，我們今天要創作一道蔥花蛋或菜脯蛋，我的步驟會是把材料當做輸入：</p>
+<ol>
+<li>放點油</li>
+<li>打蛋</li>
+<li>如果喜歡蔥花可以加入蔥花，如果喜歡菜脯可以加入菜脯（程式術語：<code>if...else</code> 條件判斷）</li>
+<li>放入少許鹽巴</li>
+<li>中火快炒，翻五次面（程式術語：<code>for</code> 迴圈）</li>
+<li>當看到蛋面呈現金黃色時可以起鍋，結束料理（程式術語：<code>while</code> 迴圈）</li>
+<li>好吃的蔥花蛋或菜脯蛋上桌</li>
+</ol>
+<p>透過清楚明確的有限步驟，我們可以解決我們想解決的問題並產出我們要的輸出結果</p>
+<h1 id="演算法的定義"><a href="#演算法的定義" class="headerlink" title="演算法的定義"></a>演算法的定義</h1><p>一般演算法嚴謹的條件必須符合：</p>
+<ol>
+<li>輸入（Input）：0 或多個輸入</li>
+<li>輸出（Output）：至少有一個回傳結果（有可能回傳 0 或是 null）</li>
+<li>明確性（Definiteness）：每一個指令步驟必須明確</li>
+<li>有限性（Finiteness）：在有限步驟後一定會結束不會進入無窮迴圈</li>
+<li>有效性（Effectiveness）：步驟清楚可行，能使用紙筆計算求解</li>
+</ol>
+<p>舉個例子：</p>
+<p>下面是一個 Python 判斷是否可以投票的演算法（假設可以投票為 18 歲），仔細看下面的算法雖然簡單但有輸入也有輸出，且有明確有限步驟，步驟可行</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">check_can_vote</span>(<span class="params">age</span>):</span><br><span class="line">    <span class="keyword">if</span> age &gt;= <span class="number">18</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">check_can_vote(<span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="評估複雜度"><a href="#評估複雜度" class="headerlink" title="評估複雜度"></a>評估複雜度</h1><p>事實上，解決一個問題不一定只有一種演算法。那我們怎麼評估演算法的好壞呢？一般來說會有兩種方式：時間複雜度和空間複雜度，比較常見的是使用時間複雜度</p>
+<h2 id="時間複雜度（Time-Complexity）"><a href="#時間複雜度（Time-Complexity）" class="headerlink" title="時間複雜度（Time Complexity）"></a>時間複雜度（Time Complexity）</h2><p>想要評估一個演算法執行速度快慢，最直覺的方式是測量演算法計算的時間。但由於執行時間會受不同電腦&#x2F;計算機機器硬體規格與實作方式影響，很難放諸四海皆準，因此學術上傾向於統計演算法步驟數目，當做時間複雜度可考量。</p>
+<p>最常見的評估演算法好壞就是時間複雜度，時間複雜度是指運用概量（漸近分析 asymptotic analysis，例如：當 f(n) &#x3D; n^2 + 3n 這個函數 n 很大時，3n 會比 n^2 小很多，可以忽略不計。當 n 趨近無限大時，f(n) 等價於 n^2）而非絕對時間（因為會牽涉到電腦&#x2F;計算機環境變因，所以絕對時間不容易準確），通常我們使用 <code>Big O notation</code> <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%A4%A7O%E7%AC%A6%E5%8F%B7">大 O 符號</a>來表示時間複雜度。假設算法函式所需執行時間為 <code>T(n)</code> ，則我們將其時間複雜度表示為 <code>O(f(n))</code>。<code>f(n)</code> 又稱為執行時間的成長率，是影響速度最大的變數。</p>
+<p>首先我們先來看 O(1) 的例子，這個演算法執行的步驟是固定的，跟輸入的值無關：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不管 n 輸入為多少，這個程式永遠只會執行一次</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">print_num</span>(<span class="params">num</span>):</span><br><span class="line">    <span class="built_in">print</span>(num)</span><br><span class="line"></span><br><span class="line">print_num(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<p>下面這個例子就是 O(n) 的例子，時間複雜度跟輸入的次數有關，隨著 num 變大所需要跑 num 次，是線性時間的成長。這邊 <code>f(n)</code> 等於 <code>n</code>，所以 <code>O(f(n))</code> 就是 <code>O(n)</code></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sum_number</span>(<span class="params">num</span>):</span><br><span class="line">    total = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> num:</span><br><span class="line">        total += num</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line"></span><br><span class="line">sum_number(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<p>O(nlog(n))</p>
+<p>一般常見的時間複雜度如下圖表是：<br><img src="/img/kdchang/cs101/algorithm/big-o.jpeg" alt="電腦科學概論：演算法入門概要"></p>
+<h2 id="空間複雜度"><a href="#空間複雜度" class="headerlink" title="空間複雜度"></a>空間複雜度</h2><p>演算法的空間複雜度是指演算法所需要消耗的儲存記憶體資源。其計算和表示方法與時間複雜度類似，一般都用複雜度的漸近性來表示（asymptotic analysis）。</p>
+<p>例如下面這個函式，不管程式跑了多少遍，都不會影響使用的變數數量，故該函式的空間複雜度為 O(1)：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sum_number</span>(<span class="params">num</span>):</span><br><span class="line">    total = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> num:</span><br><span class="line">        total += num</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line"></span><br><span class="line">sum_number(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<p>但下面這個函式，會隨著丟進去的數字而影響變數的量，例如：</p>
+<p>輸入為 n，就換產生 n 個變數空間需要儲存，故該函式空間複雜度為 O(n)</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sum_number</span>(<span class="params">num</span>):</span><br><span class="line">    total = []</span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> num:</span><br><span class="line">        total.append(num)</span><br><span class="line"></span><br><span class="line">sum_number(<span class="number">10</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上簡單介紹了演算法入門教學。隨著資訊科技發展，演算法已經無所不在存在我們的生活當中。舉凡上網 google 搜尋資料、下載檔案的壓縮方法、檔案的加密傳輸等，都可以看到演算法運作的蹤跡，所以值得我們細細品味。那我們下回見囉！</p>
+<h1 id="參考文件"><a href="#參考文件" class="headerlink" title="參考文件"></a>參考文件</h1><ol>
+<li><a target="_blank" rel="noopener" href="http://www.csie.ntnu.edu.tw/~u91029/">台師大演算法筆記</a></li>
+<li><a target="_blank" rel="noopener" href="http://alrightchiu.github.io/SecondRound/mu-lu-yan-suan-fa-yu-zi-liao-jie-gou.html">演算法與資料結構</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%A4%A7O%E7%AC%A6%E5%8F%B7">大O符號</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.csie.ntnu.edu.tw/~u91029/AlgorithmAnalysis.html">Algorithm Analysis</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.freecodecamp.org/all-you-need-to-know-about-big-o-notation-to-crack-your-next-coding-interview-9d575e7eec4">All you need to know about “Big O Notation” to crack your next coding interview</a></li>
+</ol>
+<p>（image via <a target="_blank" rel="noopener" href="https://blog.pandorafms.org/what-is-an-algorithm/">pandorafms</a>、<a target="_blank" rel="noopener" href="https://cdn-images-1.medium.com/max/1600/1*KfZYFUT2OKfjekJlCeYvuQ.jpeg">freecodecamp</a>）</p>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.kdchang.cc/">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino&#x2F;Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/03/01/computer-science-algorithm-introduction/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/03/01/computer-science-algorithm-introduction/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/03/01/computer-science-algorithm-introduction/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/03/01/computer-science-algorithm-introduction/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/03/10/computer-science-sorting-algorithm-part1/">
+        ← 基礎電腦科學：排序（sorting）演算法入門上
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/02/23/javascript-this/">
+        淺談 JavaScript 頭號難題 this：絕對不完整，但保證好懂 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

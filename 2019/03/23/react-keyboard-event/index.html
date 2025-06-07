@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>從 React 原始碼看 keyPress 與 keyDown 事件 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-03-23T09:26:04.000Z" itemprop="datePublished">
+          2019-03-23
+      </time>
+    
+    
+    | 
+    <a href='/tags/react/'>react</a>
+    
+    
+</span>
+
+<meta name="generator" content="從 React 原始碼看 keyPress 與 keyDown 事件">
+<meta name="og:title" content="從 React 原始碼看 keyPress 與 keyDown 事件">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">從 React 原始碼看 keyPress 與 keyDown 事件</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前陣子有個學生跑來問我一個問題，說他在寫 React 的時候分不清楚 keyPress 與 keyDown 這兩個事件，還有 keyCode 跟 charCode 這兩個東西，有時候拿得到值，有時候卻拿不到，覺得十分困惑。</p>
+<p>我原本以為是 React 做了一些處理，所以去看了一下原始碼。後來發現 React 的確有做一些處理，但實際上這個問題跟 React 沒什麼關係，而是 keyPress 跟 keyDown 這兩個原生的 JavaScript 事件本來就有差異。</p>
+<p>所以他碰到的問題跟 React 一點關係都沒有，只是對這部分的事件機制不熟而已。</p>
+<p>儘管如此，能夠藉由一個實際的問題來參考一下 React 的實作還是件很不錯的事，而且 React 的註解寫得很好。</p>
+<p>因此，這篇會先帶大家來看這兩個事件的不同，最後再來看 React 裡面怎麼做一些處理。</p>
+<h2 id="keyPress-跟-keyDown-的差異"><a href="#keyPress-跟-keyDown-的差異" class="headerlink" title="keyPress 跟 keyDown 的差異"></a>keyPress 跟 keyDown 的差異</h2><p>首先，我們要來看看 keyPress 與 keyDown 這兩個原生事件的差異到底在哪裡，這部分我們直接請出 MDN 來為我們做解釋：</p>
+<blockquote>
+<p>The keypress event is fired when a key that produces a character value is pressed down. Examples of keys that produce a character value are alphabetic, numeric, and punctuation keys. Examples of keys that don’t produce a character value are modifier keys such as Alt, Shift, Ctrl, or Meta.</p>
+</blockquote>
+<p>來源：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/Events/keypress">https://developer.mozilla.org/en-US/docs/Web/Events/keypress</a></p>
+<blockquote>
+<p>The keydown event is fired when a key is pressed down.</p>
+<p>Unlike the keypress event, the keydown event is fired for all keys, regardless of whether they produce a character value.</p>
+</blockquote>
+<p>來源：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/Events/keydown">https://developer.mozilla.org/en-US/docs/Web/Events/keydown</a></p>
+<p>簡單來說呢，keyDown 會在你按下任何按鍵時觸發，但是 keyPress 只會在你按下的按鍵可以產生出一個字元的時候觸發，白話一點就是你按下這按鍵是在打字。</p>
+<p>例如說你按<code>a</code>，畫面上會出現一個字元 a，所以 keyDown 跟 keyPress 都會觸發。但如果你按<code>shift</code>，畫面上什麼都不會出現，所以只有 keyDown 會觸發。</p>
+<p>w3c 提供了一個很不錯的網頁：<a target="_blank" rel="noopener" href="https://www.w3.org/2002/09/tests/keys.html">Key and Character Codes vs. Event Types
+</a>，讓你可以自己實驗看看。</p>
+<p>下圖中我輸入 a，兩者都會觸發，接著我按 shift，只會觸發 keyDown，再來按 backspace 把文字刪掉，也只會觸發 keyDown：</p>
+<p><img src="/img/huli/keyboard/keyboard.gif"></p>
+<p>所以這兩者的差異相信大家應該可以很清楚的知道了，keyDown 可以當作是「按下按鍵」，keyPress 則當作「輸入東西」時會觸發的事件。</p>
+<p>接著我們來談談 keyCode 跟 charCode。</p>
+<h2 id="keyCode-與-charCode-的差異"><a href="#keyCode-與-charCode-的差異" class="headerlink" title="keyCode 與 charCode 的差異"></a>keyCode 與 charCode 的差異</h2><p>先來談談 charCode 好了，或許你有看過 JavaScript 裡面有個函式是這樣的：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(<span class="number">65</span>)) <span class="comment">// A</span></span><br></pre></td></tr></table></figure>
+
+<p>charCode 其實就是某一個字元所代表的一個號碼，或更精確一點地說，就是它的 Unicode 編碼。</p>
+<p>這邊如果不太熟的話可以參考這篇文章：<a target="_blank" rel="noopener" href="https://pjchender.blogspot.com/2018/06/guide-unicode-javascript.html">[Guide] 瞭解網頁中看不懂的編碼：Unicode 在 JavaScript 中的使用</a>。</p>
+<p>在 JavaScript 裡面也可以用另一個函式拿到字元所對應的編碼：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">console.log(&#x27;嗨&#x27;.charCodeAt(0)) // 21992</span><br></pre></td></tr></table></figure>
+
+<p>若是你把這 21992 轉成 16 進位，會變成 0x55E8，這個其實就是「嗨」的 Unicode：</p>
+<p><img src="/img/huli/keyboard/hi.png"><br>（來源：<a target="_blank" rel="noopener" href="https://www.cns11643.gov.tw/wordView.jsp?ID=90944%EF%BC%89">https://www.cns11643.gov.tw/wordView.jsp?ID=90944）</a></p>
+<p>那什麼是 keyCode 呢？既然 charCode 代表著是一個 char（字元）的 code，那 keyCode 顯然就是代表一個 key（按鍵）的 code。</p>
+<p>每一個「按鍵」也都有一個它自己的代碼，而且有時候會讓你混淆，因為它跟 charCode 可能是一樣的。</p>
+<p>舉例來說：「A」這個按鍵的 keyCode 是 65，而「A」這個字元的 charCode 也是 65。這應該是為了某種方便性所以這樣設計，但你要注意到一點：</p>
+<blockquote>
+<p>當我按下「A」這個按鍵的時候，我可能要打的是 a 或是 A，有兩種可能</p>
+</blockquote>
+<p>或是舉另外一個例子，當你要打數字 1 時，如果你是用 Q 上方的那顆按鍵而不是用純數字鍵盤，你要打的字可能是「1」或是「!」或甚至是「ㄅ」，因為它們都是同一顆按鍵。</p>
+<p>一顆按鍵對應了不只一個字元，所以單單從 keyCode，你是沒辦法判斷使用者想打什麼字的。</p>
+<p>講到這裡，我們可以來想一下這兩個跟 keyPress 與 keyDown 的關聯了。</p>
+<p>剛剛說到 keyPress 是你要輸入文字的時候才會觸發，所以這個事件會拿到 charCode，因為你要知道使用者打了什麼字。那為什麼不是 keyCode 呢？因為你從 keyCode 根本不知道他打了什麼字，所以拿 keyCode 也沒用。</p>
+<p>keyDown 則是在你按下任何按鍵時都會觸發，這時候一定要拿 keyCode，因為你要知道使用者按了什麼按鍵。若是拿 charCode 的話，你按 shift 或是 ctrl 就沒有值了，因為這不是一個字元，就沒辦法知道使用者按了什麼。</p>
+<p>總結一下，當你要偵測使用者輸入文字的時候，就用 keyPress，並且搭配 charCode 來看使用者剛剛輸入了什麼；當你想偵測使用者「按下按鍵」的時候，就用 keyDown，搭配 keyCode 獲得使用者所按下的按鍵。</p>
+<p>這就是 keyPress、keyDown 以及 keyCode 跟 charCode 的差別。</p>
+<p>順帶一提，在輸入中文的時候 keyPress 不會有值，keyDown 則會回傳一個神秘的代碼 229：</p>
+<p><img src="/img/huli/keyboard/chinese.gif"></p>
+<h2 id="key-與-which"><a href="#key-與-which" class="headerlink" title="key 與 which"></a>key 與 which</h2><p>在 keyPress 與 keyDown 這兩個 event 裡面，其實還有兩個屬性：key 與 which。</p>
+<p>我們先來看一下 which 是什麼：</p>
+<blockquote>
+<p>The which read-only property of the KeyboardEvent interface returns the numeric keyCode of the key pressed, or the character code (charCode) for an alphanumeric key pressed.</p>
+</blockquote>
+<p>來源：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/which">https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/which</a></p>
+<p>根據我自己的理解，當你在 keyPress 裡面用 which 的時候，拿到的應該就是 charCode；在 keyDown 裡面用的時候就是 keyCode，所以你在寫程式的時候可以統一用 event.which 來拿這個資訊，不必再區分 keyCode 或是 charCode。</p>
+<p>不過 MDN 附的參考資料寫的滿模糊的，所以這部分我也不是很確定：</p>
+<blockquote>
+<p>which holds a system- and implementation-dependent numerical code signifying the unmodified identifier associated with the key pressed. In most cases, the value is identical to keyCode.</p>
+</blockquote>
+<p>來源：<a target="_blank" rel="noopener" href="https://www.w3.org/TR/2014/WD-DOM-Level-3-Events-20140925/#widl-KeyboardEvent-which">https://www.w3.org/TR/2014/WD-DOM-Level-3-Events-20140925/#widl-KeyboardEvent-which</a></p>
+<p>接著來看一下 key：</p>
+<blockquote>
+<p>The KeyboardEvent.key read-only property returns the value of the key pressed by the user while taking into considerations the state of modifier keys such as the shiftKey as well as the keyboard locale&#x2F;layou</p>
+</blockquote>
+<p>來源：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key">https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key</a></p>
+<p>簡單來說 key 會是一個字串，你剛剛按了什麼按鍵或是打了什麼字，key 就會是什麼。上面 MDN 的網頁下方有附一個簡單的範例讓你來測試 key 的值。</p>
+<p>例如說我輸入 A，key 就是 A，按下 Shift，key 就是 Shift。</p>
+<p>還有一點要注意的是，這個屬性在 keyPress 或是 keyDown 事件裡面都拿得到。所以儘管是 keyDown 事件，你也能知道使用者剛剛輸入了什麼或是按了什麼按鍵。</p>
+<p>但儘管如此，關於「偵測輸入」的事件應該還是用 keyPress 最合適，除非你想要偵測其他不會產生字元的按鍵（Ctrl, Delete, Shift…）才用 keyDown 事件。</p>
+<p>在這邊做個中場總結，其實這些 which、keyCode 跟 charCode，在不同瀏覽器上面都可能有不同的表現，所以是跨瀏覽器支援一個很麻煩的部分，從這個方向去找，你可以找到一大堆在講瀏覽器相容性的文章。</p>
+<p>但近幾年來舊的瀏覽器漸漸被淘汰，大部分的使用者在用的瀏覽器應該都比較符合標準了，因此相容性並不是本篇文章的重點，所以就沒有多提了。</p>
+<p>接下來終於要到可能是最吸引你的部分：React 原始碼。</p>
+<h2 id="初探-React-原始碼"><a href="#初探-React-原始碼" class="headerlink" title="初探 React 原始碼"></a>初探 React 原始碼</h2><p>React 原始碼這麼大，該從何找起呢？</p>
+<p>這邊推薦一個超級好用的方法：GitHub 的搜尋。通常只要拿你想找的 function 名稱或是相關的關鍵字下去搜尋，就能夠把範圍限縮的很小，只要用肉眼再翻一下資料就能夠找到相對應的原始碼，是方便又好用的一個方法。</p>
+<p>這邊我們用<code>keyPress</code>來當關鍵字，出現了 12 筆結果：</p>
+<p><img src="/img/huli/keyboard/search.png"></p>
+<p>用肉眼稍微篩選一下，發現很多都是測試，那些都可以直接跳過。你應該很快就能定位到幾個相關的檔案，像是這兩個：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/facebook/react/blob/b87aabdfe1b7461e7331abb3601d9e6bb27544bc/packages/react-dom/src/events/SyntheticKeyboardEvent.js">packages&#x2F;react-dom&#x2F;src&#x2F;events&#x2F;SyntheticKeyboardEvent.js</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/facebook/react/blob/b87aabdfe1b7461e7331abb3601d9e6bb27544bc/packages/react-dom/src/events/getEventKey.js">packages&#x2F;react-dom&#x2F;src&#x2F;events&#x2F;getEventKey.js</a></li>
+</ol>
+<p>沒錯，這兩個就是今天的主角。</p>
+<p>我們先來看<code>SyntheticKeyboardEvent.js</code>，如果你對 React 還算熟悉的話，應該知道你在裡面拿到的事件都不是原生的事件，而是 React 會包裝過之後再丟給你，而現在這個<code>SyntheticKeyboardEvent</code>就是經過 React 包裝後的事件，就是你在 onKeyPress 或是 onKeyDown 的時候會拿到的 <code>e</code>。</p>
+<p>為了方便起見，我們切成幾個 function，一個一個來看。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">charCode</span>: <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">  <span class="comment">// `charCode` is the result of a KeyPress event and represents the value of</span></span><br><span class="line">  <span class="comment">// the actual printable character.</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// KeyPress is deprecated, but its replacement is not yet final and not</span></span><br><span class="line">  <span class="comment">// implemented in any major browser. Only KeyPress has charCode.</span></span><br><span class="line">  <span class="keyword">if</span> (event.<span class="property">type</span> === <span class="string">&#x27;keypress&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">getEventCharCode</span>(event);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊註解寫得很棒，説 keyPress 已經被 deprecated 了但是替代品還沒準備好。再者，也提到了只有 keyPress 有 charCode。</p>
+<p>所以這邊就是判斷 event 的 type 是不是 keypress，是的話就回傳<code>getEventCharCode(event)</code>，否則回傳 0。</p>
+<p>接著我們來看一下<code>getEventCharCode</code>在做什麼（小提醒，這個函式在另外一個檔案）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * `charCode` represents the actual &quot;character code&quot; and is safe to use with</span></span><br><span class="line"><span class="comment"> * `String.fromCharCode`. As such, only keys that correspond to printable</span></span><br><span class="line"><span class="comment"> * characters produce a valid `charCode`, the only exception to this is Enter.</span></span><br><span class="line"><span class="comment"> * The Tab-key is considered non-printable and does not have a `charCode`,</span></span><br><span class="line"><span class="comment"> * presumably because it does not produce a tab-character in browsers.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> &#123;<span class="type">object</span>&#125; nativeEvent Native browser event.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &#123;<span class="type">number</span>&#125; Normalized `charCode` property.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getEventCharCode</span>(<span class="params">nativeEvent</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> charCode;</span><br><span class="line">  <span class="keyword">const</span> keyCode = nativeEvent.<span class="property">keyCode</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (<span class="string">&#x27;charCode&#x27;</span> <span class="keyword">in</span> nativeEvent) &#123;</span><br><span class="line">    charCode = nativeEvent.<span class="property">charCode</span>;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// FF does not set `charCode` for the Enter-key, check against `keyCode`.</span></span><br><span class="line">    <span class="keyword">if</span> (charCode === <span class="number">0</span> &amp;&amp; keyCode === <span class="number">13</span>) &#123;</span><br><span class="line">      charCode = <span class="number">13</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// IE8 does not implement `charCode`, but `keyCode` has the correct value.</span></span><br><span class="line">    charCode = keyCode;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// IE and Edge (on Windows) and Chrome / Safari (on Windows and Linux)</span></span><br><span class="line">  <span class="comment">// report Enter as charCode 10 when ctrl is pressed.</span></span><br><span class="line">  <span class="keyword">if</span> (charCode === <span class="number">10</span>) &#123;</span><br><span class="line">    charCode = <span class="number">13</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// Some non-printable keys are reported in `charCode`/`keyCode`, discard them.</span></span><br><span class="line">  <span class="comment">// Must not discard the (non-)printable Enter-key.</span></span><br><span class="line">  <span class="keyword">if</span> (charCode &gt;= <span class="number">32</span> || charCode === <span class="number">13</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> charCode;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著我們一樣分段來看比較方便：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * `charCode` represents the actual &quot;character code&quot; and is safe to use with</span></span><br><span class="line"><span class="comment"> * `String.fromCharCode`. As such, only keys that correspond to printable</span></span><br><span class="line"><span class="comment"> * characters produce a valid `charCode`, the only exception to this is Enter.</span></span><br><span class="line"><span class="comment"> * The Tab-key is considered non-printable and does not have a `charCode`,</span></span><br><span class="line"><span class="comment"> * presumably because it does not produce a tab-character in browsers.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> &#123;<span class="type">object</span>&#125; nativeEvent Native browser event.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &#123;<span class="type">number</span>&#125; Normalized `charCode` property.</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>開頭的註解先跟你說 charCode 代表的就是 character code，所以可以用 String.fromCharCode 來找出搭配的字元。</p>
+<p>因此，只有能被印出來（或者是說可以被顯示出來）的字元才有 charCode，而 Enter 是一個例外，因為 Enter 會產生空行。但 Tab 不是，因為你按 Tab 不會產生一個代表 Tab 的字元。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> charCode;</span><br><span class="line"><span class="keyword">const</span> keyCode = nativeEvent.<span class="property">keyCode</span>;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">if</span> (<span class="string">&#x27;charCode&#x27;</span> <span class="keyword">in</span> nativeEvent) &#123;</span><br><span class="line">  charCode = nativeEvent.<span class="property">charCode</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// FF does not set `charCode` for the Enter-key, check against `keyCode`.</span></span><br><span class="line">  <span class="keyword">if</span> (charCode === <span class="number">0</span> &amp;&amp; keyCode === <span class="number">13</span>) &#123;</span><br><span class="line">    charCode = <span class="number">13</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// IE8 does not implement `charCode`, but `keyCode` has the correct value.</span></span><br><span class="line">  charCode = keyCode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊針對瀏覽器的相容性做處理，FireFox 沒有幫 Enter 設定 charCode，所以要額外判斷 keyCode 是不是 13。然後 IE8 沒有實作 charCode，所以用 keyCode 的值來取代。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// IE and Edge (on Windows) and Chrome / Safari (on Windows and Linux)</span></span><br><span class="line"><span class="comment">// report Enter as charCode 10 when ctrl is pressed.</span></span><br><span class="line"><span class="keyword">if</span> (charCode === <span class="number">10</span>) &#123;</span><br><span class="line">  charCode = <span class="number">13</span>;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="comment">// Some non-printable keys are reported in `charCode`/`keyCode`, discard them.</span></span><br><span class="line"><span class="comment">// Must not discard the (non-)printable Enter-key.</span></span><br><span class="line"><span class="keyword">if</span> (charCode &gt;= <span class="number">32</span> || charCode === <span class="number">13</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> charCode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊應該算是一個 special case，當使用者按下 Ctrl + Enter 時的 charCode 是 10，React 想把這個也當作按下 Enter 來處理。</p>
+<p>另外，有些沒辦法被印出來的字元應該要被拿掉，所以最後做了一個範圍的判斷。</p>
+<p>charCode 的處理就是這樣了，仔細看看其實還滿有趣的，針對瀏覽器的相容性跟一些特殊狀況做了處理。</p>
+<p>接著我們回到<code>SyntheticKeyboardEvent.js</code>，來看看 keyCode 的處理：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">keyCode</span>: <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">  <span class="comment">// `keyCode` is the result of a KeyDown/Up event and represents the value of</span></span><br><span class="line">  <span class="comment">// physical keyboard key.</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// The actual meaning of the value depends on the users&#x27; keyboard layout</span></span><br><span class="line">  <span class="comment">// which cannot be detected. Assuming that it is a US keyboard layout</span></span><br><span class="line">  <span class="comment">// provides a surprisingly accurate mapping for US and European users.</span></span><br><span class="line">  <span class="comment">// Due to this, it is left to the user to implement at this time.</span></span><br><span class="line">  <span class="keyword">if</span> (event.<span class="property">type</span> === <span class="string">&#x27;keydown&#x27;</span> || event.<span class="property">type</span> === <span class="string">&#x27;keyup&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> event.<span class="property">keyCode</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊說 keyCode 的值其實是依賴於鍵盤的，意思是說有些鍵盤可能會產生不太一樣的 keyCode，但因為大多數美國跟歐洲的使用者都是 US keyboard，所以這邊就直接把 keyCode 丟回去而不做特殊處理。</p>
+<p>其實這一段我沒有看得完全懂，只是大概猜一下意思而已。這邊指的「keyboard layout」可能是像 QWERTY 或是 Dvorak 這種的 layout，按鍵的排列方式完全不同。但如果這樣就會產生不同的 keyCode 的話，是不是代表有些網站可能會有 bug？</p>
+<p>不過大多數人的鍵盤都是同樣的排列，所以好像不用太擔心這個問題。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">which</span>: <span class="keyword">function</span>(<span class="params">event</span>) &#123;</span><br><span class="line">  <span class="comment">// `which` is an alias for either `keyCode` or `charCode` depending on the</span></span><br><span class="line">  <span class="comment">// type of the event.</span></span><br><span class="line">  <span class="keyword">if</span> (event.<span class="property">type</span> === <span class="string">&#x27;keypress&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">getEventCharCode</span>(event);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (event.<span class="property">type</span> === <span class="string">&#x27;keydown&#x27;</span> || event.<span class="property">type</span> === <span class="string">&#x27;keyup&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> event.<span class="property">keyCode</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後是 which 的部分，如果是 keypress 就把 charCode 傳回去，keydown 或是 keyup 的話就把 keyCode 傳回去。</p>
+<p>講到這裡，我們已經看到 React 對於 charCode、keyCode 以及 which 的處理了，charCode 針對特殊情形以及瀏覽器相容性做檢查，keyCode 直接回傳，which 則根據事件不同回傳相對應的值。</p>
+<p>最後我們來看一下 key 的處理，這邊放在另外一個檔案叫做<code>getEventKey.js</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Normalization of deprecated HTML5 `key` values</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent#Key_names</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> normalizeKey = &#123;</span><br><span class="line">  <span class="title class_">Esc</span>: <span class="string">&#x27;Escape&#x27;</span>,</span><br><span class="line">  <span class="title class_">Spacebar</span>: <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">  <span class="title class_">Left</span>: <span class="string">&#x27;ArrowLeft&#x27;</span>,</span><br><span class="line">  <span class="title class_">Up</span>: <span class="string">&#x27;ArrowUp&#x27;</span>,</span><br><span class="line">  <span class="title class_">Right</span>: <span class="string">&#x27;ArrowRight&#x27;</span>,</span><br><span class="line">  <span class="title class_">Down</span>: <span class="string">&#x27;ArrowDown&#x27;</span>,</span><br><span class="line">  <span class="title class_">Del</span>: <span class="string">&#x27;Delete&#x27;</span>,</span><br><span class="line">  <span class="title class_">Win</span>: <span class="string">&#x27;OS&#x27;</span>,</span><br><span class="line">  <span class="title class_">Menu</span>: <span class="string">&#x27;ContextMenu&#x27;</span>,</span><br><span class="line">  <span class="title class_">Apps</span>: <span class="string">&#x27;ContextMenu&#x27;</span>,</span><br><span class="line">  <span class="title class_">Scroll</span>: <span class="string">&#x27;ScrollLock&#x27;</span>,</span><br><span class="line">  <span class="title class_">MozPrintableKey</span>: <span class="string">&#x27;Unidentified&#x27;</span>,</span><br><span class="line">&#125;;</span><br><span class="line">  </span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Translation from legacy `keyCode` to HTML5 `key`</span></span><br><span class="line"><span class="comment"> * Only special keys supported, all others depend on keyboard layout or browser</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent#Key_names</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> translateToKey = &#123;</span><br><span class="line">  <span class="string">&#x27;8&#x27;</span>: <span class="string">&#x27;Backspace&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;9&#x27;</span>: <span class="string">&#x27;Tab&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;12&#x27;</span>: <span class="string">&#x27;Clear&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;13&#x27;</span>: <span class="string">&#x27;Enter&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;16&#x27;</span>: <span class="string">&#x27;Shift&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;17&#x27;</span>: <span class="string">&#x27;Control&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;18&#x27;</span>: <span class="string">&#x27;Alt&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;19&#x27;</span>: <span class="string">&#x27;Pause&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;20&#x27;</span>: <span class="string">&#x27;CapsLock&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;27&#x27;</span>: <span class="string">&#x27;Escape&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;32&#x27;</span>: <span class="string">&#x27; &#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;33&#x27;</span>: <span class="string">&#x27;PageUp&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;34&#x27;</span>: <span class="string">&#x27;PageDown&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;35&#x27;</span>: <span class="string">&#x27;End&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;36&#x27;</span>: <span class="string">&#x27;Home&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;37&#x27;</span>: <span class="string">&#x27;ArrowLeft&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;38&#x27;</span>: <span class="string">&#x27;ArrowUp&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;39&#x27;</span>: <span class="string">&#x27;ArrowRight&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;40&#x27;</span>: <span class="string">&#x27;ArrowDown&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;45&#x27;</span>: <span class="string">&#x27;Insert&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;46&#x27;</span>: <span class="string">&#x27;Delete&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;112&#x27;</span>: <span class="string">&#x27;F1&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;113&#x27;</span>: <span class="string">&#x27;F2&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;114&#x27;</span>: <span class="string">&#x27;F3&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;115&#x27;</span>: <span class="string">&#x27;F4&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;116&#x27;</span>: <span class="string">&#x27;F5&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;117&#x27;</span>: <span class="string">&#x27;F6&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;118&#x27;</span>: <span class="string">&#x27;F7&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;119&#x27;</span>: <span class="string">&#x27;F8&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;120&#x27;</span>: <span class="string">&#x27;F9&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;121&#x27;</span>: <span class="string">&#x27;F10&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;122&#x27;</span>: <span class="string">&#x27;F11&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;123&#x27;</span>: <span class="string">&#x27;F12&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;144&#x27;</span>: <span class="string">&#x27;NumLock&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;145&#x27;</span>: <span class="string">&#x27;ScrollLock&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;224&#x27;</span>: <span class="string">&#x27;Meta&#x27;</span>,</span><br><span class="line">&#125;;</span><br><span class="line">  </span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> &#123;<span class="type">object</span>&#125; nativeEvent Native browser event.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &#123;<span class="type">string</span>&#125; Normalized `key` property.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getEventKey</span>(<span class="params">nativeEvent: KeyboardEvent</span>): string &#123;</span><br><span class="line">  <span class="keyword">if</span> (nativeEvent.<span class="property">key</span>) &#123;</span><br><span class="line">    <span class="comment">// Normalize inconsistent values reported by browsers due to</span></span><br><span class="line">    <span class="comment">// implementations of a working draft specification.</span></span><br><span class="line">  </span><br><span class="line">    <span class="comment">// FireFox implements `key` but returns `MozPrintableKey` for all</span></span><br><span class="line">    <span class="comment">// printable characters (normalized to `Unidentified`), ignore it.</span></span><br><span class="line">    <span class="keyword">const</span> key = normalizeKey[nativeEvent.<span class="property">key</span>] || nativeEvent.<span class="property">key</span>;</span><br><span class="line">    <span class="keyword">if</span> (key !== <span class="string">&#x27;Unidentified&#x27;</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> key;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// Browser does not implement `key`, polyfill as much of it as we can.</span></span><br><span class="line">  <span class="keyword">if</span> (nativeEvent.<span class="property">type</span> === <span class="string">&#x27;keypress&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> charCode = <span class="title function_">getEventCharCode</span>(nativeEvent);</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// The enter-key is technically both printable and non-printable and can</span></span><br><span class="line">    <span class="comment">// thus be captured by `keypress`, no other non-printable key should.</span></span><br><span class="line">    <span class="keyword">return</span> charCode === <span class="number">13</span> ? <span class="string">&#x27;Enter&#x27;</span> : <span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(charCode);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (nativeEvent.<span class="property">type</span> === <span class="string">&#x27;keydown&#x27;</span> || nativeEvent.<span class="property">type</span> === <span class="string">&#x27;keyup&#x27;</span>) &#123;</span><br><span class="line">    <span class="comment">// While user keyboard layout determines the actual meaning of each</span></span><br><span class="line">    <span class="comment">// `keyCode` value, almost all function keys have a universal value.</span></span><br><span class="line">    <span class="keyword">return</span> translateToKey[nativeEvent.<span class="property">keyCode</span>] || <span class="string">&#x27;Unidentified&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊一樣是針對瀏覽器的相容性做處理，如果 event 本身就有 key 的話，先做 normalize，把回傳的結果統一成相同的格式。而 FireFox 會把可以印出的字元都設定成 MozPrintableKey，這邊 normalize 成 <code>Unidentified</code>。</p>
+<p>如果 normalize 完之後的 key 不是<code>Unidentified</code>的話就回傳，否則再做進一步處理。</p>
+<p>而這個進一步處理指的就是 polyfill，如果沒有 key 可以用的話就自己針對 charCode 或是 keyCode 來做處理，回傳相對應的字元或是按鍵名稱。</p>
+<p>React 對於這些按鍵相關事件的處理就到這邊差不多了。</p>
+<p>原始碼註解寫的很好，可以獲得很多相關資訊，而程式碼很短又不複雜，看起來也很輕鬆，是個很適合入門的切入點。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>以前用了這麼多次這些按鍵相關事件，我自已卻從來沒想過這些的區別。要嘛就是隨意寫寫然後出 bug，要嘛就是直接從 stackoverflow 上面複製最佳解答，從來都不知道這些的差異。</p>
+<p>這次剛好是因為要幫人解惑才去深入研究，沒想到一個簡單的按鍵事件其實也是水很深，可能要真的踩過雷才會更有感觸。最麻煩的其實是瀏覽器的相容性，各個瀏覽器可能都有自己不同的實作，要怎麼處理這些不同的情況才是麻煩的地方。</p>
+<p>提到 React 原始碼，大家想到的可能都是 render 的相關機制或是 component 的處理，那些原始碼十分複雜，而且必須要對整體的架構有一定的理解才比較好看懂。</p>
+<p>這篇選擇從 keyboard 的事件出發，來看 React 針對這部份的處理。相信程式碼大家都看得懂，也不會覺得特別難，就是想告訴大家若是你想研究其他人的原始碼，有時候不一定要整個專案都看懂，可以先從一些小地方開始下手。</p>
+<p>從 utils 這種簡單的 function 開始也行，不一定要從最難的開始挑戰，你都能學到很多東西。</p>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://huli.logdown.com/">@huli</a> 野生工程師，相信分享與交流能讓世界變得更美好</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/03/23/react-keyboard-event/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/03/23/react-keyboard-event/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/03/23/react-keyboard-event/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/03/23/react-keyboard-event/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/03/31/typescript-design-pattern-command/">
+        ← 用 TypeScript 輕鬆學 Design pattern - Command Pattern
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/03/16/vatic-setup-tutorial/">
+        Vatic 安裝教學 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

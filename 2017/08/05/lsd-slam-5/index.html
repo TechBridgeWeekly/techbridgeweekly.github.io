@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>深入學習 lsd-slam - 5 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2017-08-05T21:39:40.000Z" itemprop="datePublished">
+          2017-08-05
+      </time>
+    
+    
+    | 
+    <a href='/tags/Robotics/'>Robotics</a>,
+    
+    <a href='/tags/ROS/'>ROS</a>,
+    
+    <a href='/tags/SLAM/'>SLAM</a>,
+    
+    <a href='/tags/LSD-SLAM/'>LSD SLAM</a>
+    
+    
+</span>
+
+<meta name="generator" content="深入學習 lsd-slam - 5">
+<meta name="og:title" content="深入學習 lsd-slam - 5">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">深入學習 lsd-slam - 5</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上次跟大家簡介了 Eigen 這個可以用來做線性代數運算的 open source library，讓大家有動手實作、開始玩到東西的感覺。今天要延續動手實作的精神，跟大家介紹一下該怎麼把幾張 RGB-D 影像拼接成 point cloud，接下來就讓我們一起玩玩吧！</p>
+<h2 id="參考資料來源"><a href="#參考資料來源" class="headerlink" title="參考資料來源"></a>參考資料來源</h2><p>這次的 data（包含 RGB 影像跟 Depth Map） 等等都是來自於 <a target="_blank" rel="noopener" href="https://github.com/gaoxiang12/slambook/tree/master/ch5/joinMap">slambook 的 ch5</a>，有這些資料真的超讚的，不然自己光要產生這些資料就得花一些時間，還要有硬體，比較難快速地上手。</p>
+<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><p>我們擁有的 data 是 RGB-D 感測器在 5 個不同的 pose 底下拍到的影像，利用相機的內部參數將一組 RGB-D 影像中的像素對應回 3D 相機座標系下的 point cloud，然後再利用各組圖的 camera pose，將各組 point cloud 對應到同一個世界座標系下，就能組合出地圖。</p>
+<p>其中 pose.txt 儲存的格式是平移向量加上旋轉四元數：</p>
+<p>$[x, y, z, q_x, q_y, q_z, q_w]$</p>
+<p>如果你對內部參數和外部參數的概念不熟，網路上有頗多資源，個人覺得延伸閱讀 1 的講解算是十分清楚的，推薦去看看！</p>
+<h2 id="實作"><a href="#實作" class="headerlink" title="實作"></a>實作</h2><h3 id="基本函式庫安裝"><a href="#基本函式庫安裝" class="headerlink" title="基本函式庫安裝"></a>基本函式庫安裝</h3><p>首先要安裝 OpenCV2，因為待會寫程式需要讀取影像，因為 OpenCV 也是一個 cmake project，步驟比較複雜一些，可以直接看看<a target="_blank" rel="noopener" href="http://docs.opencv.org/2.4/doc/tutorials/introduction/linux_install/linux_install.html">官方安裝頁面</a>。</p>
+<p>然後是安裝 PCL：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:v-launchpad-jochen-sprickerhof-de/pcl</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install libpcl-all</span><br></pre></td></tr></table></figure>
+
+<h3 id="程式碼"><a href="#程式碼" class="headerlink" title="程式碼"></a>程式碼</h3><p>接下來就是程式碼啦，其實你可以先跑起來再慢慢理解：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/core/core.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;opencv2/highgui/highgui.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Eigen/Geometry&gt;</span> </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;boost/format.hpp&gt;</span>  <span class="comment">// for formating strings</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pcl/point_types.h&gt;</span> </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pcl/io/pcd_io.h&gt;</span> </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pcl/visualization/pcl_visualizer.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">( <span class="type">int</span> argc, <span class="type">char</span>** argv )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    vector&lt;cv::Mat&gt; colorImgs, depthImgs;    <span class="comment">// 彩色影像和深度影像</span></span><br><span class="line">    vector&lt;Eigen::Isometry3d&gt; poses;         <span class="comment">// 相機 pose </span></span><br><span class="line">    </span><br><span class="line">    <span class="function">ifstream <span class="title">fin</span><span class="params">(<span class="string">&quot;./pose.txt&quot;</span>)</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (!fin)</span><br><span class="line">    &#123;</span><br><span class="line">        cerr &lt;&lt; <span class="string">&quot;必須在有pose.txt的目錄下執行此程式&quot;</span> &lt;&lt; endl;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 讀取彩色影像、深度影像以及對應的相機 pose</span></span><br><span class="line">    <span class="keyword">for</span> ( <span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">5</span>; i++ )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">boost::format <span class="title">fmt</span><span class="params">( <span class="string">&quot;./%s/%d.%s&quot;</span> )</span></span>; </span><br><span class="line">        colorImgs.<span class="built_in">push_back</span>( cv::<span class="built_in">imread</span>( (fmt%<span class="string">&quot;color&quot;</span>%(i<span class="number">+1</span>)%<span class="string">&quot;png&quot;</span>).<span class="built_in">str</span>() ));</span><br><span class="line">        depthImgs.<span class="built_in">push_back</span>( cv::<span class="built_in">imread</span>( (fmt%<span class="string">&quot;depth&quot;</span>%(i<span class="number">+1</span>)%<span class="string">&quot;pgm&quot;</span>).<span class="built_in">str</span>(), <span class="number">-1</span> )); </span><br><span class="line">        </span><br><span class="line">        <span class="type">double</span> data[<span class="number">7</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span> ( <span class="keyword">auto</span>&amp; d:data )</span><br><span class="line">            fin&gt;&gt;d;</span><br><span class="line">        <span class="function">Eigen::Quaterniond <span class="title">q</span><span class="params">( data[<span class="number">6</span>], data[<span class="number">3</span>], data[<span class="number">4</span>], data[<span class="number">5</span>] )</span></span>;</span><br><span class="line">        <span class="function">Eigen::Isometry3d <span class="title">T</span><span class="params">(q)</span></span>;</span><br><span class="line">        T.<span class="built_in">pretranslate</span>( Eigen::<span class="built_in">Vector3d</span>( data[<span class="number">0</span>], data[<span class="number">1</span>], data[<span class="number">2</span>] ));</span><br><span class="line">        poses.<span class="built_in">push_back</span>( T );</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 計算 point cloud 並接起來</span></span><br><span class="line">    <span class="comment">// 指定相機內部參數</span></span><br><span class="line">    <span class="type">double</span> cx = <span class="number">325.5</span>;</span><br><span class="line">    <span class="type">double</span> cy = <span class="number">253.5</span>;</span><br><span class="line">    <span class="type">double</span> fx = <span class="number">518.0</span>;</span><br><span class="line">    <span class="type">double</span> fy = <span class="number">519.0</span>;</span><br><span class="line">    <span class="type">double</span> depthScale = <span class="number">1000.0</span>;</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;正在將影像轉換為 point cloud ...&quot;</span> &lt;&lt; endl;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 定義 point cloud 使用的格式：這邊用的是XYZRGB</span></span><br><span class="line">    <span class="keyword">typedef</span> pcl::PointXYZRGB PointT; </span><br><span class="line">    <span class="keyword">typedef</span> pcl::PointCloud&lt;PointT&gt; PointCloud;</span><br><span class="line">    </span><br><span class="line">    <span class="function">PointCloud::Ptr <span class="title">pointCloud</span><span class="params">( <span class="keyword">new</span> PointCloud )</span></span>; </span><br><span class="line">    <span class="keyword">for</span> ( <span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">5</span>; i++ )</span><br><span class="line">    &#123;</span><br><span class="line">        cv::Mat color = colorImgs[i]; </span><br><span class="line">        cv::Mat depth = depthImgs[i];</span><br><span class="line">        Eigen::Isometry3d T = poses[i];</span><br><span class="line">        <span class="keyword">for</span> ( <span class="type">int</span> v=<span class="number">0</span>; v&lt;color.rows; v++ )</span><br><span class="line">            <span class="keyword">for</span> ( <span class="type">int</span> u=<span class="number">0</span>; u&lt;color.cols; u++ )</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//使用內部參數與深度值算出相機座標系下的 point cloud</span></span><br><span class="line">                <span class="type">unsigned</span> <span class="type">int</span> d = depth.<span class="built_in">ptr</span>&lt;<span class="type">unsigned</span> <span class="type">short</span>&gt; ( v )[u]; <span class="comment">// 深度值</span></span><br><span class="line">                <span class="keyword">if</span> ( d==<span class="number">0</span> ) <span class="keyword">continue</span>; <span class="comment">// 深度為0表示沒有量到</span></span><br><span class="line">                Eigen::Vector3d point; </span><br><span class="line">                point[<span class="number">2</span>] = <span class="built_in">double</span>(d)/depthScale; </span><br><span class="line">                point[<span class="number">0</span>] = (u-cx)*point[<span class="number">2</span>]/fx;</span><br><span class="line">                point[<span class="number">1</span>] = (v-cy)*point[<span class="number">2</span>]/fy; </span><br><span class="line">     </span><br><span class="line">                <span class="comment">//用外部參數轉換到世界座標系底下</span></span><br><span class="line">            	Eigen::Vector3d pointWorld = T*point;</span><br><span class="line">                PointT p ;</span><br><span class="line">                p.x = pointWorld[<span class="number">0</span>];</span><br><span class="line">                p.y = pointWorld[<span class="number">1</span>];</span><br><span class="line">                p.z = pointWorld[<span class="number">2</span>];</span><br><span class="line">                p.b = color.data[ v*color.step+u*color.<span class="built_in">channels</span>() ];</span><br><span class="line">                p.g = color.data[ v*color.step+u*color.<span class="built_in">channels</span>()<span class="number">+1</span> ];</span><br><span class="line">                p.r = color.data[ v*color.step+u*color.<span class="built_in">channels</span>()<span class="number">+2</span> ];</span><br><span class="line">                pointCloud-&gt;points.<span class="built_in">push_back</span>( p );</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//儲存 point cloud</span></span><br><span class="line">    pointCloud-&gt;is_dense = <span class="literal">false</span>;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;There are total &quot;</span> &lt;&lt; pointCloud-&gt;<span class="built_in">size</span>() &lt;&lt; <span class="string">&quot; points in the map.pcd.&quot;</span> &lt;&lt;endl;</span><br><span class="line">    pcl::io::<span class="built_in">savePCDFileBinary</span>(<span class="string">&quot;map.pcd&quot;</span>, *pointCloud );</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="編譯與執行"><a href="#編譯與執行" class="headerlink" title="編譯與執行"></a>編譯與執行</h3><p>接下來就是編譯啦：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mkdir build</span><br><span class="line">cd build </span><br><span class="line">cmake ..</span><br><span class="line">make</span><br><span class="line">mv joinMap ../</span><br><span class="line">cd ..</span><br></pre></td></tr></table></figure>
+
+<p>編譯完就可以執行並觀察產生的 map.pcd 檔了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./joinMap</span><br><span class="line">pcd_viewer map.pcd</span><br></pre></td></tr></table></figure>
+
+<p>一開始開啟 pcd_viewer ，會看到所有的 pointcloud都是同一個顏色的，要按 5 才能進入 RGB 的模式，如果你有正確執行，應該會看到如下面這張圖的效果：</p>
+<p><img src="/img/pojenlai/lsd-slam-5-1.png" alt="lsd-slam-5-1"></p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>這次很簡單地跟大家介紹了該怎麼使用相機的內部參數和外部參數，推得每個 pixel 在世界座標系中的位置，進而產生出 pointcloud，大家在有空時也不妨思考一下，我們是怎麼認識這個三維世界的，為何我們不需要知道每個 pointcloud 的確切位置就可以做好生活中的各項事情呢？</p>
+<p>我們每天都在使用很多高級的演算法、完成很多複雜的事情，如果能將這些演算法實作於機器人，那就可以造出超級高級的機器人了，不過這一點也不容易就是了。</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a target="_blank" rel="noopener" href="http://silverwind1982.pixnet.net/blog/post/134551091-pinhole-camera%3A-%E7%9B%B8%E6%A9%9F%E5%BA%A7%E6%A8%99%E6%88%90%E5%83%8F%E5%8E%9F%E7%90%86">Pinhole Camera：相機座標成像原理</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="https://pojenlai.wordpress.com/">@pojenlai</a> 演算法工程師，對機器人跟電腦視覺有少許研究，最近在學習<a target="_blank" rel="noopener" href="https://buzzorange.com/techorange/2017/07/10/elon-musk-first-principle/">看清事物的本質與改進自己的觀念</a></p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2017/08/05/lsd-slam-5/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2017/08/05/lsd-slam-5/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2017/08/05/lsd-slam-5/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2017/08/05/lsd-slam-5/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2017/08/12/python-web-flask101-tutorial-sqlalchemy-orm-database-models/">
+        ← Python Web Flask 實戰開發教學 - SQLAlchemy 與 ORM
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2017/07/28/data-science-101-numpy-tutorial/">
+        從零開始學資料科學：Numpy 基礎入門 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

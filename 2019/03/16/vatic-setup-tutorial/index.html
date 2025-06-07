@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Vatic 安裝教學 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-03-16T15:00:50.000Z" itemprop="datePublished">
+          2019-03-16
+      </time>
+    
+    
+    | 
+    <a href='/tags/Deep-Learning-Computer-Vision-Video-labeling/'>Deep Learning, Computer Vision, Video labeling</a>
+    
+    
+</span>
+
+<meta name="generator" content="Vatic 安裝教學">
+<meta name="og:title" content="Vatic 安裝教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Vatic 安裝教學</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Vatic 是用來標註影片中 bounding box 的好用工具，因為它提供了 bounding box tracking 的功能，不需要一個一個 frame 去重新標註，所以想用 Machine Learning 學習影片中 bounding box 的人來說是很好用的工具。</p>
+<p><img src="https://i.imgur.com/3vTE1dO.jpg" alt="img"></p>
+<p>因為 vatic 的安裝步驟有一點複雜，所以寫這篇教學提供給需要的讀者朋友。筆者自己有在 Ubuntu 16.04 裝成功，這篇教學主要會 cover 到如何在自己電腦上 locally 跑起來 vatic。</p>
+<h2 id="開始安裝"><a href="#開始安裝" class="headerlink" title="開始安裝"></a>開始安裝</h2><p>首先，大家可以先看看官方 <a target="_blank" rel="noopener" href="https://github.com/cvondrick/vatic/tree/contrib#installation">tutorial</a>，裡面的步驟就是我們要做的，只是如果只按照裡面的步驟做，會遇到不少的 error，所以接下來我們會補充一些相關的經驗。</p>
+<h2 id="Download"><a href="#Download" class="headerlink" title="Download"></a>Download</h2><p>官方 tutorial 中會叫大家下載 install.sh 檔，但是他們提供的網址已經無法連上，這邊建議大家可以使用 <a target="_blank" rel="noopener" href="https://github.com/cvondrick/vatic/blob/contrib/vatic-install.sh">此連結</a> 裡面的檔案，是熱心的網友幫忙更新過的 installation script，裝起來比較沒有問題。</p>
+<h2 id="Apache-server-setup"><a href="#Apache-server-setup" class="headerlink" title="Apache server setup"></a>Apache server setup</h2><p>這邊提供大家一個修改完的 &#x2F;etc&#x2F;apache2&#x2F;sites-enabled&#x2F;000-default.conf 範例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">WSGIDaemonProcess www-data</span><br><span class="line">WSGIProcessGroup www-data</span><br><span class="line"></span><br><span class="line">&lt;VirtualHost *:80&gt;</span><br><span class="line">ServerName localhost</span><br><span class="line">DocumentRoot /home/icaros/tool/vatic_home/vatic/public</span><br><span class="line"></span><br><span class="line">WSGIScriptAlias /server /home/icaros/tool/vatic_home/vatic/server.py</span><br><span class="line">CustomLog /var/log/apache2/access.log combined</span><br><span class="line">&lt;/VirtualHost&gt;</span><br></pre></td></tr></table></figure>
+
+<p>當你改完上面的檔案，想要重新啟動 apache 時，可能會遇到下面的 error:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">icaros@icaros-MS-7B61:/etc/apache2/sites-enabled$ sudo apache2ctl graceful</span><br><span class="line">[sudo] password for icaros:</span><br><span class="line">AH00558: apache2: Could not reliably determine the server&#x27;s fully qualified domain name, using 127.0.1.1. Set the &#x27;ServerName&#x27; directive globally to suppress this message</span><br></pre></td></tr></table></figure>
+
+<p>這時候可以參考這篇回答 - <a target="_blank" rel="noopener" href="https://askubuntu.com/a/396048">Apache error “Could not reliably determine the server’s fully qualified domain name”</a>，就可以繼續進行。</p>
+<h2 id="Database-setup"><a href="#Database-setup" class="headerlink" title="Database setup"></a>Database setup</h2><p>當設定完 apache server 後，下一步我們要來設定儲存 annotation 需要用到的 database server。只是，當你按照官方教學的第一步做下去，你就會發現這個 error：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">icaros@icaros-MS-7B61:~/tool/vatic_home/vatic/public$ mysql -u root</span><br><span class="line">ERROR 1045 (28000): Access denied for user &#x27;root&#x27;@&#x27;localhost&#x27; (using password: NO)</span><br></pre></td></tr></table></figure>
+
+<p>當你遇到這個情況，別擔心，請下 <code>mysql -u root -p</code>，然後密碼請輸入 <code>hail_ukraine</code>，就可以進去 mysql 的命令視窗了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">icaros@icaros-MS-7B61:~/tool/vatic_home/vatic/public$ mysql -u root -p</span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MySQL monitor. Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 20</span><br><span class="line">Server version: 5.7.25-0ubuntu0.16.04.2 (Ubuntu)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然後就可以建立 vatic 這個 database 並離開 mysql：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create database vatic;</span><br><span class="line">mysql&gt; quit</span><br></pre></td></tr></table></figure>
+
+<h2 id="Setup"><a href="#Setup" class="headerlink" title="Setup"></a>Setup</h2><p>接下來要處理 config.py，這邊提供大家一個範例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">signature = &quot;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot; # AWS secret access key</span><br><span class="line">accesskey = &quot;xxxxxxxxxxxxxxxxxxxx&quot; # AWS access key ID</span><br><span class="line">sandbox = True # if true, put on workersandbox.mturk.com</span><br><span class="line">localhost = &quot;http://localhost/&quot; # your local host</span><br><span class="line">database = &quot;mysql://root@localhost/vatic&quot; # server://user:pass@localhost/dbname</span><br><span class="line">geolocation = &quot;d4c08cbcd873067102638cd6f1bf3c5d63ff053a87a4148273159c3ed1493b04&quot; # api key for ipinfodb.com</span><br><span class="line">maxobjects = 25;</span><br><span class="line"></span><br><span class="line"># probably no need to mess below this line</span><br><span class="line"></span><br><span class="line">import multiprocessing</span><br><span class="line">processes = multiprocessing.cpu_count()</span><br><span class="line"></span><br><span class="line">import os.path</span><br><span class="line">import sys</span><br><span class="line">sys.path.append(os.path.dirname(os.path.abspath(__file__)))</span><br></pre></td></tr></table></figure>
+
+<p>改完上面的範例，執行 <code>turkic setup --database</code>，很可能會遇到下一個 error：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">icaros@icaros-MS-7B61:~/tool/vatic_home/vatic$ turkic setup --database</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">File &quot;/usr/local/bin/turkic&quot;, line 4, in &lt;module&gt;</span><br><span class="line">__import__(&#x27;pkg_resources&#x27;).run_script(&#x27;turkic==0.2.5&#x27;, &#x27;turkic&#x27;)</span><br><span class="line">File &quot;/usr/local/lib/python2.7/dist-packages/pkg_resources/__init__.py&quot;, line 666, in run_script</span><br><span class="line">self.require(requires)[0].run_script(script_name, ns)</span><br><span class="line">File &quot;/usr/local/lib/python2.7/dist-packages/pkg_resources/__init__.py&quot;, line 1446, in run_script</span><br><span class="line">exec(code, namespace, namespace)</span><br><span class="line">File &quot;/usr/local/lib/python2.7/dist-packages/turkic-0.2.5-py2.7.egg/EGG-INFO/scripts/turkic&quot;, line 12, in &lt;module&gt;</span><br><span class="line">import cli</span><br><span class="line">File &quot;/home/icaros/tool/vatic_home/vatic/cli.py&quot;, line 19, in &lt;module&gt;</span><br><span class="line">import qa</span><br><span class="line">File &quot;/home/icaros/tool/vatic_home/vatic/qa.py&quot;, line 1, in &lt;module&gt;</span><br><span class="line">from match import match</span><br><span class="line">File &quot;/home/icaros/tool/vatic_home/vatic/match.py&quot;, line 1, in &lt;module&gt;</span><br><span class="line">import munkres</span><br><span class="line">File &quot;/usr/local/lib/python2.7/dist-packages/munkres-1.1.2-py2.7.egg/munkres.py&quot;, line 79</span><br><span class="line">def pad_matrix(self, matrix: Matrix, pad_value: int=0) -&gt; Matrix:</span><br><span class="line">^</span><br><span class="line">SyntaxError: invalid syntax</span><br></pre></td></tr></table></figure>
+
+<p>會遇到這個 error 是因為 munkres 這個 library 在 1.1.0 版之後就不支援 Python 2 了，但 vatic 似乎都是用 Python 2.7 寫的，所以請用 <code>pip install munkres==1.0.12</code> 安裝較舊的版本。</p>
+<p>好了，處理完 munkres 之後，你又會遇到下一個 error：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">icaros@icaros-MS-7B61:~/tool/vatic_home/vatic$ turkic setup --database</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">File &quot;/usr/local/bin/turkic&quot;, line 4, in &lt;module&gt;</span><br><span class="line">__import__(&#x27;pkg_resources&#x27;).run_script(&#x27;turkic==0.2.5&#x27;, &#x27;turkic&#x27;)</span><br><span class="line">File &quot;/usr/local/lib/python2.7/dist-packages/pkg_resources/__init__.py&quot;, line 666, in run_script</span><br><span class="line">self.require(requires)[0].run_script(script_name, ns)</span><br><span class="line">File &quot;/usr/local/lib/python2.7/dist-packages/pkg_resources/__init__.py&quot;, line 1446, in run_script</span><br><span class="line">exec(code, namespace, namespace)</span><br><span class="line">File &quot;/usr/local/lib/python2.7/dist-packages/turkic-0.2.5-py2.7.egg/EGG-INFO/scripts/turkic&quot;, line 16, in &lt;module&gt;</span><br><span class="line">turkic.cli.main()</span><br><span class="line">File &quot;/usr/local/lib/python2.7/dist-packages/turkic-0.2.5-py2.7.egg/turkic/cli.py&quot;, line 147, in main</span><br><span class="line">handler(args[1:])</span><br><span class="line">File &quot;/usr/local/lib/python2.7/dist-packages/turkic-0.2.5-py2.7.egg/turkic/cli.py&quot;, line 47, in __init__</span><br><span class="line">self(parser.parse_args(args))</span><br><span class="line">File &quot;/usr/local/lib/python2.7/dist-packages/turkic-0.2.5-py2.7.egg/turkic/cli.py&quot;, line 470, in __call__</span><br><span class="line">self.database(args)</span><br><span class="line">File &quot;/usr/local/lib/python2.7/dist-packages/turkic-0.2.5-py2.7.egg/turkic/cli.py&quot;, line 455, in database</span><br><span class="line">database.install()</span><br><span class="line">File &quot;/usr/local/lib/python2.7/dist-packages/turkic-0.2.5-py2.7.egg/turkic/database.py&quot;, line 45, in install</span><br><span class="line">Base.metadata.create_all(engine)</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/sql/schema.py&quot;, line 4287, in create_all</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/engine/base.py&quot;, line 2032, in _run_visitor</span><br><span class="line">File &quot;/usr/lib/python2.7/contextlib.py&quot;, line 17, in __enter__</span><br><span class="line">return self.gen.next()</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/engine/base.py&quot;, line 2024, in _optional_conn_ctx_manager</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/engine/base.py&quot;, line 2226, in _contextual_connect</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/engine/base.py&quot;, line 2266, in _wrap_pool_connect</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/engine/base.py&quot;, line 1536, in _handle_dbapi_exception_noconnection</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/util/compat.py&quot;, line 383, in raise_from_cause</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/engine/base.py&quot;, line 2262, in _wrap_pool_connect</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/pool/base.py&quot;, line 354, in connect</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/pool/base.py&quot;, line 751, in _checkout</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/pool/base.py&quot;, line 483, in checkout</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/pool/impl.py&quot;, line 138, in _do_get</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/util/langhelpers.py&quot;, line 68, in __exit__</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/pool/impl.py&quot;, line 135, in _do_get</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/pool/base.py&quot;, line 299, in _create_connection</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/pool/base.py&quot;, line 428, in __init__</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/pool/base.py&quot;, line 630, in __connect</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/engine/strategies.py&quot;, line 114, in connect</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/sqlalchemy/engine/default.py&quot;, line 453, in connect</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/MySQLdb/__init__.py&quot;, line 81, in Connect</span><br><span class="line">File &quot;build/bdist.linux-x86_64/egg/MySQLdb/connections.py&quot;, line 193, in __init__</span><br><span class="line">sqlalchemy.exc.OperationalError: (_mysql_exceptions.OperationalError) (1045, &quot;Access denied for user &#x27;root&#x27;@&#x27;localhost&#x27; (using password: NO)&quot;)</span><br><span class="line">(Background on this error at: http://sqlalche.me/e/e3q8)</span><br></pre></td></tr></table></figure>
+
+<p>這個 error 是源自於 mysql 需要 password 才能 access，但你可以用下面的指令將 password 設成空的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use mysql</span><br><span class="line">update user set authentication_string=password(&#x27;&#x27;) where user=&#x27;root&#x27;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+<p>以下是執行範例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; use mysql</span><br><span class="line">Reading table information for completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup with -A</span><br><span class="line"></span><br><span class="line">Database changed</span><br><span class="line">mysql&gt; update user set authentication_string=password(&#x27;&#x27;) where user=&#x27;root&#x27;;</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line">Rows matched: 1 Changed: 1 Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; quit</span><br><span class="line">Bye</span><br></pre></td></tr></table></figure>
+
+<p>當你再執行一次 <code>turkic setup --database</code>，你就可以看到成功設定 database 了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">icaros@icaros-MS-7B61:~/tool/vatic_home/vatic$ turkic setup --database</span><br><span class="line">Installed new tables, if any.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Verification"><a href="#Verification" class="headerlink" title="Verification"></a>Verification</h2><p>接下來要執行 <code>turkic status --verify</code>（如果你還沒有要跟 MTurk 綁定，你可以忽略 Amazon Mechanical Turk 的 error）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">icaros@icaros-MS-7B61:~/tool/vatic_home/vatic$ turkic status --verify</span><br><span class="line">Configuration:</span><br><span class="line">Sandbox: True</span><br><span class="line">Database: mysql://root@localhost/vatic</span><br><span class="line">Localhost: http://localhost/</span><br><span class="line"></span><br><span class="line">Testing access to Amazon Mechanical Turk... OK</span><br><span class="line">Testing access to database server... OK</span><br><span class="line">Testing access to web server... ERROR! HTTP Error 403: Forbidden</span><br><span class="line"></span><br><span class="line">One or more tests FAILED!</span><br></pre></td></tr></table></figure>
+
+<p>Amazon 的 MTurk 是一個 crowd labeling 的平台，你可以將 labeling 的工作放到網站上，讓世界上各地的人來為你標註 data，省下許多時間。</p>
+<p>可是即使忽略 MTurk，還是有 web server error，這時候你會需要改一下 &#x2F;etc&#x2F;apache2&#x2F;apache2.conf，加入下面幾行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;Directory /your_path_to_vatic/public&gt;</span><br><span class="line">Options Indexes FollowSymLinks</span><br><span class="line">AllowOverride All</span><br><span class="line">Require all granted</span><br><span class="line">&lt;/Directory</span><br></pre></td></tr></table></figure>
+
+<p>然後重新啟動 apache（<code>sudo apache2ctl graceful</code>），應該就可以成功啦：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">icaros@icaros-MS-7B61:~/tool/vatic_home/vatic$ turkic status --verify</span><br><span class="line">Configuration:</span><br><span class="line">Sandbox: True</span><br><span class="line">Database: mysql://root@localhost/vatic</span><br><span class="line">Localhost: http://localhost/</span><br><span class="line"></span><br><span class="line">Testing access to Amazon Mechanical Turk... OK</span><br><span class="line">Testing access to database server... OK</span><br><span class="line">Testing access to web server... OK</span><br><span class="line"></span><br><span class="line">All tests passed!</span><br></pre></td></tr></table></figure>
+
+<p>這時候在瀏覽器輸入 localhost 就可以看到 vatic 的畫面。</p>
+<h2 id="Frame-extraction"><a href="#Frame-extraction" class="headerlink" title="Frame extraction"></a>Frame extraction</h2><p>在把自己的 video frame extract 出來時，記得要在 vatic 的目錄下執行 turkic，不然會出現 error。</p>
+<h2 id="Publish-in-offline-mode"><a href="#Publish-in-offline-mode" class="headerlink" title="Publish in offline mode"></a>Publish in offline mode</h2><p>最後一步就是在自己電腦上 offline publish 剛剛弄好的 video：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">turkic load identifier_off /home/icaros/Downloads/turkic_frames/my_video/ apple --offline</span><br><span class="line">turkic publish --offline</span><br></pre></td></tr></table></figure>
+
+<p>你應該可以看到下列的 output：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">icaros@icaros-MS-7B61:~/tool/vatic_home/vatic$ turkic load identifier_off /home/icaros/Downloads/turkic_frames/my_video/ apple --offline</span><br><span class="line">Checking integrity...</span><br><span class="line">Searching for last frame...</span><br><span class="line">Found 9320 frames.</span><br><span class="line">Binding labels and attributes...</span><br><span class="line">Creating symbolic link...</span><br><span class="line">Creating segments...</span><br><span class="line">Video loaded and ready for publication.</span><br><span class="line">icaros@icaros-MS-7B61:~/tool/vatic_home/vatic$ turkic publish --offline</span><br><span class="line">http://localhost?id=65&amp;hitId=offline</span><br><span class="line">http://localhost?id=66&amp;hitId=offline</span><br><span class="line">http://localhost?id=67&amp;hitId=offline</span><br><span class="line">http://localhost?id=68&amp;hitId=offline</span><br><span class="line">http://localhost?id=69&amp;hitId=offline</span><br><span class="line">http://localhost?id=70&amp;hitId=offline</span><br><span class="line">http://localhost?id=71&amp;hitId=offline</span><br><span class="line">http://localhost?id=72&amp;hitId=offline</span><br><span class="line">http://localhost?id=73&amp;hitId=offline</span><br><span class="line">http://localhost?id=74&amp;hitId=offline</span><br><span class="line">http://localhost?id=75&amp;hitId=offline</span><br><span class="line">http://localhost?id=76&amp;hitId=offline</span><br><span class="line">http://localhost?id=77&amp;hitId=offline</span><br><span class="line">http://localhost?id=78&amp;hitId=offline</span><br><span class="line">http://localhost?id=79&amp;hitId=offline</span><br><span class="line">http://localhost?id=80&amp;hitId=offline</span><br><span class="line">http://localhost?id=81&amp;hitId=offline</span><br><span class="line">http://localhost?id=82&amp;hitId=offline</span><br><span class="line">http://localhost?id=83&amp;hitId=offline</span><br><span class="line">http://localhost?id=84&amp;hitId=offline</span><br><span class="line">http://localhost?id=85&amp;hitId=offline</span><br><span class="line">http://localhost?id=86&amp;hitId=offline</span><br><span class="line">http://localhost?id=87&amp;hitId=offline</span><br><span class="line">http://localhost?id=88&amp;hitId=offline</span><br><span class="line">http://localhost?id=89&amp;hitId=offline</span><br><span class="line">http://localhost?id=90&amp;hitId=offline</span><br><span class="line">http://localhost?id=91&amp;hitId=offline</span><br><span class="line">http://localhost?id=92&amp;hitId=offline</span><br><span class="line">http://localhost?id=93&amp;hitId=offline</span><br><span class="line">http://localhost?id=94&amp;hitId=offline</span><br><span class="line">http://localhost?id=95&amp;hitId=offline</span><br><span class="line">http://localhost?id=96&amp;hitId=offline</span><br></pre></td></tr></table></figure>
+
+<p>要 access 你的 task，去瀏覽器輸入上面任意一個 url，例如 <code>http://localhost/?id=86&amp;hitId=offline</code> 即可。 但如果你看到 server error, 請在 000-default.conf 檔案中加上 <code>Directory tag</code> 並重啟 apache：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">WSGIDaemonProcess www-data</span><br><span class="line">WSGIProcessGroup www-data</span><br><span class="line"></span><br><span class="line">&lt;VirtualHost *:80&gt;</span><br><span class="line">ServerName localhost</span><br><span class="line">DocumentRoot /home/icaros/tool/vatic_home/vatic/public</span><br><span class="line"></span><br><span class="line">WSGIScriptAlias /server /home/icaros/tool/vatic_home/vatic/server.py</span><br><span class="line">CustomLog /var/log/apache2/access.log combined</span><br><span class="line">&lt;/VirtualHost&gt;</span><br><span class="line"></span><br><span class="line">&lt;Directory /home/icaros/tool/vatic_home/vatic&gt;</span><br><span class="line">&lt;Files server.py&gt;</span><br><span class="line">Require all granted</span><br><span class="line">&lt;/Files&gt;</span><br><span class="line">&lt;/Directory&gt;</span><br></pre></td></tr></table></figure>
+
+<p>這時候再去瀏覽器輸入 <code>http://localhost?id=86&amp;hitId=offline</code>，你就可以看到 annotation 的視窗了：</p>
+<p><img src="https://i.imgur.com/3vTE1dO.jpg" alt="img"></p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>今天教大家要怎麼從無到有 setup vatic 這個可以更方便標註 video 中 bounding box 的工具，希望對有相關需求的讀者有幫助！</p>
+<h2 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/antingshen/BeaverDam">BeaverDam: Video annotation tool for deep learning training labels</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.researchgate.net/post/Tool_for_annotating_and_evaluating_video_object_detection_or_tracking">Tool for annotating and evaluating video object detection or tracking ?</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="https://pojenlai.wordpress.com/">@pojenlai</a> 演算法工程師，對機器人、電腦視覺和人工智慧有少許研究，正在學習<a target="_blank" rel="noopener" href="https://buzzorange.com/techorange/2017/07/10/elon-musk-first-principle/">用心體會事物的本質</a>跟<a target="_blank" rel="noopener" href="https://www.ted.com/talks/eduardo_briceno_how_to_get_better_at_the_things_you_care_about">不斷進入學生心態改進</a>。</p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/03/16/vatic-setup-tutorial/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/03/16/vatic-setup-tutorial/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/03/16/vatic-setup-tutorial/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/03/16/vatic-setup-tutorial/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/03/23/react-keyboard-event/">
+        ← 從 React 原始碼看 keyPress 與 keyDown 事件
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/03/10/computer-science-sorting-algorithm-part1/">
+        基礎電腦科學：排序（sorting）演算法入門上 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

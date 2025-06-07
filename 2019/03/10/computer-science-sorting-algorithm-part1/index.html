@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>基礎電腦科學：排序（sorting）演算法入門上 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-03-10T22:18:20.000Z" itemprop="datePublished">
+          2019-03-10
+      </time>
+    
+    
+    | 
+    <a href='/tags/algorithm/'>algorithm</a>,
+    
+    <a href='/tags/程式設計/'>程式設計</a>,
+    
+    <a href='/tags/programming/'>programming</a>,
+    
+    <a href='/tags/coding/'>coding</a>,
+    
+    <a href='/tags/演算法/'>演算法</a>,
+    
+    <a href='/tags/算法/'>算法</a>,
+    
+    <a href='/tags/computer-science/'>computer science</a>,
+    
+    <a href='/tags/電腦科學/'>電腦科學</a>
+    
+    
+</span>
+
+<meta name="generator" content="基礎電腦科學：排序（sorting）演算法入門上">
+<meta name="og:title" content="基礎電腦科學：排序（sorting）演算法入門上">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">基礎電腦科學：排序（sorting）演算法入門上</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/cs101/algorithm/sorting.jpg" alt="電腦科學概論：演算法入門概要"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>排序（sorting）和搜尋（search）是演算法（algorithm）中最常見的入門知識。雖然我們在一般程式開發的場合中較少會需要自己實作排序和搜尋演算法，但排序（sort）和搜尋（search）的觀念也常出現在其他的演算法當中，應用層面很廣。本系列文章將使用 Python 來實作幾個經典演算法。首先我們先來介紹：選擇排序、插入排序和氣泡排序法。</p>
+<h1 id="選擇排序法"><a href="#選擇排序法" class="headerlink" title="選擇排序法"></a>選擇排序法</h1><p>選擇排序法是一種十分直觀的排序演算法（就是選擇最小的值和第一個初始值互換），其基本原理如下：</p>
+<ol>
+<li>給定一個數字組合和初始最小值位值（一開始 index 為 0）</li>
+<li>經過第一輪每個數字和最小值比較，將取出的最小值和第一個數字位置對調（選擇最小的值）</li>
+<li>接著除了第一個已排序好的數字外，其餘數字持續最小值比較（index 為 1），若有更小值則和 index 為 1（第二個）值互換</li>
+<li>持續進行比較到能比較的值只剩下一個，則由小到大的排序完成</li>
+</ol>
+<p>舉例來說；</p>
+<p>有一個串列 <code>[9, 4, 11, 2, 7]</code> 希望由小到大排序。</p>
+<p>初始最小值為 index &#x3D; 0 的 9</p>
+<ol>
+<li><p>第一次排序後：2 [4, 11, 9, 7]：2 比 9 小，所以互換位置</p>
+</li>
+<li><p>第二次排序後：2, 4, [11, 9, 7]，4 為初始最小值，沒有可以互換的值</p>
+</li>
+<li><p>第三次排序後：2, 4, [11, 9, 7]，11 為初始最小值，7 是右邊比 11 小的最小值，兩者互換</p>
+</li>
+<li><p>第四次排序後：2, 4, 7, [9, 11]，9 為初始最小值，沒有可以互換的值</p>
+</li>
+<li><p>第五次排序後：2, 4, 7, 9, [11]，11 為初始最小值，沒有可以互換的值</p>
+</li>
+<li><p>最後排序結果：2, 4, 7, 9, 11</p>
+</li>
+</ol>
+<p>使用 Python 程式實作：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">selection_sort</span>(<span class="params">num_list</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    :param num_list: a list want to sort</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    num_list_length = <span class="built_in">len</span>(num_list)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, num_list_length):</span><br><span class="line">        min_num_index = i</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i + <span class="number">1</span>, num_list_length):</span><br><span class="line">            <span class="keyword">if</span> num_list[min_num_index] &gt; num_list[j]:</span><br><span class="line">                min_num_index = j</span><br><span class="line">        num_list[min_num_index], num_list[i] = num_list[i], num_list[min_num_index]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> num_list</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    num_list = [<span class="number">9</span>, <span class="number">4</span>, <span class="number">11</span>, <span class="number">2</span>, <span class="number">7</span>]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;選擇排序前：&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(num_list))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;選擇排序後：&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(selection_sort(num_list)))</span><br></pre></td></tr></table></figure>
+
+<p>選擇排序法是一種不穩定排序方法，且需要迭代多次，其最好和最壞以及平均時間複雜度皆為 <code>O(n^2)</code>，所需儲存空間不因輸入個數改變。僅儲存一個 index 值，故空間複雜度為 <code>O(1)</code></p>
+<h1 id="插入排序法"><a href="#插入排序法" class="headerlink" title="插入排序法"></a>插入排序法</h1><p>插入排序法就像是玩大老二撲克牌一開始整理手牌一樣，拿到新發的牌就插入已排序好的手排對應的位置，其基本原理如下：</p>
+<ol>
+<li>給定一個數字組合並假設第一個值成為一已排序數列</li>
+<li>經過第一輪每個數字和已排序數列比較，將值插入已排序數列對應位置</li>
+<li>直到最後一個數字也已插入已排序列中則排序結束</li>
+</ol>
+<p>舉例來說：</p>
+<p>有一個串列 <code>[9, 4, 11, 2, 7]</code> 希望由小到大排序。</p>
+<ol>
+<li><p>第一步插入 9 後：[9], 4, 11, 2, 7</p>
+</li>
+<li><p>第二步插入 4 後：[4, 9], 11, 2, 7</p>
+</li>
+<li><p>第三步插入 11 後：[4, 9, 11], 2, 7</p>
+</li>
+<li><p>第四步插入 9 後：[2, 4, 9, 11], 7</p>
+</li>
+<li><p>最後排序結果：[2, 4, 7, 9, 11]</p>
+</li>
+</ol>
+<p>使用 Python 程式實作：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">insert_sort</span>(<span class="params">num_list</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    :param num_list: a list want to sort</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    num_list_length = <span class="built_in">len</span>(num_list)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, num_list_length):</span><br><span class="line">        insert_value = num_list[i]</span><br><span class="line">        j = i - <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> j &gt;= <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">if</span> num_list[j] &gt; insert_value:</span><br><span class="line">                num_list[j + <span class="number">1</span>] = num_list[j]</span><br><span class="line">                num_list[j] = insert_value</span><br><span class="line">            j -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> num_list</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    num_list = [<span class="number">9</span>, <span class="number">4</span>, <span class="number">11</span>, <span class="number">2</span>, <span class="number">7</span>]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;插入排序前：&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(num_list))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;插入排序後：&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(insert_sort(num_list)))</span><br></pre></td></tr></table></figure>
+
+<p>插入排序法是一種穩定排序方法，其最好情況下時間複雜度為 <code>O(1)</code>（一開始已經排序好），最壞以及平均時間複雜度為 <code>O(n^2)</code>。所需儲存空間不因輸入個數而改變，故空間複雜度為 <code>O(1)</code></p>
+<h1 id="氣泡排序法"><a href="#氣泡排序法" class="headerlink" title="氣泡排序法"></a>氣泡排序法</h1><p>氣泡排序法顧名思義就是在排序的過程中，排序的值兩兩比較，大的值就像氣泡一樣由水底往上升（往一邊靠攏）。單向氣泡排序基本思路如下（假設由小到大排序）：</p>
+<p>對於給定 <code>n</code> 個數值，一開始由第一個值依序和之後每個值兩兩比較，若目前值比記錄值大時則交換位置。當完成一輪比較後最大值將於第 n 位，然後前 n - 1 位進行第二輪比較，重複進行過程到只剩下一位為止。</p>
+<p>舉例來說；</p>
+<p>有一個串列 <code>[9, 4, 11, 2, 7]</code> 希望由小到大排序。</p>
+<ol>
+<li><p>第一輪交換後：4, 9, 2, 7, 11</p>
+</li>
+<li><p>第二輪交換後：4, 2, 7, 9, 11</p>
+</li>
+<li><p>第三輪交換後：2, 4, 7, 9, 11</p>
+</li>
+<li><p>最後排序結果：2, 4, 7, 9, 11</p>
+</li>
+</ol>
+<p>使用 Python 實作：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">bubble_sort</span>(<span class="params">num_list</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    :param num_list: a list want to sort</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    list_length = <span class="built_in">len</span>(num_list)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, list_length):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i + <span class="number">1</span>, list_length):</span><br><span class="line">            <span class="keyword">if</span> num_list[i] &gt; num_list[j]:</span><br><span class="line">                num_list[i], num_list[j] = num_list[j], num_list[i]</span><br><span class="line">    <span class="keyword">return</span> num_list</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    num_list = [<span class="number">9</span>, <span class="number">4</span>, <span class="number">11</span>, <span class="number">2</span>, <span class="number">7</span>]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;氣泡排序前：&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(num_list))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;氣泡排序後：&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(bubble_sort(num_list)))</span><br></pre></td></tr></table></figure>
+
+<p>氣泡排序法是一種穩定排序方法，其最好情況下時間複雜度為 <code>O(n)</code>（一開始已經排序好），最壞以及平均時間複雜度為 <code>O(n^2)</code>。所需儲存空間不因輸入個數而改變，故空間複雜度為 <code>O(1)</code>。</p>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上簡單介紹了選擇排序、插入排序和氣泡排序法並使用 Python 來實作幾個經典演算法，下回我們將持續介紹更多經典且常用的演算法，那我們下次見囉！</p>
+<h1 id="參考文件"><a href="#參考文件" class="headerlink" title="參考文件"></a>參考文件</h1><ol>
+<li><a target="_blank" rel="noopener" href="http://www.csie.ntnu.edu.tw/~u91029/">台師大演算法筆記</a></li>
+<li><a target="_blank" rel="noopener" href="http://alrightchiu.github.io/SecondRound/mu-lu-yan-suan-fa-yu-zi-liao-jie-gou.html">演算法與資料結構</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%A4%A7O%E7%AC%A6%E5%8F%B7">大O符號</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.csie.ntnu.edu.tw/~u91029/AlgorithmAnalysis.html">Algorithm Analysis</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.freecodecamp.org/all-you-need-to-know-about-big-o-notation-to-crack-your-next-coding-interview-9d575e7eec4">All you need to know about “Big O Notation” to crack your next coding interview</a></li>
+</ol>
+<p>（image via <a target="_blank" rel="noopener" href="https://blog.pandorafms.org/what-is-an-algorithm/">pandorafms</a>、<a target="_blank" rel="noopener" href="https://brilliant.org/wiki/sorting-algorithms/">brilliant</a>）</p>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="https://blog.kdchang.cc/">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校。A Starter &amp; Maker. JavaScript, Python &amp; Arduino&#x2F;Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/03/10/computer-science-sorting-algorithm-part1/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/03/10/computer-science-sorting-algorithm-part1/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/03/10/computer-science-sorting-algorithm-part1/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/03/10/computer-science-sorting-algorithm-part1/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/03/16/vatic-setup-tutorial/">
+        ← Vatic 安裝教學
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/03/01/computer-science-algorithm-introduction/">
+        基礎電腦科學：演算法概要 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

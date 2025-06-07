@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>Web 資訊安全（Security）簡明入門教學指南 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2016-11-05T20:26:00.000Z" itemprop="datePublished">
+          2016-11-05
+      </time>
+    
+    
+    | 
+    <a href='/tags/Web-Security/'>Web, Security</a>
+    
+    
+</span>
+
+<meta name="generator" content="Web 資訊安全（Security）簡明入門教學指南">
+<meta name="og:title" content="Web 資訊安全（Security）簡明入門教學指南">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">Web 資訊安全（Security）簡明入門教學指南</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <p><img src="/img/kdchang/website-security.jpg" alt="Web 資訊安全（Security）簡明入門教學指南" title="Web 資訊安全（Security）簡明入門教學指南"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>隨著越來越多的服務和資料連上網路，Web 資訊安全已經是 Web 開發中一個重要的環節，然而許多開發者往往希望專注在應用程式的研發，而忽略了資訊安全的重要性。不過若是沒有嚴謹地考慮資訊安全的問題，等到事情發生後反而會造成更嚴重的財務和名譽上的損失。本文希望整理一些 Web 常見資訊安全（Security）的議題和學習資源和讀者一起教學相長，下次建構網路服務時可以更留心 Web 的資訊安全，甚至努力成為一個好的白帽駭客（White Hat Hacker）。</p>
+<h1 id="常見-Web-資訊安全（Security）議題"><a href="#常見-Web-資訊安全（Security）議題" class="headerlink" title="常見 Web 資訊安全（Security）議題"></a>常見 Web 資訊安全（Security）議題</h1><p>一般而言 Web 資訊安全（Security）需要符合三點安全要素：</p>
+<ol>
+<li>保密性：透過加密等方法確保資料的保密性</li>
+<li>完整性：要求使用者取得的資料是完整不可被竄改的</li>
+<li>可用性：保證網站服務的持續可訪問性</li>
+</ol>
+<p>以下列出常見影響 Web 資訊安全（Security）的攻擊手法：</p>
+<ol>
+<li><p>SQL Injection</p>
+<p> 使用惡意的 SQL 語法去影響資料庫內容：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span> <span class="comment">-- 為忽略掉後面的 SQL </span></span><br><span class="line"><span class="operator">/</span><span class="keyword">user</span><span class="operator">/</span>profile?id<span class="operator">=</span><span class="number">1</span>&quot;;DROP TABLE user--</span><br><span class="line"></span><br><span class="line">SELECT * FROM USER WHERE id = &quot;<span class="number">1</span>&quot;; DROP TABLE user--</span><br></pre></td></tr></table></figure>
+
+<p> 使用者登入：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span> password&quot; AND 1=1-- </span><br><span class="line">SELECT * FROM USER WHERE username = &quot;Mark&quot;; AND 1=1-- AND PASSWORD=&quot;<span class="number">1234</span>&quot;</span><br></pre></td></tr></table></figure>
+
+<p> 簡易防範方式：不信任使用者輸入的資料，確保使用者輸入都要 <code>escape</code> 掉，目前許多成熟 Web 框架都有支援 ORM 服務，大部分都基本防範了 SQL Injection。</p>
+</li>
+<li><p>XSS（Cross-Site Scripting）<br> XSS 亦即將惡意程式碼注入到網頁，讓看到網頁的使用者會受影響，常見的受災戶包括論壇、討論區等網路服務。事實上 XSS 概念很簡單，透過表單輸入建立一些惡意網址、惡意圖片網址或是 JavsScript 程式碼在 HTML 中注入，當使用者觀看頁面時即會觸發。</p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">IMG</span> <span class="attr">SRC</span>=<span class="string">&quot;&quot;</span><span class="attr">onerror</span>=<span class="string">&quot;alert(&#x27;XSS&#x27;)&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p> 更多關於 XSS 資料可以參考 <a target="_blank" rel="noopener" href="https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet">XSS Filter Evasion Cheat Sheet</a>。另外也有<a target="_blank" rel="noopener" href="https://jiji262.github.io/wooyun_articles/drops/XSS%20Filter%20Evasion%20Cheat%20Sheet%20%E4%B8%AD%E6%96%87%E7%89%88.html">簡體中文版</a> </p>
+<p> 簡易防範方式：不信任使用者輸入的資料，將所有輸入內容編碼並過濾。</p>
+</li>
+<li><p>CSRF</p>
+<p> <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0">CSRF 跨站請求偽造</a> 又被稱為 one-click attack 或者 session riding，通常縮寫為 CSRF 或者 XSRF， 是一種挾制用戶在當前已登入的 Web 應用程式上執行非本意的操作的攻擊方法。</p>
+<p> 舉維基百科上的例子：假如一家銀行用以執行轉帳操作的URL地址如下： </p>
+<p> <code>http://www.examplebank.com/withdraw?account=AccoutName&amp;amount=10000&amp;for=PayeeName</code></p>
+<p> 那麼，一個惡意攻擊者可以在另一個網站上放置如下代碼： </p>
+<p> <code>&lt;img src=&quot;http://www.examplebank.com/withdraw?account=Mark&amp;amount=10000&amp;for=Bob&quot;&gt;</code></p>
+<p> 若是使用者的登入資訊尚未過期的話就會損失 10000 元的金額。</p>
+<p> 簡易防範方式：</p>
+<ol>
+<li><p>檢查 Referer 欄位<br> 這是比較基本的驗證方式，通常 HTTP 標頭中有一個 Referer 欄位，其應該和 Request 位置在同一個網域下，因此可以透過驗證是否是在同一個網域來驗證是否為惡意的請求，但會有被更改偽裝的可能。</p>
+</li>
+<li><p>添加驗證 token<br> 一般現在許多的 Web Framework 都有提供在表單加入由 Server 生成的隨機驗證 CSRF 的碼，可以協助防止 CSRF 攻擊。</p>
+</li>
+</ol>
+</li>
+<li><p>DoS<br> <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-tw/%E9%98%BB%E6%96%B7%E6%9C%8D%E5%8B%99%E6%94%BB%E6%93%8A">Dos 阻斷式攻擊（Denial of Service Attack）</a>又稱為洪水攻擊，是一種網路攻擊手法，其目的在於使目標電腦的網路或系統資源耗盡，使服務暫時中斷或停止，導致真正的使用者無法使用服務。</p>
+<p> 根據維基百科：DoS 攻擊可以具體分成兩種形式：<code>頻寬消耗型</code> 以及 <code>資源消耗型</code>，它們都是透過大量合法或偽造的請求占用大量網路以及器材資源，以達到癱瘓網路以及系統的目的。</p>
+<p> 頻寬消耗攻擊又分洪泛攻擊或放大攻擊：洪泛攻擊的特點是利用殭屍程式傳送大量流量至受損的受害者系統，目的在於堵塞其頻寬。放大攻擊和洪泛攻擊類似，是通過惡意放大流量限制受害者系統的頻寬；其特點是利用殭屍程式通過偽造的源 IP（即攻擊目標）向某些存在漏洞的伺服器傳送請求，伺服器在處理請求後向偽造的源 IP 傳送應答，由於這些服務的特殊性導致應答包比請求包更長，因此使用少量的頻寬就能使伺服器傳送大量的 Response 到目標主機上。</p>
+<p> 資源消耗型又分為協定分析攻擊（SYN flood，SYN 洪水）、LAND attack、CC 攻擊、殭屍網路攻擊、Application level floods（應用程式級洪水攻擊）等。</p>
+<p> 簡易防範方式：</p>
+<ol>
+<li><p>防火牆<br> 設定規則阻擋簡單攻擊</p>
+</li>
+<li><p>交換機<br> 大多交換機有限制存取控制功能</p>
+</li>
+<li><p>路由器<br> 大多路由器有限制存取控制功能</p>
+</li>
+<li><p>黑洞啟動<br> 將請求轉到空介面或是不存在的位置</p>
+</li>
+</ol>
+</li>
+<li><p>檔案上傳漏洞<br> 許多網路應用程式可以讓使用者上傳檔案到伺服器端，由於我們不知道使用者會上傳什麼類型的檔案，若不留意就會造成很大的問題。</p>
+<p> 簡單防範方式：</p>
+<ol>
+<li><p>阻止非法文件上傳 </p>
+<ul>
+<li>設定檔名白名單</li>
+<li>文件標頭判斷</li>
+</ul>
+</li>
+<li><p>阻止非法文件執行 </p>
+<ul>
+<li>存儲目錄與 Web 應用分離</li>
+<li>存儲目錄無執行權限</li>
+<li>文件重命名</li>
+<li>圖片壓縮</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>加密安全<br> 有許多的網路服務有提供會員註冊的服務，當使用者使用註冊時注意不要將密碼明碼存入資料庫。若是你使用的服務會在忘記密碼時寄明碼密碼給你很有可能該服務就是使用明碼加密，此時就很容易會榮登<a target="_blank" rel="noopener" href="http://plainpass.com/">我的密碼沒加密</a>的網站。不過儘管將密碼加密也未必安全，像是網路上就存在一些<a target="_blank" rel="noopener" href="http://www.cmd5.com/"> 破解網站</a>、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%BD%A9%E8%99%B9%E8%A1%A8">彩虹表</a> 可以破解加密的密碼。所以通常我們會針對不同使用者使用隨機產生的 salt 字串來加鹽後加密的方式來提高密碼的強健性。</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sha3(salt + gap + password)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="簡易資安入侵流程"><a href="#簡易資安入侵流程" class="headerlink" title="簡易資安入侵流程"></a>簡易資安入侵流程</h1><ol>
+<li><p>偵查（Reconnaissance）<br>攻擊者準備攻擊之前進行的調查，使用 Google 或是社交工程找尋目標的相關資訊，以利之後的攻擊</p>
+</li>
+<li><p>掃描（Scanning）<br>掃描目標主機的弱點，取得主機作業系統、服務和運作狀況等相關資訊</p>
+</li>
+<li><p>取得權限（Gaining Access）<br>利用系統弱點取得主機權限</p>
+</li>
+<li><p>維持權限（Maintaining Access）<br>維持目前取得的權限，以便日後再次存取而不需繁雜的步驟</p>
+</li>
+<li><p>清除足跡（Clearing Tracks）<br>清除入侵的痕跡</p>
+</li>
+</ol>
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上整理一些 Web 常見資訊安全（Security）的議題和學習資源和讀者一起教學相長，成為一個好的白帽駭客（White Hat Hacker）。隨著網路科技的發展，資訊安全的議題只會越來越重要，當下次當有產品要上線到正式環境時，不妨使用 <a target="_blank" rel="noopener" href="https://github.com/FallibleInc/security-guide-for-developers/blob/master/security-checklist.md">The Security Checklist</a> 確認一下有哪些資安注意事項是我們沒有注意到的。</p>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><ol>
+<li><a target="_blank" rel="noopener" href="http://newsletter.ascc.sinica.edu.tw/news/read_news.php?nid=1909">Web Security 網站安全基礎篇（一）</a></li>
+<li><a target="_blank" rel="noopener" href="http://newsletter.ascc.sinica.edu.tw/news/read_news.php?nid=1917">Web Security網站安全基礎篇（二）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.qa-knowhow.com/?p=2975">3個免費的 Web資訊安全自動化測試工具</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.orange.tw/2016/07/hitcon-2016-slides-bug-bounty-hunter.html">HITCON 2016 投影片 - Bug Bounty 獎金獵人甘苦談 那些年我回報過的漏洞</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/FallibleInc/security-guide-for-developers/blob/master/security-checklist.md">FallibleInc&#x2F;security-guide-for-developers</a></li>
+<li><a target="_blank" rel="noopener" href="https://dotblogs.com.tw/jimmyyu/2009/08/16/10098">[資訊安全]防範Cross-Site-Scripting(XSS)</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.ithome.com.tw/node/66888">網站防範XSS攻擊的關鍵思考</a></li>
+</ol>
+<p>關於作者：<br><a target="_blank" rel="noopener" href="http://blog.kdchang.cc/">@kdchang</a> 文藝型開發者，夢想是做出人們想用的產品和辦一所心目中理想的學校，目前專注在 Mobile 和 IoT 應用開發。A Starter &amp; Maker. JavaScript, Python &amp; Arduino&#x2F;Android lover.:) </p>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2016/11/05/web-security-tutorial-introduction/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2016/11/05/web-security-tutorial-introduction/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2016/11/05/web-security-tutorial-introduction/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2016/11/05/web-security-tutorial-introduction/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2016/11/10/react-native-in-24-hours/">
+        ← React Native in 24 Hours
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2016/10/29/ros-cartographer-slam-basic/">
+        如何使用 Google Cartographer SLAM 演算法來建地圖 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>
