@@ -2,24 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/04/01/web-vr-101/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2017/06/17/webassembly-js-future/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.techbridge.cc/2019/08/17/webauthn-intro/</loc>
     
     <lastmod>2025-06-07</lastmod>
@@ -57,33 +39,6 @@
   
   <url>
     <loc>https://blog.techbridge.cc/about/index.html</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2018/01/05/tokio-internal/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2019/03/31/typescript-design-pattern-command/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2019/03/16/vatic-setup-tutorial/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -137,15 +92,6 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/11/05/web-security-tutorial-introduction/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.techbridge.cc/2017/01/06/web-components/</loc>
     
     <lastmod>2025-06-07</lastmod>
@@ -155,7 +101,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/11/30/smooshgate-and-keygen/</loc>
+    <loc>https://blog.techbridge.cc/2016/11/05/web-security-tutorial-introduction/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -164,7 +110,16 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/08/19/sotring-algorithm/</loc>
+    <loc>https://blog.techbridge.cc/2017/06/17/webassembly-js-future/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2017/04/01/web-vr-101/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -191,15 +146,6 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/11/06/svg-animation-in-10mins/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.techbridge.cc/2018/01/27/tensorflow-mnist/</loc>
     
     <lastmod>2025-06-07</lastmod>
@@ -209,7 +155,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/10/22/timer-d3-v4/</loc>
+    <loc>https://blog.techbridge.cc/2019/11/06/svg-animation-in-10mins/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -227,7 +173,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/02/18/ros-smach-intro/</loc>
+    <loc>https://blog.techbridge.cc/2016/10/22/timer-d3-v4/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -236,7 +182,25 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/12/08/rxjs/</loc>
+    <loc>https://blog.techbridge.cc/2018/01/05/tokio-internal/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2019/03/31/typescript-design-pattern-command/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2019/03/16/vatic-setup-tutorial/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -281,7 +245,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/04/16/simple-cryptography/</loc>
+    <loc>https://blog.techbridge.cc/2017/01/21/simple-hash-table-intro/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -290,7 +254,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/01/21/simple-hash-table-intro/</loc>
+    <loc>https://blog.techbridge.cc/2017/04/16/simple-cryptography/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -308,7 +272,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/07/07/resrc-for-swe/</loc>
+    <loc>https://blog.techbridge.cc/2019/11/30/smooshgate-and-keygen/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -317,7 +281,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/12/31/review-2016/</loc>
+    <loc>https://blog.techbridge.cc/2017/08/19/sotring-algorithm/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -398,7 +362,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/11/26/ros-motion-detector/</loc>
+    <loc>https://blog.techbridge.cc/2017/12/02/ros-gps-install-intro/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -407,7 +371,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/12/02/ros-gps-install-intro/</loc>
+    <loc>https://blog.techbridge.cc/2016/11/26/ros-motion-detector/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -425,7 +389,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/03/23/react-keyboard-event/</loc>
+    <loc>https://blog.techbridge.cc/2017/02/18/ros-smach-intro/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -434,7 +398,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/11/10/react-native-in-24-hours/</loc>
+    <loc>https://blog.techbridge.cc/2017/12/08/rxjs/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -506,7 +470,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/06/15/python-decorator-introduction/</loc>
+    <loc>https://blog.techbridge.cc/2018/07/07/resrc-for-swe/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -515,7 +479,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/11/01/python-flask-keras-image-predict-api/</loc>
+    <loc>https://blog.techbridge.cc/2016/12/31/review-2016/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -525,15 +489,6 @@
   
   <url>
     <loc>https://blog.techbridge.cc/2017/06/03/python-web-flask101-tutorial-introduction-and-environment-setup/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2018/07/14/python-monkey-patch/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -578,15 +533,6 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/04/21/react-jsx-introduction/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.techbridge.cc/2019/05/03/react-form/</loc>
     
     <lastmod>2025-06-07</lastmod>
@@ -596,7 +542,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/11/19/pebble-rocky-watchface/</loc>
+    <loc>https://blog.techbridge.cc/2016/04/21/react-jsx-introduction/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -605,7 +551,16 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/03/24/prob-model-of-cog-1/</loc>
+    <loc>https://blog.techbridge.cc/2019/03/23/react-keyboard-event/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2016/11/10/react-native-in-24-hours/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -632,15 +587,6 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/10/13/pwa-in-action/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.techbridge.cc/2017/12/01/pycon-2017-huan-le-xue-python-wei-yuan-zu-ma-byte-code/</loc>
     
     <lastmod>2025-06-07</lastmod>
@@ -651,6 +597,15 @@
   
   <url>
     <loc>https://blog.techbridge.cc/2018/05/11/python-data-science-and-machine-learning-matplotlib-tutorial/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/10/13/pwa-in-action/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -677,7 +632,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/07/13/medium-crawler/</loc>
+    <loc>https://blog.techbridge.cc/2018/06/15/python-decorator-introduction/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -686,7 +641,16 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/01/12/micro-frontends-concept/</loc>
+    <loc>https://blog.techbridge.cc/2018/11/01/python-flask-keras-image-predict-api/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/07/14/python-monkey-patch/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -785,25 +749,25 @@
   </url>
   
   <url>
+    <loc>https://blog.techbridge.cc/2016/11/19/pebble-rocky-watchface/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/03/24/prob-model-of-cog-1/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.techbridge.cc/2017/10/14/payment-request-api/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2018/05/21/lets-build-weather-bot-2/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2017/10/01/level-3-shingling-minhashing-and-common-distance-measure-i/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -902,7 +866,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/09/14/lambda-and-github-api/</loc>
+    <loc>https://blog.techbridge.cc/2019/07/13/medium-crawler/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -911,16 +875,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/12/01/kubernetes101-introduction-tutorial/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2018/09/02/learn-with-passion/</loc>
+    <loc>https://blog.techbridge.cc/2019/01/12/micro-frontends-concept/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -947,6 +902,15 @@
   </url>
   
   <url>
+    <loc>https://blog.techbridge.cc/2019/08/03/leetcode-comprehension-valid-number/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.techbridge.cc/2019/11/22/leetcode-pattern-fast-and-slow-pointer/</loc>
     
     <lastmod>2025-06-07</lastmod>
@@ -957,15 +921,6 @@
   
   <url>
     <loc>https://blog.techbridge.cc/2019/10/26/leetcode-pattern-next-greater-element/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2019/08/03/leetcode-comprehension-valid-number/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1001,7 +956,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/06/24/javascript-data-structure-algorithm-stack/</loc>
+    <loc>https://blog.techbridge.cc/2018/05/21/lets-build-weather-bot-2/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1010,7 +965,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/07/15/javascript-event-propagation/</loc>
+    <loc>https://blog.techbridge.cc/2017/10/01/level-3-shingling-minhashing-and-common-distance-measure-i/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1082,7 +1037,25 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/04/29/introduce-flux-from-flux-and-mvc/</loc>
+    <loc>https://blog.techbridge.cc/2018/12/01/kubernetes101-introduction-tutorial/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/09/14/lambda-and-github-api/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/09/02/learn-with-passion/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1154,7 +1127,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/07/26/how-to-use-taiwan-salary-data-to-do-python-data-analytics-and-data-visualization/</loc>
+    <loc>https://blog.techbridge.cc/2016/06/24/javascript-data-structure-algorithm-stack/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1163,7 +1136,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/06/15/iam-a-teapot-418/</loc>
+    <loc>https://blog.techbridge.cc/2017/07/15/javascript-event-propagation/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1226,15 +1199,6 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/10/27/intro-to-mdp-and-app/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.techbridge.cc/2018/11/24/intro-to-mdp-on-hri/</loc>
     
     <lastmod>2025-06-07</lastmod>
@@ -1245,6 +1209,15 @@
   
   <url>
     <loc>https://blog.techbridge.cc/2018/12/22/intro-to-mdp-program/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/10/27/intro-to-mdp-and-app/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1271,34 +1244,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/01/05/hello-i-am-a-scrum-master/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2016/03/19/how-to-build-a-great-startup-culture/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2019/06/29/how-to-build-kubernetes-k8s-cronjob-crawler/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2019/10/19/how-to-build-up-game-with-pygame-tutorial/</loc>
+    <loc>https://blog.techbridge.cc/2016/04/29/introduce-flux-from-flux-and-mvc/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1361,7 +1307,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/05/29/how-to-use-python-locust-to-do-load-testing/</loc>
+    <loc>https://blog.techbridge.cc/2018/10/05/how-to-use-python-manipulate-excel-spreadsheet/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1370,7 +1316,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/10/05/how-to-use-python-manipulate-excel-spreadsheet/</loc>
+    <loc>https://blog.techbridge.cc/2019/05/29/how-to-use-python-locust-to-do-load-testing/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1397,7 +1343,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/05/22/factory-method-and-abstract-factory/</loc>
+    <loc>https://blog.techbridge.cc/2019/07/26/how-to-use-taiwan-salary-data-to-do-python-data-analytics-and-data-visualization/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1406,25 +1352,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/04/23/fast-restful-nodejs-api-backend/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2016/05/20/fast-way-to-get-apk-information/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2018/10/20/flip-your-animation/</loc>
+    <loc>https://blog.techbridge.cc/2019/06/15/iam-a-teapot-418/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1469,7 +1397,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/02/17/golang101-tutorial-basic-flow-control/</loc>
+    <loc>https://blog.techbridge.cc/2018/02/03/github-classroom-and-travis-ci/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1478,7 +1406,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/02/03/github-classroom-and-travis-ci/</loc>
+    <loc>https://blog.techbridge.cc/2018/02/17/golang101-tutorial-basic-flow-control/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1514,7 +1442,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/07/28/data-science-101-numpy-tutorial/</loc>
+    <loc>https://blog.techbridge.cc/2019/01/05/hello-i-am-a-scrum-master/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1523,7 +1451,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/08/25/datavis-antv/</loc>
+    <loc>https://blog.techbridge.cc/2016/03/19/how-to-build-a-great-startup-culture/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1532,7 +1460,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/12/15/dataviz-yearendreview/</loc>
+    <loc>https://blog.techbridge.cc/2019/06/29/how-to-build-kubernetes-k8s-cronjob-crawler/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1541,7 +1469,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/03/10/deeplearnjs-simple-linear-regression/</loc>
+    <loc>https://blog.techbridge.cc/2019/10/19/how-to-build-up-game-with-pygame-tutorial/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1551,6 +1479,15 @@
   
   <url>
     <loc>https://blog.techbridge.cc/2018/04/07/deeplearnjs-logistic-regression/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/03/10/deeplearnjs-simple-linear-regression/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1613,7 +1550,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/11/15/css-grid-art-generator/</loc>
+    <loc>https://blog.techbridge.cc/2017/05/22/factory-method-and-abstract-factory/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1622,7 +1559,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/02/03/css-grid-intro/</loc>
+    <loc>https://blog.techbridge.cc/2016/04/23/fast-restful-nodejs-api-backend/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1631,7 +1568,16 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/05/23/css-houdini/</loc>
+    <loc>https://blog.techbridge.cc/2016/05/20/fast-way-to-get-apk-information/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/10/20/flip-your-animation/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1703,7 +1649,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/05/05/build-own-js-lib/</loc>
+    <loc>https://blog.techbridge.cc/2017/07/28/data-science-101-numpy-tutorial/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1712,7 +1658,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/08/26/canvas-path-map/</loc>
+    <loc>https://blog.techbridge.cc/2018/08/25/datavis-antv/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1721,7 +1667,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/06/17/cache-introduction/</loc>
+    <loc>https://blog.techbridge.cc/2018/12/15/dataviz-yearendreview/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1802,7 +1748,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/06/27/advanced-react-component-patterns-note/</loc>
+    <loc>https://blog.techbridge.cc/2018/11/15/css-grid-art-generator/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1811,7 +1757,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/03/24/android-decompile-introduction/</loc>
+    <loc>https://blog.techbridge.cc/2017/02/03/css-grid-intro/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1820,7 +1766,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/04/28/antd-and-admin-website/</loc>
+    <loc>https://blog.techbridge.cc/2017/05/23/css-houdini/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1856,15 +1802,6 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/09/24/binary-data-manipulations-in-javascript/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.techbridge.cc/2019/05/18/behind-the-scenes-http-challenge/</loc>
     
     <lastmod>2025-06-07</lastmod>
@@ -1874,7 +1811,43 @@
   </url>
   
   <url>
+    <loc>https://blog.techbridge.cc/2017/09/24/binary-data-manipulations-in-javascript/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.techbridge.cc/2016/09/24/binary-search-introduction/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/05/05/build-own-js-lib/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2017/06/17/cache-introduction/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2017/08/26/canvas-path-map/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -1929,6 +1902,33 @@
   
   <url>
     <loc>https://blog.techbridge.cc/2018/07/21/advanced-react-component-patterns-note-II/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/06/27/advanced-react-component-patterns-note/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2016/03/24/android-decompile-introduction/</loc>
+    
+    <lastmod>2025-06-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/04/28/antd-and-admin-website/</loc>
     
     <lastmod>2025-06-07</lastmod>
     
@@ -2303,6 +2303,13 @@
   </url>
   
   <url>
+    <loc>https://blog.techbridge.cc/tags/http/</loc>
+    <lastmod>2025-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.techbridge.cc/tags/Endianness/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
@@ -2324,13 +2331,6 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/tags/http/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.techbridge.cc/tags/search/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
@@ -2346,6 +2346,20 @@
   
   <url>
     <loc>https://blog.techbridge.cc/tags/algorithm/</loc>
+    <lastmod>2025-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/cache/</loc>
+    <lastmod>2025-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/http-header/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2381,20 +2395,6 @@
   
   <url>
     <loc>https://blog.techbridge.cc/tags/d3-js/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/cache/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/http-header/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -2849,14 +2849,14 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/tags/linear-regression/</loc>
+    <loc>https://blog.techbridge.cc/tags/logistic-regression/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/tags/logistic-regression/</loc>
+    <loc>https://blog.techbridge.cc/tags/linear-regression/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3122,6 +3122,34 @@
   </url>
   
   <url>
+    <loc>https://blog.techbridge.cc/tags/github/</loc>
+    <lastmod>2025-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/github-classroom/</loc>
+    <lastmod>2025-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/travis/</loc>
+    <lastmod>2025-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/ci/</loc>
+    <lastmod>2025-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.techbridge.cc/tags/GO/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
@@ -3200,34 +3228,6 @@
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E5%AD%B8%E7%A8%8B%E5%BC%8F/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/github/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/github-classroom/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/travis/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/ci/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -3612,6 +3612,34 @@
   </url>
   
   <url>
+    <loc>https://blog.techbridge.cc/tags/excel/</loc>
+    <lastmod>2025-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/%E8%A9%A6%E7%AE%97%E8%A1%A8/</loc>
+    <lastmod>2025-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/how-to/</loc>
+    <lastmod>2025-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/spreadsheet/</loc>
+    <lastmod>2025-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.techbridge.cc/tags/Testing/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
@@ -3655,34 +3683,6 @@
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Response-time/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/excel/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/%E8%A9%A6%E7%AE%97%E8%A1%A8/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/how-to/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/spreadsheet/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -4221,20 +4221,6 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/tags/lambda/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/aws/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.techbridge.cc/tags/Kubernetes/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
@@ -4257,6 +4243,20 @@
   
   <url>
     <loc>https://blog.techbridge.cc/tags/cloud-native/</loc>
+    <lastmod>2025-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/lambda/</loc>
+    <lastmod>2025-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/aws/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -4732,14 +4732,14 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/tags/Python-Django-MVC-Web-MTV-Web-Backend-Web-Framework-%E6%95%99%E5%AD%B8-Flask-%E6%A1%86%E6%9E%B6-%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-Anaconda/</loc>
+    <loc>https://blog.techbridge.cc/tags/Python-%E7%8C%B4%E5%AD%90%E8%A3%9C%E4%B8%81-Monkey-Patch/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/tags/Python-%E7%8C%B4%E5%AD%90%E8%A3%9C%E4%B8%81-Monkey-Patch/</loc>
+    <loc>https://blog.techbridge.cc/tags/Python-Django-MVC-Web-MTV-Web-Backend-Web-Framework-%E6%95%99%E5%AD%B8-Flask-%E6%A1%86%E6%9E%B6-%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-Anaconda/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -4879,14 +4879,14 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/tags/%E6%A9%9F%E5%99%A8%E4%BA%BA-ROS-%E5%8B%95%E4%BD%9C%E5%81%B5%E6%B8%AC-OpenCV-Mixture-of-Gaussian/</loc>
+    <loc>https://blog.techbridge.cc/tags/ROS-Guided-Policy-Search-Reinforcement-Learning/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/tags/ROS-Guided-Policy-Search-Reinforcement-Learning/</loc>
+    <loc>https://blog.techbridge.cc/tags/%E6%A9%9F%E5%99%A8%E4%BA%BA-ROS-%E5%8B%95%E4%BD%9C%E5%81%B5%E6%B8%AC-OpenCV-Mixture-of-Gaussian/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -4907,14 +4907,14 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/tags/rxjs/</loc>
+    <loc>https://blog.techbridge.cc/tags/LESS-SASS-SCSS-Sass-PossCSS-CSS-OOCSS-CSS-in-JS-CSS-Modules/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/tags/LESS-SASS-SCSS-Sass-PossCSS-CSS-OOCSS-CSS-in-JS-CSS-Modules/</loc>
+    <loc>https://blog.techbridge.cc/tags/rxjs/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -4935,14 +4935,14 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/tags/security-cryptography/</loc>
+    <loc>https://blog.techbridge.cc/tags/Data-Structure-Hash-Table/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/tags/Data-Structure-Hash-Table/</loc>
+    <loc>https://blog.techbridge.cc/tags/security-cryptography/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -4984,6 +4984,13 @@
   </url>
   
   <url>
+    <loc>https://blog.techbridge.cc/tags/TensorFlow-Neural-Network/</loc>
+    <lastmod>2025-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.techbridge.cc/tags/TimelineMax/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
@@ -4998,7 +5005,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/tags/TensorFlow-Neural-Network/</loc>
+    <loc>https://blog.techbridge.cc/tags/unitTest-testDouble/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -5006,13 +5013,6 @@
   
   <url>
     <loc>https://blog.techbridge.cc/tags/d3-timer-pomodoro/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/unitTest-testDouble/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -5110,13 +5110,6 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/tags/Web-Security/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.techbridge.cc/tags/web-web-components-shadow-dom-custom-element/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
@@ -5124,7 +5117,7 @@
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/tags/webvr-A-frame/</loc>
+    <loc>https://blog.techbridge.cc/tags/Web-Security/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -5132,6 +5125,13 @@
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Web-WASM-JavaScript/</loc>
+    <lastmod>2025-06-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/webvr-A-frame/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
