@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://blog.techbridge.cc/2017/01/06/web-components/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.techbridge.cc/2016/11/05/web-security-tutorial-introduction/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
     <loc>https://blog.techbridge.cc/2017/04/01/web-vr-101/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
@@ -30,10 +22,6 @@
   </url>
   <url>
     <loc>https://blog.techbridge.cc/2019/07/05/zooz-2018-oa/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.techbridge.cc/2016/10/22/timer-d3-v4/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -69,15 +57,11 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2017/04/16/simple-cryptography/</loc>
+    <loc>https://blog.techbridge.cc/2016/11/05/web-security-tutorial-introduction/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2017/01/21/simple-hash-table-intro/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.techbridge.cc/2016/06/04/sketch-prototyping-for-engineer/</loc>
+    <loc>https://blog.techbridge.cc/2017/01/06/web-components/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -105,19 +89,11 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
+    <loc>https://blog.techbridge.cc/2016/10/22/timer-d3-v4/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
     <loc>https://blog.techbridge.cc/2018/03/02/test-double-1/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.techbridge.cc/2017/12/02/ros-gps-install-intro/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.techbridge.cc/2016/11/26/ros-motion-detector/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.techbridge.cc/2016/05/14/ros-object-recognition-kitchen/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -145,15 +121,15 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2016/05/28/reactive-programming-intro-by-rxjs/</loc>
+    <loc>https://blog.techbridge.cc/2017/04/16/simple-cryptography/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2016/06/18/redis-introduction/</loc>
+    <loc>https://blog.techbridge.cc/2017/01/21/simple-hash-table-intro/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2018/08/04/resrc-for-cognitive-robotics/</loc>
+    <loc>https://blog.techbridge.cc/2016/06/04/sketch-prototyping-for-engineer/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -173,11 +149,11 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2016/03/19/ros-caffe/</loc>
+    <loc>https://blog.techbridge.cc/2016/04/15/ros-2-dds/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2016/04/15/ros-2-dds/</loc>
+    <loc>https://blog.techbridge.cc/2016/03/19/ros-caffe/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -197,11 +173,15 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2019/05/03/react-form/</loc>
+    <loc>https://blog.techbridge.cc/2016/11/26/ros-motion-detector/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2016/04/21/react-jsx-introduction/</loc>
+    <loc>https://blog.techbridge.cc/2017/12/02/ros-gps-install-intro/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.techbridge.cc/2016/05/14/ros-object-recognition-kitchen/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -213,6 +193,10 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
+    <loc>https://blog.techbridge.cc/2016/09/10/react-native-redux-android-firebase/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
     <loc>https://blog.techbridge.cc/2016/04/04/react-react-native-es5-es6-cheat-sheet/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
@@ -221,23 +205,19 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2016/09/10/react-native-redux-android-firebase/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
     <loc>https://blog.techbridge.cc/2018/01/05/react-render-optimization/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2018/05/11/python-data-science-and-machine-learning-matplotlib-tutorial/</loc>
+    <loc>https://blog.techbridge.cc/2016/05/28/reactive-programming-intro-by-rxjs/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2017/10/28/python-data-science-and-machine-learning-pandas-tutorial/</loc>
+    <loc>https://blog.techbridge.cc/2016/06/18/redis-introduction/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2017/11/24/python-data-science-and-machine-learning-scikit-learn-basic-tutorial/</loc>
+    <loc>https://blog.techbridge.cc/2018/08/04/resrc-for-cognitive-robotics/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -249,15 +229,15 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
+    <loc>https://blog.techbridge.cc/2017/06/03/python-web-flask101-tutorial-introduction-and-environment-setup/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
     <loc>https://blog.techbridge.cc/2018/07/14/python-monkey-patch/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
     <loc>https://blog.techbridge.cc/2017/08/12/python-web-flask101-tutorial-sqlalchemy-orm-database-models/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.techbridge.cc/2017/06/03/python-web-flask101-tutorial-introduction-and-environment-setup/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -273,19 +253,11 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2018/02/24/osrf-tensorflow-object-detector/</loc>
+    <loc>https://blog.techbridge.cc/2016/04/21/react-jsx-introduction/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2017/05/07/owasp/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.techbridge.cc/2018/01/13/p5ML-deeplearnjs/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.techbridge.cc/2017/10/14/payment-request-api/</loc>
+    <loc>https://blog.techbridge.cc/2019/05/03/react-form/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -313,11 +285,15 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2017/08/05/lsd-slam-5/</loc>
+    <loc>https://blog.techbridge.cc/2018/05/11/python-data-science-and-machine-learning-matplotlib-tutorial/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2017/06/10/lsd-slam-side-1/</loc>
+    <loc>https://blog.techbridge.cc/2017/10/28/python-data-science-and-machine-learning-pandas-tutorial/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.techbridge.cc/2017/11/24/python-data-science-and-machine-learning-scikit-learn-basic-tutorial/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -325,11 +301,11 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2018/07/20/modern-web-2018/</loc>
+    <loc>https://blog.techbridge.cc/2019/01/12/micro-frontends-concept/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2019/01/12/micro-frontends-concept/</loc>
+    <loc>https://blog.techbridge.cc/2018/07/20/modern-web-2018/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -357,11 +333,19 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2019/08/30/leetcode-pattern-two-pointer/</loc>
+    <loc>https://blog.techbridge.cc/2018/02/24/osrf-tensorflow-object-detector/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2018/05/10/lets-build-weather-bot-1/</loc>
+    <loc>https://blog.techbridge.cc/2017/05/07/owasp/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.techbridge.cc/2018/01/13/p5ML-deeplearnjs/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.techbridge.cc/2017/10/14/payment-request-api/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -405,19 +389,19 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2017/01/14/javascript101-tutorial/</loc>
+    <loc>https://blog.techbridge.cc/2017/08/05/lsd-slam-5/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2018/05/27/js-proxy-reflect/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.techbridge.cc/2018/12/01/kubernetes101-introduction-tutorial/</loc>
+    <loc>https://blog.techbridge.cc/2017/06/10/lsd-slam-side-1/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
     <loc>https://blog.techbridge.cc/2018/09/14/lambda-and-github-api/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.techbridge.cc/2018/12/01/kubernetes101-introduction-tutorial/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -433,10 +417,6 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2019/08/03/leetcode-comprehension-valid-number/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
     <loc>https://blog.techbridge.cc/2019/11/22/leetcode-pattern-fast-and-slow-pointer/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
@@ -445,19 +425,19 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
+    <loc>https://blog.techbridge.cc/2019/08/03/leetcode-comprehension-valid-number/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
     <loc>https://blog.techbridge.cc/2019/09/28/leetcode-pattern-sliding-window/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2017/03/10/javascript-data-structure-algorithm-dictionary-hash-table/</loc>
+    <loc>https://blog.techbridge.cc/2019/08/30/leetcode-pattern-two-pointer/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2016/12/10/javascript-data-structure-algorithm-queue/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.techbridge.cc/2017/02/11/javascript-data-structure-algorithm-set/</loc>
+    <loc>https://blog.techbridge.cc/2018/05/10/lets-build-weather-bot-1/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -489,19 +469,11 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2018/11/24/intro-to-mdp-on-hri/</loc>
+    <loc>https://blog.techbridge.cc/2017/01/14/javascript101-tutorial/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2018/12/22/intro-to-mdp-program/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.techbridge.cc/2018/04/22/intro-to-pinhole-camera-model/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.techbridge.cc/2018/05/19/intro-to-robot-shelf-replenishment/</loc>
+    <loc>https://blog.techbridge.cc/2018/05/27/js-proxy-reflect/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -525,19 +497,15 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2019/05/29/how-to-use-python-locust-to-do-load-testing/</loc>
+    <loc>https://blog.techbridge.cc/2017/03/10/javascript-data-structure-algorithm-dictionary-hash-table/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2018/10/05/how-to-use-python-manipulate-excel-spreadsheet/</loc>
+    <loc>https://blog.techbridge.cc/2016/12/10/javascript-data-structure-algorithm-queue/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2019/05/03/how-to-use-python-string-format-method/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.techbridge.cc/2019/09/21/how-to-use-python-tkinter-to-make-gui-app-tutorial/</loc>
+    <loc>https://blog.techbridge.cc/2017/02/11/javascript-data-structure-algorithm-set/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -569,23 +537,27 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2018/10/27/intro-to-mdp-and-app/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
     <loc>https://blog.techbridge.cc/2018/09/29/intro-to-josh-tenenbaum-research/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2017/09/09/golang101-tutorial-introduction/</loc>
+    <loc>https://blog.techbridge.cc/2018/10/27/intro-to-mdp-and-app/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2016/10/14/hacktoberfest-2016/</loc>
+    <loc>https://blog.techbridge.cc/2018/11/24/intro-to-mdp-on-hri/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2018/10/12/google-cloud-source-repositories-record/</loc>
+    <loc>https://blog.techbridge.cc/2018/12/22/intro-to-mdp-program/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.techbridge.cc/2018/04/22/intro-to-pinhole-camera-model/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.techbridge.cc/2018/05/19/intro-to-robot-shelf-replenishment/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -629,11 +601,19 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2017/11/17/drawing-css-image/</loc>
+    <loc>https://blog.techbridge.cc/2019/05/29/how-to-use-python-locust-to-do-load-testing/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2019/04/22/elm-chrome-extension/</loc>
+    <loc>https://blog.techbridge.cc/2018/10/05/how-to-use-python-manipulate-excel-spreadsheet/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.techbridge.cc/2019/05/03/how-to-use-python-string-format-method/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.techbridge.cc/2019/09/21/how-to-use-python-tkinter-to-make-gui-app-tutorial/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -669,19 +649,23 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2018/02/03/github-classroom-and-travis-ci/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
     <loc>https://blog.techbridge.cc/2018/02/17/golang101-tutorial-basic-flow-control/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2017/10/21/d3v4-sketchy-plugin/</loc>
+    <loc>https://blog.techbridge.cc/2018/02/03/github-classroom-and-travis-ci/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2018/04/01/dapp-todo-on-ethereum/</loc>
+    <loc>https://blog.techbridge.cc/2017/09/09/golang101-tutorial-introduction/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.techbridge.cc/2018/10/12/google-cloud-source-repositories-record/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.techbridge.cc/2016/10/14/hacktoberfest-2016/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -697,11 +681,11 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2018/04/07/deeplearnjs-logistic-regression/</loc>
+    <loc>https://blog.techbridge.cc/2018/03/10/deeplearnjs-simple-linear-regression/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2018/03/10/deeplearnjs-simple-linear-regression/</loc>
+    <loc>https://blog.techbridge.cc/2018/04/07/deeplearnjs-logistic-regression/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -721,7 +705,11 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2017/02/25/csrf-introduction/</loc>
+    <loc>https://blog.techbridge.cc/2017/11/17/drawing-css-image/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.techbridge.cc/2019/04/22/elm-chrome-extension/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -757,11 +745,11 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2017/09/24/binary-data-manipulations-in-javascript/</loc>
+    <loc>https://blog.techbridge.cc/2017/10/21/d3v4-sketchy-plugin/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2016/09/24/binary-search-introduction/</loc>
+    <loc>https://blog.techbridge.cc/2018/04/01/dapp-todo-on-ethereum/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -769,11 +757,11 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2017/06/17/cache-introduction/</loc>
+    <loc>https://blog.techbridge.cc/2017/08/26/canvas-path-map/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2017/08/26/canvas-path-map/</loc>
+    <loc>https://blog.techbridge.cc/2017/06/17/cache-introduction/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -805,11 +793,7 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
-    <loc>https://blog.techbridge.cc/2019/06/21/actor-model-in-web/</loc>
-    <lastmod>2025-06-07</lastmod>
-  </url>
-  <url>
-    <loc>https://blog.techbridge.cc/2018/07/21/advanced-react-component-patterns-note-II/</loc>
+    <loc>https://blog.techbridge.cc/2017/02/25/csrf-introduction/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -837,7 +821,15 @@
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
+    <loc>https://blog.techbridge.cc/2017/09/24/binary-data-manipulations-in-javascript/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
     <loc>https://blog.techbridge.cc/2019/05/18/behind-the-scenes-http-challenge/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.techbridge.cc/2016/09/24/binary-search-introduction/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
   <url>
@@ -854,6 +846,14 @@
   </url>
   <url>
     <loc>https://blog.techbridge.cc/2016/03/19/about/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.techbridge.cc/2019/06/21/actor-model-in-web/</loc>
+    <lastmod>2025-06-07</lastmod>
+  </url>
+  <url>
+    <loc>https://blog.techbridge.cc/2018/07/21/advanced-react-component-patterns-note-II/</loc>
     <lastmod>2025-06-07</lastmod>
   </url>
 </urlset> 
