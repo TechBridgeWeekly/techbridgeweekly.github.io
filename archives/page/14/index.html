@@ -49,6 +49,222 @@
   <article class="post">
     <header class="post-header">
       <span class="post-meta">
+      <time datetime="2017-10-01T00:11:34.000Z" itemprop="datePublished">
+          2017-10-01
+      </time>
+    
+    
+    | 
+    <a href='/tags/演算法/'>演算法</a>,
+    
+    <a href='/tags/大數據/'>大數據</a>,
+    
+    <a href='/tags/mining-massive-dataset/'>mining massive dataset</a>
+    
+    
+</span>
+
+<meta name="generator" content="Shingling, MinHashing and Common distance measure I">
+<meta name="og:title" content="Shingling, MinHashing and Common distance measure I">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2017/10/01/level-3-shingling-minhashing-and-common-distance-measure-i/">Shingling, MinHashing and Common distance measure I</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        誰適合閱讀這篇文章：熟悉 Hash, Set, Tries (Prefix and Suffix Tree) 等資料結構和有志從事大量資料分析的電腦工程師
+主要解決問題：給定一份文件，如何在網際網路的無盡文件大海中，找到相似的文件？主要應用：偵測剽竊 (Plagiarism)，搜尋引擎欲尋找鏡像網頁，網路購物或電影推薦系統中的協同過濾
+綱要：
+
+如何快速比較兩文件集合並提供量化結果: a.  如何定義相似度？ b.  如何重新定義相似度
+      
+      </p>
+      
+      <p>
+          <a href="/2017/10/01/level-3-shingling-minhashing-and-common-distance-measure-i/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2017-09-30T22:03:25.000Z" itemprop="datePublished">
+          2017-09-30
+      </time>
+    
+    
+    | 
+    <a href='/tags/C/'>C++</a>,
+    
+    <a href='/tags/header-file/'>header file</a>,
+    
+    <a href='/tags/header-guard/'>header guard</a>
+    
+    
+</span>
+
+<meta name="generator" content="C++ Header Guard 簡介">
+<meta name="og:title" content="C++ Header Guard 簡介">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2017/09/30/cpp-header-guard/">C++ Header Guard 簡介</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言C++ 的 header guard (中文譯作表頭哨兵，聽起來超帥) 是在開源&#x2F;大型專案中常常用到的功能，所以如果想要踏入開源專案的世界，看到 header guard 就覺得親切熟悉，絕對可以幫助你更把心思放在體會到這些開源程式碼的美！
+而且這個例子正巧是有朋友去面試美國某間新創公司時，實際被問到的問題，所以才興起想要動筆寫下這篇文章的念頭。畢竟很多小地方有沒有真正弄通是技術實力紮不紮實的重要指標！
+我剛剛隨便選了一個
+      
+      </p>
+      
+      <p>
+          <a href="/2017/09/30/cpp-header-guard/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2017-09-24T10:46:57.000Z" itemprop="datePublished">
+          2017-09-24
+      </time>
+    
+    
+    | 
+    <a href='/tags/JavaScript/'>JavaScript</a>,
+    
+    <a href='/tags/Endianness/'>Endianness</a>,
+    
+    <a href='/tags/Binary-Data/'>Binary Data</a>,
+    
+    <a href='/tags/Memory-Alignment/'>Memory Alignment</a>
+    
+    
+</span>
+
+<meta name="generator" content="使用 JavaScript 處理二進位資料">
+<meta name="og:title" content="使用 JavaScript 處理二進位資料">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2017/09/24/binary-data-manipulations-in-javascript/">使用 JavaScript 處理二進位資料</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        <p>由於高度封裝與抽象，JavaScript 的執行效率比不上 C 的語言。例如 JavaScript 的 Array 下標（subscript）是根據 hash key 而非實體記憶體位址 offset 取值，雖然方便，卻多了效能開銷。當 Canvas、WebGL、WebVR 開始走紅，效能越來越受重視，如何讓 JavaScript 達到如同 C 指標般操作 binary data 變得至關重要。</p>
+<p>存在許久但最近才變為 ES6 標準「<strong>Typed Array</strong>」就是解放 JavaScript 操作 binary data 能力的好工具！一起來了解 Typed Array 吧！</p>
+<p><em>（基於 ECMAScript 6+，Node.js 8.3）</em></p>
+      
+      </p>
+      
+      <p>
+          <a href="/2017/09/24/binary-data-manipulations-in-javascript/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2017-09-23T10:53:07.000Z" itemprop="datePublished">
+          2017-09-23
+      </time>
+    
+    
+    | 
+    <a href='/tags/webvr-A-frame-d3/'>webvr, A-frame, d3</a>
+    
+    
+</span>
+
+<meta name="generator" content="D3v4 工作坊 - WebVR 與資料視覺化">
+<meta name="og:title" content="D3v4 工作坊 - WebVR 與資料視覺化">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2017/09/23/webvr-d3/">D3v4 工作坊 - WebVR 與資料視覺化</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言Q2 的時候稍微玩了一下 WebVR，主要是瞭解了 Mozilla 主導推出的 A-Frame，驚訝於其簡單方便的 API 設計外，也一直在想還能做什麼有趣的應用，直到最近在構思 D3 的一些範例時，才突然又再想起 WebVR：既然 A-Frame 提供了一系列的 VR DOM object，而 D3.js 又能操作 DOM，那理論上一起使用是沒有問題的。
+果不其然，稍稍在網路搜尋一下就看到 WSJ 的這篇 Is the Nasda
+      
+      </p>
+      
+      <p>
+          <a href="/2017/09/23/webvr-d3/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2017-09-16T10:13:35.000Z" itemprop="datePublished">
+          2017-09-16
+      </time>
+    
+    
+    | 
+    <a href='/tags/frontend/'>frontend</a>,
+    
+    <a href='/tags/backend/'>backend</a>,
+    
+    <a href='/tags/mvc/'>mvc</a>,
+    
+    <a href='/tags/SPA/'>SPA</a>
+    
+    
+</span>
+
+<meta name="generator" content="前後端分離與 SPA">
+<meta name="og:title" content="前後端分離與 SPA">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2017/09/16/frontend-backend-mvc/">前後端分離與 SPA</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言這篇的原文（你走你的陽關道，我走我的獨木橋：前後端分離）是我之前在 iT 邦幫忙鐵人賽的其中一篇文章，寫完之後有陸陸續續收到一些回饋，就想說可以重新整理一下這篇文章，讓它變得再更清楚一點。
+如果你有以下疑惑的話，這篇文章非常適合你：
+
+為什麼前端會有 MVC？
+前端 MVC 跟後端 MVC 有什麼不一樣？
+為什麼要有 SPA（Single Page Application）？
+
+（其實關於 MVC 到底是什麼就有很多討論了，但因為這
+      
+      </p>
+      
+      <p>
+          <a href="/2017/09/16/frontend-backend-mvc/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
       <time datetime="2017-09-09T00:23:23.000Z" itemprop="datePublished">
           2017-09-09
       </time>
@@ -274,250 +490,6 @@ Project 簡介
       
       <p>
           <a href="/2017/08/12/python-web-flask101-tutorial-sqlalchemy-orm-database-models/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2017-08-05T21:39:40.000Z" itemprop="datePublished">
-          2017-08-05
-      </time>
-    
-    
-    | 
-    <a href='/tags/Robotics/'>Robotics</a>,
-    
-    <a href='/tags/ROS/'>ROS</a>,
-    
-    <a href='/tags/SLAM/'>SLAM</a>,
-    
-    <a href='/tags/LSD-SLAM/'>LSD SLAM</a>
-    
-    
-</span>
-
-<meta name="generator" content="深入學習 lsd-slam - 5">
-<meta name="og:title" content="深入學習 lsd-slam - 5">
-<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
-<meta name="og:type" content="website">
-<meta name="og:image" content="/img/og-cover.png">
-
-      <h1 class="post-title"><a href="/2017/08/05/lsd-slam-5/">深入學習 lsd-slam - 5</a></h1>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        前言上次跟大家簡介了 Eigen 這個可以用來做線性代數運算的 open source library，讓大家有動手實作、開始玩到東西的感覺。今天要延續動手實作的精神，跟大家介紹一下該怎麼把幾張 RGB-D 影像拼接成 point cloud，接下來就讓我們一起玩玩吧！
-參考資料來源這次的 data（包含 RGB 影像跟 Depth Map） 等等都是來自於 slambook 的 ch5，有這些資料真的超讚的，不然自己光要產生這些資料就
-      
-      </p>
-      
-      <p>
-          <a href="/2017/08/05/lsd-slam-5/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2017-07-28T09:54:49.000Z" itemprop="datePublished">
-          2017-07-28
-      </time>
-    
-    
-    | 
-    <a href='/tags/Python/'>Python</a>,
-    
-    <a href='/tags/Machine-Learning/'>Machine Learning</a>,
-    
-    <a href='/tags/機器學習/'>機器學習</a>,
-    
-    <a href='/tags/AI/'>AI</a>,
-    
-    <a href='/tags/Artificial-Intelligence/'>Artificial Intelligence</a>,
-    
-    <a href='/tags/NLP/'>NLP</a>,
-    
-    <a href='/tags/Data-Mining/'>Data Mining</a>,
-    
-    <a href='/tags/人工智慧/'>人工智慧</a>,
-    
-    <a href='/tags/監督式學習/'>監督式學習</a>,
-    
-    <a href='/tags/Supervised-learning/'>Supervised learning</a>,
-    
-    <a href='/tags/從零開始學資料科學/'>從零開始學資料科學</a>,
-    
-    <a href='/tags/Numpy/'>Numpy</a>,
-    
-    <a href='/tags/資料科學/'>資料科學</a>,
-    
-    <a href='/tags/data-science/'>data science</a>,
-    
-    <a href='/tags/data-scientist/'>data scientist</a>
-    
-    
-</span>
-
-<meta name="generator" content="從零開始學資料科學：Numpy 基礎入門">
-<meta name="og:title" content="從零開始學資料科學：Numpy 基礎入門">
-<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
-<meta name="og:type" content="website">
-<meta name="og:image" content="/img/og-cover.png">
-
-      <h1 class="post-title"><a href="/2017/07/28/data-science-101-numpy-tutorial/">從零開始學資料科學：Numpy 基礎入門</a></h1>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        
-前言本系列文章將透過系統介紹資料科學（Data Science）相關的知識，透過 Python 帶領讀者從零開始進入資料科學的世界。這邊我們將介紹 Numpy 這個強大的 Python 函式庫。
-什麼是 Numpy？Numpy 是 Python 的一個重要模組（Python 是一個高階語言也是一種膠水語言，可以透過整合其他低階語言同時擁有效能和高效率的開發），主要用於資料處理上。Numpy 底層以 C 和 Fortran 語言實作，所
-      
-      </p>
-      
-      <p>
-          <a href="/2017/07/28/data-science-101-numpy-tutorial/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2017-07-21T00:25:01.000Z" itemprop="datePublished">
-          2017-07-21
-      </time>
-    
-    
-    | 
-    <a href='/tags/d3/'>d3</a>,
-    
-    <a href='/tags/map/'>map</a>,
-    
-    <a href='/tags/animation/'>animation</a>,
-    
-    <a href='/tags/svg/'>svg</a>
-    
-    
-</span>
-
-<meta name="generator" content="D3v4 工作坊 - React + D3 繪製 svg 動態路線地圖">
-<meta name="og:title" content="D3v4 工作坊 - React + D3 繪製 svg 動態路線地圖">
-<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
-<meta name="og:type" content="website">
-<meta name="og:image" content="/img/og-cover.png">
-
-      <h1 class="post-title"><a href="/2017/07/21/d3-workshop-map/">D3v4 工作坊 - React + D3 繪製 svg 動態路線地圖</a></h1>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        前言以前在做一些跟地圖有關的應用時，第一個出現在腦海的不外乎是 Google Map 和 OpenStreetMap，然後搭配 Leaflet 與 Mapbox 等工具來對 map tile 做各種加工渲染，然而到了工作上需要時就會發現這些工具在不付費、遵守授權的狀況下，就出現了各種限制，像是需要自己架設 tile server 來轉換 OpenStreetMap 的圖資，或是 request 的次數限制等等。
-想了想發現最好的替代方案
-      
-      </p>
-      
-      <p>
-          <a href="/2017/07/21/d3-workshop-map/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2017-07-15T13:08:56.000Z" itemprop="datePublished">
-          2017-07-15
-      </time>
-    
-    
-    | 
-    <a href='/tags/DOM/'>DOM</a>,
-    
-    <a href='/tags/event/'>event</a>,
-    
-    <a href='/tags/bubble/'>bubble</a>,
-    
-    <a href='/tags/capture/'>capture</a>,
-    
-    <a href='/tags/propagation/'>propagation</a>
-    
-    
-</span>
-
-<meta name="generator" content="DOM 的事件傳遞機制：捕獲與冒泡">
-<meta name="og:title" content="DOM 的事件傳遞機制：捕獲與冒泡">
-<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
-<meta name="og:type" content="website">
-<meta name="og:image" content="/img/og-cover.png">
-
-      <h1 class="post-title"><a href="/2017/07/15/javascript-event-propagation/">DOM 的事件傳遞機制：捕獲與冒泡</a></h1>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        前言（補充：感謝 othree 前輩的指點，指出這其實是在講 DOM 裡面事件傳遞的順序，因此把標題以及內文修正，原標題為：JavaScript 的事件傳遞機制：捕獲與冒泡）
-今天為大家帶來的內容是 DOM 裡面的事件傳遞機制，而與這些事件相關的程式碼，相信大家應該不太陌生，就是addEventListener, preventDefault跟stopPropagation。
-簡單來說，就是事件在 DOM 裡面傳遞的順序，以及你可以對這
-      
-      </p>
-      
-      <p>
-          <a href="/2017/07/15/javascript-event-propagation/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2017-07-08T21:50:20.000Z" itemprop="datePublished">
-          2017-07-08
-      </time>
-    
-    
-    | 
-    <a href='/tags/Robotics/'>Robotics</a>,
-    
-    <a href='/tags/ROS/'>ROS</a>,
-    
-    <a href='/tags/SLAM/'>SLAM</a>,
-    
-    <a href='/tags/LSD-SLAM/'>LSD SLAM</a>,
-    
-    <a href='/tags/Eigen/'>Eigen</a>
-    
-    
-</span>
-
-<meta name="generator" content="深入學習 LSD-SLAM - 4">
-<meta name="og:title" content="深入學習 LSD-SLAM - 4">
-<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
-<meta name="og:type" content="website">
-<meta name="og:image" content="/img/og-cover.png">
-
-      <h1 class="post-title"><a href="/2017/07/08/lsd-slam-4/">深入學習 LSD-SLAM - 4</a></h1>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        前言上次講了一些基本的理論介紹，但我們現在是希望學會如何實際寫程式讓機器人動起來，只有純數學的觀念跟機器人好像沒什麼關係，所以這次希望可以開始銜接到一個常用的工具 - Eigen。讓大家有動手實作、開始玩到東西的感覺。
-為什麼要會 Eigen？首先，Eigen 是一個 C++ 的 open source library，提供了許多線性代數運算相關的函式。
-然後，我們這一系列是要介紹 LSD-SLAM，所以當然是因為 LSD-SLAM 也
-      
-      </p>
-      
-      <p>
-          <a href="/2017/07/08/lsd-slam-4/" class="excerpt-link">Read More...</a>
       </p>
       
     </section>

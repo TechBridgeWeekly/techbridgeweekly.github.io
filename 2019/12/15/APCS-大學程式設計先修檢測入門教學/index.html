@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>簡明 APCS 大學程式設計先修檢測入門教學 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-12-15T19:32:59.000Z" itemprop="datePublished">
+          2019-12-15
+      </time>
+    
+</span>
+
+<meta name="generator" content="簡明 APCS 大學程式設計先修檢測入門教學">
+<meta name="og:title" content="簡明 APCS 大學程式設計先修檢測入門教學">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">簡明 APCS 大學程式設計先修檢測入門教學</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><a target="_blank" rel="noopener" href="https://apcs.csie.ntnu.edu.tw/">APCS</a>（Advanced Placement Computer Science，大學程式設計先修檢測入門教學）是教育部所推動的資訊能力檢測，希望藉由舉辦具公信力之「程式設計檢測」，讓具備程式設計能力之高中職學生，能夠檢驗學習成果，並供作大學選才的參考依據（可以想成是類似程式設計版本的全民英檢）。即便引起許多討論和爭議（軟體開發重點在於透過程式語言這項工具解決生活上的問題，過分強調程式解題有可能會抹煞學生學習程式設計的熱情或是城鄉師資差距、學生家長的焦慮等），但目前已有許多大學資工資管等相關資訊科系開設相關組別或是名額採計檢定成績。本篇文章透過 APCS 釋出的過去歷屆考題來介紹 APCS 相關資訊和觀念。</p>
+<h1 id="APCS-簡介"><a href="#APCS-簡介" class="headerlink" title="APCS 簡介"></a>APCS 簡介</h1><p>APCS 檢定試題共分為兩個部分：程式設計觀念和程式設計實作，兩者皆為中文命題，採線上方式進行測驗。</p>
+<h2 id="考試資訊"><a href="#考試資訊" class="headerlink" title="考試資訊"></a>考試資訊</h2><p>程式設計觀念題共有 40 題，分兩節測驗（各 20 題，各 60 分鐘），程式設計實作題共有 4 個題組（150 分鐘）。APCS 每年固定有幾個月時間會有考試檢定，在許多縣市皆有設置考場，推廣期間免收報名費。詳細考試檢定資訊以<a target="_blank" rel="noopener" href="https://apcs.csie.ntnu.edu.tw/">官方網站</a>為主。</p>
+<p><img src="https://static.coderbridge.com/img/kdchang/5260e2cde29d4e219dcae286d4d58c76.png"></p>
+<h2 id="成績計算方式"><a href="#成績計算方式" class="headerlink" title="成績計算方式"></a>成績計算方式</h2><p>以下為分數與級別對照表：</p>
+<p><img src="https://static.coderbridge.com/img/kdchang/c197b8e9b6b149ec99b72f77bfdf1cfb.png"></p>
+<h2 id="測試環境"><a href="#測試環境" class="headerlink" title="測試環境"></a>測試環境</h2><p>在 APCS 官方網站有提供<a target="_blank" rel="noopener" href="https://apcs.csie.ntnu.edu.tw/index.php/info/environment/">實作練習環境</a>可以下載使用（需安裝 <a target="_blank" rel="noopener" href="https://www.virtualbox.org/">VirtualBox</a>），按照步驟指示可以安裝 Ubuntu 的系統環境（裡面已經安裝好 Eclipse、Code Block、Python2&#x2F;3 IDLE 等工具）。</p>
+<p><img src="https://static.coderbridge.com/img/kdchang/d6a5be54e8734cf5a178d6cfe2370495.png"></p>
+<h1 id="程式設計觀念題"><a href="#程式設計觀念題" class="headerlink" title="程式設計觀念題"></a>程式設計觀念題</h1><p>程式設計觀念主要是單選題命題，以運算思維、問題解決與程式設計觀念測驗為主。測驗內容包含：<code>code tracing</code>、<code>code debugging</code> 和 <code>code completion</code> 等類型（程式片段以 C 語言命題）。</p>
+<p>程式設計觀念內容領域包含：</p>
+<ol>
+<li>程式設計基本觀念</li>
+<li>資料型別、變數（全域變數、區域變數）、常數</li>
+<li>條件控制</li>
+<li>迴圈</li>
+<li>函式</li>
+<li>陣列、結構等資料結構</li>
+<li>遞迴</li>
+</ol>
+<p>以下我們根據官網提供的歷屆試題，用兩個範例來讓讀者感受一下程式設計觀念題。</p>
+<p><img src="https://static.coderbridge.com/img/kdchang/f96f3969df6b476395945fc6ef04f81f.png"></p>
+<p>本題參考解答為：<code>D</code>，主要是測驗循序搜尋法及二分搜尋演算法的比較。</p>
+<p>解題思路：</p>
+<p><code>value = 100</code> 代表 <code>k</code> 為 33，循序從 0 到 33 需執行 34 次。</p>
+<p>若透過二分搜尋算法，每次對切會更逼近答案，可以在第 5 次時找到。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>low</th>
+<th>high</th>
+<th>mid</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>No.1</td>
+<td>0</td>
+<td>99</td>
+<td>49</td>
+</tr>
+<tr>
+<td>No.2</td>
+<td>0</td>
+<td>48</td>
+<td>24</td>
+</tr>
+<tr>
+<td>No.3</td>
+<td>25</td>
+<td>48</td>
+<td>36</td>
+</tr>
+<tr>
+<td>No.4</td>
+<td>25</td>
+<td>35</td>
+<td>30</td>
+</tr>
+<tr>
+<td>No.5</td>
+<td>31</td>
+<td>35</td>
+<td>33</td>
+</tr>
+</tbody></table>
+<p>接著我們再來看另外一個範例：</p>
+<p><img src="https://static.coderbridge.com/img/kdchang/87dcd51724c64252a6e9662569a636a5.png"></p>
+<p>本題參考解答為：<code>C</code>。主要希望透過迴圈找到最大元素值的索引值。最大值為 9，但取最後一次值出現 9 的 <code>index</code> 為 7。</p>
+<h1 id="程式設計實作題"><a href="#程式設計實作題" class="headerlink" title="程式設計實作題"></a>程式設計實作題</h1><p>程式設計實作題主要以完成程式為主，可以自行選擇以 C、C++、Java 或 Python 撰寫程式。我們範例將以 Python 為主。</p>
+<p>以下我們根據官網提供的歷屆試題，用一個範例來讓讀者感受一下程式設計實作題。</p>
+<p><img src="https://static.coderbridge.com/img/kdchang/4e4d2307cdd04276a8c192dd885fae77.png"></p>
+<p><img src="https://static.coderbridge.com/img/kdchang/bd94f1473e4f42f296ce9cd8d5e2c2d7.png"></p>
+<p>本題解題思路主要分為：</p>
+<ol>
+<li>輸入資料前處理</li>
+<li>進行成績資料的排序</li>
+<li>判斷最低分是否及格：若及格代表全部人都及格，否則循序取出最高不及格分數</li>
+<li>判斷最高分是否不及格：若不及格則全班不及格，否則循序取出最低及格分數</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">while True:</span><br><span class="line">    input_line_1 = input(&#x27;請輸入學生人數：&#x27;)</span><br><span class="line">    if not input_line_1:</span><br><span class="line">        print(&#x27;請輸入正確學生人數&#x27;)</span><br><span class="line">        break</span><br><span class="line">    try:</span><br><span class="line">        student_number = int(input_line_1)</span><br><span class="line">    except ValueError:</span><br><span class="line">        print(&#x27;請輸入正確學生人數&#x27;)</span><br><span class="line">        break</span><br><span class="line">    input_line_2 = input(&#x27;請輸入學生成績：&#x27;)</span><br><span class="line">    if not input_line_2:</span><br><span class="line">        print(&#x27;請輸入學生成績&#x27;)</span><br><span class="line">        break</span><br><span class="line">    raw_score_list = input_line_2.split(&#x27; &#x27;)</span><br><span class="line"></span><br><span class="line">    if len(raw_score_list) != student_number:</span><br><span class="line">        print(&#x27;請確認成績筆數是否正確&#x27;)</span><br><span class="line">        break</span><br><span class="line"></span><br><span class="line">    # 由小到大排序</span><br><span class="line">    sorted_score_list = sorted(raw_score_list)</span><br><span class="line">    sorted_score_str = &#x27; &#x27;.join(sorted_score_list)</span><br><span class="line">    print(sorted_score_str)</span><br><span class="line"></span><br><span class="line">    sorted_score_list = [int(value) for value in sorted_score_list]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    # 由於由小到大排序，若第一個值也及格代表全班都及格</span><br><span class="line">    if sorted_score_list[0] &gt;= 60:</span><br><span class="line">        print(&#x27;best case&#x27;)</span><br><span class="line">    else:</span><br><span class="line">        # 循序取出最高不及格分數</span><br><span class="line">        i = student_number - 1</span><br><span class="line">        while sorted_score_list[i] &gt;= 60:</span><br><span class="line">            i -= 1</span><br><span class="line">        print(sorted_score_list[i])</span><br><span class="line"></span><br><span class="line">    # 由於由小到大排序，若最後一個成績（最高分）也不及格代表全班都不及格</span><br><span class="line">    if sorted_score_list[-1] &lt; 60:</span><br><span class="line">        print(&#x27;worst case&#x27;)</span><br><span class="line">    else:</span><br><span class="line">        # 循序取出最低及格分數</span><br><span class="line">        i = 0</span><br><span class="line">        while sorted_score_list[i] &lt; 60:</span><br><span class="line">            i += 1</span><br><span class="line">        print(sorted_score_list[i])</span><br></pre></td></tr></table></figure>
+
+<h1 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h1><p>以上簡單介紹了 APCS 大學程式設計先修檢測相關資訊。雖然 APCS 可以透過考試檢定方式具更具體化呈現學生對於程式解題的概念（畢竟考試測驗是成本最低也看似公平的檢驗能力方式），政府單位願意重視資訊科技教育也是好事一件，也讓專攻程式設計能力專長的學生有多一個升學的管道。但在考試領導教學的教育環境下，若是沒有很好的配套教學措施可能容易讓莘莘學子誤以為程式設計和軟體開發就是程式解題或是拚命刷題，從而放棄了對於程式設計的熱情就得不償失了（邏輯思考和解決問題能力很重要，但軟體開發最重要的還是人的部分以及跨領域溝通協調和整合）。</p>
+<h1 id="參考文件"><a href="#參考文件" class="headerlink" title="參考文件"></a>參考文件</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://apcs.csie.ntnu.edu.tw/">APCS 官方網站</a></li>
+</ol>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/12/15/APCS-%E5%A4%A7%E5%AD%B8%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%85%88%E4%BF%AE%E6%AA%A2%E6%B8%AC%E5%85%A5%E9%96%80%E6%95%99%E5%AD%B8/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/12/15/APCS-大學程式設計先修檢測入門教學/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/12/15/APCS-大學程式設計先修檢測入門教學/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/12/15/APCS-大學程式設計先修檢測入門教學/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <a class="newer-posts" href="/2019/12/21/leetcode-%E5%88%B7%E9%A1%8C-pattern-breadth-first-search/">
+        ← Leetcode 刷題 pattern - Breadth-First Search
+    </a>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/12/07/GraphQL-Summit-2019-%E8%88%87%E6%9C%83%E5%BF%83%E5%BE%97/">
+        GraphQL Summit 2019 與會分享 →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

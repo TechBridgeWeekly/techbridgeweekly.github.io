@@ -2,99 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/07/05/zooz-2018-oa/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2017/09/23/webvr-d3/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/about/index.html</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2019/10/13/web-accessibility-intro/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2019/07/16/web-ar/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2019/10/04/web-backend-interview-in-2019/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2017/01/06/web-components/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2016/11/05/web-security-tutorial-introduction/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2017/04/01/web-vr-101/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.techbridge.cc/2017/06/17/webassembly-js-future/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2017/03/04/webcomopnent-practice/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -103,52 +13,43 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/08/17/webauthn-intro/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/11/06/svg-animation-in-10mins/</loc>
+    <loc>https://blog.techbridge.cc/2017/03/04/webcomopnent-practice/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2018/01/27/tensorflow-mnist/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/03/02/test-double-1/</loc>
+    <loc>https://blog.techbridge.cc/2017/09/23/webvr-d3/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2016/10/22/timer-d3-v4/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/01/05/tokio-internal/</loc>
+    <loc>https://blog.techbridge.cc/2019/07/05/zooz-2018-oa/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/about/index.html</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -157,7 +58,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/03/31/typescript-design-pattern-command/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -166,7 +67,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/03/16/vatic-setup-tutorial/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -175,7 +76,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/02/04/vdom-from-scratch/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -184,61 +85,61 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/09/22/visit-ast-with-babel-plugin/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/09/07/session-and-cookie-implementation/</loc>
+    <loc>https://blog.techbridge.cc/2019/10/13/web-accessibility-intro/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2019/08/10/session-and-cookie-rfc/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/06/08/silicon-valley-robotics-company/</loc>
+    <loc>https://blog.techbridge.cc/2019/07/16/web-ar/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2017/04/16/simple-cryptography/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/01/21/simple-hash-table-intro/</loc>
+    <loc>https://blog.techbridge.cc/2019/10/04/web-backend-interview-in-2019/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/06/04/sketch-prototyping-for-engineer/</loc>
+    <loc>https://blog.techbridge.cc/2017/01/06/web-components/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2017/04/01/web-vr-101/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2016/11/05/web-security-tutorial-introduction/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -247,7 +148,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/11/30/smooshgate-and-keygen/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -256,7 +157,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/08/19/sotring-algorithm/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -265,7 +166,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/04/20/spectrum-pull-request/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -274,70 +175,52 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/02/16/ssd-hand-detection-with-tensorflow-object-detection-api/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/03/19/ros-caffe/</loc>
+    <loc>https://blog.techbridge.cc/2019/11/06/svg-animation-in-10mins/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2016/10/29/ros-cartographer-slam-basic/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/09/28/ros-collision-avoiding-robot/</loc>
+    <loc>https://blog.techbridge.cc/2018/01/27/tensorflow-mnist/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2016/06/08/ros-ecto-first/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/12/02/ros-gps-install-intro/</loc>
+    <loc>https://blog.techbridge.cc/2018/03/02/test-double-1/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2016/07/09/ros-ecto-second/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/11/26/ros-motion-detector/</loc>
+    <loc>https://blog.techbridge.cc/2016/10/22/timer-d3-v4/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/01/05/tokio-internal/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -346,7 +229,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/05/14/ros-object-recognition-kitchen/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -355,7 +238,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/02/18/ros-smach-intro/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -364,7 +247,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/12/08/rxjs/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -373,52 +256,61 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/06/30/sass-scss-tutorial-introduction/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/08/27/react-redux-immutablejs-node-server-isomorphic-tutorial/</loc>
+    <loc>https://blog.techbridge.cc/2019/09/07/session-and-cookie-implementation/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2018/01/05/react-render-optimization/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/05/28/reactive-programming-intro-by-rxjs/</loc>
+    <loc>https://blog.techbridge.cc/2019/06/08/silicon-valley-robotics-company/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2016/06/18/redis-introduction/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/08/04/resrc-for-cognitive-robotics/</loc>
+    <loc>https://blog.techbridge.cc/2019/08/10/session-and-cookie-rfc/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2017/04/16/simple-cryptography/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2017/01/21/simple-hash-table-intro/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2016/06/04/sketch-prototyping-for-engineer/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -427,7 +319,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/07/07/resrc-for-swe/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -436,7 +328,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/12/31/review-2016/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -445,7 +337,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/12/29/review-2018/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -454,7 +346,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/08/26/robond-rover/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -463,43 +355,70 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/04/15/ros-2-dds/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/07/30/react-dev-enviroment-webpack-browserify/</loc>
+    <loc>https://blog.techbridge.cc/2016/03/19/ros-caffe/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2018/03/31/react-fiber-and-lifecycle-change/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/05/03/react-form/</loc>
+    <loc>https://blog.techbridge.cc/2016/10/29/ros-cartographer-slam-basic/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/03/23/react-keyboard-event/</loc>
+    <loc>https://blog.techbridge.cc/2016/09/28/ros-collision-avoiding-robot/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2016/06/08/ros-ecto-first/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2016/07/09/ros-ecto-second/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2017/12/02/ros-gps-install-intro/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2016/11/26/ros-motion-detector/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -508,7 +427,16 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/04/21/react-jsx-introduction/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2019/03/23/react-keyboard-event/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -517,7 +445,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/11/10/react-native-in-24-hours/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -526,7 +454,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/09/10/react-native-redux-android-firebase/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -535,43 +463,52 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/04/04/react-react-native-es5-es6-cheat-sheet/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/10/13/pwa-in-action/</loc>
+    <loc>https://blog.techbridge.cc/2016/08/27/react-redux-immutablejs-node-server-isomorphic-tutorial/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2017/12/01/pycon-2017-huan-le-xue-python-wei-yuan-zu-ma-byte-code/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/05/11/python-data-science-and-machine-learning-matplotlib-tutorial/</loc>
+    <loc>https://blog.techbridge.cc/2018/01/05/react-render-optimization/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/10/28/python-data-science-and-machine-learning-pandas-tutorial/</loc>
+    <loc>https://blog.techbridge.cc/2016/05/28/reactive-programming-intro-by-rxjs/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2016/06/18/redis-introduction/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/08/04/resrc-for-cognitive-robotics/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -580,7 +517,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/11/24/python-data-science-and-machine-learning-scikit-learn-basic-tutorial/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -589,7 +526,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/06/15/python-decorator-introduction/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -598,7 +535,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/11/01/python-flask-keras-image-predict-api/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -607,7 +544,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/07/14/python-monkey-patch/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -616,7 +553,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/06/03/python-web-flask101-tutorial-introduction-and-environment-setup/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -625,7 +562,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/08/12/python-web-flask101-tutorial-sqlalchemy-orm-database-models/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -634,43 +571,34 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/12/17/python101-tutorial/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/09/09/observablehq-intro/</loc>
+    <loc>https://blog.techbridge.cc/2016/07/30/react-dev-enviroment-webpack-browserify/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2017/11/04/openai-gym-intro-and-q-learning/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/01/18/openpose-installation/</loc>
+    <loc>https://blog.techbridge.cc/2018/03/31/react-fiber-and-lifecycle-change/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/02/24/osrf-tensorflow-object-detector/</loc>
+    <loc>https://blog.techbridge.cc/2019/05/03/react-form/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -679,16 +607,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/01/13/p5ML-deeplearnjs/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2017/05/07/owasp/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -697,7 +616,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/10/14/payment-request-api/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -706,7 +625,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/11/19/pebble-rocky-watchface/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -715,7 +634,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/03/24/prob-model-of-cog-1/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -724,7 +643,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/07/23/progressive-web-app/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -733,52 +652,43 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/05/25/pure-css-tic-tac-toe-analyze/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/04/15/lsd-slam-2/</loc>
+    <loc>https://blog.techbridge.cc/2018/10/13/pwa-in-action/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2017/05/13/lsd-slam-3/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/07/08/lsd-slam-4/</loc>
+    <loc>https://blog.techbridge.cc/2017/12/01/pycon-2017-huan-le-xue-python-wei-yuan-zu-ma-byte-code/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2017/08/05/lsd-slam-5/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/06/10/lsd-slam-side-1/</loc>
+    <loc>https://blog.techbridge.cc/2018/05/11/python-data-science-and-machine-learning-matplotlib-tutorial/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2017/10/28/python-data-science-and-machine-learning-pandas-tutorial/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -787,7 +697,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/07/13/medium-crawler/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -796,7 +706,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/01/12/micro-frontends-concept/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -805,7 +715,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/07/20/modern-web-2018/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -814,7 +724,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/08/11/nginx-static-dynamic-page-server-intro/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -823,7 +733,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/05/24/ngrok/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -832,34 +742,52 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/12/24/object-recognition-kitchen/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/10/26/leetcode-pattern-next-greater-element/</loc>
+    <loc>https://blog.techbridge.cc/2019/09/09/observablehq-intro/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2019/09/28/leetcode-pattern-sliding-window/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/08/30/leetcode-pattern-two-pointer/</loc>
+    <loc>https://blog.techbridge.cc/2017/11/04/openai-gym-intro-and-q-learning/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2019/01/18/openpose-installation/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/02/24/osrf-tensorflow-object-detector/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2017/05/07/owasp/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -868,7 +796,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/05/10/lets-build-weather-bot-1/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -877,7 +805,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/05/21/lets-build-weather-bot-2/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -886,7 +814,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/10/01/level-3-shingling-minhashing-and-common-distance-measure-i/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -895,7 +823,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/12/23/linux-commnd-line-tutorial/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -904,7 +832,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/02/01/linux-curl-command-tutorial/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -913,7 +841,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/11/15/linux-shell-script-tutorial/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -922,7 +850,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/12/03/livestreamming-hls-note/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -931,34 +859,52 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/03/18/lsd-slam-1/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/02/23/javascript-this/</loc>
+    <loc>https://blog.techbridge.cc/2017/04/15/lsd-slam-2/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2017/01/14/javascript101-tutorial/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/05/27/js-proxy-reflect/</loc>
+    <loc>https://blog.techbridge.cc/2017/05/13/lsd-slam-3/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2017/07/08/lsd-slam-4/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2017/08/05/lsd-slam-5/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2017/06/10/lsd-slam-side-1/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -967,7 +913,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/12/01/kubernetes101-introduction-tutorial/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -976,7 +922,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/09/14/lambda-and-github-api/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -985,7 +931,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/09/02/learn-with-passion/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -994,7 +940,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/01/17/learning-programming-and-coding-with-python-git-and-github-tutorial/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1003,7 +949,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/10/05/learning-programming-and-coding-with-python-introduction/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1012,7 +958,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/08/03/leetcode-comprehension-valid-number/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1021,34 +967,43 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/11/22/leetcode-pattern-fast-and-slow-pointer/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/10/08/javascript-data-structure-algorithm-array/</loc>
+    <loc>https://blog.techbridge.cc/2019/10/26/leetcode-pattern-next-greater-element/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2017/03/10/javascript-data-structure-algorithm-dictionary-hash-table/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/12/10/javascript-data-structure-algorithm-queue/</loc>
+    <loc>https://blog.techbridge.cc/2019/09/28/leetcode-pattern-sliding-window/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2019/08/30/leetcode-pattern-two-pointer/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2019/12/21/leetcode-%E5%88%B7%E9%A1%8C-pattern-breadth-first-search/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1057,7 +1012,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/02/11/javascript-data-structure-algorithm-set/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1066,7 +1021,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/06/24/javascript-data-structure-algorithm-stack/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1075,7 +1030,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/07/15/javascript-event-propagation/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1084,7 +1039,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/11/10/javascript-hoisting/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1093,7 +1048,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/07/16/javascript-jsfuck-and-aaencode/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1102,7 +1057,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/06/16/javascript-obj-compare/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1111,43 +1066,34 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/04/22/javascript-prototype/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/10/27/intro-to-mdp-and-app/</loc>
+    <loc>https://blog.techbridge.cc/2019/02/23/javascript-this/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2018/11/24/intro-to-mdp-on-hri/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/12/22/intro-to-mdp-program/</loc>
+    <loc>https://blog.techbridge.cc/2017/01/14/javascript101-tutorial/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/04/22/intro-to-pinhole-camera-model/</loc>
+    <loc>https://blog.techbridge.cc/2018/05/27/js-proxy-reflect/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1156,7 +1102,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/05/19/intro-to-robot-shelf-replenishment/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1165,7 +1111,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/04/29/introduce-flux-from-flux-and-mvc/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1174,7 +1120,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/10/05/javascript-async-sync-and-callback/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1183,7 +1129,16 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/06/23/javascript-call-by-value-or-reference/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2016/10/08/javascript-data-structure-algorithm-array/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1192,43 +1147,25 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/12/08/javascript-closure/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/04/06/how-to-use-python-implement-least-recently-used/</loc>
+    <loc>https://blog.techbridge.cc/2017/03/10/javascript-data-structure-algorithm-dictionary-hash-table/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2019/05/29/how-to-use-python-locust-to-do-load-testing/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/10/05/how-to-use-python-manipulate-excel-spreadsheet/</loc>
+    <loc>https://blog.techbridge.cc/2016/12/10/javascript-data-structure-algorithm-queue/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2019/05/03/how-to-use-python-string-format-method/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1237,7 +1174,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/09/21/how-to-use-python-tkinter-to-make-gui-app-tutorial/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1246,16 +1183,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/07/26/how-to-use-taiwan-salary-data-to-do-python-data-analytics-and-data-visualization/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2019/06/15/iam-a-teapot-418/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1264,16 +1192,16 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/01/27/interview-review/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/06/09/intro-to-CRAM/</loc>
+    <loc>https://blog.techbridge.cc/2019/06/15/iam-a-teapot-418/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1282,7 +1210,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/05/10/intro-nengo/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1291,7 +1219,16 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/12/31/intro-to-ceres-solver/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/06/09/intro-to-CRAM/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1300,7 +1237,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/04/12/intro-to-human-adversarial-learning/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1309,34 +1246,43 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/09/29/intro-to-josh-tenenbaum-research/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/02/17/golang101-tutorial-basic-flow-control/</loc>
+    <loc>https://blog.techbridge.cc/2018/11/24/intro-to-mdp-on-hri/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2017/09/09/golang101-tutorial-introduction/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/10/12/google-cloud-source-repositories-record/</loc>
+    <loc>https://blog.techbridge.cc/2018/10/27/intro-to-mdp-and-app/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/12/22/intro-to-mdp-program/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/04/22/intro-to-pinhole-camera-model/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1345,7 +1291,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/10/14/hacktoberfest-2016/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1354,16 +1300,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/01/05/hello-i-am-a-scrum-master/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2016/03/19/how-to-build-a-great-startup-culture/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1372,7 +1309,16 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/06/29/how-to-build-kubernetes-k8s-cronjob-crawler/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2016/03/19/how-to-build-a-great-startup-culture/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1381,7 +1327,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/10/19/how-to-build-up-game-with-pygame-tutorial/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1390,7 +1336,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/09/03/how-to-control-bot-motion-by-ROSTopic/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1399,7 +1345,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/02/14/how-to-make-a-good-node-module/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1408,7 +1354,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/04/08/how-to-mastering-machine-learning-with-python/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1417,7 +1363,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/04/14/how-to-setup-python-development-environment-in-windows/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1426,25 +1372,43 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/08/26/how-to-use-prometheus-grafana-in-flask-app/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/11/17/drawing-css-image/</loc>
+    <loc>https://blog.techbridge.cc/2019/04/06/how-to-use-python-implement-least-recently-used/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2019/04/22/elm-chrome-extension/</loc>
+    <loc>https://blog.techbridge.cc/2019/05/29/how-to-use-python-locust-to-do-load-testing/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/10/05/how-to-use-python-manipulate-excel-spreadsheet/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2019/05/03/how-to-use-python-string-format-method/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1453,7 +1417,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/05/22/factory-method-and-abstract-factory/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1462,7 +1426,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/04/23/fast-restful-nodejs-api-backend/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1471,7 +1435,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/05/20/fast-way-to-get-apk-information/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1480,7 +1444,16 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/10/20/flip-your-animation/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2019/12/27/from-nand-to-tetris%EF%BC%9A%E6%83%B3%E7%90%86%E8%A7%A3%E9%9B%BB%E8%85%A6%E9%81%8B%E4%BD%9C%EF%BC%8C%E5%B0%B1%E5%85%88%E5%81%9A%E5%87%BA%E4%B8%80%E5%8F%B0%E5%90%A7%EF%BC%81/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1489,7 +1462,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/09/16/frontend-backend-mvc/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1498,7 +1471,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/01/26/functional-css/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1507,7 +1480,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/11/14/future-of-software/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1516,7 +1489,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/08/06/gazebo-robot-2d-map/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1525,25 +1498,34 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/02/03/github-classroom-and-travis-ci/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/10/21/d3v4-sketchy-plugin/</loc>
+    <loc>https://blog.techbridge.cc/2018/02/17/golang101-tutorial-basic-flow-control/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/04/01/dapp-todo-on-ethereum/</loc>
+    <loc>https://blog.techbridge.cc/2017/09/09/golang101-tutorial-introduction/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/10/12/google-cloud-source-repositories-record/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1552,7 +1534,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/07/28/data-science-101-numpy-tutorial/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1561,7 +1543,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/08/25/datavis-antv/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1570,7 +1552,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/12/15/dataviz-yearendreview/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1579,7 +1561,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/04/07/deeplearnjs-logistic-regression/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1588,7 +1570,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/03/10/deeplearnjs-simple-linear-regression/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1597,7 +1579,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/08/12/defend-against-ddos-with-nginx-iptable-and-fail2ban/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1606,7 +1588,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/03/24/difficult-problem-of-cookie/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1615,7 +1597,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/03/17/docker-build-nginx-tutorial/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1624,25 +1606,25 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/09/07/docker-compose-tutorial-intro/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/11/11/cs50/</loc>
+    <loc>https://blog.techbridge.cc/2017/11/17/drawing-css-image/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/02/25/csrf-introduction/</loc>
+    <loc>https://blog.techbridge.cc/2019/04/22/elm-chrome-extension/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1651,7 +1633,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/11/15/css-grid-art-generator/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1660,7 +1642,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/02/03/css-grid-intro/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1669,7 +1651,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/05/23/css-houdini/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1678,7 +1660,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/03/02/css-key-logger/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1687,7 +1669,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/04/29/css-methodology-atomiccss/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1696,7 +1678,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/07/21/d3-workshop-map/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1705,7 +1687,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/12/12/d3v4-calendar-yearendreview/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1714,34 +1696,25 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/08/20/d3v4-pokemon-weaknesses/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2017/09/24/binary-data-manipulations-in-javascript/</loc>
+    <loc>https://blog.techbridge.cc/2017/10/21/d3v4-sketchy-plugin/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2016/09/24/binary-search-introduction/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/05/05/build-own-js-lib/</loc>
+    <loc>https://blog.techbridge.cc/2018/04/01/dapp-todo-on-ethereum/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1750,7 +1723,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/06/17/cache-introduction/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1759,7 +1732,16 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/08/26/canvas-path-map/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2019/12/30/cds2019-next-generation-web-styling-%E6%95%B4%E7%90%86%E4%BB%8B%E7%B4%B9/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1768,7 +1750,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/02/10/chrome-devtool-extension/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1777,7 +1759,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/03/01/computer-science-algorithm-introduction/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1786,7 +1768,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/03/10/computer-science-sorting-algorithm-part1/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1795,7 +1777,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/08/18/cors-issue/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1804,7 +1786,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/09/30/cpp-header-guard/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1813,34 +1795,25 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/09/17/create-react-pwa/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2016/03/19/about/</loc>
+    <loc>https://blog.techbridge.cc/2017/11/11/cs50/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2019/06/21/actor-model-in-web/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/2018/07/21/advanced-react-component-patterns-note-II/</loc>
+    <loc>https://blog.techbridge.cc/2017/02/25/csrf-introduction/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1849,7 +1822,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/06/27/advanced-react-component-patterns-note/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1858,7 +1831,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/03/24/android-decompile-introduction/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1867,7 +1840,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2018/04/28/antd-and-admin-website/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1876,16 +1849,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/05/20/api-ajax-cors-and-jsonp/</loc>
     
-    <lastmod>2025-06-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/2017/05/06/back-end-engineer-toolbox-database-sql-orm/</loc>
-    
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1894,7 +1858,16 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/11/02/before-start-leetcode/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2017/05/06/back-end-engineer-toolbox-database-sql-orm/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1903,7 +1876,43 @@
   <url>
     <loc>https://blog.techbridge.cc/2019/05/18/behind-the-scenes-http-challenge/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2017/09/24/binary-data-manipulations-in-javascript/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2016/09/24/binary-search-introduction/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/05/05/build-own-js-lib/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2019/12/15/APCS-%E5%A4%A7%E5%AD%B8%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%85%88%E4%BF%AE%E6%AA%A2%E6%B8%AC%E5%85%A5%E9%96%80%E6%95%99%E5%AD%B8/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1912,7 +1921,7 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/04/02/Browser-Rendering-Optimization/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1921,7 +1930,16 @@
   <url>
     <loc>https://blog.techbridge.cc/2016/07/02/ChatBot-with-Wit/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2019/12/07/GraphQL-Summit-2019-%E8%88%87%E6%9C%83%E5%BF%83%E5%BE%97/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1930,7 +1948,34 @@
   <url>
     <loc>https://blog.techbridge.cc/2017/06/21/Lets-know-a-little-bit-of-Self-Driving-Car/</loc>
     
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2016/03/19/about/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2019/06/21/actor-model-in-web/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/2018/07/21/advanced-react-component-patterns-note-II/</loc>
+    
+    <lastmod>2025-11-09</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1939,7 +1984,7 @@
 
   <url>
     <loc>https://blog.techbridge.cc/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -1947,3220 +1992,3220 @@
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Browser-Rendering-Optimization/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/frontend/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/web/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/web-performance/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E7%B6%B2%E9%A0%81%E6%95%88%E8%83%BD/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E7%B6%B2%E7%AB%99%E6%95%88%E8%83%BD/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Messenger/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Wit-ai/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Bot/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E8%87%AA%E9%A7%95%E8%BB%8A/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Self-Driving-Car/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E9%84%89%E6%B0%91%E7%9C%8B%E7%A7%91%E6%8A%80/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/IoT/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Mobile/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Web/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Startup/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Data/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Robotics/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Maker/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/UI-UX/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Product/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/web-worker/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/google-chrome/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/architecture/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/react/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/es6/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/javascript/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/pattern/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Android/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Decompile/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Apktool/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Smali/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Dex2jar/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E8%A1%8C%E5%8B%95%E7%B6%B2%E8%B7%AF/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E5%8F%8D%E7%B7%A8%E8%AD%AF/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/APK/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/antd/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/xhr/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/ajax/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/cors/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/jsonp/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/Python/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/PHP/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/Back-End/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/Back-End-Development/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/Back-End-Engineer/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/TCP/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/HTTP/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/UDP/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/JavaScript/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Algorithm/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/Python/</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/PHP/</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/Back-End/</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/Back-End-Development/</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/Back-End-Engineer/</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/TCP/</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/HTTP/</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/UDP/</loc>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/http/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Endianness/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Binary-Data/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Memory-Alignment/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/search/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/binary-search/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/algorithm/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/cache/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/http-header/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/d3/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/canvas/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/map/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/animation/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/d3-js/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Chrome/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/devtools/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/extension/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/programming/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/coding/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E6%BC%94%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/computer-science/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E9%9B%BB%E8%85%A6%E7%A7%91%E5%AD%B8/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/pwa/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/C/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/header-file/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/header-guard/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Progressive-web-app/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/cs50/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/csrf/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/security/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/css/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/grid/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/mondrian/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/CSS/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/WEB/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/CSS-GRID/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Houdini/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Custom-Properties/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Worklets/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/key-logger/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/atomic-css/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/methodology/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/svg/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/google/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/google-calendar-api/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/pokemon/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/plugin/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/rollup/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/ethereum/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/smart-contract/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/dapp/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Machine-Learning/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/AI/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Artificial-Intelligence/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/NLP/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Data-Mining/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E6%85%A7/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E7%9B%A3%E7%9D%A3%E5%BC%8F%E5%AD%B8%E7%BF%92/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Supervised-learning/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E5%BE%9E%E9%9B%B6%E9%96%8B%E5%A7%8B%E5%AD%B8%E8%B3%87%E6%96%99%E7%A7%91%E5%AD%B8/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Numpy/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E8%B3%87%E6%96%99%E7%A7%91%E5%AD%B8/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/data-science/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/data-scientist/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/data-visualization/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/AntV/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/G2/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/RWD/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/data/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/visualization/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/nivo/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/google-calendar/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/yearend/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/deeplearnjs/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/machine-learning/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/logistic-regression/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/linear-regression/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/DDoS/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/nginx/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/iptable/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/fail2ban/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/cookie/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/docker/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/server/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/container/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/apache/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/iamge/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E5%AE%B9%E5%99%A8/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/docker-machine/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/docker-compose/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/docker-swarm/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/vm/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/drawing/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Elm/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Chrome-extension/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/design-pattern/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Nodejs/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/RESTful/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/epilogue/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Sequelize/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Express/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/aapt/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/keytool/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/hashkey/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/flip/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/backend/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/mvc/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/SPA/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/functional-CSS/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E5%95%86%E6%A5%AD%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E6%A9%9F%E5%99%A8%E4%BA%BA/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Robot/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/ROS/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Gazebo/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/github/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/github-classroom/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/travis/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/ci/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/GO/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/GO-lang/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/golang/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/go-web/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E8%87%AA%E5%AD%B8%E7%A8%8B%E5%BC%8F/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E8%87%AA%E5%AD%B8%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E7%B7%9A%E4%B8%8A%E8%87%AA%E5%AD%B8/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/coder/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/computer/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/code/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E5%AD%B8%E5%AF%AB%E7%A8%8B%E5%BC%8F/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E5%AD%B8%E7%A8%8B%E5%BC%8F/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/google-cloud/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/hacktoberfest/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/open-source/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/scrum/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/scrum-master/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/product-owner/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/dev-tame/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E8%BB%9F%E9%AB%94%E5%B7%A5%E7%A8%8B%E5%B8%AB/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E8%BB%9F%E9%AB%94%E5%B7%A5%E7%A8%8B/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/software-engineering/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E6%95%8F%E6%8D%B7%E9%96%8B%E7%99%BC/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/agile/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/%E5%89%B5%E6%96%B0%E5%89%B5%E6%A5%AD/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/%E5%89%B5%E6%A5%AD/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/%E6%96%B0%E5%89%B5%E5%85%AC%E5%8F%B8/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/Code-wins-arguments/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/Hack-Day/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/Linux-Mac/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/Open-Source/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/User-Experience/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/k8s/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/cronjob/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/kubernetes/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/crontab/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/%E5%89%B5%E6%96%B0%E5%89%B5%E6%A5%AD/</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/%E5%89%B5%E6%A5%AD/</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/%E6%96%B0%E5%89%B5%E5%85%AC%E5%8F%B8/</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/Code-wins-arguments/</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/Hack-Day/</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/Linux-Mac/</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/Open-Source/</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/User-Experience/</loc>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Python-PyGame-%E9%81%8A%E6%88%B2%E8%A3%BD%E4%BD%9C-game-%E9%81%8A%E6%88%B2%E9%96%8B%E7%99%BC/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/nodejs/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/npm/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/module/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/tutorial/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Django/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/MVC/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/MTV/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Web-Backend/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Web-Framework/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E6%95%99%E5%AD%B8/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Flask/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E6%A1%86%E6%9E%B6/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/CS/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Computer/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Computer-Science/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Prometheus/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Grafana/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Alertmanager/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/docker-compose/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/slack/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/monitor/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/monitoring-system/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/pagerduty/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/alert-system/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Cloud-Native/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Grafana-%E6%95%99%E5%AD%B8/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Prometheus-%E6%95%99%E5%AD%B8/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/LRU/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Least-Recently-Used/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Testing/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Load-testing/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Locust/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/QPS/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/RPS/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Throughput/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Response-time/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/excel/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E8%A9%A6%E7%AE%97%E8%A1%A8/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/how-to/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/spreadsheet/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/string-format/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Formatted-String-Literal/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/string/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Template-String/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E5%AD%97%E4%B8%B2%E6%A0%BC%E5%BC%8F%E5%8C%96/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/tkinter/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/bmi/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/gui/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Data-Analytics/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Data-Visualization/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/make-a-fortune/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/pandas/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E4%B8%8A%E5%B8%82%E6%AB%83%E8%96%AA%E8%B3%87%E8%B3%87%E6%96%99/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E5%85%AC%E9%96%8B%E8%B3%87%E8%A8%8A%E8%A7%80%E6%B8%AC%E7%AB%99/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E5%8F%B0%E7%81%A3%E8%96%AA%E8%B3%87/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E5%8F%B0%E7%81%A3%E8%96%AA%E6%B0%B4/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/salary/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/python-%E8%B3%87%E6%96%99%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/python-%E8%B3%87%E6%96%99%E8%A6%96%E8%A6%BA%E5%8C%96/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/interview/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/job/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/resume/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/CRAM/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/robotics/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Nengo-AI/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Neural-Network/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Deep-Learning/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Ceres/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/non-linear-optimization/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/CRAM/</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/robotics/</loc>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Human-Robot-Interaction/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Computer-Vision/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Grasping/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/artificial-intelligence/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/cognitive-science/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Markov-Decision-Process/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Reinforcement-Learning/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Pinhole-camera-model/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Intrinsic-matrix/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/KnowRob/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/RoboSherlock/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Cognitive-Robot/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Flux/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/React/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/closure/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/ECMAScript2015/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/ES6/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Data-Structure/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Queue/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E9%99%A3%E5%88%97/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Array/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/closure/</loc>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Dictionary/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Hash-Table/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E9%9B%9C%E6%B9%8A%E8%A1%A8/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E5%AD%97%E5%85%B8/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E4%BD%87%E5%88%97/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/set/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E9%9B%86%E5%90%88/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E5%A0%86%E7%96%8A/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/stack/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E6%A3%A7/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/DOM/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/event/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/bubble/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/capture/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/propagation/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/hoisting/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/jsfuck/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/aaencode/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/prototype/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/this/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Front-End/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Front-End-Development-Environment/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/proxy/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/reflect/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/frameworkless/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Kubernetes/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/minikube/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E9%9B%B2%E7%AB%AF/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/cloud-native/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/lambda/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/aws/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/learning/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/passion/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/bash/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/shell/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/svn/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/version-control/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/VCS/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/git/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/cvs/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E8%87%AA%E5%AD%B8%E7%A8%8B%E5%BC%8F%E5%BF%83%E5%BE%97/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Leetcode/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Software-Engineer/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E8%BB%9F%E9%AB%94%E5%B7%A5%E7%A8%8B%E5%B8%AB%E9%9D%A2%E8%A9%A6/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/line-bot/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/messenger-bot/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/weather/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/bot/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E5%A4%A7%E6%95%B8%E6%93%9A/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/mining-massive-dataset/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/linux/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E6%8C%87%E4%BB%A4/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E5%91%BD%E4%BB%A4%E5%88%97/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/command-line/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/script/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/unix/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/mac/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/os/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/windows/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/curl/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/shell-script/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/hls/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/streaming/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/videojs/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/hlsjs/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/SLAM/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/LSD-SLAM/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Eigen/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/RTAB-Map/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/medium/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/frontends/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/micro/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/modern-web/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/conference/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Nginx/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/ngrok/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/OpenCV/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E7%89%A9%E9%AB%94%E8%BE%A8%E8%AD%98/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Object-Recognition-Kitchen/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/OpenAI-Gym/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Q-Learning/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/OpenPose/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/TensorFlow/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Object-Recognition/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/deeplearning/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/p5ML/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/chrome-extension/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/payment-request/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/pebble/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/wearable/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/rocky-js/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/pebblekit-js/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/web-app/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/byte-code/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/matplotlib/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Python-Machine-Learning-%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92-AI-Artificial-Intelligence-NLP-Data-Mining-%E4%BA%BA%E5%B7%A5%E6%99%BA%E6%85%A7-%E7%9B%A3%E7%9D%A3%E5%BC%8F%E5%AD%B8%E7%BF%92-Supervised-learning-%E5%BE%9E%E9%9B%B6%E9%96%8B%E5%A7%8B%E5%AD%B8%E8%B3%87%E6%96%99%E7%A7%91%E5%AD%B8-Numpy-%E8%B3%87%E6%96%99%E7%A7%91%E5%AD%B8-data-science-data-scientist-pandas/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Python-Decorator-%E8%A3%9D%E9%A3%BE%E5%99%A8/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Python-Keras/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Python-%E7%8C%B4%E5%AD%90%E8%A3%9C%E4%B8%81-Monkey-Patch/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Python-Django-MVC-Web-MTV-Web-Backend-Web-Framework-%E6%95%99%E5%AD%B8-Flask-%E6%A1%86%E6%9E%B6-%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-Anaconda/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Python-Django-MVC-Web-MTV-Web-Backend-Web-Framework-%E6%95%99%E5%AD%B8-Flask-%E6%A1%86%E6%9E%B6-%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-Anaconda-ORM-SQLAlchemy-Database-Models-MVC-%E8%B3%87%E6%96%99%E5%BA%AB/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/React-React-Native-ES5-ES6-ES7-JavaScript-ECMAScript2015-Webpack-Browserify-CommonJS-UMD-ES6-Module-CMD/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/react-fiber-react-lifecycle/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Python-Django-MVC-Web-MTV-Web-Backend-Web-Framework-%E6%95%99%E5%AD%B8-Flask-%E6%A1%86%E6%9E%B6/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/React-React-Native-ES5-ES6-ES7-JavaScript-ECMAScript2015-Webpack-Browserify-CommonJS-UMD-ES6-Module-CMD/</loc>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/react-fiber-react-lifecycle/</loc>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/React-React-Native-ES5-ES6-ES7-JavaScript-ECMAScript2015-Webpack-JSX/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/react-react-native-android/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/React-React-Native-ES5-ES6-ES7-JavaScript-iOS-Android-ECMAScript2015-Webpack-JSX-Firebase/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/React-React-Native-ES5-ES6-ES7-JavaScript-ECMAScript2015-Webpack/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/React-Redux-Server-Rendering-Isomorphic-JavaScript-Node-Express-Universal-JavaScript-Isomorphic-JavaScript/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Rx-RxJS/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Redis-Database-Cache/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/cognitive-robot/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/software-engineer-data-structure-algorithm-interview/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/robot-navigation-rover/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/%E6%A9%9F%E5%99%A8%E4%BA%BA-%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92-Deep-Learing-Robot-GoogLeNet-Caffe/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E6%A9%9F%E5%99%A8%E4%BA%BA-Robot-ROS-DDS/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/%E6%A9%9F%E5%99%A8%E4%BA%BA-%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92-Deep-Learing-Robot-GoogLeNet-Caffe/</loc>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E6%A9%9F%E5%99%A8%E4%BA%BA-Robot-ROS-Gazebo-Cartographer-SLAM/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E6%A9%9F%E5%99%A8%E4%BA%BA-Robot-ROS-Turtlebot-Gazebo/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/ROS-ecto/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/ROS-Guided-Policy-Search-Reinforcement-Learning/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E6%A9%9F%E5%99%A8%E4%BA%BA-ROS-%E5%8B%95%E4%BD%9C%E5%81%B5%E6%B8%AC-OpenCV-Mixture-of-Gaussian/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E6%A9%9F%E5%99%A8%E4%BA%BA-%E7%89%A9%E9%AB%94%E8%BE%A8%E8%AD%98-ROS-Object-Recognition-Kitchen-Linemod/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/%E6%A9%9F%E5%99%A8%E4%BA%BA-Robot-ROS-SMACH-Finite-State-Machine/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/rxjs/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/LESS-SASS-SCSS-Sass-PossCSS-CSS-OOCSS-CSS-in-JS-CSS-Modules/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/session/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Robotics-company-Silicon-Valley-Job/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/security-cryptography/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Data-Structure-Hash-Table/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Sketch-Prototyping-Wireframe-Mockup/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/sort-algorithm/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/open-source/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/spectrum/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/TensorFlow-Deep-Learning-Computer-Vision-Hand-detection/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/TimelineMax/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/GSAP/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/TensorFlow-Neural-Network/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/unitTest-testDouble/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/d3-timer-pomodoro/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Rust-Tokio-Asynchronous-I-O-Translation/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Design-pattern/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Command/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/TypeScript/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Deep-Learning-Computer-Vision-Video-labeling/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/virtual-dom/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/babel/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/ast/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/web-accessibility/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/a11y/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/ar/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Backend/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Interview/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/web-web-components-shadow-dom-custom-element/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/Web-Security/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/webvr-A-frame/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/Web-Security/</loc>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/Web-WASM-JavaScript/</loc>
-    <lastmod>2025-06-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.techbridge.cc/tags/web-component-js-html/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/authentication/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://blog.techbridge.cc/tags/ZOOX-Online-Assessment-Interview/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <loc>https://blog.techbridge.cc/tags/web-component-js-html/</loc>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.techbridge.cc/tags/webvr-A-frame-d3/</loc>
-    <lastmod>2025-06-07</lastmod>
+    <lastmod>2025-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.techbridge.cc/tags/ZOOX-Online-Assessment-Interview/</loc>
+    <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

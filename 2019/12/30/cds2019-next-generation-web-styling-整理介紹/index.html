@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>CDS2019 Next-generation web styling 整理介紹 | TechBridge 技術共筆部落格</title>
+  <meta name="description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- google-site-verification -->
+  <meta name="google-site-verification" content="WX_9sZlrIYOEpy8RR7zCoa7-pJk611zZt11BSBUcDVY" />
+  <link rel="stylesheet preload" type="text/css" href="/css/screen.css" as="style" />
+  <link rel="stylesheet preload" type="text/css" href="//fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic|Open+Sans:700,400" as="style" />
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="/img/favicon.ico">
+  <link rel="icon preload" href="/img/favicon.ico" as="image">
+
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="site-head" >
+    <div class="vertical">
+        <div class="site-head-content inner">
+             <a class="blog-logo" href="/"><img src="/img/logo-tb-500-500.png" alt="Blog Logo"/></a> 
+            <h1 class="blog-title">TechBridge 技術共筆部落格</h1>
+            <h2 class="blog-description">var topics = ['Web前後端', '行動網路', '機器人/物聯網', '數據分析', '產品設計', 'etc.']</h2>
+            <div class="navbar-block">
+                <span><a href="/">首頁</a></span> / <span><a href="/about/">關於我們</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>
+                <br>
+            </div>
+        </div>
+    </div>
+</header>
+  
+
+<main class="content" role="main">
+  <article class="post">
+    <span class="post-meta">
+      <time datetime="2019-12-30T19:32:59.000Z" itemprop="datePublished">
+          2019-12-30
+      </time>
+    
+</span>
+
+<meta name="generator" content="CDS2019 Next-generation web styling 整理介紹">
+<meta name="og:title" content="CDS2019 Next-generation web styling 整理介紹">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+    <h1 class="post-title">CDS2019 Next-generation web styling 整理介紹</h1>
+    <section class="post-content">
+      <div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>   
+      <hr>
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>一陣子沒有關注 CSS 的最新發展，最近趁著年假補帶 2019 Google Chrome Summit 時，看到這場 talk - <a target="_blank" rel="noopener" href="https://youtu.be/-oyeaIirVC0">Next-generation web styling</a>，裡面提到不少有趣的新屬性，透過這篇文章整理一下內容，分享給各位與未來的我。<br>註：官方在 12 月初也發佈了<a target="_blank" rel="noopener" href="https://web.dev/next-gen-css-2019/">文字版本</a>，習慣閱讀原文的讀者可以參考看看。</p>
+<h1 id="新世代的…CSS"><a href="#新世代的…CSS" class="headerlink" title="新世代的…CSS"></a>新世代的…CSS</h1><ol>
+<li>scroll-snap - native scroll inertia and decelerations</li>
+<li>focus-within - solving focus accessibility within elements</li>
+<li>@media (prefers-*) - considerately adjust your UI&#x2F;UX to a user’s device preferences via Media Query hooks provided by browser</li>
+<li>logical properties - dynamic directionality</li>
+<li>sticky situations - keeping UI within the viewport</li>
+<li>backdrop-filter - style adjustments behind an element</li>
+<li>:is() - formerly :any() &amp;&amp; :matches()</li>
+<li>Grid-gap</li>
+<li>CSS Houdini - a low-level API for CSS</li>
+<li>typed OM - CSS values as JavaScript objects rather than strings</li>
+<li>Paint API - create your own paint functions using a canvas-like syntax</li>
+<li>animation worklet - off the main thread animation</li>
+<li>Others - size, aspect-ratio, min(), max(), clamp(), list style type, display: outer inner, CSS regions, CSS modules</li>
+</ol>
+<p>演講中洋洋灑灑介紹了 12 種以上的 CSS 新屬性與新功能，雖然其中有幾位老朋友在我之前的文章 - <a href="https://blog.techbridge.cc/2017/05/23/css-houdini/">CSS 魔術師 Houdini API 介紹</a> 有說明過，但大部分的新屬性還是令人感到振奮！</p>
+<h2 id="scroll-snap"><a href="#scroll-snap" class="headerlink" title="scroll-snap"></a>scroll-snap</h2><p>看到 snap 自然反應先想到薩諾斯彈指消滅一半人口，但其實字面上還有迅速回復的意思，而 scroll-snap，顧名思義就是要讓你在 scroll 時，能夠迅速回到設定的 snap point。這麼說有點抽象，回想一下你使用過的 Carousel 套件，大多數當你滑動圖片超過一半距離時，套件會自動幫你將下一張圖片拉到正中間，若是滑動小於一半距離，則會彈回至原本的圖片，就像這樣：</p>
+<p><img src="https://static.coderbridge.com/img/ArvinH/f271a7cbda1641efa2ecc6dda50d27cf.gif" alt="Demo"></p>
+<p>scroll-snap 主要提供的兩個屬性：<code>scroll-snap-type</code> 與 <code>scroll-snap-align</code> 就可以讓你直接透過 CSS 達到一樣效果，而且擁有足夠的調整彈性。</p>
+<p>Demo：</p>
+<p class="codepen" data-height="430" data-theme-id="29194" data-default-tab="css,result" data-user="arvin0731" data-slug-hash="Exawayy" style="height: 430px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="scroll-snap example">
+  <span>See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/arvin0731/pen/Exawayy">
+  scroll-snap example</a> by Arvin (<a target="_blank" rel="noopener" href="https://codepen.io/arvin0731">@arvin0731</a>)
+  on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p><code>scroll-snap-type</code> 作用在 scroll container 上頭，用來表明要用哪種 type 的 scroll 與 scroll 的方向。（註：scroll container 　指的是擁有 <code>overflow: scroll|auto</code> 屬性，且其內元素足以造成 overflow 的 container。）</p>
+<p>而比起上述一般 carousel 套件預設的行為（移動小於一半距離拉回前一張圖），透過給予 <code>scroll-snap-align</code> 不同的屬性：<code>start</code>、<code>end</code> 和 <code>center</code>，可以自行決定 snap point，告知內容應該要對齊到 scroll container 中的哪個點。</p>
+<p>你可以從上面的 Codepen demo link 去修改 <code>scroll-snap-align</code> 看看，有什麼不同結果。</p>
+<p>另外，如果你不想讓每次 snap 都對齊邊緣，能稍微露出前一張圖的內容，可以透過 <code>scroll-padding</code> 與 <code>scroll-margin</code> 的調整來達成。不過注意，兩者的應用對象有所不同。</p>
+<p><code>scroll-padding</code> 需要應用在 scroll container 上：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.scroller</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">300px</span>;</span><br><span class="line">  <span class="attribute">overflow-y</span>: scroll;</span><br><span class="line">  <span class="attribute">scroll-snap-type</span>: y mandatory;</span><br><span class="line">  <span class="attribute">scroll-padding</span>: <span class="number">40px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.scroller</span> <span class="selector-tag">section</span> &#123;</span><br><span class="line">  <span class="attribute">scroll-snap-align</span>: start;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而 <code>scroll-margin</code> 則是運用在 container 內的 children 上頭：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.scroller</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">300px</span>;</span><br><span class="line">  <span class="attribute">overflow-y</span>: scroll;</span><br><span class="line">  <span class="attribute">scroll-snap-type</span>: y mandatory;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.scroller</span> <span class="selector-tag">section</span> &#123;</span><br><span class="line">  <span class="attribute">scroll-snap-align</span>: start;</span><br><span class="line">  <span class="attribute">scroll-margin</span>: <span class="number">40px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>兩者效果相同：</p>
+<p class="codepen" data-height="428" data-theme-id="29194" data-default-tab="css,result" data-user="arvin0731" data-slug-hash="jOEGbdQ" style="height: 428px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="scroll-snap example-2">
+  <span>See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/arvin0731/pen/jOEGbdQ">
+  scroll-snap example-2</a> by Arvin (<a target="_blank" rel="noopener" href="https://codepen.io/arvin0731">@arvin0731</a>)
+  on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p>這對於你的 scroll container 中有 fixed 的元素時很有幫助：</p>
+<p class="codepen" data-height="420" data-theme-id="29194" data-default-tab="css,result" data-user="arvin0731" data-slug-hash="NWPaGmL" style="height: 420px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="scroll-snap example-fixedHeader">
+  <span>See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/arvin0731/pen/NWPaGmL">
+  scroll-snap example-fixedHeader</a> by Arvin (<a target="_blank" rel="noopener" href="https://codepen.io/arvin0731">@arvin0731</a>)
+  on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p>更多細節，<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scroll_Snap/Basic_concepts">MDN 上有蠻完整的說明</a>。</p>
+<p><img src="https://static.coderbridge.com/img/ArvinH/10d10829177d46adab0c0ee8d582b217.png" alt="scroll-snap-caniuse"></p>
+<h2 id="focus-within"><a href="#focus-within" class="headerlink" title="focus-within"></a>focus-within</h2><p>在<a href="https://blog.techbridge.cc/2019/10/13/web-accessibility-intro/">Web Accessibility 的重要性</a>這篇文章中，有提到過元素可聚焦性的重要，讓使用者能用 tab 在網頁各元素間切換。但實作上常常遇到一個問題，就是當我們利用 <code>:focus</code> 僞類別製作 Menu 的下拉選單，讓子元素在父元素被 focus 後顯示出來時，tab 切換會失敗，因為當你 tab focus 到子元素時，父元素就失去 focus 狀態，子元素也因應消失：</p>
+<p><a target="_blank" rel="noopener" href="https://web.dev/next-gen-css-2019/#:focus-within">google 的圖畫</a>說明很清楚：</p>
+<img src="https://static.coderbridge.com/img/ArvinH/3f70bc94fb30417c8a5a2b5bd83b6b5e.png" style="max-width: 700px" />
+
+<p>但若是換成 <code>focus-within</code>，就不再有這問題了，他會在父元素被 focus 時觸發：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.menu</span><span class="selector-pseudo">:focus-within</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">opacity</span>: <span class="number">1</span>;</span><br><span class="line">  <span class="attribute">visibility</span>: visible;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p class="codepen" data-height="300" data-theme-id="29194" data-default-tab="css,result" data-user="arvin0731" data-slug-hash="abzLBrP" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="focus-within-example">
+  <span>See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/arvin0731/pen/abzLBrP">
+  focus-within-example</a> by Arvin (<a target="_blank" rel="noopener" href="https://codepen.io/arvin0731">@arvin0731</a>)
+  on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p><img src="https://static.coderbridge.com/img/ArvinH/9af24cbb0e80433b8d43b184c76822d6.png" alt="caniuse-focuswithin"></p>
+<h2 id="media-prefers"><a href="#media-prefers" class="headerlink" title="@media (prefers-*)"></a>@media (prefers-*)</h2><p>Media Queries 讓我們容易實作 RWD 設計，而現在最新的 Media Queries 可以讓我們偵測到使用者 OS-level 的系統偏好設定，例如 dark-mode，或是低階設備可以開啟 <code>prefers-reduced-motion</code> 來降低動畫節省資源。</p>
+<p>這些能夠自動偵測系統偏好，並給予回應的 Media Queries 有：</p>
+<p><a target="_blank" rel="noopener" href="https://developers.google.com/web/updates/2019/03/prefers-reduced-motion">prefers-reduced-motion</a><br><a target="_blank" rel="noopener" href="https://web.dev/prefers-color-scheme/">prefers-color-scheme</a><br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-contrast">prefers-contrast</a><br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-transparency">prefers-reduced-transparency</a><br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/forced-colors">forced-colors</a><br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/inverted-colors">inverted-colors</a><br><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/light-level">light-level</a></p>
+<p>目前最新版的 Chrome (ver. 79) 已經有提供 <code>prefers-reduced-motion</code> 與 <code>prefers-color-scheme</code> 的 emulation，只要打開 Devtool，到 <code>Rendering</code> tab 下就能看到：</p>
+<p><img src="https://static.coderbridge.com/img/ArvinH/ec593dddc40d4030bbdb5a7f2bf99d14.png" alt="devtool @media emulation"></p>
+<p>在演講中，講者 Adam 特別強調，<code>reduced-motion</code> 不是 <code>no-motion</code>，使用者想要少一點動畫，而非完全沒有動畫，可以從 演講中的範例感受一下（<a target="_blank" rel="noopener" href="https://web.dev/next-gen-css-2019/#media-queries-level-5">ref</a>、<a target="_blank" rel="noopener" href="https://codepen.io/argyleink/pen/RwwZMKm">codepen demo</a>）：</p>
+<p><img src="https://static.coderbridge.com/img/ArvinH/6ca565ec03eb439a9b66f5de287d062e.gif" alt="reduced-motion"></p>
+<h2 id="logical-properties"><a href="#logical-properties" class="headerlink" title="logical properties"></a>logical properties</h2><p>身為前端工程師，或多或少都會處理 i18n 的問題，在網頁排版上，不同語言間的 writing system 可能會造成我們需要個別為不同的語言客製化設定 css style，來調整 margin、padding 等等，而 Logical properties 就是希望能用更有效率、更好維護的方式來解決這問題。 <a target="_blank" rel="noopener" href="https://web.dev/next-gen-css-2019/#logical-properties">image ref</a></p>
+<p>這是我們熟知的 box model：</p>
+<img src="https://static.coderbridge.com/img/ArvinH/9d89a63601464607836370802e092ef5.png" style="max-width: 700px" />
+
+<p>Logical properties 將其改為：</p>
+<img src="https://static.coderbridge.com/img/ArvinH/78a8cb5f4113482a8f009f2400743435.png" style="max-width: 700px" />
+
+<p>差別在於從原本單純 <code>top</code>、<code>down</code>、<code>left</code>、<code>right</code> 外，多了 <code>block-*</code> 與 <code>inline-*</code> 兩個維度，根據使用語言的不同，瀏覽器會自動調整 <code>block-*</code> 與 <code>inline-*</code> 代表的屬性，例如在英文的寫作系統上，<code>block-start</code> 就代表 <code>top</code>，<code>inline-end</code> 代表 <code>right</code>。</p>
+<p>有了 logical properties 的幫助，就能簡單的依據語言系統變更 <code>writing-mode</code> 與 <code>direction</code> 來調整 layout <a target="_blank" rel="noopener" href="https://codepen.io/una/pen/mddxpaY">ref</a>：</p>
+<p><img src="https://static.coderbridge.com/img/ArvinH/47f5d3eaf6ba4545af05999e654f4700.gif" alt="logical layout example"></p>
+<h2 id="sticky-situations"><a href="#sticky-situations" class="headerlink" title="sticky situations"></a>sticky situations</h2><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/position#Sticky_positioning"><code>Position: sticky</code></a> 應該已經很多人用在產品當中了吧，但這次 Google 還是把它拿出來特別再介紹一番，提供了三種應用 sticky 的方式，蠻值得參考的：</p>
+<p><img src="https://static.coderbridge.com/img/ArvinH/1c9bfc06cbbc423eac2d68da391a3af3.gif" alt="sticky-demo"></p>
+<p>仔細看每種應用的差別，基本上在於 sticky 的元素如何被”解除“ sticky，比較有趣的是 Sticky Desperado，利用 grid-system 達到 two column 的變化，可以到 codepen 上觀看實際程式碼：<a target="_blank" rel="noopener" href="https://codepen.io/argyleink/pen/YzzZyMx">Sticky Slide</a>、<a target="_blank" rel="noopener" href="https://codepen.io/argyleink/pen/abbJOjP">Sticky Stack</a>、<a target="_blank" rel="noopener" href="https://codepen.io/argyleink/pen/qBBrbyx">Sticky Desperado</a></p>
+<p><img src="https://static.coderbridge.com/img/ArvinH/23c0b7fc70b540fc8632163d24e1c2c2.png" alt="caniuse-sticky"></p>
+<h2 id="backdrop-filter"><a href="#backdrop-filter" class="headerlink" title="backdrop-filter"></a>backdrop-filter</h2><p>再來是我最喜歡的一個新屬性。以往我們要達到模糊圖片背景，並在上面加上文字的效果，可能需要這樣做：</p>
+<p class="codepen" data-height="382" data-theme-id="29194" data-default-tab="css,result" data-user="arvin0731" data-slug-hash="JjorEqG" style="height: 382px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="blur image with text">
+  <span>See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/arvin0731/pen/JjorEqG">
+  blur image with text</a> by Arvin (<a target="_blank" rel="noopener" href="https://codepen.io/arvin0731">@arvin0731</a>)
+  on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p>需要把圖片設定成 <code>background-image</code>，設定 <code>filter: blur</code>，再透過 <code>position:fixed</code> 把文字釘上去。但有了 <code>backdrop-filter</code>，我們簡單將這個屬性套用在想要疊加的文字上，並直接放置於 <code>img</code> 元素：</p>
+<p class="codepen" data-height="362" data-theme-id="29194" data-default-tab="css,result" data-user="arvin0731" data-slug-hash="ExawZqj" style="height: 362px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="blur image with text-backdrop-filter">
+  <span>See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/arvin0731/pen/ExawZqj">
+  blur image with text-backdrop-filter</a> by Arvin (<a target="_blank" rel="noopener" href="https://codepen.io/arvin0731">@arvin0731</a>)
+  on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<h2 id="is"><a href="#is" class="headerlink" title=":is()"></a>:is()</h2><p><code>:is()</code> 這個僞類別已經存在很久了，但他們覺得很少人真正使用它，因此特別提出來介紹。<br>基本上 <code>:is()</code> 的功用就是能讓你將用逗號分隔的 selector，以參數形式放入其中，來達成同樣效果：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">button.<span class="property">focus</span>,</span><br><span class="line"><span class="attr">button</span>:focus &#123;</span><br><span class="line">  …</span><br><span class="line">&#125;</span><br><span class="line">article &gt; h1,</span><br><span class="line">article &gt; h2,</span><br><span class="line">article &gt; h3,&#123;</span><br><span class="line">  …</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 與上面同樣效果 */</span></span><br><span class="line"><span class="attr">button</span>:<span class="title function_">is</span>(<span class="params">.focus, :focus</span>) &#123;</span><br><span class="line">  …</span><br><span class="line">&#125;</span><br><span class="line">article &gt; :<span class="title function_">is</span>(<span class="params">h1,h2,h3</span>) &#123;</span><br><span class="line">  …</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="gap"><a href="#gap" class="headerlink" title="gap"></a>gap</h2><p>這邊指的 gap，就是 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout">CSS Grid Layout</a> 中的 gap，讓你不用為了製造出元素間的隔間，使用 margin，卻多出不必要的空隙 <a target="_blank" rel="noopener" href="https://web.dev/next-gen-css-2019/#gap">img ref</a>：</p>
+<img src="https://static.coderbridge.com/img/ArvinH/95dbce89c5b54d8db7b6497a7fbcec76.png" style="max-width: 700px" />
+
+<p>在演講中他們也有提到，<code>gap</code> 除了能用在 Grid layout 外，FireFox 也支援將其應用在 <code>flex</code> display 上頭，慣用 FireFox 瀏覽器的讀者可以嘗試看看。</p>
+<h2 id="CSS-Houdini、typed-OM、Paint-API、Worklet"><a href="#CSS-Houdini、typed-OM、Paint-API、Worklet" class="headerlink" title="CSS Houdini、typed OM、Paint API、Worklet"></a>CSS Houdini、typed OM、Paint API、Worklet</h2><p>CSS Houdini 是由一群來自 Mozilla, Apple, Opera, Microsoft, HP, Intel, IBM, Adobe 與 Google 的工程師所組成的工作小組，志在建立一系列的 API，讓開發者能夠介入瀏覽器的 CSS engine 運作，帶給開發者更多的解決方案，用來解決 CSS 長久以來的問題：</p>
+<ul>
+<li>Cross-Browser isse</li>
+<li>CSS Polyfill 的製作困難</li>
+</ul>
+<p>CSS Houdini 提供的 API 讓你能存取 CSS Object Model，讓你透過 Javascript 延展 CSS 的功能，比起 CSS polyfill 能有更好的效能。</p>
+<p>而 Worklet、Typed OM、Paint API 也都包含在 CSS Houdini 的規範中，在我之前的文章 <a href="https://blog.techbridge.cc/2017/05/23/css-houdini/">CSS 魔術師 Houdini API 介紹</a> 都有詳細介紹過，有興趣可以前往細讀。</p>
+<p>這邊我簡單說明 typed OM 與 Paint API 這兩個目前實作度較高的新功能，其中 Paint API 需要 Worklet 的輔助。</p>
+<p><em>typed OM</em> 簡單來說就是就是 CSSOM 的強化版，最主要的功能在於將 CSSOM 所使用的字串值轉換成具有型別意義的 JavaScript 表示形態，例如你可以這樣操作 CSS style: (source from <a target="_blank" rel="noopener" href="http://slides.com/malyw/houdini-codemotion#/27">CSS Houdini- the bridge between CSS, JavaScript and the browser</a>)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CSS -&gt; JS</span></span><br><span class="line"><span class="keyword">const</span> map = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&quot;.example&quot;</span>).<span class="property">styleMap</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(map.<span class="title function_">get</span>(<span class="string">&quot;font-size&quot;</span>));</span><br><span class="line"><span class="comment">// CSSSimpleLength &#123;value: 12, type: &quot;px&quot;, cssText: &quot;12px&quot;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// JS -&gt; JS</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="keyword">new</span> <span class="title class_">CSSUnitValue</span>(<span class="number">5</span>, <span class="string">&quot;px&quot;</span>));</span><br><span class="line"><span class="comment">// CSSUnitValue&#123;value:5,unit:&quot;px&quot;,type:&quot;length&quot;,cssText:&quot;5px&quot;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// JS -&gt; CSS</span></span><br><span class="line"><span class="comment">// set style &quot;transform: translate3d(0px, -72.0588%, 0px);&quot;</span></span><br><span class="line">elem.<span class="property">outputStyleMap</span>.<span class="title function_">set</span>(</span><br><span class="line">  <span class="string">&quot;transform&quot;</span>,</span><br><span class="line">  <span class="keyword">new</span> <span class="title class_">CSSTransformValue</span>([</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">CSSTranslation</span>(<span class="number">0</span>, <span class="keyword">new</span> <span class="title class_">CSSSimpleLength</span>(<span class="number">100</span> - currentPercent, <span class="string">&quot;%&quot;</span>), <span class="number">0</span>),</span><br><span class="line">  ])</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>用 <code>styleMap</code> 取得元素上以物件型態表示的 style 屬性，並能透過 <code>outputStyleMap</code> 來設定 style，其中還可看出多了 <code>CSSTransformValue</code> 與 <code>CSSTranslation</code> 這種 Class Interface。</p>
+<p>而 <em>Paint API</em> 則提供一個叫做 registerPaint 的方法：：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">registerPaint</span>(</span><br><span class="line">  <span class="string">&quot;simpleRect&quot;</span>,</span><br><span class="line">  <span class="keyword">class</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">get</span> <span class="title function_">inputProperties</span>() &#123;</span><br><span class="line">      <span class="keyword">return</span> [<span class="string">&quot;--rect-color&quot;</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">paint</span>(<span class="params">ctx, size, properties</span>) &#123;</span><br><span class="line">      <span class="comment">// 依據 properties 改變顏色</span></span><br><span class="line">      <span class="keyword">const</span> color = properties.<span class="title function_">get</span>(<span class="string">&quot;--rect-color&quot;</span>);</span><br><span class="line">      ctx.<span class="property">fillStyle</span> = color.<span class="property">cssText</span>;</span><br><span class="line">      ctx.<span class="title function_">fillRect</span>(<span class="number">0</span>, <span class="number">0</span>, size.<span class="property">width</span>, size.<span class="property">height</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>宣告使用：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.div-1</span> &#123;</span><br><span class="line">  <span class="attr">--rect-color</span>: red;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">50px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">50px</span>;</span><br><span class="line">  <span class="attribute">background-image</span>: <span class="built_in">paint</span>(simpleRect);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.div-2</span> &#123;</span><br><span class="line">  <span class="attr">--rect-color</span>: yellow;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">background-size</span>: <span class="number">50%</span> <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">background-image</span>: <span class="built_in">paint</span>(simpleRect);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>.div-1 與 .div-2 就可以擁有各自定義寬高顏色的方形 background-image。</p>
+<p>不過這邊要注意一下，上面撰寫的 js 檔案，你可能會覺得就直接像一般 web 嵌入 js 的方式一樣即可，<br>但實際上並非如此，我們需要透過 <em>Worklets</em> 來幫我們載入。以上面的 Paint API 為例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// add a Worklet</span></span><br><span class="line">paintWorklet.<span class="title function_">addModule</span>(<span class="string">&quot;simpleRect.js&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// WORKLET &quot;simpleRect.js&quot;</span></span><br><span class="line"><span class="title function_">registerPaint</span>(</span><br><span class="line">  <span class="string">&quot;simpleRect&quot;</span>,</span><br><span class="line">  <span class="keyword">class</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">get</span> <span class="title function_">inputProperties</span>() &#123;</span><br><span class="line">      <span class="keyword">return</span> [<span class="string">&quot;--rect-color&quot;</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">paint</span>(<span class="params">ctx, size, properties</span>) &#123;</span><br><span class="line">      <span class="comment">// 依據 properties 改變顏色</span></span><br><span class="line">      <span class="keyword">const</span> color = properties.<span class="title function_">get</span>(<span class="string">&quot;--rect-color&quot;</span>);</span><br><span class="line">      ctx.<span class="property">fillStyle</span> = color.<span class="property">cssText</span>;</span><br><span class="line">      ctx.<span class="title function_">fillRect</span>(<span class="number">0</span>, <span class="number">0</span>, size.<span class="property">width</span>, size.<span class="property">height</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p><em>Worklets</em> 可以算是給 CSS Engines 使用的 worker，相對於 web worker 來說較為輕量、生命週期較短，適合用來處理 CSS engine 這種可能會牽扯到數百萬畫素圖片的工作。</p>
+<p>實際範例可以參考 Google 提供的 <a target="_blank" rel="noopener" href="https://codepen.io/una/pen/VXzRxp?editors=1010">Codepen 範例</a></p>
+<h2 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h2><p>還有許多新屬性在演講中沒有時間細講，就將其主要功能列在這邊，有興趣的人可以到 MDN 或 W3C 上搜尋。</p>
+<ul>
+<li><code>size</code>: 可以讓你同時設定元素的寬、高屬性。</li>
+<li><code>aspect-ratio</code>: 透過此屬性，再也不用利用 padding 等方式來製造等比例縮放效果了！</li>
+<li><code>min()</code>, <code>max()</code>, <code>clamp()</code>: 這幾個函式提供你在各種 CSS 屬性加上數值的限制。</li>
+<li><code>list-style-type</code>: 有新的 value 可以設置，像是 emoji 與 SVGs。</li>
+<li><code>display: outer inner</code>: display 屬性之後能夠接受兩個參數，讓你明確的個別設置 outer 與 inner layout，而非使用 <code>inline-flex</code> 這種結合在一起的 keywords。</li>
+</ul>
+<h1 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h1><p>CSS 的發展總是比較緩慢，畢竟需要各個瀏覽器實作配合，背後的因素可能不單單是純技術這麼簡單，但慢歸慢，還是能看得到前進的步伐，在新屬性普及前，就到 codepen 上弄個 side project 玩玩吧！<br>所有演講中提到的功能，只要是目前瀏覽器已經支援的，都有範例公布在他們的<a target="_blank" rel="noopener" href="https://css-at-cds.netlify.com/">範例網站</a>上，推薦前往試試！</p>
+<h2 id="資料來源"><a href="#資料來源" class="headerlink" title="資料來源"></a>資料來源</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://youtu.be/-oyeaIirVC0">Vidoe - Next-generation web styling</a></li>
+<li><a target="_blank" rel="noopener" href="https://web.dev/next-gen-css-2019">Article - Next-generation web styling</a></li>
+<li><a target="_blank" rel="noopener" href="https://css-at-cds.netlify.com/">Examples - Next-generation web styling</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5dd68a9be51d451e6d48c4b8">你不知道的 CSS ： Next-generation web styling</a></li>
+</ul>
+  
+      <div>喜歡我們的文章嗎？歡迎分享按讚給予我們支持和鼓勵！</div>
+      <div class="fb-like" data-href="https://blog.techbridge.cc/2019/12/30/cds2019-next-generation-web-styling-%E6%95%B4%E7%90%86%E4%BB%8B%E7%B4%B9/index.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+      <br>
+      <br>
+      <div class="fb-page" data-href="https://www.facebook.com/techbridge.cc" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/techbridge.cc" class="fb-xfbml-parse-ignore"><a target="_blank" rel="noopener" href="https://www.facebook.com/techbridge.cc">TechBridge 技術日報</a></blockquote></div>
+      <br>
+    </section>
+    <br>
+    <hr>
+    <div>
+      <h4>訂閱 TechBridge Weekly 技術週刊，每週發送最精華的技術開發、產品設計的資訊給您</h4>
+      <form class="form-control" method="post" action="https://goodbits.io/e/cab8a418-6b70-48d6-97ea-b5f0ef34b22c" target="_blank">
+        <input class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+        <input class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+        <div>
+          <input class="form-control" type="text" name="email" placeholder="Email"></input>
+        </div>
+        <br>
+        <div>
+          <button class="form-control btn subscribe-btn" type="submit">馬上訂閱技術週刊</button>
+        </div>
+        <br>
+        <label for="">PS. 我們討厭垃圾信，所以我們只提供有價值的內容給您 :)</label>
+      </form>
+    </div>
+    <footer class="post-footer">
+      <section class="author">
+    <h4>TechBridge Weekly 技術週刊編輯團隊</h4>
+    <p>TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、資料科學與產品設計等技術分享。This is TechBridge Weekly Team Tech Blog, which focus on web, mobile, robotics, IoT, Data Science technology sharing.</p>
+    <span><a href="/2016/03/19/about/">關於我們</a></span> / <span><a href="https://www.techbridge.cc/" target="_blank">技術日報</a></span> / <span><a href="http://weekly.techbridge.cc/" target="_blank">技術週刊</a></span> / <span><a href="https://www.facebook.com/techbridge.cc/" target="_blank">粉絲專頁</a></span> / <span><a href="/atom.xml" target="_blank">訂閱RSS </a></span>   
+	<div class="fb-like" data-href="https://www.facebook.com/techbridge.cc" data-layout="button_count" data-size="large" data-action="like" data-show-faces="false" data-share="true"></div>    
+</section>
+      <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" target="_blank" rel="noopener" href="http://twitter.com/share?url=https://blog.techbridge.cc/2019/12/30/cds2019-next-generation-web-styling-整理介紹/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=https://blog.techbridge.cc/2019/12/30/cds2019-next-generation-web-styling-整理介紹/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" target="_blank" rel="noopener" href="https://plus.google.com/share?url=https://blog.techbridge.cc/2019/12/30/cds2019-next-generation-web-styling-整理介紹/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+    <iframe src="https://ghbtns.com/github-btn.html?user=TechBridgeHQ&repo=blog-starter-kit&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>      
+</section>
+    </footer>
+    <br>
+  </article>
+  <nav class="pagination" role="pagination">
+    <h2>更多優質技術文章</h2>
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2019/12/27/from-nand-to-tetris%EF%BC%9A%E6%83%B3%E7%90%86%E8%A7%A3%E9%9B%BB%E8%85%A6%E9%81%8B%E4%BD%9C%EF%BC%8C%E5%B0%B1%E5%85%88%E5%81%9A%E5%87%BA%E4%B8%80%E5%8F%B0%E5%90%A7%EF%BC%81/">
+        From Nand To Tetris：想理解電腦運作，就先做出一台吧！ →
+    </a>
+    
+</nav>
+  <div id="comment" class="comments-area">
+    <h1 class="title"><a href="#disqus_comments" name="disqus_comments">留言討論</a></h1>
+
+    
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+    
+</div>
+</main>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-75308642-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<footer class="site-footer">
+  
+  <a class="subscribe icon-feed" href="/atom.xml"><span class="tooltip">Subscribe!</span></a>
+  
+  <div class="inner">
+     <section class="copyright">All content copyright <a href="/">TechBridge 技術共筆部落格</a> &copy; 2017 &bull; All rights reserved.</section>
+  </div>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script type="text/javascript" src="/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[object Object]']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'techbridgeweekly';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.4/dist/medium-zoom.min.js"></script>
+<script>
+// NodeList
+mediumZoom(document.querySelectorAll('img'));
+</script>
+  <div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+</body>
+</html>

@@ -49,6 +49,221 @@
   <article class="post">
     <header class="post-header">
       <span class="post-meta">
+      <time datetime="2019-04-20T08:27:21.000Z" itemprop="datePublished">
+          2019-04-20
+      </time>
+    
+    
+    | 
+    <a href='/tags/github/'>github</a>,
+    
+    <a href='/tags/open-source/'>open source</a>,
+    
+    <a href='/tags/spectrum/'>spectrum</a>
+    
+    
+</span>
+
+<meta name="generator" content="記一次幫開源專案 spectrum 修 bug 的經歷">
+<meta name="og:title" content="記一次幫開源專案 spectrum 修 bug 的經歷">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2019/04/20/spectrum-pull-request/">記一次幫開源專案 spectrum 修 bug 的經歷</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言最近又開始了自己的教學計畫，第一期的時候寫了這篇：利用 Github Classroom 加 Travis CI 打造改作業系統，第二期寫了這篇：AWS Lambda + GitHub API + Google Sheet &#x3D; 自動化簽到系統，都是利用現成工具來快速湊出符合自己需求的系統。
+而第三期開始前我希望課程能有個討論區，讓學生們可以在上面很方便地問問題。一直以來都是用 Slack，但 Slack 最大的缺點就是免費
+      
+      </p>
+      
+      <p>
+          <a href="/2019/04/20/spectrum-pull-request/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2019-04-12T16:51:34.000Z" itemprop="datePublished">
+          2019-04-12
+      </time>
+    
+    
+    | 
+    <a href='/tags/Deep-Learning/'>Deep Learning</a>,
+    
+    <a href='/tags/Human-Robot-Interaction/'>Human-Robot Interaction</a>,
+    
+    <a href='/tags/Computer-Vision/'>Computer Vision</a>,
+    
+    <a href='/tags/Grasping/'>Grasping</a>
+    
+    
+</span>
+
+<meta name="generator" content="一起來讀論文 - Robot Learning via Human Adversarial Games">
+<meta name="og:title" content="一起來讀論文 - Robot Learning via Human Adversarial Games">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2019/04/12/intro-to-human-adversarial-learning/">一起來讀論文 - Robot Learning via Human Adversarial Games</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言這次要跟大家介紹一篇論文 - Robot Learning via Human Adversarial Games。這篇論文主要想研究的問題是，在機器人透過 Reinforcement Learning 學習抓東西的過程中，如果有人類來干擾機器人、試圖讓機器人抓到的東西被弄掉，是不是有辦法讓機器人學習得更有效率？
+
+這篇論文透過一個簡單的實驗場景，透過讓一些測試者參與實驗，證明人類的干擾可以讓機器人學習得更好，就讓我們繼續看下去。
+
+      
+      </p>
+      
+      <p>
+          <a href="/2019/04/12/intro-to-human-adversarial-learning/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2019-04-06T20:23:23.000Z" itemprop="datePublished">
+          2019-04-06
+      </time>
+    
+    
+    | 
+    <a href='/tags/Python/'>Python</a>,
+    
+    <a href='/tags/cache/'>cache</a>,
+    
+    <a href='/tags/LRU/'>LRU</a>,
+    
+    <a href='/tags/Least-Recently-Used/'>Least Recently Used</a>
+    
+    
+</span>
+
+<meta name="generator" content="如何使用 Python 實現 LRU Cache 快取置換機制">
+<meta name="og:title" content="如何使用 Python 實現 LRU Cache 快取置換機制">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2019/04/06/how-to-use-python-implement-least-recently-used/">如何使用 Python 實現 LRU Cache 快取置換機制</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        
+前言由於電腦記憶體空間（memory）的限制，無法容納所有資料和文件，所以當有新的文件要被置換進入快取（cache）時，必須根據一定的規則來取代掉適合的文件，這就是所謂的快取文件置換機制。
+一般來說常見的快取文件置換機制有：
+
+FIFO（First In, First Out）先進先出算法
+LFU（Least Frequently Used）最近最不常使用算法
+LRU（Least Recently Used）最近最少使用算法
+NMRU
+      
+      </p>
+      
+      <p>
+          <a href="/2019/04/06/how-to-use-python-implement-least-recently-used/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2019-03-31T02:38:00.000Z" itemprop="datePublished">
+          2019-03-31
+      </time>
+    
+    
+    | 
+    <a href='/tags/react/'>react</a>,
+    
+    <a href='/tags/Design-pattern/'>Design pattern</a>,
+    
+    <a href='/tags/Command/'>Command</a>,
+    
+    <a href='/tags/TypeScript/'>TypeScript</a>
+    
+    
+</span>
+
+<meta name="generator" content="用 TypeScript 輕鬆學 Design pattern - Command Pattern">
+<meta name="og:title" content="用 TypeScript 輕鬆學 Design pattern - Command Pattern">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2019/03/31/typescript-design-pattern-command/">用 TypeScript 輕鬆學 Design pattern - Command Pattern</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言雖然直到最近才實際在工作上使用 TypeScript 進行開發，但是早在去年就有斷斷續續在自己的 side project 上玩玩 TypeScript，剛好後來公司讀書會在研讀經典的 Design Pattern 書籍，就索性使用 TypeScript 來製作範例，意外發現 TypeScript 在講解一些 Design Pattern 的時候非常適合，不僅能夠有類別、物件等清楚的表示，也能夠直接在網頁上做出會動的範例。
+雖然這是
+      
+      </p>
+      
+      <p>
+          <a href="/2019/03/31/typescript-design-pattern-command/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
+      <time datetime="2019-03-23T09:26:04.000Z" itemprop="datePublished">
+          2019-03-23
+      </time>
+    
+    
+    | 
+    <a href='/tags/react/'>react</a>
+    
+    
+</span>
+
+<meta name="generator" content="從 React 原始碼看 keyPress 與 keyDown 事件">
+<meta name="og:title" content="從 React 原始碼看 keyPress 與 keyDown 事件">
+<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
+<meta name="og:type" content="website">
+<meta name="og:image" content="/img/og-cover.png">
+
+      <h1 class="post-title"><a href="/2019/03/23/react-keyboard-event/">從 React 原始碼看 keyPress 與 keyDown 事件</a></h1>
+    </header>
+    <section class="post-excerpt">
+      <p>
+      
+        前言前陣子有個學生跑來問我一個問題，說他在寫 React 的時候分不清楚 keyPress 與 keyDown 這兩個事件，還有 keyCode 跟 charCode 這兩個東西，有時候拿得到值，有時候卻拿不到，覺得十分困惑。
+我原本以為是 React 做了一些處理，所以去看了一下原始碼。後來發現 React 的確有做一些處理，但實際上這個問題跟 React 沒什麼關係，而是 keyPress 跟 keyDown 這兩個原生的 Java
+      
+      </p>
+      
+      <p>
+          <a href="/2019/03/23/react-keyboard-event/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+  </article>
+  
+  <article class="post">
+    <header class="post-header">
+      <span class="post-meta">
       <time datetime="2019-03-16T15:00:50.000Z" itemprop="datePublished">
           2019-03-16
       </time>
@@ -263,238 +478,6 @@ Tens
       
       <p>
           <a href="/2019/02/16/ssd-hand-detection-with-tensorflow-object-detection-api/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2019-02-04T11:19:30.000Z" itemprop="datePublished">
-          2019-02-04
-      </time>
-    
-    
-    | 
-    <a href='/tags/web/'>web</a>,
-    
-    <a href='/tags/react/'>react</a>,
-    
-    <a href='/tags/javascript/'>javascript</a>,
-    
-    <a href='/tags/virtual-dom/'>virtual dom</a>
-    
-    
-</span>
-
-<meta name="generator" content="從頭打造一個簡單的 Virtual DOM">
-<meta name="og:title" content="從頭打造一個簡單的 Virtual DOM">
-<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
-<meta name="og:type" content="website">
-<meta name="og:image" content="/img/og-cover.png">
-
-      <h1 class="post-title"><a href="/2019/02/04/vdom-from-scratch/">從頭打造一個簡單的 Virtual DOM</a></h1>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        前言過年除舊佈新，剛好趁這個機會來複習一下已經是老觀念的 Virtual DOM。很多人在講到 React 的時候都一定會提到 Virtual DOM，而問到 Virtual DOM 的好處時，就會說到實際 DOM 的操作成本很貴，所以透過 Virtual DOM 可以降低成本。
-你在除夕餐桌上這樣講可能沒問題，面試只講這樣應該不太好。
-畢竟你最後還是會操作實體 DOM 啊，這樣說明太簡化了。
-Virtual DOM 的由來可以從 MV
-      
-      </p>
-      
-      <p>
-          <a href="/2019/02/04/vdom-from-scratch/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2019-02-01T10:23:23.000Z" itemprop="datePublished">
-          2019-02-01
-      </time>
-    
-    
-    | 
-    <a href='/tags/軟體工程師/'>軟體工程師</a>,
-    
-    <a href='/tags/軟體工程/'>軟體工程</a>,
-    
-    <a href='/tags/software-engineering/'>software engineering</a>,
-    
-    <a href='/tags/bash/'>bash</a>,
-    
-    <a href='/tags/shell/'>shell</a>,
-    
-    <a href='/tags/linux/'>linux</a>,
-    
-    <a href='/tags/指令/'>指令</a>,
-    
-    <a href='/tags/命令列/'>命令列</a>,
-    
-    <a href='/tags/command-line/'>command line</a>,
-    
-    <a href='/tags/script/'>script</a>,
-    
-    <a href='/tags/unix/'>unix</a>,
-    
-    <a href='/tags/mac/'>mac</a>,
-    
-    <a href='/tags/os/'>os</a>,
-    
-    <a href='/tags/windows/'>windows</a>,
-    
-    <a href='/tags/curl/'>curl</a>
-    
-    
-</span>
-
-<meta name="generator" content="Linux Curl Command 指令與基本操作入門教學">
-<meta name="og:title" content="Linux Curl Command 指令與基本操作入門教學">
-<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
-<meta name="og:type" content="website">
-<meta name="og:image" content="/img/og-cover.png">
-
-      <h1 class="post-title"><a href="/2019/02/01/linux-curl-command-tutorial/">Linux Curl Command 指令與基本操作入門教學</a></h1>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        
-前言身為一個 Web 開發者，往往需要開發不同的 Restful API （Application Programming Interface）來存取資源。在開發完 API 後測試則會使用類似 Postman 的測試工具來進行測試。除了使用 Postman 等 GUI Tool 外，身為一個軟體工程師，當然要學會使用 Linux 指令中的 Curl！這邊我們整理了 Curl 常用的指令，讓大家可以重新溫習，讀者也可以分享自己的常用的指
-      
-      </p>
-      
-      <p>
-          <a href="/2019/02/01/linux-curl-command-tutorial/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2019-01-26T08:49:34.000Z" itemprop="datePublished">
-          2019-01-26
-      </time>
-    
-    
-    | 
-    <a href='/tags/functional-CSS/'>functional CSS</a>
-    
-    
-</span>
-
-<meta name="generator" content="邪魔歪道還是苦口良藥？Functional CSS 經驗分享">
-<meta name="og:title" content="邪魔歪道還是苦口良藥？Functional CSS 經驗分享">
-<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
-<meta name="og:type" content="website">
-<meta name="og:image" content="/img/og-cover.png">
-
-      <h1 class="post-title"><a href="/2019/01/26/functional-css/">邪魔歪道還是苦口良藥？Functional CSS 經驗分享</a></h1>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        前言以 CSS 架構方法來說，主流的大概可以分成三個：OOCSS、SMACSS、BEM，這些架構的提出都是為了讓 CSS 更好維護，這幾個的介紹以及差異可以參考 @arvinh 寫過的 淺談 CSS 方法論與 Atomic CSS。
-但我們今天要談的不是上面提到的這三種，而是另外一種相較之下沒那麼主流（但好像有慢慢流行的趨勢），而且很少人第一眼看到就會贊同的方法：functional CSS。
-什麼是 functional CSS直接舉
-      
-      </p>
-      
-      <p>
-          <a href="/2019/01/26/functional-css/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2019-01-18T21:01:50.000Z" itemprop="datePublished">
-          2019-01-18
-      </time>
-    
-    
-    | 
-    <a href='/tags/Robotics/'>Robotics</a>,
-    
-    <a href='/tags/Deep-Learning/'>Deep Learning</a>,
-    
-    <a href='/tags/Computer-Vision/'>Computer Vision</a>,
-    
-    <a href='/tags/OpenPose/'>OpenPose</a>
-    
-    
-</span>
-
-<meta name="generator" content="如何在 Windows 安裝 OpenPose 跟使用 Python API 來偵測人體姿態">
-<meta name="og:title" content="如何在 Windows 安裝 OpenPose 跟使用 Python API 來偵測人體姿態">
-<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
-<meta name="og:type" content="website">
-<meta name="og:image" content="/img/og-cover.png">
-
-      <h1 class="post-title"><a href="/2019/01/18/openpose-installation/">如何在 Windows 安裝 OpenPose 跟使用 Python API 來偵測人體姿態</a></h1>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        前言
-OpenPose 是 Carnegie Mellon University（CMU）論文實作的開源函式庫，提供的功能主要就是可以偵測人體的各部位在什麼地方，例如可以在影像中找到臉、身體、手等等地方的特徵點。但他厲害的地方在於可以一次偵測很多人，看看下面這張圖就知道：
-
-這個 repository 仍然相當地 active，有兩個 CMU 的學生常常在 Github 上面解 issue。這次因為筆者需要在 Windows 上面安裝 
-      
-      </p>
-      
-      <p>
-          <a href="/2019/01/18/openpose-installation/" class="excerpt-link">Read More...</a>
-      </p>
-      
-    </section>
-  </article>
-  
-  <article class="post">
-    <header class="post-header">
-      <span class="post-meta">
-      <time datetime="2019-01-12T18:00:17.000Z" itemprop="datePublished">
-          2019-01-12
-      </time>
-    
-    
-    | 
-    <a href='/tags/frontends/'>frontends</a>,
-    
-    <a href='/tags/micro/'>micro</a>
-    
-    
-</span>
-
-<meta name="generator" content="一起探討 Micro Frontends 的世界">
-<meta name="og:title" content="一起探討 Micro Frontends 的世界">
-<meta name="og:description" content="TechBridge Weekly 技術週刊團隊是一群對用技術改變世界懷抱熱情的團隊。本技術共筆部落格初期專注於Web前後端、行動網路、機器人/物聯網、數據分析與產品設計等技術分享。">
-<meta name="og:type" content="website">
-<meta name="og:image" content="/img/og-cover.png">
-
-      <h1 class="post-title"><a href="/2019/01/12/micro-frontends-concept/">一起探討 Micro Frontends 的世界</a></h1>
-    </header>
-    <section class="post-excerpt">
-      <p>
-      
-        前言大概三個月前，忘了在哪看到 Micro Frontends 這個詞，當時沒有仔細去了解（畢竟聽起來就像是另一個 Buzzword XD），只是從名字大概猜測是想讓前端頁面更加模組化，讓不同團隊能更有效率的開發共同的站。稍微 Google 了一下這個 term，發現文章多數在 2018 的五六月出現，之後就鮮少人提起，我也就淡忘了他。
-直到最近工作上接觸到的框架，似乎也想讓頁面上的元件更加低耦合，甚至是希望能支援運行不同版本或是 te
-      
-      </p>
-      
-      <p>
-          <a href="/2019/01/12/micro-frontends-concept/" class="excerpt-link">Read More...</a>
       </p>
       
     </section>
